@@ -23,7 +23,7 @@ Envelope and errors: [mcp-policy.md](mcp-policy.md). Atomisation: [atomisation.m
 | `session_save` | `file` | `session` | Snapshot to disk |
 | `session_load` | `file` | `keep_id`, `ttl` | Resume; no prior session required |
 | `session_current` | — | `session` | Needs `session` or `MEMNET_SESSION` |
-| `query_warm` | `anchor` | `depth` (2), `max_rows` (50), `session` | **Primary read** — pin map |
+| `query_warm` | `anchor` | `depth` (2), `max_rows` (50), `session` | **Primary read** = live **pin map** (legacy tool name) |
 | `query_walk` | `anchor` | `depth`, `max_rows`, `session` | Hop lines for debug |
 | `add` | `wire_lines` | `allow_new_relation`, `agent`, `session` | Create; fails if id exists |
 | `update` | `wire_lines` | `allow_new_relation`, `agent`, `session` | Replace; fails if id missing |

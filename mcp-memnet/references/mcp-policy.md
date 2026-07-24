@@ -15,17 +15,21 @@ Cursor (stdio) → memnet-mcp
 
 ## mcp.json (user pack)
 
+Default (in-process — preferred):
+
 ```json
 "memnet": {
   "command": "memnet-mcp",
   "args": [],
   "env": {
-    "MEMNET_SESSION": "mn_…"
+    "MEMNET_WORKSPACE_ROOT": "c:\\Projects\\MemNet"
   }
 }
 ```
 
-Optional TCP:
+Do **not** set `MEMNET_SERVE_HOST` / `MEMNET_SERVE_PORT` unless you also set `MEMNET_MCP_TRANSPORT=tcp` (those host/port env vars alone do not select TCP; the package defaults to in-process).
+
+Optional TCP (requires a running `memnet serve`):
 
 ```json
 "env": {
@@ -36,7 +40,9 @@ Optional TCP:
 }
 ```
 
-Use full path to `memnet-mcp` on Windows if not on PATH. Restart Cursor after edits.
+Use full path to `memnet-mcp` (or `python -m memnet_mcp.server`) on Windows if not on PATH. Restart Cursor after edits. Avoid remote LAN hosts for the default MemNet session unless deliberately bridging TCP.
+
+**Out of scope:** novel-writer MCP (`novel-mcp`) is dropped from the MemNet product — do not configure it for MemNet work.
 
 ## Tools
 

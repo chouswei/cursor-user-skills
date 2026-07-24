@@ -6,7 +6,7 @@ description: >-
   NODE EDGE, atomised rows.
 metadata:
   pattern: tool-wrapper
-  version: "3.0"
+  version: "3.1"
   domain: data-formats,memnet
   product: memnet-llm==0.3.1
 ---
@@ -15,7 +15,7 @@ metadata:
 
 **Audience:** model. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) for tools.
 
-**Shared dialect only** (Write = display): same NODE | EDGE shapes for live pin map and mutate. Design docs may still say “Tier A” once; use **shared dialect** thereafter. Do **not** use TOON/TRON. Prefer shared dialect or plain Markdown for handoffs.
+**Shared dialect only** (Write = display): same NODE | EDGE shapes for live pin map and mutate. Design docs may gloss this as “Tier A”; prefer **shared dialect** in agent text. Formal productions, golden fixtures, and the ANTLR stub live under MemNet `docs/grammar/` — keep those rules; this skill is the thin agent summary. Do **not** use TOON/TRON. Prefer shared dialect or plain Markdown for handoffs. Do **not** teach pipe `@TAG:…` as agent I/O (legacy store/import only).
 
 Product SSOT: MemNet `README.md`, `docs/grammar/`. Field notes: [references/memnet-wire-format.md](references/memnet-wire-format.md).
 

@@ -6,7 +6,7 @@ description: >-
   session_open, shared dialect, Write=display, MutateGate, sysml memnet tools.
 metadata:
   pattern: tool-wrapper
-  version: "3.0"
+  version: "3.1"
   domain: memnet
   product: memnet-llm==0.3.1
 ---
@@ -15,7 +15,7 @@ metadata:
 
 PyPI: **`memnet-llm` 0.3.1** (CLI `memnet`). Engine + generic MCP only — **novel-writer is out of scope**.
 
-MemNet is working memory between LLM call pipelines and data search. Agents read a bounded **live pin map** each turn and write with the **same shapes** — the **shared dialect** (Write = display).
+MemNet is working memory between LLM call pipelines and data search. Agents read a bounded **live pin map** each turn and write with the **same shapes** — the **shared dialect** (Write = display). Design docs may gloss this dialect as “Tier A”; prefer **shared dialect** in agent text.
 
 ## Doctrine (must)
 
@@ -30,7 +30,7 @@ MemNet is working memory between LLM call pipelines and data search. Agents read
 
 Always pass the same `session` id (or set `MEMNET_SESSION`).
 
-Gloss: the MCP/CLI pin-map tool may still be named `query_warm` / `query warm`.
+**Tool gloss:** MCP/CLI pin-map read is still named `query_warm` / `query warm` until call sites rename. Formal shapes: MemNet `docs/grammar/` (`MemNet.g4`, golden fixtures) — do not invent a thinner dialect.
 
 ## Agent loop
 
