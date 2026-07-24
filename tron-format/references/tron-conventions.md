@@ -1,14 +1,14 @@
 # TRON Format Conventions
 
-> **DEPRECATED.** Do not use TRON (or TOON) for handoffs. Prefer plain Markdown or MemNet Tier A. See [../SKILL.md](../SKILL.md). Historical notes below are not encoding advice.
+> **DEPRECATED.** Do not use TRON (or TOON) for handoffs. Prefer plain Markdown or MemNet **shared dialect** (Write = display). See [../SKILL.md](../SKILL.md). Everything below is historical only — **not** encoding advice.
 
 **Audience:** Historical reference only (not active encoding advice).
 
 ## Core idea
 
-TRON reduces token redundancy by extracting repeated property names into reusable class definitions. Instances then only carry values + a class reference.
+~~TRON reduces token redundancy by extracting repeated property names into reusable class definitions.~~ **Do not encode handoffs in TRON.**
 
-## Comparison
+## Comparison (historical)
 
 | Aspect           | JSON                  | TRON                          | TOON                     |
 |------------------|-----------------------|-------------------------------|--------------------------|
@@ -17,27 +17,20 @@ TRON reduces token redundancy by extracting repeated property names into reusabl
 | Random access    | Full parse            | HAMT supported                | Full parse               |
 | Best for         | General interchange   | Structured repeated objects   | Prompt tables / records  |
 
-## Pipeline and skill handoffs
+## Pipeline and skill handoffs — TOMBSTONED
 
-- **Default in this workspace:** tabular / uniform rows → **TOON** (skill **toon-prompt-format** in repo `.cursor/skills/` or user pack `~/.cursor/skills/`).
-- **Use TRON** between steps when the handoff is **many objects of the same schema** (not a single flat table) and **key names dominate** token count.
-- **Mermaid diagram placement** (serve down): historical note said TRON `DiagramPlan` — **do not**; use Markdown tables per [mermaid-placement-by-degree.md](../../mermaid/references/mermaid-placement-by-degree.md).
-- **JSON** only when a tool or API requires it; use `TRON.stringify` / `TRON.parse` in code at boundaries when you standardise on TRON.
+~~Default TOON / use TRON between steps / Mermaid DiagramPlan in TRON / JSON only at boundaries.~~
 
-## Usage rules
+**Current rule:** durable agent handoffs → MemNet **shared dialect** (or plain Markdown when MemNet is down). Mermaid placement when serve is down → Markdown tables per [mermaid-placement-by-degree.md](../../mermaid/references/mermaid-placement-by-degree.md). JSON only when a tool requires it.
 
-- Prefer TRON when a large share of tokens are repeated keys in a JSON-like payload (benchmark in the [playground](https://tron-format.github.io/#/playground)).
-- For **uniform row grids**, evaluate **TOON** first (often clearer to models).
-- When justifying format choice, cite relative size or token estimate where possible.
-- Official JS lib: `@tron-format/tron`
-- Go: `github.com/visionik/trongo`
+## Usage rules — TOMBSTONED
+
+~~Prefer TRON when keys dominate; evaluate TOON for grids; cite playground savings; use `@tron-format/tron` / `trongo`.~~ **Do not follow.**
 
 ## When not to use TRON
 
-- **One-off** shallow objects with few repeated instances — JSON overhead may not matter.
-- **Highly irregular** schemas (different keys per object) — TRON’s class reuse wins less; benchmark.
-- **Human-maintained** prose tables — keep Markdown unless token cost is the priority.
+Always — TRON is deprecated for this pack. Prefer shared dialect or Markdown.
 
 ## Playground
 
-https://tron-format.github.io/#/playground — use to demonstrate savings on real data.
+https://tron-format.github.io/#/playground — historical demos only; not a handoff format for this pack.

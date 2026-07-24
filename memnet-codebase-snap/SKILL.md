@@ -11,10 +11,12 @@ description: >-
   Primary example: weftTree Pico 2 + SIM7600 + IIS2ICLX.
 metadata:
   pattern: pipeline
-  version: "0.2"
+  version: "0.3"
 ---
 
 # MemNet Codebase Snap
+
+Prefer **shared dialect** (Write = display) for `add`/`update`; `@TAG` pipe field tables below are **legacy / store** shapes still useful for coding-memory vocabulary.
 
 **Role:** Provide a repeatable, verifiable procedure to atomise an entire source tree (or delta) into MemNet:
 - @MOD nodes for files

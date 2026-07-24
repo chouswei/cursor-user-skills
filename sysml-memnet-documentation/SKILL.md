@@ -9,12 +9,12 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.5"
+  version: "1.6"
   pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, mcp-sysmledgraph, memnet-format]
 token_guardrails: |
   - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; query_warm before substantive edits.
   - MUST follow references/sysml-memnet-read-policy.md: topology from warm; ≤2 narrow Read windows per turn; no full deploy re-read.
-  - MUST follow references/sysml-memnet-pipeline.md: pipeline step state as @CLM type=pipe on server when serve up; plain Markdown when serve down (not TOON/TRON).
+  - MUST follow references/sysml-memnet-pipeline.md: pipeline step atoms via shared dialect mutate when serve up (pipe @CLM type=pipe = legacy/store); plain Markdown when serve down (not TOON/TRON).
   - Use unified tags @PRT/@POR/@BEH with kind field; MUST NOT write @PARTD/@PORTD/@BEHD/@TASK.
   - Atomise first: one fact per row; short pipe fields; never store full .sysml or paragraph prose.
   - Copy stable ids from warm output; refresh @SYM.line after every validated edit.
@@ -45,7 +45,7 @@ Full rules: [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md
 
 1. [references/sysml-memnet-snap.md](references/sysml-memnet-snap.md) — **mandatory** 6-step sequence, grep, delta, `.snap`
 2. [references/sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md) — **when to read `.sysml`** vs warm (anti-patterns, read budget)
-3. [references/sysml-memnet-pipeline.md](references/sysml-memnet-pipeline.md) — **pipeline handoffs** (`@CLM` type=`pipe`, `@TSK` phase=`pipe`|`route`)
+3. [references/sysml-memnet-pipeline.md](references/sysml-memnet-pipeline.md) — **pipeline handoffs** (shared dialect preferred; legacy pipe step vocab)
 4. [references/sysml-memnet-patterns.md](references/sysml-memnet-patterns.md) — canonical 19-tag map, construct table, EDG list
 5. [references/relatives-cache-map.md](references/relatives-cache-map.md) — **which specialist skill writes which tags**
 6. [references/sysml-memnet-cookbook-bridge.md](references/sysml-memnet-cookbook-bridge.md) — upstream cookbook pointer, unified-tag policy

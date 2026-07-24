@@ -7,12 +7,12 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.1"
+  version: "1.2"
   pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability]
 token_guardrails: |
   - MUST follow the 6-step MemNet turn sequence below on every substantive modeling turn.
   - query_warm before edit; MemNet delta + line refresh after validate (see sysml-memnet-snap.md).
-  - Pipeline handoffs: @CLM type=pipe on server when serve up (sysml-memnet-pipeline.md); plain Markdown when serve down (not TOON/TRON).
+  - Pipeline handoffs: shared dialect mutate on server when serve up (sysml-memnet-pipeline.md; pipe = legacy); plain Markdown when serve down (not TOON/TRON).
   - MUST follow sysml-memnet-read-policy.md: no full deploy read for topology; ≤2 narrow Read windows per turn.
   - After .sysml edits, validate with mcp-sysml-v2; route to specialist sysml-* skills for depth.
 ---
@@ -78,14 +78,9 @@ Also: confirm project/scope; derive plans from the model when needed.
 - Common protocol ports use nested pins; physical pin maps stay in `.md`.
 - `AGENT-CONTEXT.md`: thin human stub (session, anchor, summary); agents use MemNet for topology/backlog.
 
-## Pipeline wire (between steps)
+## Pipeline atoms (between steps)
 
-When `serve_status` is true, each step emits MemNet wire — not chat scratch encodings:
-
-```text
-@TSK: TSK_turn_<id>|{goal}|pipe|in_progress|delete_on_settle
-@CLM: C_s2|TSK_turn_<id>|pipe|s2:hit|active|delete_on_settle
-```
+When `serve_status` is true, each step writes MemNet atoms in the **shared dialect** — not chat scratch encodings. Pipe `@CLM type=pipe` rows are legacy-accepted; see template:
 
 Template: [sysml-memnet-pipeline.md](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md).
 

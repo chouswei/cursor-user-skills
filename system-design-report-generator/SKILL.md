@@ -8,7 +8,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: mbse-outputs
-  version: "2.0"
+  version: "2.1"
   pairs_with:
     - project-output-article
     - sysml-view-doc-sync
@@ -22,7 +22,7 @@ token_guardrails: |
   - **Hub first:** agents read **`index.md`** (or `README.md`) only for full-file list — **low line count (LOC)** — then open **one** `file` from `llm_toc` per task; do not load every section `.md` into context by default.
   - **MemNet before prose (when serve up):** `serve_status` → `query_warm(TSK_model_<short>)` → then hub → **one** section file. Do not grep-deploy from memory when warm rows exist.
   - **Normative layout:** [references/SYSTEM_DESIGN_REPORT_LAYOUT.md](references/SYSTEM_DESIGN_REPORT_LAYOUT.md) — do not invent a second competing root under `docs/`.
-  - **MemNet pipeline:** [references/memnet-report-pipeline.md](references/memnet-report-pipeline.md) — `@ART`/`@SEC`/`@CLM` after sync; G/M steps as `@CLM` type=`pipe` ([sysml-memnet-pipeline.md](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md)).
+  - **MemNet pipeline:** [references/memnet-report-pipeline.md](references/memnet-report-pipeline.md) — ART/SEC/claim atoms after sync; G/M step codes per [sysml-memnet-pipeline.md](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md) (shared dialect preferred; pipe legacy).
   - **Model wins:** deploy/connections/behaviour `.sysml` stay authoritative; **sysml-view-doc-sync** after edits.
   - Report sections are **human-first**: write compact, precise prose. Prefer tables, bullets, and short notes; avoid long introductory filler and avoid restating the same fact in multiple sections.
   - If a section can be understood from a table plus one short sentence, do that instead of a paragraph.

@@ -1,12 +1,12 @@
 ---
 name: memnet-format
 description: >-
-  MemNet formats for agents: Tier A (Write=display) preferred for live pin map and
-  mutate; legacy @TAG pipe for store/snapshots. Triggers: memnet format, Tier A,
-  pin map, @TAG, pipe rows, @EDG, atomised rows, memnet wire.
+  MemNet formats for agents: shared dialect (Write=display) preferred for live pin map
+  and mutate; legacy @TAG pipe for store/snapshots. Triggers: memnet format, shared
+  dialect, Write=display, pin map, @TAG, pipe rows, @EDG, atomised rows, memnet wire.
 metadata:
   pattern: tool-wrapper
-  version: "2.0"
+  version: "2.1"
   domain: data-formats,memnet
   product: memnet-llm==0.3.1
 ---
@@ -15,15 +15,15 @@ metadata:
 
 **Audience:** model. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) for tools.
 
-- **Preferred agent dialect:** **Tier A** — same NODE | EDGE shapes for live pin map and mutate (Write = display).
+- **Preferred agent dialect:** **shared dialect** (Write = display) — same NODE | EDGE shapes for live pin map and mutate. Design docs may still label this “Tier A”; use **shared dialect** in agent text.
 - **Legacy store dialect:** `@TAG:` pipe rows — still accepted on mutate; used in older snapshots.
-- **Do not** use TOON/TRON. Prefer Tier A or plain Markdown for handoffs.
+- **Do not** use TOON/TRON. Prefer shared dialect or plain Markdown for handoffs.
 
 Product SSOT: MemNet `README.md`, `docs/grammar/`. Pipe field tables: [references/memnet-wire-format.md](references/memnet-wire-format.md).
 
 ---
 
-## Tier A (agent)
+## Shared dialect (agent)
 
 Mutate uses ops (`+` create, `~` update, `-` drop). Live pin map is **bare present** (no leading ops).
 
@@ -79,8 +79,8 @@ Primary read: live **pin map** (`query_warm` is the legacy MCP/CLI name).
 ## Handoff tiers
 
 ```text
-@ROU: handoff_0|LLM/author-facing|Tier A Write=display (or English pins)
-@ROU: handoff_1|durable store write|Tier A mutate preferred; @TAG pipe legacy
+@ROU: handoff_0|LLM/author-facing|shared dialect Write=display (or English pins)
+@ROU: handoff_1|durable store write|shared dialect mutate preferred; @TAG pipe legacy
 @ROU: handoff_2|no session / same-turn scratch|plain Markdown tables or short prose
 @ROU: handoff_3|tool/MCP/CLI boundary|JSON envelope only
 @ROU: handoff_4|human operator deliverable|prose Markdown
@@ -117,4 +117,4 @@ Full discipline: [mcp-memnet/references/atomisation.md](../mcp-memnet/references
 
 - [references/memnet-wire-format.md](references/memnet-wire-format.md) — pipe grammar detail
 - [mcp-memnet](../mcp-memnet/SKILL.md) — tools and session loop
-- MemNet `docs/grammar/` — Tier A SSOT
+- MemNet `docs/grammar/` — shared-dialect design SSOT (may still say “Tier A”)

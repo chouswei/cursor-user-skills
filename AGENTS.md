@@ -1,6 +1,6 @@
 # Agent Rules and Skills (Master)
 
-**Audience:** This pack is read **by models** (Cursor agents), not as end-user documentation. **Tiered handoffs:** MemNet wire (`@CLM` type=`pipe`) when `serve_status` is true; **plain Markdown** tables or short prose when serve is down — [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md), [memnet-format](memnet-format/SKILL.md). Do not use TOON/TRON.
+**Audience:** This pack is read **by models** (Cursor agents), not as end-user documentation. **Tiered handoffs:** MemNet **shared dialect** (Write = display; **memnet-llm 0.3.1** — pin map bare present; mutate `+`/`~`/`-`; `NEW` for creates) when `serve_status` is true; **plain Markdown** tables or short prose when serve is down — [memnet-format](memnet-format/SKILL.md), [mcp-memnet](mcp-memnet/SKILL.md), [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md). Design docs may still say “Tier A”; prefer **shared dialect**. Pipe `@TAG:…` / `@CLM type=pipe` is **legacy / store**, not preferred agent I/O. Do not use TOON/TRON.
 
 **Single source of truth for general routing, workflow, token efficiency, and skill discovery.** For SysML / PCBA in the **system-models-and-architecture** workspace, use that repository’s root **`AGENTS.md`** when that project is open (not a path under this pack).
 
@@ -15,7 +15,7 @@
 | **One specialist per turn** (default) | Cuts redundant context loading |
 | **Lazy-load references/assets** | Open only when a step needs them; obey `token_guardrails` |
 | **MCP tools over file reads** | sysml-v2-lsp-mcp, sysmledgraph-mcp cheaper than reading entire files |
-| **Use MemNet wire for pipeline steps** | When `serve_status` is true: `@CLM` type=`pipe` on server ([sysml-memnet-pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md)); plain Markdown when serve down |
+| **Use MemNet shared dialect for durable steps** | When `serve_status` is true: pin map + mutate in shared dialect ([memnet-format](memnet-format/SKILL.md)); plain Markdown when serve down |
 | **Plain Markdown when serve down** | Ephemeral in-prompt handoff (tables / short lists); JSON only at tool boundaries |
 | **Subagents for exploration** | Broad repo search in parallel; return short summaries |
 | **No normative paste** | Cite resource paths, don't paste huge specs |
@@ -65,7 +65,7 @@ For 3+ steps, new project, or architecture decisions: write brief plan first. In
 ### Execute
 - One skill per turn (default)
 - Follow skill's numbered steps
-- **Serve up:** MemNet wire (`@CLM` type=`pipe`) between steps — [sysml-memnet-pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md) for SysML; [memnet-format](memnet-format/SKILL.md) for general
+- **Serve up:** MemNet **shared dialect** between steps — [memnet-format](memnet-format/SKILL.md); SysML step codes in [sysml-memnet-pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md)
 - **Serve down:** plain Markdown tables or short prose for in-prompt handoffs only
 
 ### Verify
@@ -83,15 +83,17 @@ User corrections → `tasks/lessons.md`. Skim when relevant to current task.
 
 ---
 
-## 4. MemNet wire / Markdown for internal communication
+## 4. MemNet shared dialect / Markdown for internal communication
 
 ### Tiered handoff
 
 | Priority | When | Format |
 |----------|------|--------|
-| 1 | `serve_status` true; multi-step or durable | **MemNet wire** — `@TSK` + `@CLM` type=`pipe` + `@EDG` on server |
+| 1 | `serve_status` true; multi-step or durable | **Shared dialect** (Write = display) via `add`/`update` — pin map shapes; see [memnet-format](memnet-format/SKILL.md) |
 | 2 | `serve_status` false; same-turn scratch | **Plain Markdown** tables or short prose |
 | 3 | Tool / MCP boundary | JSON envelope only |
+
+**Legacy:** `@TAG|…` pipe and `@CLM type=pipe` step rows remain **accepted store shapes**, not preferred agent I/O.
 
 Do **not** use TOON or TRON (deprecated stubs only: [toon-prompt-format](toon-prompt-format/SKILL.md), [tron-format](tron-format/SKILL.md)).
 
@@ -100,10 +102,22 @@ Do **not** use TOON or TRON (deprecated stubs only: [toon-prompt-format](toon-pr
 ### When to use Markdown (serve down or ephemeral)
 
 - **Same-turn scratch** when MemNet unavailable
-- **Internal tables** in skills — BOM rows, pin maps (may also atomise to `@CLM` when serve returns)
+- **Internal tables** in skills — BOM rows, pin maps (may also mutate to the graph when serve returns)
 - **Plan passing** to subagent when serve down
 
-### Example: Router output (MemNet wire — serve up)
+### Example: Router output (shared dialect — serve up)
+
+```text
+## Nodes
++ TSK [NEW] ; goal=Relay harness edit ; phase=route ; status=settled ; recycle=delete_on_settle
++ CLM [NEW] ; type=decision ; code=pick:sysml-modeling-workflow ; recycle=delete_on_settle
++ CLM [NEW] ; type=decision ; code=pick:sysml-memnet-documentation ; recycle=delete_on_settle
+
+## Edges
++ E01 [NEW] --(led_to_success)--> [sysml-modeling-workflow] ; note=pass ; recycle=persistent
+```
+
+### Example: Router output (legacy pipe — accepted store shape)
 
 ```text
 @TSK: TSK_route_foam|Relay harness edit|route|settled|delete_on_settle
@@ -155,11 +169,12 @@ User-facing output stays Markdown. At tool boundaries (CLI, API, file I/O), use 
 | [SKILL-GRAPH.md](SKILL-GRAPH.md) | Wire hub → `skill-graph-seed.wire` (canonical skill graph) |
 | [LLM.md](LLM.md) | Detailed skill discovery procedure |
 | [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) | Optional graph router (explicit multi-match only) |
-| [memnet-format](memnet-format/SKILL.md) | Wire grammar authority (`@TAG`, `@EDG`, meta tags) |
+| [memnet-format](memnet-format/SKILL.md) | Shared dialect + legacy pipe grammar |
+| [mcp-memnet](mcp-memnet/SKILL.md) | MemNet MCP tools / pin map |
 | [toon-prompt-format](toon-prompt-format/SKILL.md) | Deprecated notice only — do not use for encoding |
 | [tron-format](tron-format/SKILL.md) | Deprecated notice only — do not use for encoding |
-| [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md) | Pipeline step wire (`s1:`…`s6:`, G/M, route) |
-| [sysml-memnet-read-policy](sysml-memnet-documentation/references/sysml-memnet-read-policy.md) | When to `query_warm` vs narrow `.sysml` read |
+| [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md) | Pipeline step atoms (`s1:`…`s6:`, G/M, route) |
+| [sysml-memnet-read-policy](sysml-memnet-documentation/references/sysml-memnet-read-policy.md) | When to read pin map vs narrow `.sysml` |
 | `.cursor/rules/` | Always-on: workflow, goldfish, slim catalog, confirm-build, no-secrets, prompt-quality. On-demand: terminal-windows |
 | Repo **AGENTS.md** (system-models-and-architecture root) | SysML / PCBA workflow when that repo is open |
 
