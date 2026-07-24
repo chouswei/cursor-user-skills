@@ -21,19 +21,16 @@ This `.mdc` is normative. Pack hubs point here only.
 
 ## Model by role (user pack)
 
-| Role | Family |
-|------|--------|
-| Thinking / hard reasoning / planning / architecture judgment | Grok |
-| Web searching / live web research / docs fetch that needs search | Gemini |
-| Routines / mechanical edits / consolidate / implement / verify loops | Composer |
+| Role | Family | Default slug (set `model`) |
+|------|--------|----------------------------|
+| Thinking / hard reasoning / planning / architecture | Grok | `cursor-grok-4.5-low` (Grok Low) |
+| Web searching / live web research / docs fetch needing search | Gemini | `gemini-3-flash` (current allowlist) |
+| Routines / mechanical edits / consolidate / implement / verify | Composer | `composer-2.5` |
+| **Role unclear** | Grok Low | **`cursor-grok-4.5-low`** |
 
-- Prefer the **full-quality** slug for that family when several exist.
-- Role unclear: **Composer** (routines) or omit `model` (inherit parent). Never default to a fast slug.
-
-### No FAST (Composer hard ban)
-
-- **Never** use `composer-2.5-fast` or any `*-fast`.
-- If the Task allowlist only exposes `cursor-grok-4.5-low` or `gemini-3-flash`, use those for the Grok / Gemini **roles** (family assignment wins over the name "flash"/"low"). Still **never** pick Composer fast.
+- Thinking and unclear roles: prefer **Grok Low** (`cursor-grok-4.5-low`) unless the user asks for a higher Grok tier.
+- Routines: `composer-2.5` only — **never** `composer-2.5-fast` or any `*-fast`.
+- If allowlist slugs change, keep the same family; update the slug to the current Grok Low / Gemini / Composer full (non-fast) name.
 
 ### Allowlist hint (examples; may change)
 
@@ -43,3 +40,4 @@ This `.mdc` is normative. Pack hubs point here only.
 
 - Blind fan-out without skill routing
 - `composer-2.5-fast` / any Composer `*-fast` on nested Task
+- Guessing a model when role is unclear — use `cursor-grok-4.5-low`

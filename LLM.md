@@ -30,7 +30,7 @@ RUL [R13] ; kind=MUST ; code=pipeline handoffs: MemNet up -> shared dialect (pin
 RUL [R14] ; kind=SHOULD ; code=large uniform tabular data in answers -> Markdown table over JSON when clearer ; priority=med ; recycle=persistent
 RUL [R15] ; kind=MUSTNOT ; code=invent skill-ids absent from skill-graph-seed.wire / SKILL-GRAPH.md ; priority=high ; recycle=persistent
 RUL [R16] ; kind=MUST ; code=ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes) ; priority=high ; recycle=persistent
-RUL [R17] ; kind=MUST ; code=Task models: role->family per user rule sub-agent-policy (Grok/Gemini/Composer); never composer-*-fast; allowlist low/flash OK only for Grok/Gemini roles ; priority=high ; recycle=persistent
+RUL [R17] ; kind=MUST ; code=Task models per user rule sub-agent-policy: thinking/unclear->cursor-grok-4.5-low; web->gemini-3-flash; routines->composer-2.5; never composer-*-fast ; priority=high ; recycle=persistent
 ```
 
 
