@@ -2,41 +2,36 @@
 
 Use with [atomisation.md](../../mcp-memnet/references/atomisation.md), [sysml-memnet-snap.md](sysml-memnet-snap.md), and [sysml-memnet-cookbook-bridge.md](sysml-memnet-cookbook-bridge.md).
 
-**Core discipline:** one row = one fact/link/status. Short pipe fields. Explicit `@EDG`. Stable ids from `query_warm`. **MUST NOT** create new rows tagged `@PARTD`, `@PORTD`, `@BEHD`, or `@TASK` (legacy aliases — re-snap to unified tags on warm miss).
+**Core discipline:** one row = one fact/link/status. Short fields. Explicit edges. Stable ids from the pin map. **MUST NOT** create rows tagged PARTD, PORTD, BEHD, or TASK (old aliases -- re-snap to unified kinds on warm miss).
 
-## Canonical `session_open` map (copy verbatim)
+## Canonical kinds (session)
 
-```text
-@ART: id|title|source|kind|status|recycle
-@SEC: id|art|heading|order|status|recycle
-@CLM: id|sec|type|code|status|recycle
-@ENT: id|name|kind|code|recycle
-@PKG: id|qname|kind|status|recycle
-@PRT: id|name|kind|role|status|recycle
-@POR: id|name|kind|dir|typeRef|status|recycle
-@CON: id|name|kind|ends|status|recycle
-@BEH: id|name|kind|owner|status|recycle
-@ITM: id|name|kind|status|recycle
-@REQ: id|requirementId|text|status|recycle
-@MOD: id|path|pkg|role|status|recycle
-@SYM: id|name|kind|path|line|owner|status|recycle
-@CONV: id|topic|rule|status|recycle
-@DEC: id|task|question|options|chosen|recycle
-@ISSUE: id|task|code|status|recycle
-@TSK: id|goal|phase|status|recycle
-@USR: id|topic|value|status|recycle
-@EDG: id|from|rel|to|note|recycle
-```
+Use shared dialect field keys (not pipe field-order templates). Kinds:
+
+ART, SEC, CLM, ENT, PKG, PRT, POR, CON, BEH, ITM, REQ, MOD, SYM, CONV, DEC, ISSUE, TSK, USR, plus edges.
 
 Field notes:
 
-- `@PRT.role` — short domain tag (`power`, `compute`, `deploy`); empty if N/A.
-- `@POR.dir` — `in|out|inout` for port usages; empty for port defs.
-- `@POR.typeRef` — typed port/protocol name (for `typedBy` EDG).
-- `@CON.ends` — `endA|endB` usage path.
-- `@BEH.owner` — owning `@PRT` usage id or package qname.
-- `@DEC.task` — parent `@TSK` id; `options` pipe-separated; `chosen` when decided.
-- `@ISSUE.code` — ≤15 words backlog item.
+- PRT.role -- short domain tag (`power`, `compute`, `deploy`); empty if N/A.
+- POR.dir -- `in|out|inout` for port usages; empty for port defs.
+- POR.typeRef -- typed port/protocol name (for `typedBy` edge).
+- CON.ends -- endA/endB usage path.
+- BEH.owner -- owning PRT usage id or package qname.
+- DEC.task -- parent TSK id; options short list; chosen when decided.
+- ISSUE.code -- <=15 words backlog item.
+
+Full construct tables and examples: keep using English keys in mutate sketches like:
+
+```text
+## Nodes
++ TSK [NEW] ; goal=Model PDU ; phase=model ; status=in_progress ; recycle=persistent
++ PRT [NEW] ; name=PDUController ; kind=partUsage ; role=power ; status=active ; recycle=persistent
+
+## Edges
++ E01 [NEW] --(declaredIn)--> [PKG_PDU] ; recycle=persistent
++ E02 [NEW] --(satisfies)--> [REQ-01] ; recycle=persistent
+```
+
 
 ## Stable id rules
 

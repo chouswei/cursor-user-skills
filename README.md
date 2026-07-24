@@ -41,7 +41,10 @@ If the folder already has content and is not a git clone of this repo, back it u
 
 - One repo for the whole personal user-pack under `.cursor/skills/`.
 - Includes meta tooling (e.g. **skillfish**, **skill-creator**) and domain skills.
-- Some skills are marked **deprecated** in their `SKILL.md` (e.g. TOON/TRON); keep them for trigger resolution, but do not use them for new encoding advice.
+- Some skills are marked **deprecated** in their `SKILL.md` (e.g. TOON/TRON, novel-writer, merged SysML stubs); keep them for trigger resolution, but follow the survivor skill they point to.
+- MemNet agent I/O: **shared dialect** only (`memnet-format` + `mcp-memnet`). Do not teach pipe `@TAG` rows as agent format.
+- Sub-agents: **no FAST/flash model slugs** (see `LLM.md` R17).
+
 
 ## Maintain
 

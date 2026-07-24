@@ -14,7 +14,7 @@ metadata:
 token_guardrails: |
   - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; query_warm before substantive edits.
   - MUST follow references/sysml-memnet-read-policy.md: topology from warm; ≤2 narrow Read windows per turn; no full deploy re-read.
-  - MUST follow references/sysml-memnet-pipeline.md: pipeline step atoms via shared dialect mutate when serve up (pipe @CLM type=pipe = legacy/store); plain Markdown when serve down (not TOON/TRON).
+  - MUST follow references/sysml-memnet-pipeline.md: pipeline step atoms via shared dialect mutate when MemNet is up; plain Markdown when down (not TOON/TRON).
   - Use unified tags @PRT/@POR/@BEH with kind field; MUST NOT write @PARTD/@PORTD/@BEHD/@TASK.
   - Atomise first: one fact per row; short pipe fields; never store full .sysml or paragraph prose.
   - Copy stable ids from warm output; refresh @SYM.line after every validated edit.
@@ -45,7 +45,7 @@ Full rules: [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md
 
 1. [references/sysml-memnet-snap.md](references/sysml-memnet-snap.md) — **mandatory** 6-step sequence, grep, delta, `.snap`
 2. [references/sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md) — **when to read `.sysml`** vs warm (anti-patterns, read budget)
-3. [references/sysml-memnet-pipeline.md](references/sysml-memnet-pipeline.md) — **pipeline handoffs** (shared dialect preferred; legacy pipe step vocab)
+3. [references/sysml-memnet-pipeline.md](references/sysml-memnet-pipeline.md) -- **pipeline handoffs** (shared dialect step atoms)
 4. [references/sysml-memnet-patterns.md](references/sysml-memnet-patterns.md) — canonical 19-tag map, construct table, EDG list
 5. [references/relatives-cache-map.md](references/relatives-cache-map.md) — **which specialist skill writes which tags**
 6. [references/sysml-memnet-cookbook-bridge.md](references/sysml-memnet-cookbook-bridge.md) — upstream cookbook pointer, unified-tag policy

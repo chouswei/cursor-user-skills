@@ -1,0 +1,26 @@
+---
+description: >-
+  Sub-agent use: skill-routed, no FAST models, self-contained prompts.
+alwaysApply: true
+---
+
+# Sub-agent policy
+
+See also pack hubs: short pointer only — this rule is normative.
+
+## When
+
+- Prefer a sub-agent (Task) for **non-trivial tool work**: multi-step exploration, parallel independent streams, long command/MCP runs.
+- Skip for trivial single-tool answers.
+
+## How to spawn
+
+1. **Select via skill** — route with `reasoning-strategy-selector` or the task-appropriate skill. Do not spawn blindly.
+2. **No FAST models** — never set `model` to `*-fast`, flash, or low/cheap tiers (e.g. `composer-2.5-fast`, `gemini-3-flash`, `cursor-grok-4.5-low`). Omit `model` (inherit parent) unless the user names a family; then use the full-quality slug only.
+3. **One coherent worker** over many siblings unless workstreams are clearly independent.
+4. **Self-contained prompts** — nested agents lack parent chat context unless resumed. Include goal, paths, constraints, and required return shape.
+
+## Must not
+
+- Blind fan-out without skill routing
+- Fast/cheap/flash model slugs on any nested Task

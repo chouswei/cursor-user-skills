@@ -1,12 +1,12 @@
 ---
 name: memnet-format
 description: >-
-  MemNet formats for agents: shared dialect (Write=display) preferred for live pin map
-  and mutate; legacy @TAG pipe for store/snapshots. Triggers: memnet format, shared
-  dialect, Write=display, pin map, @TAG, pipe rows, @EDG, atomised rows, memnet wire.
+  MemNet 0.3.1 shared dialect (Write=display) for live pin map and mutate.
+  Triggers: memnet format, shared dialect, Write=display, pin map, mutate NEW,
+  NODE EDGE, atomised rows.
 metadata:
   pattern: tool-wrapper
-  version: "2.1"
+  version: "3.0"
   domain: data-formats,memnet
   product: memnet-llm==0.3.1
 ---
@@ -15,15 +15,13 @@ metadata:
 
 **Audience:** model. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) for tools.
 
-- **Preferred agent dialect:** **shared dialect** (Write = display) — same NODE | EDGE shapes for live pin map and mutate. Design docs may still label this “Tier A”; use **shared dialect** in agent text.
-- **Legacy store dialect:** `@TAG:` pipe rows — still accepted on mutate; used in older snapshots.
-- **Do not** use TOON/TRON. Prefer shared dialect or plain Markdown for handoffs.
+**Shared dialect only** (Write = display): same NODE | EDGE shapes for live pin map and mutate. Design docs may still say “Tier A” once; use **shared dialect** thereafter. Do **not** use TOON/TRON. Prefer shared dialect or plain Markdown for handoffs.
 
-Product SSOT: MemNet `README.md`, `docs/grammar/`. Pipe field tables: [references/memnet-wire-format.md](references/memnet-wire-format.md).
+Product SSOT: MemNet `README.md`, `docs/grammar/`. Field notes: [references/memnet-wire-format.md](references/memnet-wire-format.md).
 
 ---
 
-## Shared dialect (agent)
+## Shared dialect
 
 Mutate uses ops (`+` create, `~` update, `-` drop). Live pin map is **bare present** (no leading ops).
 
@@ -40,62 +38,44 @@ Mutate uses ops (`+` create, `~` update, `-` drop). Live pin map is **bare prese
 - **Update:** known ids only.
 - **Ingest pins:** stable locators (`path=`, `qname=`, …); no client `NEW` for those.
 
-Primary read: live **pin map** (`query_warm` is the legacy MCP/CLI name).
+Primary read: live **pin map**. (MCP tool may still be named `query_warm`.)
 
 ---
 
-## Legacy pipe (store)
+## When to use which kind
 
-```text
-@TAG: id|field2|field3|...|recycle
-```
+| Need | Kind |
+|------|------|
+| Fact / claim | `CLM` (+ edges) |
+| Directed relation | edge `--(rel)-->` |
+| Flat membership list | `SET` or `IDX` |
+| Work unit | `TSK` |
+| User constraint | `USR` |
+| File / symbol | `MOD` / `SYM` |
+| SysML element | `PRT` / `POR` / `CON` / `REQ` / `SYM` |
+| Rule / policy | `RUL` |
 
-```text
-@RUL: F01|MUST|one atom per line; exactly one : after tag|high
-@RUL: F02|MUST|relations as separate @EDG rows (never embedded arrays)|high
-@RUL: F03|MUST|escape literal | as \| inside field values|high
-@RUL: F04|MUST|last field = recycle: persistent|delete_on_settle|delete_on_expire|high
-@RUL: F05|MUSTNOT|prose blobs or nested JSON on the wire|high
-@RUL: F06|SHOULD|query_warm(anchor, depth≤2) before inventing ids|high
-```
-
-### Tag selection (pipe)
-
-```text
-@SEL: fact_or_claim|@CLM + @ENT + @EDG|atomic verifiable statement
-@SEL: relationship|@EDG|from|rel|to
-@SEL: flat_enumeration|@SET or @IDX|membership list
-@SEL: work_unit|@TSK|goal, phase, status, recycle
-@SEL: user_constraint|@USR|lasting scope, style, preference
-@SEL: file_or_symbol|@MOD @SYM|coding memory
-@SEL: sysml_element|@PRT @POR @CON @REQ @SYM|sysml patterns
-@SEL: rule_or_policy|@RUL|normative directive with priority
-```
-
-**@EDG vs @SET:** membership of many ids → `@SET`. Directed relation → `@EDG`.
+Membership of many ids → `SET`. Directed relation → edge.
 
 ---
 
 ## Handoff tiers
 
-```text
-@ROU: handoff_0|LLM/author-facing|shared dialect Write=display (or English pins)
-@ROU: handoff_1|durable store write|shared dialect mutate preferred; @TAG pipe legacy
-@ROU: handoff_2|no session / same-turn scratch|plain Markdown tables or short prose
-@ROU: handoff_3|tool/MCP/CLI boundary|JSON envelope only
-@ROU: handoff_4|human operator deliverable|prose Markdown
-```
+| Priority | When | Format |
+|----------|------|--------|
+| 1 | Durable / multi-step with MemNet up | Shared dialect mutate |
+| 2 | No session / same-turn scratch | Plain Markdown |
+| 3 | Tool / MCP / CLI boundary | JSON envelope |
+| 4 | Human deliverable | Prose Markdown |
 
 ---
 
 ## Atomisation (before every mutate)
 
-```text
-@RUL: A01|MUST|split fat row into multiple rows + edges if possible|high
-@RUL: A02|MUST|field values = short ids, paths, codes, numbers (no sentences)|high
-@RUL: A03|MUST|stable id from prior pin map or add response|high
-@RUL: A04|MUSTNOT|prose paragraphs on the wire|high
-```
+1. Split fat rows into multiple rows + edges when possible.
+2. Field values = short ids, paths, codes, numbers — no sentences.
+3. Stable id from prior pin map or `add` response.
+4. No prose paragraphs on the wire.
 
 Full discipline: [mcp-memnet/references/atomisation.md](../mcp-memnet/references/atomisation.md).
 
@@ -103,18 +83,16 @@ Full discipline: [mcp-memnet/references/atomisation.md](../mcp-memnet/references
 
 ## Pre-write checklist
 
-```text
-@CHK: w1|pin map (query_warm) on tight anchor|pass|fail
-@CHK: w2|values short and structured|pass|fail
-@CHK: w3|relations are edges|pass|fail
-@CHK: w4|recycle matches lifetime|pass|fail
-@CHK: w5|atom reachable from useful anchor|pass|fail
-```
+- [ ] Pin map on a tight anchor
+- [ ] Values short and structured
+- [ ] Relations are edges
+- [ ] Recycle matches lifetime
+- [ ] Atom reachable from a useful anchor
 
 ---
 
 ## Further reading
 
-- [references/memnet-wire-format.md](references/memnet-wire-format.md) — pipe grammar detail
+- [references/memnet-wire-format.md](references/memnet-wire-format.md) — shared-dialect field notes
 - [mcp-memnet](../mcp-memnet/SKILL.md) — tools and session loop
-- MemNet `docs/grammar/` — shared-dialect design SSOT (may still say “Tier A”)
+- MemNet `docs/grammar/` — design SSOT

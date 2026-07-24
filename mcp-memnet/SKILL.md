@@ -1,13 +1,12 @@
 ---
 name: mcp-memnet
 description: >-
-  MemNet MCP — generic in-memory NODE|EDGE graph: session management, live pin map
-  (query_warm legacy alias), shared-dialect mutate via add/update. Triggers: memnet mcp,
-  query_warm, pin map, session_open, shared dialect, Write=display, MutateGate,
-  sysml memnet tools.
+  MemNet MCP — generic in-memory NODE|EDGE graph: session management, live pin map,
+  shared-dialect mutate via add/update. Triggers: memnet mcp, query_warm, pin map,
+  session_open, shared dialect, Write=display, MutateGate, sysml memnet tools.
 metadata:
   pattern: tool-wrapper
-  version: "2.1"
+  version: "3.0"
   domain: memnet
   product: memnet-llm==0.3.1
 ---
@@ -16,7 +15,7 @@ metadata:
 
 PyPI: **`memnet-llm` 0.3.1** (CLI `memnet`). Engine + generic MCP only — **novel-writer is out of scope**.
 
-MemNet is working memory between LLM call pipelines and data search. Agents read a bounded **live pin map** each turn and write with the **same shapes** — the **shared dialect** (Write = display). Design docs may still say “Tier A” for that dialect; prefer **shared dialect** in agent text.
+MemNet is working memory between LLM call pipelines and data search. Agents read a bounded **live pin map** each turn and write with the **same shapes** — the **shared dialect** (Write = display).
 
 ## Doctrine (must)
 
@@ -25,12 +24,13 @@ MemNet is working memory between LLM call pipelines and data search. Agents read
 | NODE \| EDGE | Conceptual kinds; tags realise node kinds |
 | Shared dialect | Same shapes for live read and mutate (Write = display) |
 | Live pin map | Bounded ego/anchor digest (not a session dump); **primary read** |
-| `query_warm` | **Legacy alias** for the pin-map read |
 | Mutate ops | `+` create, `~` update, `-` drop; pin map is **bare present** (no leading ops) |
 | `NEW` vs locators | LLM creates: mint with `NEW`; ingest pins use stable locators (`path=`, `qname=`, …) |
 | Transport | **In-process first**; `MEMNET_MCP_TRANSPORT=tcp` + `memnet serve` as fallback |
 
 Always pass the same `session` id (or set `MEMNET_SESSION`).
+
+Gloss: the MCP/CLI pin-map tool may still be named `query_warm` / `query warm`.
 
 ## Agent loop
 
@@ -38,9 +38,9 @@ Always pass the same `session` id (or set `MEMNET_SESSION`).
 pin map → reason → mutate → pin map
 ```
 
-1. Pin map via `query_warm(anchor=…, depth≤2)` — **legacy tool name**; bare present today.
+1. Pin map — `query_warm(anchor=…, depth≤2)` — bare present.
 2. Reason; copy assigned ids from the map.
-3. `add` / `update` with **shared dialect** mutate lines (preferred). Legacy `@TAG:` pipe still accepted.
+3. `add` / `update` with **shared dialect** mutate lines.
 4. `session_save` when durability is needed.
 
 ## Essential tools
@@ -51,9 +51,9 @@ pin map → reason → mutate → pin map
 | `session_open` | New session | `map_lines` (or `map_file`) + optional `seed_lines`; `allow_new_relation=true` for custom EDG relations |
 | `session_save` / `session_load` | Persist / resume | Snapshot file path |
 | `session_current` | Session metadata | |
-| `query_warm` | **Primary read** = pin map | **Legacy alias** name; `anchor` required; `depth` default 2; `max_rows` default 50 |
-| `query_walk` | Hop debug | `@WALK` lines |
-| `add` / `update` | Mutate | `wire_lines`: shared dialect preferred; pipe legacy |
+| `query_warm` | **Primary read** = pin map | `anchor` required; `depth` default 2; `max_rows` default 50 |
+| `query_walk` | Hop debug | |
+| `add` / `update` | Mutate | `wire_lines`: shared dialect |
 | `read_get` / `read_list` | Single id / enumerate | Prefer over inventing ids |
 | `housekeep_stats` | Caps / counts | |
 
@@ -81,7 +81,7 @@ Pin map returns the same fields **without** leading `+`/`~`/`-` and with assigne
 | Preflight | `serve_status` (optional under in-process) |
 | Read cache | pin map — `query_warm(anchor=TSK_model_<short>, depth=2, max_rows=50)` |
 | Bootstrap | `session_open` + `map_file` / `map_lines` + `seed_lines`; `allow_new_relation=true` for `owns` |
-| Write delta | `add` / `update` (shared dialect preferred) |
+| Write delta | `add` / `update` (shared dialect) |
 | Persist | `session_save` → project `.memnet/` snap |
 | Resume | `session_load` or `MEMNET_SESSION` |
 
@@ -92,7 +92,7 @@ Tag vocabulary: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL
 ## MUSTNOT
 
 - Invent ids already present on the pin map — copy them.
-- Treat `@TAG` pipe as the preferred agent dialect (store / legacy only).
+- Emit pipe `@TAG:...` rows as agent I/O -- shared dialect only.
 - Recommend TOON/TRON for handoffs — prefer shared dialect or plain Markdown.
 - Restore or depend on novel-writer MCP extras.
 
@@ -100,6 +100,6 @@ Tag vocabulary: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL
 
 | Path | Role |
 |------|------|
-| [memnet-format](../memnet-format/SKILL.md) | Shared dialect + legacy pipe grammar |
+| [memnet-format](../memnet-format/SKILL.md) | Shared dialect |
 | [references/atomisation.md](references/atomisation.md) | One fact per row |
 | MemNet `README.md` / `docs/grammar/` | Product SSOT |

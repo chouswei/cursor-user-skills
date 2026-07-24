@@ -1,50 +1,43 @@
-# Wire format — store and legacy pipe
+# Wire format — shared dialect
 
-**Agent-facing dialect (preferred):** **Tier A** Write = display — see MemNet `README.md` and `docs/grammar/`. Live **pin map** is bare present; mutate uses `+` / `~` / `-`.
+**Agent I/O:** **shared dialect** (Write = display) — MemNet `README.md` / `docs/grammar/`, [memnet-format](../../memnet-format/SKILL.md). Live **pin map** is bare present; mutate uses `+` / `~` / `-`.
 
-This note covers the **legacy `@TAG:` pipe** still accepted on `add`/`update`, used in older snapshots, and referenced by domain tag maps. Prefer Tier A for new agent I/O. Do **not** use TOON/TRON.
+Do **not** use TOON/TRON. Do **not** teach pipe `@TAG:…` as agent format.
 
-MCP tools return JSON **envelopes**; parse **`stdout`** for pin-map / wire content.
+MCP tools return JSON **envelopes**; parse **`stdout`** for pin-map content.
 
 ## Design principles
 
 | Principle | Why |
 |-----------|-----|
 | Atomisation | Many small rows → pin map pulls only connected atoms |
-| Pin map (`query_warm`) | Active slice + LAW; not the whole graph |
+| Pin map | Active slice + LAW; not the whole graph |
 | Short fields | ids, codes, keys, numbers — no sentences in fields |
-| Explicit edges | Relations as separate rows / edges |
-| Recycle / settle | Finished work drops out of warm reads |
+| Explicit edges | Relations as separate edges |
+| Recycle / settle | Finished work drops out of pin maps |
 | Batch mutate | One `add`/`update` with many lines — fewer round trips |
 
 Atomisation: [atomisation.md](atomisation.md).
 
-## Legacy pipe line shape
+## Shared dialect sketch
 
 ```text
-@TAG: field|field|field|…
+## Nodes
++ SYM [NEW] ; name=send_command ; kind=fn ; path=src/memnet/serve.py ; line=96 ; sig=send_command(argv,stdin?) ; recycle=persistent
+
+## Edges
++ E01 [NEW] --(defines)--> [SYM_send] ; note=handler ; recycle=persistent
 ```
 
-- One record per line
-- Escape `|` in values: `\|`
-- Control tags on stderr: `@ERR`, `@WRN`, `@STAT`, `@SESSION`
-
-Example (coding — compact):
+Bad (token-heavy prose blob):
 
 ```text
-@SYM: SYM_send|send_command|fn|src/memnet/serve.py|96|send_command(argv,stdin?)|active|persistent
-@EDG: E01|MOD_serve|defines|SYM_send|handler|persistent
-```
-
-Bad (token-heavy):
-
-```text
-@NOTE: N01|send_command lives in serve.py and handles TCP stdin …|persistent
++ NOTE [NEW] ; code=send_command lives in serve.py and handles TCP stdin … ; recycle=persistent
 ```
 
 ## Pin map economics
 
-Every **`query_warm`** returns a bounded live pin map (LAW + anchor + neighbours to `depth` / `max_rows`).
+Every pin-map read (`query_warm`) returns a bounded digest (LAW + anchor + neighbours to `depth` / `max_rows`).
 
 - Increase **`depth`** only when needed
 - Cap with **`max_rows`** (default 50)
@@ -60,7 +53,7 @@ Prefer **`housekeep_stats`** + settlement over re-injecting unchanged pin-map ou
 | Whole file contents | Module path + symbol signatures |
 | Duplicate facts in chat + graph | Graph is source of truth; cite ids |
 | JSON blobs inside fields | Split into rows + edges |
-| TOON / TRON handoffs | Tier A or plain Markdown |
+| TOON / TRON handoffs | Shared dialect or plain Markdown |
 
 ## MCP mapping
 
@@ -68,7 +61,7 @@ Prefer **`housekeep_stats`** + settlement over re-injecting unchanged pin-map ou
 |-----|-----|
 | `memnet add --stdin` | `add(wire_lines=[...])` |
 | `memnet query warm --anchor X` | `query_warm(anchor="X", depth=2)` |
-| stdout pin map / wire | `envelope.stdout` |
+| stdout pin map | `envelope.stdout` |
 
 Tool args: [tool-parameters.md](tool-parameters.md).
 
@@ -76,15 +69,14 @@ Tool args: [tool-parameters.md](tool-parameters.md).
 
 | Mechanism | Role |
 |-----------|------|
-| **Tier A / pin map** | Agent read + mutate (preferred) |
-| **Legacy `@TAG` pipe** | Store / snapshots / older call sites |
+| **Shared dialect / pin map** | Agent read + mutate |
 | **Plain Markdown** | Ephemeral same-turn scratch when no session |
 
 ## Checklist
 
 - [ ] Fields short and structured?
 - [ ] Could this line be split for a smaller pin-map slice?
-- [ ] Using `query_warm` with a tight anchor?
+- [ ] Pin map with a tight anchor?
 - [ ] Settling transient rows so the map stays lean?
 
 Cross-ref: MemNet `README.md` · `docs/grammar/` · [mcp-policy.md](mcp-policy.md)

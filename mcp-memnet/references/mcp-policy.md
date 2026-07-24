@@ -10,8 +10,8 @@ Cursor (stdio) → memnet-mcp
 
 - MCP is a thin adapter. Default transport is **in-process** (no separate `memnet serve` required).
 - Set `MEMNET_MCP_TRANSPORT=tcp` only when bridging to an external serve.
-- Agent dialect is **Tier A** (Write = display). Legacy `@TAG:` pipe remains accepted on mutate and may appear in older snapshots.
-- Primary read is the live **pin map** via `query_warm` (legacy name).
+- Agent dialect is the **shared dialect** (Write = display).
+- Primary read is the live **pin map** (`query_warm` tool name).
 
 ## mcp.json (user pack)
 
@@ -46,9 +46,9 @@ See [tool-parameters.md](tool-parameters.md).
 |------|---------|
 | `serve_status` | Probe (mainly TCP) |
 | `session_open` / `save` / `load` / `current` | Session lifecycle |
-| `query_warm` | Live pin map (legacy name) |
+| `query_warm` | Live pin map |
 | `query_walk` | Hop debug |
-| `add` / `update` | Mutate (Tier A preferred) |
+| `add` / `update` | Mutate (shared dialect) |
 | `read_get` / `read_list` | Lookup / enumerate |
 | `housekeep_stats` | Counts vs caps |
 
@@ -60,20 +60,20 @@ Every tool (except `serve_status`) returns JSON text:
 {
   "exit_code": 0,
   "stdout": "…",
-  "stderr": "@WRN: …",
+  "stderr": "…",
   "session_id": "mn_…",
   "errors": []
 }
 ```
 
-Branch on **`errors[]`** and **`exit_code`**. Parse **`stdout`** for pin-map / wire content.
+Branch on **`errors[]`** and **`exit_code`**. Parse **`stdout`** for pin-map content.
 
 ## Domain references
 
 | Topic | Doc |
 |-------|-----|
-| Agent dialect / Tier A | MemNet `README.md`, `docs/grammar/` |
-| Pipe grammar (store/legacy) | [wire-format.md](wire-format.md), [memnet-format](../../memnet-format/SKILL.md) |
+| Shared dialect | MemNet `README.md`, `docs/grammar/`, [memnet-format](../../memnet-format/SKILL.md) |
+| Wire / pin map notes | [wire-format.md](wire-format.md) |
 | Atomisation | [atomisation.md](atomisation.md) |
 | Coding memory | [coding-memory.md](coding-memory.md) |
 | User input | [user-input-memory.md](user-input-memory.md) |
@@ -90,4 +90,5 @@ Branch on **`errors[]`** and **`exit_code`**. Parse **`stdout`** for pin-map / w
 ## MUSTNOT
 
 - Depend on novel-writer MCP extras (dropped from MemNet product).
-- Recommend TOON/TRON for agent handoffs — use Tier A or plain Markdown.
+- Recommend TOON/TRON for agent handoffs — use shared dialect or plain Markdown.
+- Teach pipe `@TAG:…` as agent I/O.

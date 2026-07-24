@@ -16,50 +16,57 @@ metadata:
 
 # MemNet Codebase Snap
 
-Prefer **shared dialect** (Write = display) for `add`/`update`; `@TAG` pipe field tables below are **legacy / store** shapes still useful for coding-memory vocabulary.
+**Shared dialect only** (Write = display) for `add`/`update`. See [memnet-format](../memnet-format/SKILL.md) and [coding-memory](../mcp-memnet/references/coding-memory.md).
 
 **Role:** Provide a repeatable, verifiable procedure to atomise an entire source tree (or delta) into MemNet:
-- @MOD nodes for files
-- @SYM nodes for functions and variables (and other symbols)
-- @EDG edges for defines, calls, includes, uses, ownership and other relations
+- MOD nodes for files
+- SYM nodes for functions and variables (and other symbols)
+- Edges for defines, calls, includes, uses, ownership and other relations
 
 This gives fast, low-token navigation ("where is this fn/variable defined?", "who calls it?", "what state does this path touch?").
 
-**Always pair with truth on disk:** Grep (ripgrep), Glob, Read, SemanticSearch first — then `add`/`update` only confirmed facts.
+**Always pair with truth on disk:** Grep (ripgrep), Glob, Read, SemanticSearch first -- then `add`/`update` only confirmed facts.
 
 ## Before acting
 
 1. Read the authoritative project guide if present: `AGENTS.md` (PAT) or equivalent.
-2. Ensure the MemNet MCP is usable: `serve_status` on server `user-memnet`; start `memnet serve` if needed.
-3. Read the tool schema for every MemNet tool before first `CallMcpTool` in a session (discover under `**/mcps/user-memnet/tools/*.json` or from prior context).
-4. Read these references once per significant snap session:
-   - `mcp-memnet` skill (especially coding-memory and atomisation)
-   - `memnet-format` skill (wire format rules)
-5. Open (or reuse) a session with a coding-focused tag map via `session_open`.
-6. Never invent ids — copy stable ids from prior `query_warm` or the first `add` response for that atom.
+2. Ensure the MemNet MCP is usable: `serve_status`; start `memnet serve` only if using TCP.
+3. Read the tool schema for every MemNet tool before first `CallMcpTool` in a session.
+4. Read once per significant snap session: `mcp-memnet` (coding-memory, atomisation) and `memnet-format`.
+5. Open (or reuse) a session via `session_open`.
+6. Never invent ids -- copy from prior pin map or the first `add` response.
 
-## Core tags for codebase snaps (coding memory)
+## Core kinds (coding memory)
 
-@MOD and @SYM are **nodes** in the graph. @EDG are directed **edges** that connect them (and to @TSK/@USR).
+MOD and SYM are **nodes**. Directed **edges** connect them (and TSK/USR).
 
-Use the shapes from `mcp-memnet` coding memory, extended for embedded C. Functions and important variables are indexed as @SYM nodes; control-flow and data relations are recorded as @EDG edges.
+| Kind | Typical fields | Notes |
+|------|----------------|-------|
+| MOD | path, lang, role, loc, recycle | one per `.c`/`.h`; lang=c\|cpp\|h; role=driver\|app\|hal\|calc\|uart\|mqtt\|platform |
+| SYM | name, kind, path, line, sig, vis, recycle | kind=fn\|isr\|var\|gvar\|define\|macro\|struct\|enum\|typedef\|const |
+| TSK | goal, phase, status, recycle | owning task; hang atoms via owns edges |
+| Edge | --(rel)--> + note, recycle | defines, declares, includes, calls, implements, owns, uses, reads, writes, constrained_by, related |
 
-| tag | fields | example | notes |
-|-----|--------|---------|-------|
-| `@MOD` | `MOD_id\|path\|lang\|role\|loc\|recycle` | `MOD_src_iis2iclx_data_calc_c\|src/i2c/iis2iclx_data_calc.c\|c\|calc\|~870\|persistent` | one per `.c`/`.h`; `lang=c\|cpp\|h`; `role=driver\|app\|hal\|calc\|uart\|mqtt\|platform` |
-| `@SYM` | `SYM_id\|name\|kind\|path\|line\|sig\|vis\|recycle` | `SYM_iis2iclx_calc_push_sample\|iis2iclx_calc_push_sample\|fn\|src/i2c/iis2iclx_data_calc.c\|108\|void iis2iclx_calc_push_sample(...)\|api\|persistent` | `kind=fn\|isr\|var\|gvar\|define\|macro\|struct\|enum\|typedef\|const`; `vis=api\|extern\|static\|local\|private`. Functions and significant variables as nodes. |
-| `@SYM` | (same) | `SYM_s_export_ring_snap_x\|s_export_ring_snap_x\|gvar\|src/i2c/iis2iclx_data_calc.c\|47\|static int16_t s_export_ring_snap_x[...]\|static\|persistent` | `gvar` for file-scope / shared state that other modules touch |
-| `@EDG` | `E_nn\|from\|rel\|to\|note\|recycle` | `E01\|MOD_src_iis2iclx_data_calc_c\|defines\|SYM_iis2iclx_calc_push_sample\|impl\|persistent` | rels: `defines\|declares\|includes\|calls\|implements\|owns\|uses\|reads\|writes\|constrained_by\|related` |
-| `@EDG` | (same) | `E10\|SYM_app_services_inner_tick\|calls\|SYM_iis2iclx_calc_service\|core flow\|persistent` | function-to-function calls (verified call sites) |
-| `@EDG` | (same) | `E11\|SYM_iis2iclx_calc_push_sample\|called_from\|SYM_core1_accel_worker\|data path\|persistent` | reverse or forward call edges as useful |
-| `@TSK` | `TSK_id\|goal\|phase\|status\|recycle` | `TSK_codebase_snap_weft_tree_pico2\|Full structural index of weftTree_sim7600 Pico2\|1\|in_progress\|persistent` | owning task; hang important atoms off this via `owns` edges |
-Stable id rules (human + machine friendly):
-- Module: `MOD_` + path with `/` and `.` → `_` (e.g. `src/app/app_services.c` → `MOD_src_app_app_services_c`)
-- Symbol (functions and variables are nodes): `SYM_` + short unique slug of the name (prefer global/API names; qualify with file slug only on collision). Use for fn, gvar, var, define, struct, etc.
-- Edge: `E` + zero-padded counter or descriptive slug (e.g. `E_calls_push_sample`). Copy fresh ids from `add` response or `query_warm` when present.
-- Task: `TSK_` + short descriptive (e.g. `TSK_codebase_snap_weft_tree_pico2`)
+Mutate sketch:
 
-Recycle policy: `persistent` for structural code facts; `delete_on_settle` for investigation tasks and scratch edges.
+```text
+## Nodes
++ MOD [NEW] ; path=src/i2c/iis2iclx_data_calc.c ; lang=c ; role=calc ; loc=~870 ; recycle=persistent
++ SYM [NEW] ; name=iis2iclx_calc_push_sample ; kind=fn ; path=src/i2c/iis2iclx_data_calc.c ; line=108 ; recycle=persistent
++ TSK [NEW] ; goal=Full structural index ; status=in_progress ; recycle=persistent
+
+## Edges
++ E01 [NEW] --(defines)--> [SYM_iis2iclx_calc_push_sample] ; note=impl ; recycle=persistent
+```
+
+Stable id rules:
+- Module: `MOD_` + path with `/` and `.` -> `_`
+- Symbol: `SYM_` + short unique slug
+- Edge: `E` + slug; copy ids from pin map / add response
+- Task: `TSK_` + short descriptive
+
+Recycle: `persistent` for structural facts; `delete_on_settle` for investigation scratch.
+
 
 ## Snap workflow (initial full or targeted)
 

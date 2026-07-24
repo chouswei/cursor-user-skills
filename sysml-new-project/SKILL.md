@@ -137,45 +137,23 @@ Query `TSK_model_<short>` — do not duplicate topology/backlog here.
 
 Derive `<short>` from slug (e.g. `vedan-foam-detection-lite-ver2` → `vfdl2`). Record session id after step 12.
 
-### 12. MemNet skeleton (required when `serve_status` true at scaffold)
+### 12. MemNet skeleton (required when MemNet is up at scaffold)
 
-1. `serve_status` — if false, skip; complete step 11 with placeholder session.
-2. `session_open` with **canonical map** (copy verbatim):
-
-```text
-@ART: id|title|source|kind|status|recycle
-@SEC: id|art|heading|order|status|recycle
-@CLM: id|sec|type|code|status|recycle
-@ENT: id|name|kind|code|recycle
-@PKG: id|qname|kind|status|recycle
-@PRT: id|name|kind|role|status|recycle
-@POR: id|name|kind|dir|typeRef|status|recycle
-@CON: id|name|kind|ends|status|recycle
-@BEH: id|name|kind|owner|status|recycle
-@ITM: id|name|kind|status|recycle
-@REQ: id|requirementId|text|status|recycle
-@MOD: id|path|pkg|role|status|recycle
-@SYM: id|name|kind|path|line|owner|status|recycle
-@CONV: id|topic|rule|status|recycle
-@DEC: id|task|question|options|chosen|recycle
-@ISSUE: id|task|code|status|recycle
-@TSK: id|goal|phase|status|recycle
-@USR: id|topic|value|status|recycle
-@EDG: id|from|rel|to|note|recycle
-```
-
-Full field notes: [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md).
-
-3. `add` skeleton:
+1. `serve_status` -- if false, skip; complete step 11 with placeholder session.
+2. `session_open` with coding/SysML kinds enabled (see [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md) for field notes).
+3. `add` skeleton (shared dialect):
 
 ```text
-@TSK: TSK_model_<short>|<purpose>|model|in_progress|persistent
-@MOD: MOD_deploy_<short>|models/deploy-<slug>.sysml|<Package>|deploy|active|persistent
-@MOD: MOD_root_<short>|models/root-<slug>.sysml|<RootPackage>|root|active|persistent
-@EDG: E01|TSK_model_<short>|owns|MOD_deploy_<short>|scope|persistent
+## Nodes
++ TSK [NEW] ; goal=<purpose> ; phase=model ; status=in_progress ; recycle=persistent
++ MOD [NEW] ; path=models/deploy-<slug>.sysml ; role=deploy ; status=active ; recycle=persistent
++ MOD [NEW] ; path=models/root-<slug>.sysml ; role=root ; status=active ; recycle=persistent
+
+## Edges
++ E01 [NEW] --(owns)--> [MOD_deploy_<short>] ; note=scope ; recycle=persistent
 ```
 
-Add `@MOD` for each other `models/*.sysml` created. Store returned `session_id` in `AGENT-CONTEXT.md` and optionally `MEMNET_SESSION` in mcp.json.
+Add MOD for each other `models/*.sysml` created. Store returned `session_id` in `AGENT-CONTEXT.md` and optionally `MEMNET_SESSION` in mcp.json.
 
 ## Optional follow-ups
 

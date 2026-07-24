@@ -6,8 +6,8 @@ MCP server key: typically **`memnet`** in Cursor MCP config. Tools return **JSON
 
 1. **`serve_status`** — optional under default in-process; required when using TCP/`memnet serve`
 2. **`session_open`** — `map_lines` (or `map_file`); store `session_id`
-3. **`query_warm`** — every turn; anchor required (live **pin map**; legacy name)
-4. **`add`** / **`update`** — Tier A mutate preferred; legacy `@TAG:` still accepted via `wire_lines`
+3. **`query_warm`** — every turn; anchor required (live **pin map**)
+4. **`add`** / **`update`** — shared-dialect mutate via `wire_lines`
 5. **`session_current`** — optional; pass `session` or set `MEMNET_SESSION`
 6. **`read_get`** / **`read_list`** — single-row or enumerate-by-tag
 7. **`housekeep_stats`** — caps / row counts when the graph grows
@@ -19,7 +19,7 @@ Envelope and errors: [mcp-policy.md](mcp-policy.md). Atomisation: [atomisation.m
 | Tool | Required args | Optional args | Notes |
 |------|---------------|---------------|-------|
 | `serve_status` | — | — | `{ running, host, port }` |
-| `session_open` | `map_lines` **or** `map_file` | `ttl`, `seed_lines`, `allow_new_relation` | Auto-seeds LAW01–LAW05 (Tier A by default) |
+| `session_open` | `map_lines` **or** `map_file` | `ttl`, `seed_lines`, `allow_new_relation` | Auto-seeds LAW01–LAW05 (shared dialect) |
 | `session_save` | `file` | `session` | Snapshot to disk |
 | `session_load` | `file` | `keep_id`, `ttl` | Resume; no prior session required |
 | `session_current` | — | `session` | Needs `session` or `MEMNET_SESSION` |
@@ -36,15 +36,15 @@ Envelope and errors: [mcp-policy.md](mcp-policy.md). Atomisation: [atomisation.m
 ```json
 {
   "exit_code": 0,
-  "stdout": "…pin map or wire…",
-  "stderr": "@WRN: …",
+  "stdout": "…pin map…",
+  "stderr": "…",
   "session_id": "mn_…",
-  "errors": ["@ERR: …"]
+  "errors": []
 }
 ```
 
 - Branch on **`exit_code`** and **`errors[]`**
-- Parse **`stdout`** for the live pin map (Tier A bare present) or legacy `@TAG:` lines
+- Parse **`stdout`** for the live pin map (shared dialect, bare present)
 - **`wire_lines`** are joined with `\n` before send
 
 ## Environment
@@ -57,10 +57,14 @@ Envelope and errors: [mcp-policy.md](mcp-policy.md). Atomisation: [atomisation.m
 
 ## wire_lines
 
-Prefer **Tier A** mutate (`+` / `~` / `-`). Legacy pipe still accepted:
+Shared dialect mutate (`+` / `~` / `-`):
 
 ```text
-@TAG: field|field|field|…
+## Nodes
++ CLM [NEW] ; type=decision ; code=… ; recycle=persistent
+
+## Edges
++ E01 [NEW] --(helps)--> [T42] ; recycle=persistent
 ```
 
-Escape literal `|` as `\|`. Batch many atoms in one `add`/`update` call.
+Batch many atoms in one `add`/`update` call.

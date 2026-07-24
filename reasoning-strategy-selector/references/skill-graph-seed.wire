@@ -505,7 +505,7 @@
 @EDG: E0233|skill-creator|specializes|mcp-latex|meta|persistent
 @EDG: E0234|skill-creator|specializes|mcp-markitdown|meta|persistent
 @EDG: E0235|skill-creator|specializes|mcp-memnet|meta|persistent
-@EDG: E0236|skill-creator|specializes|mcp-novel-writer|meta|persistent
+@EDG: E0236|skill-creator|specializes|skill-reviewer|meta|persistent
 @EDG: E0237|mcp-sysml-v2|specializes|mcp-sysmledgraph|sysml-tool|persistent
 @EDG: E0238|tech-report-generator|specializes|md-to-tex|doc|persistent
 @EDG: E0239|tech-report-generator|specializes|mdtohtml|doc|persistent
@@ -532,9 +532,9 @@
 @EDG: E0260|sysml-modeling-workflow|specializes|sysml-behaviour-generator|sysml|persistent
 @EDG: E0261|sysml-modeling-workflow|specializes|sysml-common-file-scale|sysml|persistent
 @EDG: E0262|sysml-modeling-workflow|specializes|sysml-common-lib-contribution|sysml|persistent
-@EDG: E0263|sysml-modeling-workflow|specializes|sysml-common-library-naming|sysml|persistent
+@EDG: E0263|sysml-modeling-workflow|specializes|sysml-common-lib-contribution|sysml|persistent
 @EDG: E0264|sysml-modeling-workflow|specializes|sysml-connections|sysml|persistent
-@EDG: E0265|sysml-modeling-workflow|specializes|sysml-eagle-netlist-bridge|sysml|persistent
+@EDG: E0265|sysml-modeling-workflow|specializes|sysml-pcba-de-facto-alignment|sysml|persistent
 @EDG: E0266|sysml-modeling-workflow|specializes|sysml-eagle-netlist-parser-tool|sysml|persistent
 @EDG: E0267|sysml-modeling-workflow|specializes|sysml-hardware-part-generator|sysml|persistent
 @EDG: E0268|sysml-modeling-workflow|specializes|sysml-import-order-helper|sysml|persistent
@@ -562,7 +562,7 @@
 @EDG: E0290|sysml-modeling-workflow|specializes|sysml-view-doc-sync|sysml|persistent
 @EDG: E0291|tech-report-generator|specializes|system-design-report-generator|doc|persistent
 @EDG: E0292|tech-report-generator|specializes|tech-report-reviewer|doc|persistent
-@EDG: E0293|tech-report-generator|specializes|toon-prompt-format|doc|persistent
+@EDG: E0293|tech-report-generator|specializes|prompt-writing-discipline|doc|persistent
 @EDG: E0294|scientific-method-first-principles|specializes|traceability-footprint-to-sysml|user|persistent
-@EDG: E0295|tech-report-generator|specializes|tron-format|doc|persistent
+@EDG: E0295|tech-report-generator|specializes|project-output-article|doc|persistent
 @EDG: E0296|scientific-method-first-principles|specializes|vibe-repo-init|user|persistent

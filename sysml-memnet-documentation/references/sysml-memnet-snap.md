@@ -10,7 +10,7 @@ Authoritative MemNet-first rules for `sysml-v2-models/projects/<slug>/`. Pair wi
 | `memnet serve` | Symbol index, locators, rationale, backlog | `query_warm` before edit; `add`/`update` after validate. |
 | `AGENT-CONTEXT.md` | Human stub only | Session id + anchor only. Never duplicate topology/backlog. |
 
-**Snap** = batch `add` of atomised `@TAG:` rows. Do **not** paste snap contents into chat.
+**Snap** = batch `add` of atomised shared-dialect rows. Do **not** paste snap contents into chat.
 
 ## Mandatory turn sequence (6 steps)
 
