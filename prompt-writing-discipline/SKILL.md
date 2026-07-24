@@ -12,7 +12,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: doc
-  version: "1.2"
+  version: "1.3"
 ---
 
 # Prompt writing discipline
@@ -23,7 +23,7 @@ Author discipline for **LLM-consumed** text (skills, rules, prompts, agent hubs,
 
 Writing or editing prose that a model will read. Skip for human-only marketing fluff or proprietary serialisation dialects unless the user asks.
 
-## Six disciplines (MUST)
+## Seven disciplines (MUST)
 
 | Discipline | MUST |
 |------------|------|
@@ -33,6 +33,7 @@ Writing or editing prose that a model will read. Skip for human-only marketing f
 | **Consistent** | One term per concept; same voice, tense, and naming across the piece. |
 | **Coherent** | Order so later lines follow from earlier ones; no orphan claims or topic jumps. |
 | **Abbreviations** | Prefer clear English names over opaque codes; drop needless abbreviations; expand house labels on first use (see below). |
+| **Positive** | Name the wire structure in positive terms, then the per-item gate. |
 
 ## Abbreviation rule
 
@@ -62,4 +63,5 @@ Writing or editing prose that a model will read. Skip for human-only marketing f
 - [ ] Consistent -- one name per concept
 - [ ] Coherent -- sequence and cross-references hold
 - [ ] Abbreviations -- clear English names first; needless codes removed; house labels glossed once then plain name
+- [ ] Positive -- wire structure named positively, then the per-item gate
 - [ ] British English for new docs unless the host file already uses another locale
