@@ -21,7 +21,7 @@ RUL [R04] ; kind=MUST ; code=model-choice question -> llm-model-suggester (not r
 RUL [R05] ; kind=MUST ; code=model above $6/1M tokens requires explicit user approval ; priority=high ; recycle=persistent
 RUL [R06] ; kind=SHOULD ; code=obvious single-skill task -> apply that skill directly ; priority=med ; recycle=persistent
 RUL [R07] ; kind=SHOULD ; code=general reasoning/planning, no domain -> user-domain skills ; priority=med ; recycle=persistent
-RUL [R08] ; kind=SHOULD ; code=multi-step/broad task -> sub-agent; same routing inside ; priority=med ; recycle=persistent
+RUL [R08] ; kind=SHOULD ; code=multi-step/broad task -> sub-agent; same routing inside; see user rule sub-agent-policy ; priority=med ; recycle=persistent
 RUL [R09] ; kind=MUST ; code=no summary/review docs unless user asks ; priority=med ; recycle=persistent
 RUL [R10] ; kind=MUST ; code=skill-creator only when user wants to create/scaffold a skill ; priority=med ; recycle=persistent
 RUL [R11] ; kind=MUST ; code=bump metadata.version before pushing a user-pack skill to GitHub ; priority=med ; recycle=persistent
@@ -30,7 +30,7 @@ RUL [R13] ; kind=MUST ; code=pipeline handoffs: MemNet up -> shared dialect (pin
 RUL [R14] ; kind=SHOULD ; code=large uniform tabular data in answers -> Markdown table over JSON when clearer ; priority=med ; recycle=persistent
 RUL [R15] ; kind=MUSTNOT ; code=invent skill-ids absent from skill-graph-seed.wire / SKILL-GRAPH.md ; priority=high ; recycle=persistent
 RUL [R16] ; kind=MUST ; code=ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes) ; priority=high ; recycle=persistent
-RUL [R17] ; kind=MUSTNOT ; code=select FAST/flash/low speed model slugs for Task/subagents (no composer-2.5-fast, gemini-3-flash, or cheap-fast tiers); use default parent model or full-quality slug only ; priority=high ; recycle=persistent
+RUL [R17] ; kind=MUST ; code=Task models: role->family per user rule sub-agent-policy (Grok/Gemini/Composer); never composer-*-fast; allowlist low/flash OK only for Grok/Gemini roles ; priority=high ; recycle=persistent
 ```
 
 

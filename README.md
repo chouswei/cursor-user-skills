@@ -56,3 +56,4 @@ If the folder already has content and is not a git clone of this repo, back it u
 
 - Project-local skills stay in each repo under `.cursor/skills/` and are **not** this pack.
 - Cursor also has built-in skills under `~/.cursor/skills-cursor/` (separate; not in this repo).
+- **User rules (IDE-loaded):** live under `~/.cursor/rules/` (Windows: `%USERPROFILE%\.cursor\rules\`). This pack keeps copies in `rules/` for sync — on a new machine, copy or symlink `rules/*.mdc` into `~/.cursor/rules/` after clone/pull.

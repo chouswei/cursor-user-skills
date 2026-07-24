@@ -4,203 +4,122 @@ Use with [atomisation.md](../../mcp-memnet/references/atomisation.md), [sysml-me
 
 **Core discipline:** one row = one fact/link/status. Short fields. Explicit edges. Stable ids from the pin map. **MUST NOT** create rows tagged PARTD, PORTD, BEHD, or TASK (old aliases -- re-snap to unified kinds on warm miss).
 
-## Canonical kinds (session)
+Agent I/O: MemNet **0.3.1 shared dialect** only (Write = display). Do not teach pipe `@TAG:|` rows.
 
-Use shared dialect field keys (not pipe field-order templates). Kinds:
+## Canonical kinds
 
 ART, SEC, CLM, ENT, PKG, PRT, POR, CON, BEH, ITM, REQ, MOD, SYM, CONV, DEC, ISSUE, TSK, USR, plus edges.
 
-Field notes:
-
-- PRT.role -- short domain tag (`power`, `compute`, `deploy`); empty if N/A.
-- POR.dir -- `in|out|inout` for port usages; empty for port defs.
-- POR.typeRef -- typed port/protocol name (for `typedBy` edge).
-- CON.ends -- endA/endB usage path.
-- BEH.owner -- owning PRT usage id or package qname.
-- DEC.task -- parent TSK id; options short list; chosen when decided.
-- ISSUE.code -- <=15 words backlog item.
-
-Full construct tables and examples: keep using English keys in mutate sketches like:
-
-```text
-## Nodes
-+ TSK [NEW] ; goal=Model PDU ; phase=model ; status=in_progress ; recycle=persistent
-+ PRT [NEW] ; name=PDUController ; kind=partUsage ; role=power ; status=active ; recycle=persistent
-
-## Edges
-+ E01 [NEW] --(declaredIn)--> [PKG_PDU] ; recycle=persistent
-+ E02 [NEW] --(satisfies)--> [REQ-01] ; recycle=persistent
-```
-
+| Field | Notes |
+|-------|-------|
+| PRT.role | short domain tag (`power`, `compute`, `deploy`); empty if N/A |
+| POR.dir | `in` / `out` / `inout` for port usages |
+| POR.typeRef | typed port/protocol name (for `typedBy` edge) |
+| CON.ends | endA / endB usage path |
+| BEH.owner | owning PRT usage id or package qname |
+| DEC.task | parent TSK id; short options; chosen when decided |
+| ISSUE.code | <=15 words backlog item |
 
 ## Stable id rules
 
-| Tag | Id pattern | Example |
-|-----|------------|---------|
-| `@TSK` | `TSK_model_<short>` | `TSK_diagram_<figureId>` (placement graph per Mermaid figure) | `TSK_model_vfdl2` |
-| `@PKG` | `PKG_<packageSuffix>` | `PKG_FoamLiteVer2Deploy` |
-| `@MOD` | `MOD_<file_slug>` | `MOD_deploy_vfdl2` |
-| `@PRT` | `PRT_<name>` | `PRT_edgePc` |
-| `@POR` | `POR_<name>` | `POR_pwr_in_28v` |
-| `@CON` | `CON_<linkName>` | `CON_linkRelayToCoil` |
-| `@BEH` | `BEH_<name>` | `BEH_RunFoamCoverageDetection` |
-| `@ITM` | `ITM_<name>` | `ITM_Power5V` |
-| `@REQ` | `REQ_<requirementId>` | `REQ_VFDL2-MQTT-RELAY` |
-| `@SYM` | `SYM_<name>` | `SYM_edgePc` |
-| `@CONV` | `CONV_<topic>` | `CONV_port_naming` |
-| `@DEC` | `DEC_<nn>` | `DEC_01` |
-| `@ISSUE` | `ISS_<nn>` | `ISS_03` |
+| Kind | Id pattern | Example |
+|------|------------|---------|
+| TSK | `TSK_model_<short>` / `TSK_diagram_<figureId>` | `TSK_model_vfdl2` |
+| PKG | `PKG_<packageSuffix>` | `PKG_FoamLiteVer2Deploy` |
+| MOD | `MOD_<file_slug>` | `MOD_deploy_vfdl2` |
+| PRT / POR / CON / BEH / ITM | `PRT_<name>` etc. | `PRT_edgePc` |
+| REQ | `REQ_<requirementId>` | `REQ_VFDL2-MQTT-RELAY` |
+| SYM | `SYM_<name>` | `SYM_edgePc` |
+| CONV / DEC / ISSUE | `CONV_<topic>` / `DEC_<nn>` / `ISS_<nn>` | `DEC_01` |
 
-## `kind` enums (closed lists)
+## kind enums (closed lists)
 
-| Tag | Allowed `kind` |
-|-----|----------------|
-| `@PRT` | `partDef`, `partUsage` |
-| `@POR` | `portDef`, `portUsage` |
-| `@CON` | `connectionDef`, `connectionUsage`, `linkUsage` |
-| `@BEH` | `stateMachine`, `action`, `calculation` |
-| `@ITM` | `itemDef`, `flowItem` |
-| `@SYM` | `partDef`, `partUsage`, `portDef`, `portUsage`, `requirement`, `connection`, `behaviour`, `satisfy`, `allocate`, `package` |
-| `@PKG` | `deploy`, `requirements`, `connections`, `behaviour`, `root`, `library`, `common` |
-| `@ART` | `report`, `interconnection`, `behaviour`, `requirements`, `traceability` |
-| `@CLM.type` | `fact`, `decision`, `assumption`, `convention`, `conclusion`, `stat`, `pipe` |
-| `@TSK.phase` | `model`, `sync`, `audit`, `refactor`, `report`, `verify`, `pipe`, `route` |
+| Kind | Allowed `kind` values |
+|------|------------------------|
+| PRT | partDef, partUsage |
+| POR | portDef, portUsage |
+| CON | connectionDef, connectionUsage, linkUsage |
+| BEH | stateMachine, action, calculation |
+| ITM | itemDef, flowItem |
+| SYM | partDef, partUsage, portDef, portUsage, requirement, connection, behaviour, satisfy, allocate, package |
+| PKG | deploy, requirements, connections, behaviour, root, library, common |
+| ART | report, interconnection, behaviour, requirements, traceability |
+| CLM.type | fact, decision, assumption, convention, conclusion, stat |
+| TSK.phase | model, sync, audit, refactor, report, verify, turn, route |
 
-## Recycle policy
+## Recycle
 
-| recycle | Tags |
-|---------|------|
-| `persistent` | `@PRT`, `@POR`, `@CON`, `@BEH`, `@ITM`, `@REQ`, `@PKG`, `@MOD`, `@SYM`, `@CONV`, `@ART`, `@SEC`, `@CLM`, `@USR`, campaign `@TSK` |
-| `delete_on_settle` | `@DEC`, `@ISSUE`, sync/refactor sub-`@TSK` |
+- `persistent` -- structure, claims, campaign TSK
+- `delete_on_settle` -- DEC, ISSUE, sync/refactor sub-tasks
 
-## SysML construct → MemNet
+## SysML construct -> MemNet
 
-| SysML v2 in `.sysml` | MemNet row(s) | Same-batch `@EDG` (required) |
-|---------------------|---------------|------------------------------|
-| `part def` | `@PRT` kind=`partDef` + `@SYM` kind=`partDef` | `declaredIn`→`@PKG`; `inFile`→`@MOD` |
-| part usage | `@PRT` kind=`partUsage` + `@SYM` kind=`partUsage` | `declaredIn`→`@PKG`; `inFile`→`@MOD` |
-| `port def` | `@POR` kind=`portDef` + `@SYM` kind=`portDef` | `declaredIn`→`@PKG`; `inFile`→`@MOD` |
-| port usage | `@POR` kind=`portUsage` + `@SYM` kind=`portUsage` | `declaredIn`; parent `@PRT` `hasPort`→`@POR`; `typedBy` if typed |
-| connection / `link*` | `@CON` + `@SYM` | `declaredIn`; `connects` or `ends` field; **`typedBy`→`CONDEF_<DefName>`** (connection def from SysML `connection linkFoo : Bar`) |
-| `requirement def` | `@REQ` + `@SYM` kind=`requirement` | `declaredIn`→requirements `@PKG` |
-| `assert satisfy` / `satisfy` | **`@EDG` only** rel=`satisfies` | `@PRT`/`@BEH` → `@REQ`; `@SYM` kind=`satisfy` **only** for line locator |
-| `allocate` | **`@EDG` only** rel=`allocates` | `@BEH`/`@PRT` → target `@PRT` |
-| `state def` / behaviour | `@BEH` kind=`stateMachine` + `@SYM` kind=`behaviour` | `declaredIn`; `allocates` if allocated |
-| `action def` | `@BEH` kind=`action` + `@SYM` | `declaredIn` |
-| `item def` / `flow of` | `@ITM` + optional `@EDG` rel=`flowOf` | `declaredIn` |
-| site convention | `@CONV` | `@TSK` `constrained_by`→`@CONV` |
-| open design fork | `@DEC` | `@TSK` `owns`→`@DEC` |
-| backlog (not in SysML) | `@ISSUE` or `@CLM` type=`assumption` | `@TSK`/`@SEC` `contains` |
+| SysML v2 | MemNet | Same-batch edges (required) |
+|----------|--------|------------------------------|
+| part def / usage | PRT + SYM | declaredIn -> PKG; inFile -> MOD |
+| port def / usage | POR + SYM | declaredIn; parent PRT hasPort -> POR; typedBy if typed |
+| connection / link | CON + SYM | declaredIn; typedBy -> CONDEF_* |
+| requirement | REQ + SYM | declaredIn -> requirements PKG |
+| satisfy | edge only `satisfies` | PRT/BEH -> REQ |
+| allocate | edge only `allocates` | BEH/PRT -> PRT |
+| state / action | BEH + SYM | declaredIn |
+| item / flow | ITM | declaredIn; optional flowOf |
+| convention | CONV | TSK constrained_by -> CONV |
+| open fork | DEC | TSK owns -> DEC |
+| backlog | ISSUE or CLM assumption | TSK/SEC contains |
 
-**Batch rule:** every new `@PRT` / `@POR` / `@CON` **MUST** include `declaredIn` + `inFile` (`@SYM`→`@MOD`) in the **same** `add`/`update`. Cross-package types **MUST** include `typedBy`.
+**Batch rule:** every new PRT / POR / CON MUST include `declaredIn` + `inFile` in the same `add`/`update`. Cross-package types MUST include `typedBy`.
 
-## EDG relations (SysML closed list)
+## Edge relations (closed list)
 
 `satisfies`, `allocates`, `declaredIn`, `hasPort`, `typedBy`, `connects`, `realizes`, `owns`, `inFile`, `contains`, `mentions`, `constrained_by`, `dependsOn`, `audits`, `flowOf`, `declaredAs`
 
-**Diagram placement** (`TSK_diagram_*` — see [sysml-memnet-pipeline.md](sysml-memnet-pipeline.md) § Diagram placement):
+Diagram placement (`TSK_diagram_*`): `figure_includes`, `figure_uses`, `anchor_of`, `adjacent_to`, `documents` -- see [sysml-memnet-pipeline.md](sysml-memnet-pipeline.md).
 
-| Rel | From → To | Purpose |
-|-----|-----------|---------|
-| `figure_includes` | `TSK_diagram_*` → `@PRT` | Node in figure scope |
-| `figure_uses` | `TSK_diagram_*` → `@CON` | Edge in figure scope |
-| `anchor_of` | `@PRT` → `TSK_diagram_*` | Hub / max-degree anchor |
-| `adjacent_to` | `@PRT` → `@PRT` | Mate pair (same rank, consecutive declare#) |
-| `documents` | `TSK_diagram_*` → `@SEC` | Report section owning the figure |
-
-`typedBy` on `@CON`: `@EDG` from `CON_<linkName>` → `CONDEF_<ConnectionDefName>` (grep `connection link<Name> : <Def>` in deploy).
-
-## Example: PDU-style mini-seed (unified tags)
+## Example (shared dialect)
 
 ```text
-@TSK: TSK_model_pdu|Model 6U CubeSat PDU|model|in_progress|persistent
-@PKG: PKG_PDU|project/pdu-controller|deploy|active|persistent
-@PKG: PKG_LIB|library/power-ports|library|active|persistent
-@MOD: MOD_pdu|models/deploy-pdu.sysml|PKG_PDU|deploy|active|persistent
-@CONV: CONV_port_naming|ports|power ports end in _pwr|active|persistent
-@REQ: REQ-01|REQ-01|Total output 15 W avg 20 W peak|active|persistent
-@PRT: PRT_PDUController|PDUController|partUsage|power|active|persistent
-@POR: POR_pwr_in_28v|pwr_in_28v|portUsage|in|Power28V|active|persistent
-@CON: CON_pwr_in|linkPwrIn|linkUsage|Battery.pwrOut|PDU.pwr_in_28v|active|persistent
-@SYM: SYM_PDUController|PDUController|partUsage|models/deploy-pdu.sysml|42|PRT_PDUController|active|persistent
-@EDG: E01|TSK_model_pdu|owns|MOD_pdu|scope|persistent
-@EDG: E02|MOD_pdu|ownsPackage|PKG_PDU|scope|persistent
-@EDG: E03|PRT_PDUController|declaredIn|PKG_PDU||persistent
-@EDG: E04|SYM_PDUController|inFile|MOD_pdu|loc|persistent
-@EDG: E05|PRT_PDUController|hasPort|POR_pwr_in_28v||persistent
-@EDG: E06|PRT_PDUController|satisfies|REQ-01||persistent
-@EDG: E07|TSK_model_pdu|constrained_by|CONV_port_naming|convention|persistent
+## Nodes
++ TSK [NEW] ; goal=Model 6U CubeSat PDU ; phase=model ; status=in_progress ; recycle=persistent
++ PKG [NEW] ; qname=project/pdu-controller ; kind=deploy ; status=active ; recycle=persistent
++ MOD [NEW] ; path=models/deploy-pdu.sysml ; role=deploy ; status=active ; recycle=persistent
++ PRT [NEW] ; name=PDUController ; kind=partUsage ; role=power ; status=active ; recycle=persistent
++ POR [NEW] ; name=pwr_in_28v ; kind=portUsage ; dir=in ; typeRef=Power28V ; status=active ; recycle=persistent
++ REQ [NEW] ; requirementId=REQ-01 ; text=Total output 15 W avg 20 W peak ; status=active ; recycle=persistent
++ SYM [NEW] ; name=PDUController ; kind=partUsage ; path=models/deploy-pdu.sysml ; line=42 ; recycle=persistent
+
+## Edges
++ E01 [NEW] --(owns)--> [MOD_pdu] ; note=scope ; recycle=persistent
++ E02 [NEW] --(declaredIn)--> [PKG_PDU] ; recycle=persistent
++ E03 [NEW] --(inFile)--> [MOD_pdu] ; note=loc ; recycle=persistent
++ E04 [NEW] --(hasPort)--> [POR_pwr_in_28v] ; recycle=persistent
++ E05 [NEW] --(satisfies)--> [REQ-01] ; recycle=persistent
 ```
 
-## Example: lightweight project skeleton (outputs + model)
-
-```text
-@TSK: TSK_model_underwater|Model underwater acoustic link|model|in_progress|persistent
-@ART: ART_underwater-design|Underwater link design|outputs/system-design-report/index.md|report|active|persistent
-@SEC: S01|ART_underwater-design|Overview|1|active|persistent
-@CLM: C01|S01|fact|bidirectional acoustic command telemetry link|active|persistent
-@REQ: REQ_UWL05|UWL-05|SHALL provide bidirectional link|active|persistent
-@PRT: PRT_Modem|AcousticModem|partUsage||active|persistent
-@EDG: E01|TSK_model_underwater|owns|ART_underwater-design|scope|persistent
-@EDG: E02|PRT_Modem|satisfies|REQ_UWL05|design|persistent
-```
-
-## Example: after sysml-view-doc-sync
-
-```text
-@TSK: TSK_sync_power|Sync after power rail|sync|in_progress|delete_on_settle
-@CLM: C10|S03|fact|24V rail feeds modems via fuse F3|active|persistent
-@CON: CON_pwr_modem_tx|linkPowerToModemTX|linkUsage|Rail.out|ModemTX.powerIn|active|persistent
-@EDG: E20|CON_pwr_modem_tx|declaredIn|PKG_deploy|origin|persistent
-@EDG: E21|C10|mentions|CON_pwr_modem_tx|subject|persistent
-```
-
-## Example: open decision (transient)
-
-```text
-@DEC: DEC_01|TSK_model_pdu|Command channel UART vs GPIO|UART|Simple GPIO||delete_on_settle
-@EDG: E30|TSK_model_pdu|owns|DEC_01|fork|delete_on_settle
-```
-
-When user chooses: `update` `@DEC.chosen`; settle `@DEC`.
-
-## Linking doc claims to model elements
-
-1. Use `mcp-sysmledgraph` or `mcp-sysml-v2` `getDefinition`/`getSymbols` for exact names.
-2. Create/update `@PRT`/`@POR`/`@CON`/`@REQ` with unified `kind`.
-3. Add `@EDG` from `@CLM`/`@SEC` — `mentions`, `satisfies`, `documents`.
-4. On rename: refactor skill + `update` MemNet ids; refresh `@SYM.line`.
-
-**Locators:** `name` + `path` authoritative; `@SYM.line` ephemeral — refresh after every validated edit ([sysml-memnet-snap.md](sysml-memnet-snap.md)).
+Copy assigned ids from the pin map / mutate response.
 
 ## Anchor strategy
 
-- Campaign → `TSK_model_<short>`
-- Mermaid figure placement → `TSK_diagram_<figureId>` ([mermaid-placement-by-degree.md](../../mermaid/references/mermaid-placement-by-degree.md))
-- Part/port under edit → `PRT_<name>` / `POR_<name>` / `SYM_<name>`
-- Requirement audit → `REQ_<requirementId>`
-- Pending choice → `DEC_<nn>`
-- Convention → `CONV_<topic>`
-- Outputs section → `@SEC` id
+- Campaign -> `TSK_model_<short>`
+- Mermaid figure -> `TSK_diagram_<figureId>`
+- Part/port under edit -> `PRT_<name>` / `POR_<name>` / `SYM_<name>`
+- Requirement audit -> `REQ_<requirementId>`
+- Pending choice -> `DEC_<nn>`
+- Convention -> `CONV_<topic>`
+- Outputs section -> SEC id
 
-Warm depth 2 default; increase only when needed.
+Pin-map depth 2 default; increase only when needed.
 
-## Quick tag reference
+## Quick kind reference
 
-| Tag | Id example | Purpose |
-|-----|------------|---------|
-| @PKG | PKG_FoamLiteVer2Deploy | Logical package / file group |
-| @MOD | MOD_deploy_vfdl2 | One `models/*.sysml` file |
-| @PRT | PRT_edgePc | Part def or usage (`kind` discriminates) |
-| @POR | POR_ethernet | Port def or usage |
-| @CON | CON_linkRelayToCoil | Connection or link |
-| @BEH | BEH_FoamDetection | State machine or action |
-| @ITM | ITM_Power5V | Item / flow item |
-| @REQ | REQ_VFDL2-MQTT-RELAY | Requirement |
-| @SYM | SYM_edgePc | Edit locator (path + line) |
-| @CONV | CONV_port_naming | Site convention |
-| @DEC | DEC_01 | Open design fork |
-| @ISSUE | ISS_03 | Backlog not yet in model |
-| @ART/@SEC/@CLM | ART_vfdl2, S02, C10 | Outputs / claims |
-| @TSK | TSK_model_vfdl2 | Campaign anchor |
-| @EDG | E42 | Typed relation |
+| Kind | Purpose |
+|------|---------|
+| PKG / MOD | Package / `.sysml` file |
+| PRT / POR / CON / BEH / ITM / REQ | Model structure |
+| SYM | Edit locator (path + line) |
+| CONV / DEC / ISSUE | Convention / fork / backlog |
+| ART / SEC / CLM | Outputs / claims |
+| TSK | Campaign anchor |
+| Edge | Typed relation |
+
+Cross-ref: [mcp-memnet](../../mcp-memnet/SKILL.md) · [memnet-format](../../memnet-format/SKILL.md)

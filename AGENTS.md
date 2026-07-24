@@ -17,7 +17,7 @@
 | **MCP tools over file reads** | sysml-v2-lsp-mcp, sysmledgraph-mcp cheaper than reading entire files |
 | **Use MemNet shared dialect for durable steps** | When MemNet is up: pin map + mutate ([memnet-format](memnet-format/SKILL.md)); plain Markdown when down |
 | **Plain Markdown when MemNet down** | Ephemeral in-prompt handoff (tables / short lists); JSON only at tool boundaries |
-| **Subagents for exploration** | Broad repo search in parallel; return short summaries. **MUSTNOT** pick FAST/flash/low speed model slugs (pack R17 in [LLM.md](LLM.md)) |
+| **Subagents for exploration** | Broad repo search in parallel; short summaries. Normative: [sub-agent-policy](~/.cursor/rules/sub-agent-policy.mdc) (skill-routed; role->Grok/Gemini/Composer; no Composer FAST) |
 | **No normative paste** | Cite resource paths, don't paste huge specs |
 
 ---
