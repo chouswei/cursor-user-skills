@@ -32,6 +32,8 @@ MCP does **not** replace the grammar. Tools open a session and move **shared-dia
 | `read_list` | Enumerate by tag / where | Lookup | Many rows |
 | `housekeep_stats` | Counts vs caps | Housekeeping | Stats text / envelope |
 
+**Design (next minor, not 0.3.2):** `reserve` / `extend` / `release` — session control plane; pin map shows `RSV [rid] ; llm_id=… ; anchor=… ; depth=… ; until=…` (shared dialect). See MemNet `docs/grammar/memnet-neighbourhood-reserve.md`.
+
 ## Grammar productions agents must recognise
 
 | Situation | Tool | Shape (shared dialect) |
@@ -40,6 +42,7 @@ MCP does **not** replace the grammar. Tools open a session and move **shared-dia
 | Nodes of an EDGE | `read_get` or pin-map EDGE line | Parse `[a]` / `[b]` (shared dialect) or pipe columns `src`/`dist` — those values **are** the node ids; no extra tool |
 | Create | `add` | `+ KIND [NEW] ; …` or `+ Eid [a] --(rel)--> [b]` |
 | Patch | `update` | `~ KIND [KnownId] ; …` |
+| Re-id | `update` | `~ KIND [OldId] ; id=NewId` (optional `; merge=true` if NewId exists) |
 | Drop | `update` | `- KIND [KnownId]` or `- Eid` |
 | Validate shapes | (offline) | `docs/grammar/tools/tier_a.py` + fixtures — not an MCP tool |
 

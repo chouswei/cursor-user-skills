@@ -6,7 +6,7 @@ description: >-
   pin map, session_open, shared dialect, Write=display, MutateGate, sysml memnet tools.
 metadata:
   pattern: tool-wrapper
-  version: "3.5"
+  version: "3.6"
   domain: memnet
   product: memnet-llm==0.3.2
 ---
@@ -114,6 +114,31 @@ pin map → reason → mutate → pin map
 
 **Forbidden:** client `NEW` for R1/U2/nets/SysML qnames/paths; inventing `C_rand_99`; `NEW` on `~`. **Pitfall:** `add` fails if id exists — look up first. PinMapIngest_* may be stubs in 0.3.2; seed via `seed_lines` / explicit-id `add` until ingest lands. Doctrine: MemNet `docs/grammar/` §4.2.1.
 
+**Re-id (wrong ground id):** `update` with `~ KIND [OldId] ; id=NewId`. If `NewId` exists → `id_occupied` unless `; merge=true` (fold mistaken mint into locator id; retarget edges; drop OldId). Self `id=OldId` is a no-op. Not the MCP tool rename `query_warm`→`pin_map`.
+
+```text
+~ CMP [C_rand_99] ; id=ATO_R1 ; merge=true ; recycle=persistent
+```
+
+## Multi-agent reserve (design — not 0.3.2)
+
+Neighbourhood **reserve** with holder **`llm_id`** + **TTL** prevents same-session write races. MCP sketch (next minor):
+
+```text
+reserve(session, anchor, depth=2, llm_id, ttl_s=120) -> rid, until
+extend(session, rid|anchor, llm_id, ttl_s=120) -> until
+release(session, rid|anchor, llm_id) -> ok
+```
+
+Pin map may show intersecting leases as **bare present** (shared dialect only):
+
+```text
+## Reserves
+RSV [R7] ; llm_id=coder_a ; anchor=ATO_R1 ; depth=2 ; until=2026-07-24T08:15:00Z ; left_s=87
+```
+
+**Never** `@RSV:` pipe. SSOT: MemNet `docs/grammar/memnet-neighbourhood-reserve.md`. Mutate on reserved ids requires matching `llm_id`.
+
 ## Essential tools (quick)
 
 | Tool | When | Notes |
@@ -164,7 +189,7 @@ Tag vocabulary: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL
 ## MUSTNOT
 
 - Invent ids already present on the pin map — copy them.
-- Emit pipe `@TAG:...` rows as agent I/O -- shared dialect only.
+- Emit pipe `@TAG:...` rows as agent I/O -- shared dialect only. Includes `@RSV:` — use `RSV [rid] ; llm_id=…` present lines instead.
 - Recommend TOON/TRON for handoffs — prefer shared dialect or plain Markdown.
 - Restore or depend on novel-writer MCP extras.
 
