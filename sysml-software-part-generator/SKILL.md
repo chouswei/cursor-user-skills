@@ -11,7 +11,7 @@ metadata:
   output-format: sysml
   secondary: ask-first (gather inputs before generating)
 token_guardrails: |
-  - MemNet cache: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) — query_warm before edit; `@PRT`/`@SYM` delta after validate.
+  - MemNet cache: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) — pin_map before edit; `@PRT`/`@SYM` delta after validate.
 ---
 
 # SysML Software Part Generator

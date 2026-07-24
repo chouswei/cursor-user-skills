@@ -15,7 +15,7 @@ Pair with [sysml-memnet-snap.md](sysml-memnet-snap.md) (6-step turn) and [sysml-
 | What parts exist? Who connects to whom? | `query_warm` → `@PRT` / `@CON` / `@EDG` | Grep `part ` in `deploy-*.sysml` |
 | Where is `linkFoo` / `FoamLiteVer2RelayController`? | `query_warm` → `@SYM_<name>` → `path` + `line` | `Grep` exact symbol in `models/` |
 | What does requirement `VFDL2-*` satisfy? | `query_warm` → `@REQ_*` + `satisfies` EDGs | Read `root-*.sysml` satisfy block (window) |
-| What changed last session? | `query_warm(TSK_model_*)` + project `.memnet/*.snap` load if session expired | Git diff (user asked or commit prep only) |
+| What changed last session? | `pin_map(TSK_model_*)` + project `.memnet/*.snap` load if session expired | Git diff (user asked or commit prep only) |
 | Exact `connection` / `bind` / import syntax to patch? | Read **±15 lines** at `@SYM.line` | Wider window or `mcp-sysml-v2 getDefinition` |
 | Load order / package imports broken? | `config.yaml` + `mcp-sysml-v2 validate` errors | Read `root-*.sysml` imports only |
 | Human narrative for one report section? | Hub `index.md` + **one** `llm_toc[].file` | Other sections |
@@ -50,7 +50,7 @@ Pair with [sysml-memnet-snap.md](sysml-memnet-snap.md) (6-step turn) and [sysml-
 ```
 serve_status.running?
   false → grep/read as needed; note stale MemNet; skip step 6
-  true  → query_warm(TSK_model_<short>, depth=2)
+  true  → pin_map(TSK_model_<short>, depth=2)
 
 Need symbol location?
   warm has @SYM_<name> with path+line?
@@ -87,7 +87,7 @@ Still ambiguous after warm + one grep?
 
 When the user continues a design thread (e.g. “add PSU”, then “de facto W6300”, then “40-pin harness”):
 
-1. **Turn 2+:** `query_warm(TSK_model_*)` — **do not** re-ingest deploy from disk for facts already atomised.
+1. **Turn 2+:** `pin_map(TSK_model_*)` — **do not** re-ingest deploy from disk for facts already atomised.
 2. If prior turn edited `.sysml` but **step 6 was skipped** → treat as **stale graph**: run **incremental delta** from git-diff symbols **before** warm, or grep changed ids only.
 3. Store **settled decisions** as `@CLM` / `@DEC` (e.g. “relay PCBA mates via gpio40p pin 37”) so prose questions do not require re-read.
 

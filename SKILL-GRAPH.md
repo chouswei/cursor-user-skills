@@ -44,7 +44,7 @@ RUL [SG07] ; kind=MAY ; code=MemNet down -> parse skill-graph-seed.wire locally 
 Steps:
 
 1. Extract keywords from user phrase
-2. MemNet up? pin map `query_warm(SKG_global, depth=2)` : parse seed.wire locally
+2. MemNet up? pin map `pin_map(SKG_global, depth=2)` : parse seed.wire locally
 3. Match TRG phrase -> follow `triggers` edges -> SKL
 4. Rank: `led_to_success` boost + `complements` / `precedes` / `default_stack` edges
 5. Open top SKL id `SKILL.md`; SysML hub stack if sysml domain
@@ -103,4 +103,4 @@ RUL [SG_M04] ; kind=MUST ; code=validate: python tools/validate_selector_pack.py
 | Hub + seed.wire | Yes | Single source; traversable; pin-map slice; edges queryable |
 | SET in alwaysApply catalog | No | Burns tokens every turn; membership already SKL in seed |
 
-**End.** Open [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) or pin map `query_warm(SKG_global)` for the actual graph.
+**End.** Open [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) or pin map `pin_map(SKG_global)` for the actual graph.

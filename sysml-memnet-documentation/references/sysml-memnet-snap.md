@@ -17,7 +17,7 @@ Authoritative MemNet-first rules for `sysml-v2-models/projects/<slug>/`. Pair wi
 | Step | Action | MemNet |
 |------|--------|--------|
 | **1** | `serve_status`. If `running: false` → edit `.sysml` only; skip 2 and 6. | — |
-| **2** | `query_warm(anchor=TSK_model_<short>, depth=2, max_rows=50)`. | **READ** |
+| **2** | `pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)`. | **READ** |
 | **3** | Locate symbol (§Locate). Edit `models/*.sysml`. | — |
 | **4** | `mcp-sysml-v2 validate`. Fix until pass. | — |
 | **5** | `sysml-view-doc-sync` **iff** outputs exist and structure changed. For **`system-design-report/`** packs → also MemNet report delta per [memnet-report-pipeline.md](../../system-design-report-generator/references/memnet-report-pipeline.md) when serve up. | — |
@@ -140,7 +140,7 @@ Do **not** store full `.sysml` text or paragraph prose in any `@TAG` row.
 
 4. Per file: one `@MOD` + N `@SYM` (with line) + semantic `@PRT`/`@POR`/`@CON`/`@REQ`/`@BEH`/`@ITM` + `@EDG`
 5. One `add` batch 30–80 lines
-6. `query_warm(anchor=TSK_model_<short>, depth=2)` to confirm
+6. `pin_map(anchor=TSK_model_<short>, depth=2)` to confirm
 7. Write thin `AGENT-CONTEXT.md` if missing
 
 ## Session `.snap` file
@@ -152,7 +152,7 @@ memnet session save --file <project>.snap
 memnet session load --file <project>.snap
 ```
 
-Agents **MUST NOT** paste `.snap` contents into chat. After load: `query_warm(TSK_model_*)` only.
+Agents **MUST NOT** paste `.snap` contents into chat. After load: `pin_map(TSK_model_*)` only.
 
 Optional store path: `sysml-v2-models/projects/<slug>/.memnet/<slug>.snap` (not required in repo).
 

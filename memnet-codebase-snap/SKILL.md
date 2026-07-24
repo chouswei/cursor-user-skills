@@ -88,7 +88,7 @@ Recycle: `persistent` for structural facts; `delete_on_settle` for investigation
    - Derive one `@MOD` (node) + N `@SYM` (nodes) rows. Keep `sig` short (prototype head or `...`).
    - Verify on disk before emitting.
 6. `add` (preferred) or `update` with a large `wire_lines` array (mix of @MOD/@SYM + @EDG). 30–80 atoms comfortably.
-7. After the batch: `query_warm(anchor="TSK_...", depth=1 or 2, max_rows=80)` to confirm and obtain ids.
+7. After the batch: `pin_map(anchor="TSK_...", depth=1 or 2, max_rows=80)` to confirm and obtain ids.
 8. **Mark relations with @EDG edges** (this is core to the snap, not optional afterthought):
    - From the same file: `defines` (MOD → SYM, or SYM → SYM for nested), `owns`, `declares`.
    - Cross-file: `includes` (from #include), `calls` (verified call sites: caller SYM calls callee SYM).
@@ -112,7 +112,7 @@ During the main snap:
 - For shared state (rings, flags, thresholds stored as gvar @SYM), add `uses` / `reads` / `writes` / `touches` from the modules or functions that access them.
 - Record `includes` for the import structure.
 - Use `binds` for registration / hook patterns (e.g. coop hook, accel binding).
-- Keep edges sparse but architecturally meaningful. The goal is to answer "what calls this", "what touches this buffer", "what is the control flow" via `query_warm(anchor=SYM_..., depth=1..2)` or `query_walk`.
+- Keep edges sparse but architecturally meaningful. The goal is to answer "what calls this", "what touches this buffer", "what is the control flow" via `pin_map(anchor=SYM_..., depth=1..2)` or `query_walk`.
 
 Discovery tips (always verify on disk):
 - After you have a list of public function names, `Grep` for `\<name\>\s*\(` (word boundary + call) excluding the definition line itself.
@@ -135,8 +135,8 @@ After a multi-file refactor: re-snap the modified `MOD`s + their @SYM nodes, the
 | intent | anchor | action | notes |
 |--------|--------|--------|-------|
 | First time full index of quartet path | `TSK_codebase_snap_pat` (create if absent) | Glob + Grep; add `@MOD` nodes + `@SYM` nodes (fns + key gvars) for the quartet files; add `defines` + main `calls` edges | also capture important compile-time knobs as `@SYM` (`kind=define`) or `@USR` |
-| Locate the blocking quartet read after context reset | `query_warm(anchor=SYM_ads127_read_quartet_blocking, depth=2)` | returns the defining `@MOD` node, callers via `calls` `@EDG` edges, and related `@TSK` | if absent, Grep → add the `@SYM` node then the call edges |
-| Track a pin role change on 86ex5v90x HAT | `query_warm(anchor=MOD_...)` then Grep pins | update `@SYM` nodes for the pins/config; add or repair `@EDG` `constrained_by` or `uses` | cross-ref project docs |
+| Locate the blocking quartet read after context reset | `pin_map(anchor=SYM_ads127_read_quartet_blocking, depth=2)` | returns the defining `@MOD` node, callers via `calls` `@EDG` edges, and related `@TSK` | if absent, Grep → add the `@SYM` node then the call edges |
+| Track a pin role change on 86ex5v90x HAT | `pin_map(anchor=MOD_...)` then Grep pins | update `@SYM` nodes for the pins/config; add or repair `@EDG` `constrained_by` or `uses` | cross-ref project docs |
 | Remember the control flow that touches a shared ring | add `@SYM` nodes for the ring buffer + the push / pop / service functions; connect with `calls` + `uses` `@EDG` | `query_warm` on the gvar or on the service fn to see the graph neighbourhood | this is exactly what `@SYM` nodes + `@EDG` edges enable |
 ## Verification and quality rules (non-negotiable)
 

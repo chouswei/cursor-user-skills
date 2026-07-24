@@ -21,7 +21,7 @@ Pair with: [architecture-diagrams.md](architecture-diagrams.md) (model-first blo
 ## Mandatory pipeline
 
 ```text
-query_warm(TSK_model_*)
+pin_map(TSK_model_*)
   → p0:types (typedBy histogram → intent bucket)
   → split gate (one intent family per figure)
   → p1:scope (figure_includes / figure_uses)
@@ -154,7 +154,7 @@ Store ordered `CON_*` list on `TSK_diagram_*` as `@CLM` pipe `p3:edges:…`.
 
 ## Materialise (p4:materialise)
 
-From `query_warm(TSK_diagram_<figureId>)`:
+From `pin_map(TSK_diagram_<figureId>)`:
 
 1. `%% <figureId>` + `init` + `flowchart TB`.
 2. Optional `subgraph` per [architecture-diagrams.md](architecture-diagrams.md) §3.

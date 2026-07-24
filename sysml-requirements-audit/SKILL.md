@@ -15,7 +15,7 @@ token_guardrails: |
   - After user requests **fixes:** **sysml-traceability** for **satisfy**/**allocate**/**docs** alignment; **sysml-requirements-generator** for new **requirement def** scaffolding.
   - **exam_model.py** requirement consistency check: projects with **requirements** + **satisfy** may already be validated—run when available.
   - After substantive .sysml changes: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) delta (`@ISSUE`/`@CLM` findings); workflow step 6.
-  - Before multi-file refactor: query_warm(TSK_model_*).
+  - Before multi-file refactor: pin_map(TSK_model_*).
 ---
 
 system_instruction: |

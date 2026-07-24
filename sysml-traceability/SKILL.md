@@ -15,7 +15,7 @@ token_guardrails: |
   - Load references/traceability-patterns.md when auditing.
   - De facto vs nominal ports and deploy-as-built: [references/de-facto-modeling.md](references/de-facto-modeling.md).
   - After substantive .sysml changes: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) delta (`@EDG` satisfies/allocates); workflow step 6.
-  - Before multi-file refactor: query_warm(TSK_model_*).
+  - Before multi-file refactor: pin_map(TSK_model_*).
 ---
 
 system_instruction: |

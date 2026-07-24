@@ -45,7 +45,7 @@ memnet:
       note: de-facto valve manual
 ```
 
-Agents **`query_warm(anchor)`** or **`query_warm(art_id)`** before opening section files. Full procedure: [memnet-report-pipeline.md](memnet-report-pipeline.md).
+Agents **`pin_map(anchor)`** or **`pin_map(art_id)`** before opening section files. Full procedure: [memnet-report-pipeline.md](memnet-report-pipeline.md).
 
 **Optional:** Short Markdown bullet TOC linking `[title](./file.md#id)`.
 
@@ -65,7 +65,7 @@ Agents **`query_warm(anchor)`** or **`query_warm(art_id)`** before opening secti
 
 ## LOC / LLM discipline
 
-- **Read order:** Hub → **`query_warm(TSK_model_*|ART_*-design)`** (if MemNet up) → **one** `file` from `llm_toc` for the current task.
+- **Read order:** Hub → **`pin_map(TSK_model_*|ART_*-design)`** (if MemNet up) → **one** `file` from `llm_toc` for the current task.
 - **Do not** rely on **line numbers** inside section files for routing — use **`#id`** and **`file`** paths.
 - **Grep:** `llm_toc` / `llm_keywords` in hub first; then section-local headings; deploy grep when warm miss on a symbol.
 

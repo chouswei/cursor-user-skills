@@ -1,4 +1,4 @@
-﻿---
+---
 name: reasoning-strategy-selector
 description: >-
   Optional skill-graph router only: returns a short `order[]` of pack skill ids when the user
@@ -16,10 +16,10 @@ metadata:
 
 pipeline_steps:
   1. Frame — objective, hidden_assumptions, polarities. Abort with `order: []` if a single domain skill already fits.
-  2. Graph load — parse [`skill-graph-seed.wire`](references/skill-graph-seed.wire) locally, or `query_warm(SKL_<hit>|SKG_global)` when MemNet live. Match `@TRG` phrases; anchor per [skill-graph.md](references/skill-graph.md).
+  2. Graph load — parse [`skill-graph-seed.wire`](references/skill-graph-seed.wire) locally, or `pin_map(SKL_<hit>|SKG_global)` when MemNet live. Match `@TRG` phrases; anchor per [skill-graph.md](references/skill-graph.md).
   3. Rank — graph traversal only: trigger hit → typed `@EDG` neighbours (`precedes`, `default_stack`, `complements`, `specializes`); score by edge weights + hop penalty. No 6D convolution over the skill table.
   4. Output — Markdown handoff (≤400 tokens): objective, hidden_assumptions, polarities, feature_scores{top skills}, order[], graph_path[], rationale[≤4], pass. `order` ⊆ graph `@SKL` ids; never `reasoning-strategy-selector`.
-  5. Revise — if ambiguous: re-anchor `query_warm(SKL_<top>, depth=1)` or widen trigger match; max once.
+  5. Revise — if ambiguous: re-anchor `pin_map(SKL_<top>, depth=1)` or widen trigger match; max once.
   6. Settle (parent agent, not selector) — on downstream `pass: true`, emit `led_to_success` `@EDG` rows per [phase4-learning-loop.md](references/phase4-learning-loop.md); `python tools/record_routing_success.py TSK_route_<slug> <skill-id> [...]`
 
 system_instruction: |
@@ -33,7 +33,7 @@ system_instruction: |
 
   **No convolution.** Do not score all skills against a 6D feature table.
 
-  **MemNet optional:** `query_warm(anchor=SKL_<id>, depth=2, max_rows=30)`; if unavailable, parse seed wire locally.
+  **MemNet optional:** `pin_map(anchor=SKL_<id>, depth=2, max_rows=30)`; if unavailable, parse seed wire locally.
 
   **Output (Markdown bullets or short table):**
   ```
@@ -50,7 +50,7 @@ system_instruction: |
   ≤400 tokens. No user-message echo. Never invent skill ids.
 
 token_guardrails: |
-  Graph rank from seed wire or query_warm only. Markdown handoff. Selector read-only for graph; parent agent writes led_to_success on settle (Phase 4). No convolution.
+  Graph rank from seed wire or pin_map only. Markdown handoff. Selector read-only for graph; parent agent writes led_to_success on settle (Phase 4). No convolution.
 ---
 
 # Reasoning strategy selector (graph-first, optional)

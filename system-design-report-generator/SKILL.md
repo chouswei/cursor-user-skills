@@ -2,7 +2,7 @@
 name: system-design-report-generator
 description: >-
   Scaffold or maintain a system design report as a folder of section .md files plus a small hub index with
-  llm_toc (file paths for LLM partial reads). MemNet-first when serve is up: query_warm(TSK_model_*)
+  llm_toc (file paths for LLM partial reads). MemNet-first when serve is up: pin_map(TSK_model_*)
   before prose, atomise @ART/@SEC/@CLM after sync. Triggers: system design report pack, split outputs sections,
   outputs folder system design, multi-file system design, hub index llm_toc file, memnet report sync.
 metadata:
@@ -20,7 +20,7 @@ metadata:
     - mdtohtml
 token_guardrails: |
   - **Hub first:** agents read **`index.md`** (or `README.md`) only for full-file list — **low line count (LOC)** — then open **one** `file` from `llm_toc` per task; do not load every section `.md` into context by default.
-  - **MemNet before prose (when serve up):** `serve_status` → `query_warm(TSK_model_<short>)` → then hub → **one** section file. Do not grep-deploy from memory when warm rows exist.
+  - **MemNet before prose (when serve up):** `serve_status` → `pin_map(TSK_model_<short>)` → then hub → **one** section file. Do not grep-deploy from memory when warm rows exist.
   - **Normative layout:** [references/SYSTEM_DESIGN_REPORT_LAYOUT.md](references/SYSTEM_DESIGN_REPORT_LAYOUT.md) — do not invent a second competing root under `docs/`.
   - **MemNet pipeline:** [references/memnet-report-pipeline.md](references/memnet-report-pipeline.md) — ART/SEC/claim atoms after sync; G/M step codes per [sysml-memnet-pipeline.md](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md) (shared dialect preferred; pipe legacy).
   - **Model wins:** deploy/connections/behaviour `.sysml` stay authoritative; **sysml-view-doc-sync** after edits.
@@ -41,7 +41,7 @@ These packs are for human readers too, so keep each section tight and purposeful
 
 - **project-output-article** — same section semantics and Mermaid rules; this skill adds **folder + file split** + **hub `llm_toc`**.
 - **sysml-view-doc-sync** — update **every** touched section file after deploy changes.
-- **sysml-memnet-documentation** — **query_warm** before generate/maintain; **atomise** `@ART`/`@SEC`/`@CLM` after sync ([memnet-report-pipeline.md](references/memnet-report-pipeline.md)).
+- **sysml-memnet-documentation** — **pin_map** before generate/maintain; **atomise** `@ART`/`@SEC`/`@CLM` after sync ([memnet-report-pipeline.md](references/memnet-report-pipeline.md)).
 - **sysml-modeling-workflow** — validate `.sysml` before report delta; report maintenance is step 5 follow-on, not a substitute for model snap.
 - **md-to-tex** — pass **hub `llm_toc` order** as Pandoc input list for multi-file → one `.tex`.
 - **mdtohtml** — export section files to HTML (Mermaid rendering, UTF-8 safe, handles encoding correctly).
@@ -50,7 +50,7 @@ These packs are for human readers too, so keep each section tight and purposeful
 
 ### A — Generate or refresh full pack
 
-1. **MemNet preflight** — `serve_status`. If up: read `AGENT-CONTEXT.md` → `query_warm(TSK_model_<short>, depth=2)`. Warm miss → initial model snap per **sysml-memnet-documentation** before writing prose.
+1. **MemNet preflight** — `serve_status`. If up: read `AGENT-CONTEXT.md` → `pin_map(TSK_model_<short>, depth=2)`. Warm miss → initial model snap per **sysml-memnet-documentation** before writing prose.
 2. **Read layout** — [references/SYSTEM_DESIGN_REPORT_LAYOUT.md](references/SYSTEM_DESIGN_REPORT_LAYOUT.md) (folder name, hub schema, section filenames, **LOC** discipline).
 3. **Create or adopt folder** — Under `sysml-v2-models/projects/<name>/outputs/`, use pack root **`system-design-report/`** (or legacy `system-design/` if the project already started — one pack per project, **documented in hub**).
 4. **Hub file** — From [assets/hub-index-template.md](assets/hub-index-template.md): project title, **source** line (model paths), **`llm_toc`** with **`file`**, optional **`llm_keywords`**, optional **`memnet:`** block (anchor, `art_id`, session, cross-artifact manuals).

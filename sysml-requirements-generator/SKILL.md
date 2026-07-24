@@ -15,7 +15,7 @@ token_guardrails: |
   - Load references/requirements-style-guide.md for patterns.
   - When requirements mention **cabling or ports**, prefer vocabulary that matches **deploy** and **physical** names, or explicitly say “as allocated in deploy”; see [sysml-traceability/references/de-facto-modeling.md](../sysml-traceability/references/de-facto-modeling.md).
   - After substantive .sysml changes: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) delta (`@REQ`/`@SYM`); workflow step 6.
-  - Before multi-file refactor: query_warm(TSK_model_*).
+  - Before multi-file refactor: pin_map(TSK_model_*).
 ---
 
 # SysML requirements generator

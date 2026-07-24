@@ -16,7 +16,7 @@ Use when **generating**, **scaffolding**, or **maintaining** a `system-design-re
 
 1. `serve_status`. If `running: false`, generate report from warm miss grep only; pipeline steps use plain Markdown in-prompt; skip MemNet write.
 2. Read **`AGENT-CONTEXT.md`** — session id, anchor (`TSK_model_<short>`), cross-artifact `ART_*` (manuals).
-3. **`query_warm(anchor=TSK_model_<short>, depth=2, max_rows=80)`** — prefer warm rows over memory for part/link/req names.
+3. **`pin_map(anchor=TSK_model_<short>, depth=2, max_rows=80)`** — prefer warm rows over memory for part/link/req names.
 
 **Remote serve:** when `MEMNET_SERVE_HOST` is not localhost, local `memnet session load --file` may fail (path on dev machine only). Push wire via repo `tools/memnet_push_wire.py` with `MEMNET_SERVE_HOST` set (see project `AGENT-CONTEXT.md`).
 
@@ -25,7 +25,7 @@ Use when **generating**, **scaffolding**, or **maintaining** a `system-design-re
 | Step | Action | MemNet |
 |------|--------|--------|
 | **G0** | `serve_status` | `@CLM` `G0:serve` |
-| **G1** | `query_warm(TSK_model_<short>)`. Warm miss → run initial model snap ([sysml-memnet-snap.md](../../sysml-memnet-documentation/references/sysml-memnet-snap.md) §Initial snap) before prose. | READ + `@CLM` `G1:warm_*` |
+| **G1** | `pin_map(TSK_model_<short>)`. Warm miss → run initial model snap ([sysml-memnet-snap.md](../../sysml-memnet-documentation/references/sysml-memnet-snap.md) §Initial snap) before prose. | READ + `@CLM` `G1:warm_*` |
 | **G2** | Hub `index.md` + `config.yaml` load order only. Deploy file list from warm `@MOD_*` — not full deploy read. | `@CLM` `G2:hub` |
 | **G3** | Create `outputs/system-design-report/` + hub `index.md` with `llm_toc`, optional `memnet:` block (below). | `@CLM` `G3:scaffold` |
 | **G4** | Write section files **from model + warm graph**: exact `link*` names, `@REQ` ids, `@BEH` action names. One `##` per `llm_toc` entry. | `@CLM` `G4:sections` |
@@ -62,7 +62,7 @@ memnet:
       note: de-facto valve manual
 ```
 
-Agents: **`query_warm(art_id)`** or **`query_warm(anchor)`** before opening section files when serve is up.
+Agents: **`pin_map(art_id)`** or **`pin_map(anchor)`** before opening section files when serve is up.
 
 ## `@ART` / `@SEC` / `@CLM` mapping
 
@@ -109,10 +109,10 @@ Agents: **`query_warm(art_id)`** or **`query_warm(anchor)`** before opening sect
 ## Read strategy (token-efficient)
 
 1. Hub `index.md` only (~80 lines).
-2. `query_warm(TSK_model_<short>, depth=2)` — structural facts (**primary**).
+2. `pin_map(TSK_model_<short>, depth=2)` — structural facts (**primary**).
 3. **One** section `file` for the task.
 4. Narrow `Read` at `@SYM.line` or **one** scoped `Grep` if warm row missing or line drift suspected.
-5. Cross-manual: `query_warm(ART_<manual>, depth=1)` — do not load PDF into chat.
+5. Cross-manual: `pin_map(ART_<manual>, depth=1)` — do not load PDF into chat.
 
 **Do not** read full `deploy-*.sysml` to refresh report tables when warm has `@CON`/`@PRT`. See [sysml-memnet-read-policy.md](../../sysml-memnet-documentation/references/sysml-memnet-read-policy.md).
 

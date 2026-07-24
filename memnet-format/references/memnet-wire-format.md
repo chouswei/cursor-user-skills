@@ -60,6 +60,6 @@ Keep field values short. Relations are separate edges, never embedded arrays.
 | Recycle / settle | Finished work drops out of pin maps |
 | Batch mutate | One `add`/`update` with many lines |
 
-Primary read: live **pin map**. (MCP tool may still be named `query_warm`.)
+Primary read: live **pin map** via MCP `pin_map`. (`query_warm` is legacy alias.)
 
 Cross-ref: MemNet `README.md` · `docs/grammar/` · [mcp-memnet](../../mcp-memnet/SKILL.md)

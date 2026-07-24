@@ -1,14 +1,14 @@
 ---
 name: memnet-format
 description: >-
-  MemNet 0.3.1 shared dialect (Write=display) for live pin map and mutate.
-  Triggers: memnet format, shared dialect, Write=display, pin map, mutate NEW,
+  MemNet 0.3.2 shared dialect (Write=display) for live pin map and mutate.
+  Triggers: memnet format, shared dialect, Write=display, pin map, pin_map, mutate NEW,
   NODE EDGE, atomised rows.
 metadata:
   pattern: tool-wrapper
-  version: "3.1"
+  version: "3.2"
   domain: data-formats,memnet
-  product: memnet-llm==0.3.1
+  product: memnet-llm==0.3.2
 ---
 
 # MemNet formats (LLM-facing)
@@ -38,7 +38,7 @@ Mutate uses ops (`+` create, `~` update, `-` drop). Live pin map is **bare prese
 - **Update:** known ids only.
 - **Ingest pins:** stable locators (`path=`, `qname=`, …); no client `NEW` for those.
 
-Primary read: live **pin map**. (MCP tool may still be named `query_warm`.)
+Primary read: live **pin map** via MCP `pin_map` / CLI `query pin-map`. (`query_warm` is legacy alias.)
 
 ---
 

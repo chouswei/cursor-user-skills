@@ -14,7 +14,7 @@ token_guardrails: |
   - Scope to one project or named deploy package; grep or sysmledgraph before reading whole trees.
   - **Baselined deploy / COTS hardware:** If rewiring touches **well-design** or **COTS** parts, consider **sysml-part-reviewer** + **outputs** sync (doc gate).
   - After any .sysml edit: SysML v2 MCP validate; do not paste full model into chat.
-  - MemNet cache: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) — query_warm before edit; `@CON`/`@SYM` delta after validate.
+  - MemNet cache: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) — pin_map before edit; `@CON`/`@SYM` delta after validate.
   - Load references/workflow.md only when steps need detail (connection defs, pinmap pattern).
 ---
 

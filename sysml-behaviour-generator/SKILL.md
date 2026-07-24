@@ -15,7 +15,7 @@ token_guardrails: |
   - After inserting behaviour: SysML v2 MCP validate; update root imports and config load order if new file.
   - Load references/behaviour-style-guide.md when generating; avoid pasting full OMG examples into chat.
   - After substantive .sysml changes: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) delta (`@BEH`/`@SYM`); workflow step 6.
-  - Before multi-file refactor: query_warm(TSK_model_*).
+  - Before multi-file refactor: pin_map(TSK_model_*).
 ---
 
 # SysML behaviour generator

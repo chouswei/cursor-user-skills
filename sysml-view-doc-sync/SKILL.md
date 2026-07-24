@@ -18,7 +18,7 @@ token_guardrails: |
   - `outputs/*.md` are for human reading: keep prose short, precise, and non-redundant. Use tables or bullets for dense wiring detail instead of long paragraphs.
   - **UTF-8 encoding:** All `.md` files must be saved as UTF-8 (no BOM, no mixed encoding). When syncing from model, preserve UTF-8 throughout. If editing `.md` in an editor, ensure UTF-8 is the output encoding.
   - After substantive .sysml changes: run sysml-modeling-workflow step 6 (MemNet delta + line refresh).
-  - Before multi-file refactor: query_warm(TSK_model_*).
+  - Before multi-file refactor: pin_map(TSK_model_*).
   - **Special character sanitization:** When merging or exporting `.md` files, replace Unicode special chars with ASCII to prevent Mermaid parser errors:
     - En-dash `–` → hyphen `-`
     - Em-dash `—` → hyphen `-`

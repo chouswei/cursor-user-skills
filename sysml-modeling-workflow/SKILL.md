@@ -11,7 +11,7 @@ metadata:
   pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability]
 token_guardrails: |
   - MUST follow the 6-step MemNet turn sequence below on every substantive modeling turn.
-  - query_warm before edit; MemNet delta + line refresh after validate (see sysml-memnet-snap.md).
+  - pin_map before edit; MemNet delta + line refresh after validate (see sysml-memnet-snap.md).
   - Pipeline handoffs: shared dialect mutate when MemNet is up (sysml-memnet-pipeline.md); plain Markdown when down (not TOON/TRON).
   - MUST follow sysml-memnet-read-policy.md: no full deploy read for topology; <=2 narrow Read windows per turn.
   - After .sysml edits, validate with mcp-sysml-v2; route to specialist sysml-* skills for depth.
@@ -32,7 +32,7 @@ Every substantive turn on the project model tree **MUST** follow this order. Def
 | Step | Action | MemNet |
 |------|--------|--------|
 | **1** | `serve_status`. If `running: false` -> edit `.sysml` only; skip 2 and 6; note stale graph. | -- |
-| **2** | Pin map: `query_warm(anchor=TSK_model_<short>, depth=2, max_rows=50)` | **READ** |
+| **2** | Pin map: `pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)` | **READ** |
 | **3** | Locate symbol -> edit `models/*.sysml` ([read policy](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md): pin map first; Read +/-15 lines at SYM.line only) | -- |
 | **4** | `mcp-sysml-v2 validate` until pass | -- |
 | **5** | `sysml-view-doc-sync` **iff** outputs exist and structure changed. Interconnection figures: **[sysml-interconnection-mermaid](../sysml-interconnection-mermaid/SKILL.md)** before fenced Mermaid. | -- |

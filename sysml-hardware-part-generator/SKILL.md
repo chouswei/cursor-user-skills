@@ -14,7 +14,7 @@ metadata:
 token_guardrails: |
   - IMD PCBA, IPN, **network.sysml**, **poe_edge_computer.sysml**: [sysml-common-lib-contribution/references/workspace-imd-lib-conventions.md](../sysml-common-lib-contribution/references/workspace-imd-lib-conventions.md).
   - **Existing part or libs/common edit:** Prefer **sysml-part-reviewer** once to classify under-design / well-design / COTS before substantive edits.
-  - MemNet cache: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) — query_warm before edit; `@PRT`/`@POR`/`@SYM` delta after validate.
+  - MemNet cache: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) — pin_map before edit; `@PRT`/`@POR`/`@SYM` delta after validate.
 ---
 
 # SysML Hardware Part Generator

@@ -3,7 +3,7 @@ name: sysml-memnet-cache
 description: >-
   MemNet MCP is the single cache for SysML modeling relatives — topology, locators, requirements,
   traceability, decisions, audit findings, diagram scope, report atoms. Specialist sysml-* skills
-  read via query_warm and write deltas here; never duplicate in chat or AGENT-CONTEXT. Triggers:
+  read via pin_map and write deltas here; never duplicate in chat or AGENT-CONTEXT. Triggers:
   sysml cache, memnet cache, modeling relatives, warm read sysml, cache topology, defer memnet,
   specialist post-edit, avoid re-read deploy.
 metadata:
@@ -13,7 +13,7 @@ metadata:
   pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format]
 token_guardrails: |
   - MemNet is the cache; .sysml is source of truth for structure; AGENT-CONTEXT is session+anchor only.
-  - query_warm(TSK_model_<short>) before substantive edit; add/update delta after mcp-sysml-v2 validate.
+  - pin_map(TSK_model_<short>) before substantive edit; add/update delta after mcp-sysml-v2 validate.
   - Atomise only — one fact per @TAG row; never store full .sysml or paragraph prose.
   - Skip cache write: comment-only edit, serve down, question-only turn (see sysml-memnet-snap.md).
 ---
@@ -59,7 +59,7 @@ Per-skill write map: [relatives-cache-map.md](../sysml-memnet-documentation/refe
 
 ```text
 1. serve_status
-2. query_warm(anchor=TSK_model_<short>, depth=2, max_rows=50)   # READ cache
+2. pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)   # READ cache
 3. … specialist skill edits models/*.sysml …
 4. mcp-sysml-v2 validate
 5. sysml-view-doc-sync (iff outputs + structure changed)

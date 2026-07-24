@@ -2,7 +2,7 @@
 name: sysml-memnet-documentation
 description: >-
   MemNet MCP for SysML v2 design memory and model snap: atomised graph (parts, ports, connections, behaviour,
-  locators, rationale), mandatory query_warm before edit, delta write after validate. Also outputs/*.md and
+  locators, rationale), mandatory pin_map before edit, delta write after validate. Also outputs/*.md and
   system design reports. Triggers: memnet sysml, sysml memnet, model snap, goldfish sysml, memnet outputs,
   design memory sysml, TSK_model, AGENT-CONTEXT memnet, sysml knowledge graph, read sysml, memnet vs sysml, avoid re-read deploy.
 metadata:
@@ -12,7 +12,7 @@ metadata:
   version: "1.6"
   pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, mcp-sysmledgraph, memnet-format]
 token_guardrails: |
-  - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; query_warm before substantive edits.
+  - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; pin_map before substantive edits.
   - MUST follow references/sysml-memnet-read-policy.md: topology from warm; ≤2 narrow Read windows per turn; no full deploy re-read.
   - MUST follow references/sysml-memnet-pipeline.md: pipeline step atoms via shared dialect mutate when MemNet is up; plain Markdown when down (not TOON/TRON).
   - Use unified tags @PRT/@POR/@BEH with kind field; MUST NOT write @PARTD/@PORTD/@BEHD/@TASK.
@@ -35,7 +35,7 @@ MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `d
 
 ## Read policy (mandatory)
 
-**Discovery:** `query_warm` → `@PRT` / `@CON` / `@SYM` / `@REQ`.  
+**Discovery:** `pin_map` → `@PRT` / `@CON` / `@SYM` / `@REQ`. (`query_warm` is legacy alias.)  
 **Edit:** `Read(path, offset=line-12, limit=35)` at `@SYM.line` only.  
 **Forbidden per turn:** full deploy read; re-grep names already in warm; multi-file read without warm miss.
 

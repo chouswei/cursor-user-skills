@@ -26,7 +26,7 @@ token_guardrails: |
   - Do not paste full multi-file models into chat; use file paths and targeted reads.
   - **Diagram labels:** `sysml-v2-models/core/ibd.py` edge labels are **presentation-only**; update only when the user cares about IBD/`--visualize` output (optional, not a substitute for validate).
   - After substantive .sysml changes: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) delta + line refresh; workflow step 6.
-  - Before multi-file refactor: query_warm(TSK_model_*).
+  - Before multi-file refactor: pin_map(TSK_model_*).
 ---
 
 system_instruction: |
