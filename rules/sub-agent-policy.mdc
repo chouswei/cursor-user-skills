@@ -1,12 +1,12 @@
 ---
 description: >-
-  Sub-agent use: skill-routed, no FAST models, self-contained prompts.
+  Sub-agents: skill route, role->family models, no Composer FAST.
 alwaysApply: true
 ---
 
 # Sub-agent policy
 
-See also pack hubs: short pointer only — this rule is normative.
+This `.mdc` is normative. Pack hubs point here only.
 
 ## When
 
@@ -15,12 +15,31 @@ See also pack hubs: short pointer only — this rule is normative.
 
 ## How to spawn
 
-1. **Select via skill** — route with `reasoning-strategy-selector` or the task-appropriate skill. Do not spawn blindly.
-2. **No FAST models** — never set `model` to `*-fast`, flash, or low/cheap tiers (e.g. `composer-2.5-fast`, `gemini-3-flash`, `cursor-grok-4.5-low`). Omit `model` (inherit parent) unless the user names a family; then use the full-quality slug only.
-3. **One coherent worker** over many siblings unless workstreams are clearly independent.
-4. **Self-contained prompts** — nested agents lack parent chat context unless resumed. Include goal, paths, constraints, and required return shape.
+1. **Select via skill** — `reasoning-strategy-selector` or the task-appropriate skill. Do not spawn blindly.
+2. **One coherent worker** over many siblings unless workstreams are clearly independent.
+3. **Self-contained prompts** — nested agents lack parent chat context unless resumed. Include goal, paths, constraints, return shape.
+
+## Model by role (user pack)
+
+| Role | Family |
+|------|--------|
+| Thinking / hard reasoning / planning / architecture judgment | Grok |
+| Web searching / live web research / docs fetch that needs search | Gemini |
+| Routines / mechanical edits / consolidate / implement / verify loops | Composer |
+
+- Prefer the **full-quality** slug for that family when several exist.
+- Role unclear: **Composer** (routines) or omit `model` (inherit parent). Never default to a fast slug.
+
+### No FAST (Composer hard ban)
+
+- **Never** use `composer-2.5-fast` or any `*-fast`.
+- If the Task allowlist only exposes `cursor-grok-4.5-low` or `gemini-3-flash`, use those for the Grok / Gemini **roles** (family assignment wins over the name "flash"/"low"). Still **never** pick Composer fast.
+
+### Allowlist hint (examples; may change)
+
+`composer-2.5`, `composer-2.5-fast` (banned), `cursor-grok-4.5-low`, `gemini-3-flash`.
 
 ## Must not
 
 - Blind fan-out without skill routing
-- Fast/cheap/flash model slugs on any nested Task
+- `composer-2.5-fast` / any Composer `*-fast` on nested Task
