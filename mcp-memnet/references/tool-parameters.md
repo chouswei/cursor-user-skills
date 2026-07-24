@@ -12,21 +12,21 @@ MCP server key: typically **`memnet`** in Cursor MCP config. Tools return **JSON
 6. **`read_get`** / **`read_list`** — single-row or enumerate-by-tag
 7. **`housekeep_stats`** — caps / row counts when the graph grows
 
-Envelope and errors: [mcp-policy.md](mcp-policy.md). Atomisation: [atomisation.md](atomisation.md).
+Envelope and errors: [mcp-policy.md](mcp-policy.md). Atomisation: [atomisation.md](atomisation.md). Tool <-> grammar: [tool-grammar.md](tool-grammar.md).
 
 ## Tools
 
 | Tool | Required args | Optional args | Notes |
 |------|---------------|---------------|-------|
-| `serve_status` | — | — | `{ running, host, port }` |
+| `serve_status` | — | — | `{ running, host, port }` — transport probe |
 | `session_open` | `map_lines` **or** `map_file` | `ttl`, `seed_lines`, `allow_new_relation` | Auto-seeds LAW01–LAW05 (shared dialect) |
 | `session_save` | `file` | `session` | Snapshot to disk |
 | `session_load` | `file` | `keep_id`, `ttl` | Resume; no prior session required |
 | `session_current` | — | `session` | Needs `session` or `MEMNET_SESSION` |
-| `query_warm` | `anchor` | `depth` (2), `max_rows` (50), `session` | **Primary read** = live **pin map** (legacy tool name) |
-| `query_walk` | `anchor` | `depth`, `max_rows`, `session` | Hop lines for debug |
-| `add` | `wire_lines` | `allow_new_relation`, `agent`, `session` | Create; fails if id exists |
-| `update` | `wire_lines` | `allow_new_relation`, `agent`, `session` | Replace; fails if id missing |
+| `query_warm` | `anchor` | `depth` (2), `max_rows` (50), `session` | **Primary read** = live **pin map** (legacy tool name); `stdout` = bare present |
+| `query_walk` | `anchor` | `depth`, `max_rows`, `session` | Hop lines for debug — not the agent pin-map loop |
+| `add` | `wire_lines` | `allow_new_relation`, `agent`, `session` | Create; `+` / `NEW` inside lines |
+| `update` | `wire_lines` | `allow_new_relation`, `agent`, `session` | Patch/drop; `~` / `-` inside lines |
 | `read_get` | `id` | `session` | One row by id |
 | `read_list` | — | `tag`, `active_only`, `where`, `session` | Enumerate without prior ids |
 | `housekeep_stats` | — | `session` | Counts / caps |

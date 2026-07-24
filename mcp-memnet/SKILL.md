@@ -6,7 +6,7 @@ description: >-
   session_open, shared dialect, Write=display, MutateGate, sysml memnet tools.
 metadata:
   pattern: tool-wrapper
-  version: "3.1"
+  version: "3.2"
   domain: memnet
   product: memnet-llm==0.3.1
 ---
@@ -32,6 +32,37 @@ Always pass the same `session` id (or set `MEMNET_SESSION`).
 
 **Tool gloss:** MCP/CLI pin-map read is still named `query_warm` / `query warm` until call sites rename. Formal shapes: MemNet `docs/grammar/` (`MemNet.g4`, golden fixtures) — do not invent a thinner dialect.
 
+## How MCP tools fit the grammar
+
+MCP is a **thin CLI adapter**. Grammar (`docs/grammar/`, `MemNet.g4`) defines **legal shared-dialect line shapes**. Tools do **not** invent a second dialect: pin-map and mutate payloads live in the JSON envelope’s **`stdout` / `wire_lines`** as shared-dialect text.
+
+| MCP tool | Grammar role | What goes on the wire |
+|----------|--------------|------------------------|
+| `session_open` | Session lifecycle + schema map | `map_lines` = kind field schemas (not NODE/EDGE body). Optional `seed_lines` = shared-dialect rows (LAW auto-seeded). |
+| `session_current` | Session lifecycle | Metadata only — no grammar body. |
+| `session_save` / `session_load` | Snapshot persist / resume | File path; graph reloads; next pin map is still shared dialect. |
+| `query_warm` | **Live pin map read** (legacy name) | `stdout` = bare present NODE/EDGE (+ LAW) — `presentNode` / `presentEdge` / `lawPin` in `MemNet.g4`. |
+| `query_walk` | Hop debug (not primary pin map) | Walk lines for topology debug — prefer pin map for agent reason. |
+| `add` | Mutate **create** | `wire_lines` = shared dialect with leading `+` and `[NEW]` / `NEW` as needed. |
+| `update` | Mutate **patch / drop** | `wire_lines` = `~` / `-` on known ids (no invent). |
+| `read_get` / `read_list` | Lookup / enumerate | Single-row or tag list; still shared-dialect (or engine render) — use to avoid inventing ids. |
+| `housekeep_stats` | Caps / counts | Envelope stats — not NODE/EDGE body. |
+| `serve_status` | Transport probe | `{running,host,port}` — TCP-oriented; optional under default in-process. |
+
+**Agent loop ↔ grammar:** `query_warm` emits **bare present**; `add`/`update` accept **mutate ops** (`+`/`~`/`-`). Same field shapes = Write = display.
+
+**Not weird dialect — transport envelope:** every tool except `serve_status` returns JSON `{exit_code, stdout, stderr, session_id, errors}`. Parse **`stdout`** for pin-map / row text. Do not treat the JSON keys as the MemNet grammar.
+
+**Misfits (gloss, do not invent tools):**
+
+| Looks odd | Why | Agent action |
+|-----------|-----|--------------|
+| Name `query_warm` | Pre–pin-map vocabulary | Treat as **live pin map** |
+| Name `add` / `update` | CLI verbs, not `+`/`~` | Put ops **inside** `wire_lines`, not in the tool name |
+| `serve_status` | Sounds required | Skip under in-process; use when `MEMNET_MCP_TRANSPORT=tcp` |
+| No tool named `pin_map` / `mutate` | API kept stable | Skills use those words; MCP keeps CLI names |
+| No novel-writer tools | Dropped from product | Do not expect them |
+
 ## Agent loop
 
 ```text
@@ -43,7 +74,7 @@ pin map → reason → mutate → pin map
 3. `add` / `update` with **shared dialect** mutate lines.
 4. `session_save` when durability is needed.
 
-## Essential tools
+## Essential tools (quick)
 
 | Tool | When | Notes |
 |------|------|-------|
@@ -57,7 +88,7 @@ pin map → reason → mutate → pin map
 | `read_get` / `read_list` | Single id / enumerate | Prefer over inventing ids |
 | `housekeep_stats` | Caps / counts | |
 
-Args detail: [references/tool-parameters.md](references/tool-parameters.md). Policy: [references/mcp-policy.md](references/mcp-policy.md).
+Args detail: [references/tool-parameters.md](references/tool-parameters.md). Policy: [references/mcp-policy.md](references/mcp-policy.md). Full map: [references/tool-grammar.md](references/tool-grammar.md).
 
 ## Mutate sketch (shared dialect)
 
@@ -102,4 +133,5 @@ Tag vocabulary: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL
 |------|------|
 | [memnet-format](../memnet-format/SKILL.md) | Shared dialect |
 | [references/atomisation.md](references/atomisation.md) | One fact per row |
+| [references/tool-grammar.md](references/tool-grammar.md) | MCP tool <-> grammar map |
 | MemNet `README.md` / `docs/grammar/` | Product SSOT |
