@@ -2,16 +2,17 @@
 name: prompt-writing-discipline
 description: >-
   Author discipline for LLM-consumed prose: accurate, precise, low noise,
-  consistent, coherent; drop unnecessary abbreviations (expand first use if kept).
+  consistent, coherent; prefer clear English names over opaque codes/abbreviations
+  (expand first use if a house label must appear).
   Use when writing or editing skills, rules, prompts, agent hubs, design notes,
   or other text aimed at models — not product wire formats.
   Triggers: prompt writing, writing discipline, low noise prose, precise wording,
-  consistent terminology, coherent docs, expand abbreviations, LLM-facing text,
-  skill prose, agent hub copy.
+  consistent terminology, coherent docs, expand abbreviations, clear English names,
+  opaque tier codes, LLM-facing text, skill prose, agent hub copy.
 metadata:
   pattern: pipeline
   domain: doc
-  version: "1.0"
+  version: "1.1"
 ---
 
 # Prompt writing discipline
@@ -31,14 +32,15 @@ Writing or editing prose that a model will read. Skip for human-only marketing f
 | **Low noise** | Cut throat-clearing, repetition, and ornamental asides; every sentence earns its place. |
 | **Consistent** | One term per concept; same voice, tense, and naming across the piece. |
 | **Coherent** | Order so later lines follow from earlier ones; no orphan claims or topic jumps. |
-| **Abbreviations** | Drop unnecessary abbreviations; prefer expanded forms (see below). |
+| **Abbreviations** | Prefer clear English names over opaque codes; drop needless abbreviations; expand house labels on first use (see below). |
 
 ## Abbreviation rule
 
-1. Default: write the expanded form.
+1. Default: write the expanded, plain-English name — not an internal code or cryptic tier.
 2. Keep an abbreviation only if it is standard in the domain **and** clearer than the expansion after first use.
-3. If kept: expand on first use (`application programming interface (API)`), then the short form.
-4. Do not invent house abbreviations for one-off phrases.
+3. If a house label must appear (design-doc shorthand, legacy pin): expand on first use with the meaning, then prefer the plain name thereafter.
+4. Do not invent cryptic tiers/codes (`T1`, `LAW-PIPE20`, unglossed house labels) as the primary agent-facing term.
+5. Optional example (MemNet): if a design doc says “Tier A”, write **Tier A (shared dialect — Write = display)** once, then prefer **shared dialect**.
 
 ## Good vs bad (one-liners)
 
@@ -46,6 +48,7 @@ Writing or editing prose that a model will read. Skip for human-only marketing f
 |-----|------|
 | “Leverage the util to somehow sync stuff ASAP.” | “Run `scripts/sync.py` to copy config into the target folder.” |
 | “Use CFG / ENV / RT interchangeably.” | “Use **config** for files; **environment variable** for process env.” |
+| “Follow Tier A / T1 / LAW-PIPE20.” | “Follow the **shared dialect** (Write = display); expand any house label on first use.” |
 | “The NFT of the SKL is TBD w.r.t. QoS.” | “Skill metadata version is unset; quality targets are not defined yet.” |
 | Three paragraphs restating the same MUST. | One MUST line; no restatement. |
 
@@ -56,5 +59,5 @@ Writing or editing prose that a model will read. Skip for human-only marketing f
 - [ ] Low noise — no padding or duplicate instructions
 - [ ] Consistent — one name per concept
 - [ ] Coherent — sequence and cross-references hold
-- [ ] Abbreviations — needless ones removed; kept ones glossed once
+- [ ] Abbreviations — clear English names first; needless codes removed; house labels glossed once then plain name
 - [ ] British English for new docs unless the host file already uses another locale
