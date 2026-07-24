@@ -6,7 +6,7 @@ description: >-
   session_open, shared dialect, Write=display, MutateGate, sysml memnet tools.
 metadata:
   pattern: tool-wrapper
-  version: "3.2"
+  version: "3.3"
   domain: memnet
   product: memnet-llm==0.3.1
 ---
@@ -73,6 +73,39 @@ pin map → reason → mutate → pin map
 2. Reason; copy assigned ids from the map.
 3. `add` / `update` with **shared dialect** mutate lines.
 4. `session_save` when durability is needed.
+
+## Graph about a node or edge
+
+| Want | Tool | Why |
+|------|------|-----|
+| Neighbourhood / ego slice (primary) | `query_warm` | Live **pin map**: LAW + NODE + EDGE in shared dialect (`stdout`) |
+| Hop listing only | `query_walk` | Debug topology (`@WALK: …`); not the reason loop |
+| One known id | `read_get` | Single row; not a full neighbourhood |
+| Find ids by tag / field | `read_list` | Enumerate first; then warm on a real id |
+
+**Recipe (node):** resolve id if needed (`read_list` / prior pin map) → `query_warm(anchor=<node_id>, depth=2, max_rows=50, session=…)` → parse envelope **`stdout`** (bare present). Raise `depth` only if the slice is too thin; keep `max_rows` bounded.
+
+**Recipe (edge):** `read_get(id=<edge_id>)` for the edge row; for neighbourhood, `query_warm` on an **endpoint node** (`src` / `dist`), not the edge id as a substitute for pin-map habit. Do not invent ids — copy from pin map or list/get.
+
+## When ids must match model / schematic
+
+**Decision:** pin into SysML / `.ato` / codebase / skill → **stable locator** (deterministic ground id + locator fields). New MemNet-only fact → **`[NEW]`**. Do not conflate ingest with goldfish mutate.
+
+| Need | Tool |
+|------|------|
+| Find by schematic field | `read_list(tag=…, where=["refdes=R1"])` (or `net=`, `qname=`, `path=`) |
+| Confirm one ground id | `read_get(id=ATO_R1)` |
+| Neighbourhood | `query_warm(anchor=ATO_R1, …)` |
+| First materialise pin | `add` with **explicit** id + locators (not `NEW`) |
+| Annotate about a pin | `add` with `+ CLM [NEW] …` then edge to the **copied** pin id |
+
+```text
++ CMP [ATO_R1] ; refdes=R1 ; path=boards/pdu/pdu.ato ; recycle=persistent
+~ CMP [ATO_R1] ; value=10k ; recycle=persistent
++ CLM [NEW] ; type=decision ; code=keep R1 10k ; recycle=persistent
+```
+
+**Forbidden:** client `NEW` for R1/U2/nets/SysML qnames/paths; inventing `C_rand_99`; `NEW` on `~`. **Pitfall:** `add` fails if id exists — look up first. PinMapIngest_* may be stubs in 0.3.1; seed via `seed_lines` / explicit-id `add` until ingest lands. Doctrine: MemNet `docs/grammar/` §4.2.1.
 
 ## Essential tools (quick)
 
