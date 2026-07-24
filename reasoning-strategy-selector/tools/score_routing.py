@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Score graph routing against routing-golden-set.toon."""
+"""Score graph routing against routing-golden-set.md."""
 from __future__ import annotations
 
 import argparse
@@ -8,26 +8,25 @@ from pathlib import Path
 
 from skill_graph_lib import SEED_PATH, SKILL_ROOT, parse_wire_file, route_graph
 
-GOLDEN_PATH = SKILL_ROOT / "references" / "routing-golden-set.toon"
+GOLDEN_PATH = SKILL_ROOT / "references" / "routing-golden-set.md"
 
 
 def parse_golden(path: Path) -> list[dict]:
     cases = []
-    in_data = False
     for line in path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
-        if not line or line.startswith("#"):
+        if not line.startswith("|") or line.startswith("|----") or line.startswith("| id"):
             continue
-        if line.startswith("cases["):
-            in_data = True
+        cells = [c.strip() for c in line.strip("|").split("|")]
+        if len(cells) < 3:
             continue
-        if not in_data:
+        cid, intent, expected = cells[0], cells[1], cells[2]
+        if cid.lower() == "id":
             continue
-        parts = [p.strip() for p in line.split(",")]
-        if len(parts) < 3:
-            continue
-        cid, intent, expected = parts[0], parts[1], parts[2]
-        alts = [a.strip() for a in parts[3].split("|")] if len(parts) > 3 and parts[3] else [expected]
+        alts_raw = cells[3] if len(cells) > 3 and cells[3] else expected
+        alts = [a.strip() for a in alts_raw.replace("|", "/").split("/") if a.strip()]
+        if not alts:
+            alts = [expected]
         cases.append({"id": cid, "intent": intent, "acceptable": alts})
     return cases
 

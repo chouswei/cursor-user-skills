@@ -1,81 +1,104 @@
 ---
 name: mcp-memnet
 description: >-
-  MemNet MCP — generic in-memory graph: session management, query_warm, wire-format add/update.
-  For SysML v2 projects use as the modeling-relatives cache (topology, locators, reqs) via
-  sysml-memnet-cache; this skill covers low-level tool mechanics. Triggers: memnet mcp, query_warm,
-  session_open, wire format, sysml memnet tools.
+  MemNet MCP — generic in-memory NODE|EDGE graph: session management, live pin map
+  (query_warm legacy alias), Tier A mutate via add/update. Triggers: memnet mcp,
+  query_warm, pin map, session_open, Tier A, MutateGate, sysml memnet tools.
+metadata:
+  pattern: tool-wrapper
+  version: "2.0"
+  domain: memnet
+  product: memnet-llm==0.3.1
 ---
 
-# MemNet MCP (memnet server)
+# MemNet MCP (generic)
 
-The `memnet` MCP provides the generic graph engine. It is the source of truth for all state. The `novel-writer` MCP is built on top of it and shares the same session.
+PyPI: **`memnet-llm` 0.3.1** (CLI `memnet`). Engine + generic MCP only — **novel-writer is out of scope**.
 
-## Core Principles
+MemNet is working memory between LLM call pipelines and data search. Agents read a bounded **live pin map** each turn and write with the **same shapes** (**Tier A**: Write = display).
 
-- A session lives in `memnet serve` (in-memory). It expires by TTL unless saved.
-- Always pass the same `session` id on every call.
-- Primary read is `query_warm` (returns LAW rows prepended + connected subgraph).
-- Mutations use the `@TAG: ...` wire format via `add` or `update`.
-- `session_open` + `seed_lines` is the standard way to bootstrap a new graph.
-- Use `session_save` / `session_load` for persistence.
+## Doctrine (must)
 
-## Essential Tools
+| Idea | Meaning |
+|------|---------|
+| NODE \| EDGE | Conceptual kinds; tags realise node kinds |
+| Tier A | Shared shapes for live read and mutate |
+| Live pin map | Bounded ego/anchor digest (not a session dump) |
+| `query_warm` | **Legacy alias** for the pin-map read |
+| Mutate ops | `+` create, `~` update, `-` drop; pin map is **bare present** (no leading ops) |
+| `NEW` vs locators | LLM creates: mint with `NEW`; ingest pins use stable locators (`path=`, `qname=`, …) |
+| Transport | **In-process first**; `MEMNET_MCP_TRANSPORT=tcp` + `memnet serve` as fallback |
 
-| Tool              | When to use                              | Key notes |
-|-------------------|------------------------------------------|---------|
-| `serve_status`    | Check if the server is running           | |
-| `session_open`    | Create a new session from a tag map      | Pass `map_lines` + optional `seed_lines`. Set `allow_new_relation=true` if using custom EDG relations. |
-| `session_save`    | Persist current graph to disk            | Usually `--file novel-output/.../session_snap.json` |
-| `session_load`    | Resume from snapshot                     | |
-| `query_warm`      | Main read for context                    | `--anchor` + `--depth`. This is what agents read most often. |
-| `query_walk`      | Hop-based view (`@WALK` lines)           | Useful for traversal debugging. |
-| `add` / `update`  | Write wire rows                          | `--stdin` with one or more `@TAG:...` lines. |
-| `read_get`        | Fetch one specific row by id             | Authoritative reads (e.g. USR23 for pipeline stage). |
-| `housekeep_stats` | Inspect row counts, caps, stale data     | |
+Always pass the same `session` id (or set `MEMNET_SESSION`).
 
-## Typical Workflows
+## Agent loop
 
-### Bootstrap a fresh session
-1. `session_open` with `map_lines` (from Tag map) + `seed_lines`.
-2. Immediately `session_save`.
+```text
+pin map → reason → mutate → pin map
+```
 
-### Read + mutate loop (generic)
-1. `query_warm --anchor <focus>` (or the novel-writer `beat_turn_begin`).
-2. Reason over the wire rows.
-3. `add` or `update` with wire lines.
-4. `session_save` when you want durability.
+1. `query_warm(anchor=…, depth≤2)` — live pin map (Tier A bare present today).
+2. Reason; copy assigned ids from the map.
+3. `add` / `update` with **Tier A** mutate lines (preferred). Legacy `@TAG:` pipe still accepted.
+4. `session_save` when durability is needed.
 
-### Authoritative single-row read
-Use `read_get` (especially for `USR23` in novel pipelines) because `query_warm` can be truncated.
+## Essential tools
 
-## Important Rules
+| Tool | When | Notes |
+|------|------|-------|
+| `serve_status` | Reachability / probe | TCP mode mainly; in-process is default |
+| `session_open` | New session | `map_lines` (or `map_file`) + optional `seed_lines`; `allow_new_relation=true` for custom EDG relations |
+| `session_save` / `session_load` | Persist / resume | Snapshot file path |
+| `session_current` | Session metadata | |
+| `query_warm` | Primary read (pin map) | `anchor` required; `depth` default 2; `max_rows` default 50 |
+| `query_walk` | Hop debug | `@WALK` lines |
+| `add` / `update` | Mutate | `wire_lines`: Tier A preferred; pipe legacy |
+| `read_get` / `read_list` | Single id / enumerate | Prefer over inventing ids |
+| `housekeep_stats` | Caps / counts | |
 
-- Never call `query_warm` on memnet in the same turn as `beat_turn_begin` on novel-writer (use the presentation it returns instead).
-- LAW rows are engine invariants — they are automatically prepended on warm reads.
-- Sessions are cheap to open but expensive to let grow stale. Prune with housekeep when needed.
-- The wire format (`@TAG: field|field|...`) is the canonical token-efficient representation.
+Args detail: [references/tool-parameters.md](references/tool-parameters.md). Policy: [references/mcp-policy.md](references/mcp-policy.md).
+
+## Mutate sketch (Tier A)
+
+```text
+## Nodes
++ CLM [NEW] ; type=decision ; code=bitrate cap 2000 bps ; recycle=persistent
+~ TSK [T42] ; status=in_progress ; recycle=persistent
+
+## Edges
++ E77 [N03] --(helps)--> [T42] ; note=labour ; recycle=persistent
+```
+
+Pin map returns the same fields **without** leading `+`/`~`/`-` and with assigned ids (no `NEW`). Copy those ids on the next mutate.
 
 ## SysML v2 modeling (relatives cache)
 
-**Policy skill:** [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) — MemNet is the **cache** for all SysML modeling relatives; specialist `sysml-*` skills defer here.
+**Policy skill:** [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md).
 
 | Turn phase | Tool |
 |------------|------|
-| Preflight | `serve_status` |
+| Preflight | `serve_status` (optional under in-process) |
 | Read cache | `query_warm(anchor=TSK_model_<short>, depth=2, max_rows=50)` |
-| Bootstrap project | `session_open` + `map_file` (no `@EDG` in map — fixed tag) + `seed_lines`; `allow_new_relation=true` for `owns` |
-| Write delta | `add` / `update` with `@PRT`/`@SYM`/`@REQ`/… wire lines |
-| Persist | `session_save` → `projects/<slug>/.memnet/<short>.snap` |
-| Resume | `session_load` or `MEMNET_SESSION` in mcp.json |
+| Bootstrap | `session_open` + `map_file` / `map_lines` + `seed_lines`; `allow_new_relation=true` for `owns` |
+| Write delta | `add` / `update` (Tier A preferred) |
+| Persist | `session_save` → project `.memnet/` snap |
+| Resume | `session_load` or `MEMNET_SESSION` |
 
-Tag vocabulary and delta table: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) · [relatives-cache-map.md](../sysml-memnet-documentation/references/relatives-cache-map.md).
+Tag vocabulary: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md).
 
-**Do not** use chat or `AGENT-CONTEXT.md` for topology when `serve_status` is true and warm hits.
+**Do not** use chat or `AGENT-CONTEXT.md` for topology when a live session is available.
 
-## When to Use This MCP vs novel-writer
+## MUSTNOT
 
-- Use **memnet** when you need raw graph power, custom tags, SysML cache I/O, or debugging.
-- Use **novel-writer** (beat_turn_begin / finish) for all story progression in a LAW-PIPE20 novel.
+- Invent ids already present on the pin map — copy them.
+- Treat `@TAG` pipe as the preferred agent dialect (store / legacy only).
+- Recommend TOON/TRON for handoffs — prefer Tier A or plain Markdown.
+- Restore or depend on novel-writer MCP extras.
 
-Always share the exact same `session` id between the two MCPs.
+## Related
+
+| Path | Role |
+|------|------|
+| [memnet-format](../memnet-format/SKILL.md) | Pipe grammar (store / legacy) |
+| [references/atomisation.md](references/atomisation.md) | One fact per row |
+| MemNet `README.md` / `docs/grammar/` | Product SSOT |

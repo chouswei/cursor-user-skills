@@ -1,6 +1,6 @@
 # Atomisation — knowledge graph discipline
 
-MemNet is an **in-memory knowledge graph**: **nodes** (`@TAG:` rows) + **edges** (`@EDG:` rows). **`query_warm`** traverses edges from an anchor and returns only the connected **atoms** — not the whole store.
+MemNet is an **in-memory knowledge graph**: **nodes** + **edges**. Prefer **Tier A** for agent mutate; legacy `@TAG:` / `@EDG:` pipe remains accepted. **`query_warm`** (live **pin map**) traverses edges from an anchor and returns only the connected **atoms** — not the whole store.
 
 **Atomisation is the most important step.** If you dump paragraphs, merged facts, or whole subsystems into one row, warm reads bloat, ids collide, and the graph stops behaving like a graph.
 
@@ -35,9 +35,7 @@ Dense monolithic rows force everything into one anchor or tempt bare context rea
 | **User input** | `@USR` | `constrained_by` from `@TSK` |
 | **SysML / models** | `@PKG`, `@PRT`, `@REQ`, … | `declaredIn`, `satisfy`, `connects` |
 | **Article breakdown** | `@ART`, `@SEC`, `@CLM`, `@ENT` | `contains`, `part_of`, `mentions`, `contradicts` |
-| **Novel / MUD** | `@CHR`, `@ROM`, `@QUEST`, `@RULE`, … | domain relations per application note |
-
-Domain tag maps live in MemNet `application-notes/` — still **one fact per row** inside those tags.
+Domain tag maps live in MemNet `docs/application-notes/` and product examples — still **one fact per row**. Novel-writer extras are out of scope.
 
 ## MCP write pattern
 

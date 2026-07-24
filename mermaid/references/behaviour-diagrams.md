@@ -77,14 +77,12 @@ sequenceDiagram
 
 ---
 
-## 4. TOON inventory (handoff before drawing)
+## 4. Inventory table (handoff before drawing)
 
-```toon
-behaviourDiagram[4]{id,type,source_file}:
-  SM-1,stateMachine,behaviour-leo-cubesat-laser-comm.sysml
-  ACT-1,activity,behaviour-leo-cubesat-laser-comm.sysml
-```
-
+| id | type | source_file |
+|----|------|-------------|
+| SM-1 | stateMachine | behaviour-leo-cubesat-laser-comm.sysml |
+| ACT-1 | activity | behaviour-leo-cubesat-laser-comm.sysml |
 ---
 
 ## 5. Checklist

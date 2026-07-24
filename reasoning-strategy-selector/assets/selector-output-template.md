@@ -19,7 +19,7 @@
 Invoke recommended skill(s). If `order: []`, use [SKILL-GRAPH.md](../SKILL-GRAPH.md) fast-path. Hybrid/meta: often `skill-creator`; re-run selector when sub-skills unclear.
 
 **Built for autonomous triggering.**  
-Token note: TOON handoff; graph rank from seed or MemNet warm.
+Token note: Markdown handoff; graph rank from seed or MemNet warm.
 
 ---
 

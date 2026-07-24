@@ -23,12 +23,12 @@ Format: `@RUL: id|kind|directive|priority`
 @RUL: R10|MUST|skill-creator only when user wants to create/scaffold a skill|med
 @RUL: R11|MUST|bump metadata.version before pushing a user-pack skill to GitHub|med
 @RUL: R12|MUST|obey active skill token_guardrails; prefer tools/* over dumping references/*|high
-@RUL: R13|MUST|pipeline handoffs: serve up → MemNet wire (@TSK + @CLM type=pipe); serve down → TOON/TRON; tool boundary → JSON|high
-@RUL: R14|SHOULD|large uniform tabular data in answers → TOON over JSON when token-positive|med
+@RUL: R13|MUST|pipeline handoffs: serve up → MemNet wire (@TSK + @CLM type=pipe); serve down → plain Markdown; tool boundary → JSON|high
+@RUL: R14|SHOULD|large uniform tabular data in answers → Markdown table over JSON when clearer|med
 @RUL: R15|MUSTNOT|invent skill-ids absent from skill-graph-seed.wire @SKL / SKILL-GRAPH.md|high
 ```
 
-Cross-refs: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc) · [sysml-memnet-pipeline.md](sysml-memnet-documentation/references/sysml-memnet-pipeline.md) · [toon-prompt-format](toon-prompt-format/SKILL.md).
+Cross-refs: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc) · [sysml-memnet-pipeline.md](sysml-memnet-documentation/references/sysml-memnet-pipeline.md). Do not use TOON/TRON.
 
 ---
 
@@ -45,7 +45,7 @@ Format: `@PRC: step|action|then`
 @PRC: p3d|conflict between candidates → SKILL-GRAPH.md Contrasts/Edges|p4
 @PRC: p4|follow SKILL.md frontmatter + numbered steps as binding|p5
 @PRC: p5|lazy-load references/ assets/ tools/ only when a step needs them|p6
-@PRC: p6|between steps: serve_status → wire on server (up) or TOON/TRON in-prompt (down)|p7
+@PRC: p6|between steps: serve_status → wire on server (up) or plain Markdown in-prompt (down)|p7
 @PRC: p7|keep user-visible format per skill template (separate from internal handoff)|p8
 @PRC: p8|do not echo user message verbatim unless skill requires|done
 ```
@@ -84,7 +84,7 @@ Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Stru
 ## Cross-references
 
 - **Routing aid:** [SKILL-GRAPH.md](SKILL-GRAPH.md) — wire hub → [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) (canonical `@SKL`/`@TRG`/`@EDG` graph). Catalog rule injects ids via `@SET`.
-- **Handoff aid:** `memnet-goldfish-loop.mdc` + `memnet-format/SKILL.md` (wire grammar) + `sysml-memnet-pipeline.md` (SysML); `toon-prompt-format/SKILL.md` for serve-down fallback.
+- **Handoff aid:** `memnet-goldfish-loop.mdc` + `memnet-format/SKILL.md` (wire grammar) + `sysml-memnet-pipeline.md` (SysML); plain Markdown when serve down.
 - **Model routing aid:** `llm-model-suggester/SKILL.md`.
 
 ---

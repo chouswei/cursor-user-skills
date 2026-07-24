@@ -42,18 +42,15 @@ This gives fast, low-token navigation ("where is this fn/variable defined?", "wh
 
 Use the shapes from `mcp-memnet` coding memory, extended for embedded C. Functions and important variables are indexed as @SYM nodes; control-flow and data relations are recorded as @EDG edges.
 
-```toon
-tagmap[table]
-tag,fields,example,notes
-@MOD,MOD_id|path|lang|role|loc|recycle,"MOD_src_iis2iclx_data_calc_c|src/i2c/iis2iclx_data_calc.c|c|calc|~870|persistent","one per .c/.h; lang=c|cpp|h; role=driver|app|hal|calc|uart|mqtt|platform"
-@SYM,SYM_id|name|kind|path|line|sig|vis|recycle,"SYM_iis2iclx_calc_push_sample|iis2iclx_calc_push_sample|fn|src/i2c/iis2iclx_data_calc.c|108|void iis2iclx_calc_push_sample(int16_t,int16_t,uint32_t)|api|persistent","kind=fn|isr|var|gvar|define|macro|struct|enum|typedef|const; vis=api|extern|static|local|private. Treat functions and significant variables as nodes."
-@SYM,SYM_id|name|kind|path|line|sig|vis|recycle,"SYM_s_export_ring_snap_x|s_export_ring_snap_x|gvar|src/i2c/iis2iclx_data_calc.c|47|static int16_t s_export_ring_snap_x[...]|static|persistent","gvar for file-scope / shared state that other modules touch"
-@EDG,E_nn|from|rel|to|note|recycle,"E01|MOD_src_iis2iclx_data_calc_c|defines|SYM_iis2iclx_calc_push_sample|impl|persistent","rels: defines|declares|includes|calls|implements|owns|uses|reads|writes|constrained_by|related"
-@EDG,E_nn|from|rel|to|note|recycle,"E10|SYM_app_services_inner_tick|calls|SYM_iis2iclx_calc_service|core flow|persistent","function-to-function calls (verified call sites)"
-@EDG,E_nn|from|rel|to|note|recycle,"E11|SYM_iis2iclx_calc_push_sample|called_from|SYM_core1_accel_worker|data path|persistent","reverse or forward call edges as useful"
-@TSK,TSK_id|goal|phase|status|recycle,"TSK_codebase_snap_weft_tree_pico2|Full structural index of weftTree_sim7600 Pico2|1|in_progress|persistent","owning task; everything important hangs off this via owns edges"
-```
-
+| tag | fields | example | notes |
+|-----|--------|---------|-------|
+| `@MOD` | `MOD_id\|path\|lang\|role\|loc\|recycle` | `MOD_src_iis2iclx_data_calc_c\|src/i2c/iis2iclx_data_calc.c\|c\|calc\|~870\|persistent` | one per `.c`/`.h`; `lang=c\|cpp\|h`; `role=driver\|app\|hal\|calc\|uart\|mqtt\|platform` |
+| `@SYM` | `SYM_id\|name\|kind\|path\|line\|sig\|vis\|recycle` | `SYM_iis2iclx_calc_push_sample\|iis2iclx_calc_push_sample\|fn\|src/i2c/iis2iclx_data_calc.c\|108\|void iis2iclx_calc_push_sample(...)\|api\|persistent` | `kind=fn\|isr\|var\|gvar\|define\|macro\|struct\|enum\|typedef\|const`; `vis=api\|extern\|static\|local\|private`. Functions and significant variables as nodes. |
+| `@SYM` | (same) | `SYM_s_export_ring_snap_x\|s_export_ring_snap_x\|gvar\|src/i2c/iis2iclx_data_calc.c\|47\|static int16_t s_export_ring_snap_x[...]\|static\|persistent` | `gvar` for file-scope / shared state that other modules touch |
+| `@EDG` | `E_nn\|from\|rel\|to\|note\|recycle` | `E01\|MOD_src_iis2iclx_data_calc_c\|defines\|SYM_iis2iclx_calc_push_sample\|impl\|persistent` | rels: `defines\|declares\|includes\|calls\|implements\|owns\|uses\|reads\|writes\|constrained_by\|related` |
+| `@EDG` | (same) | `E10\|SYM_app_services_inner_tick\|calls\|SYM_iis2iclx_calc_service\|core flow\|persistent` | function-to-function calls (verified call sites) |
+| `@EDG` | (same) | `E11\|SYM_iis2iclx_calc_push_sample\|called_from\|SYM_core1_accel_worker\|data path\|persistent` | reverse or forward call edges as useful |
+| `@TSK` | `TSK_id\|goal\|phase\|status\|recycle` | `TSK_codebase_snap_weft_tree_pico2\|Full structural index of weftTree_sim7600 Pico2\|1\|in_progress\|persistent` | owning task; hang important atoms off this via `owns` edges |
 Stable id rules (human + machine friendly):
 - Module: `MOD_` + path with `/` and `.` → `_` (e.g. `src/app/app_services.c` → `MOD_src_app_app_services_c`)
 - Symbol (functions and variables are nodes): `SYM_` + short unique slug of the name (prefer global/API names; qualify with file slug only on collision). Use for fn, gvar, var, define, struct, etc.
@@ -126,15 +123,12 @@ After a multi-file refactor: re-snap the modified `MOD`s + their @SYM nodes, the
 
 ## PAT Nucleo firmware examples (apply the same pattern everywhere)
 
-```toon
-pat_examples[table]
-intent,anchor,action,notes
-"First time full index of quartet path","TSK_codebase_snap_pat (create if absent)","Glob + Grep; add @MOD nodes + @SYM nodes (fns + key gvars) for the quartet files; add defines + main calls edges","also capture important compile-time knobs as @SYM (kind=define) or @USR"
-"Locate the blocking quartet read after context reset","query_warm(anchor=SYM_ads127_read_quartet_blocking, depth=2)","returns the defining @MOD node, callers via calls @EDG edges, and related @TSK","if absent, Grep → add the @SYM node then the call edges"
-"Track a pin role change on 86ex5v90x HAT","query_warm(anchor=MOD_...) then Grep pins","update @SYM nodes for the pins/config; add or repair @EDG constrained_by or uses","cross-ref project docs"
-"Remember the control flow that touches a shared ring","add @SYM nodes for the ring buffer + the push / pop / service functions; connect with calls + uses @EDG","query_warm on the gvar or on the service fn to see the graph neighbourhood","this is exactly what @SYM nodes + @EDG edges enable"
-```
-
+| intent | anchor | action | notes |
+|--------|--------|--------|-------|
+| First time full index of quartet path | `TSK_codebase_snap_pat` (create if absent) | Glob + Grep; add `@MOD` nodes + `@SYM` nodes (fns + key gvars) for the quartet files; add `defines` + main `calls` edges | also capture important compile-time knobs as `@SYM` (`kind=define`) or `@USR` |
+| Locate the blocking quartet read after context reset | `query_warm(anchor=SYM_ads127_read_quartet_blocking, depth=2)` | returns the defining `@MOD` node, callers via `calls` `@EDG` edges, and related `@TSK` | if absent, Grep → add the `@SYM` node then the call edges |
+| Track a pin role change on 86ex5v90x HAT | `query_warm(anchor=MOD_...)` then Grep pins | update `@SYM` nodes for the pins/config; add or repair `@EDG` `constrained_by` or `uses` | cross-ref project docs |
+| Remember the control flow that touches a shared ring | add `@SYM` nodes for the ring buffer + the push / pop / service functions; connect with `calls` + `uses` `@EDG` | `query_warm` on the gvar or on the service fn to see the graph neighbourhood | this is exactly what `@SYM` nodes + `@EDG` edges enable |
 ## Verification and quality rules (non-negotiable)
 
 - Every atom (@MOD node, @SYM node for fn/var/..., or @EDG edge) must be reproducible from a `Grep` or `Read` performed in the same or immediate prior turn.
@@ -157,7 +151,7 @@ Increase `depth` only when you need the extra hop; always cap with `max_rows`. U
 
 - `mcp-memnet` (tool usage, goldfish loop, coding-memory.md, atomisation.md)
 - `memnet-format` (exact wire grammar, escaping, recycle policies)
-- `toon-prompt-format` / `tron-format` (for in-turn handoff tables before/after MCP calls)
+- Plain Markdown tables for in-turn handoffs before/after MCP calls (not TOON/TRON)
 - PAT-specific: `four-channel-spi-ads127-quartet`, `ads127l11-registers`, `stm32cube-cmake-pat`, `deterministic-cooperative-loop`, AGENTS.md, the various .cursor/rules/*.mdc
 
 ## Quick start checklist for a new snap session

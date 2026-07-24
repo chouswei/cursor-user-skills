@@ -1,8 +1,8 @@
-# MemNet wire format — detailed reference
+# MemNet wire format — detailed reference (legacy pipe)
 
-This is the authoritative format guide for writing and reading the compact pipe-row language that MemNet exposes to LLMs.
+Authoritative field tables for the compact **`@TAG:` pipe** language still accepted on mutate and used in older snapshots.
 
-It is the sibling of the in-prompt formats (TOON / TRON) — use it when you need **durable, queryable, atomised state** that lives outside the current context window.
+**Preferred agent dialect** is **Tier A** Write = display (live pin map + mutate ops) — see MemNet `README.md` / `docs/grammar/` and [../SKILL.md](../SKILL.md). Use this pipe reference for store/legacy rows and tag field orders. Do **not** use TOON/TRON.
 
 ## Line syntax
 
@@ -173,31 +173,25 @@ Every `query_warm` response (via MCP) contains:
 
 You only ever pay for the connected slice you asked for. Wide anchors or deep traversals are expensive — choose the smallest useful anchor.
 
-## Relationship to other formats in this pack
+## Relationship to other formats
 
-- **TOON** (`toon-prompt-format`): best for uniform tabular data inside the prompt for the current or next step.
-- **TRON** (`tron-format`): best for lists of objects that share the same property names (key repetition).
-- **MemNet wire**: best when the data must be queryable later, possibly after many turns or a context reset, and when the natural shape is a graph of small facts + explicit relations.
+| Format | Role |
+|--------|------|
+| **Tier A** | Preferred agent read/mutate (Write = display); live pin map |
+| **`@TAG` pipe** (this doc) | Store / legacy mutate; field-order tables |
+| **Plain Markdown** | Ephemeral same-turn scratch when no session |
 
-You will often use all three in one long session:
-- **Serve up:** `@CLM` type=`pipe` rows on server for pipeline steps ([sysml-memnet-pipeline.md](../../sysml-memnet-documentation/references/sysml-memnet-pipeline.md)).
-- MemNet `add` to record durable atoms (`@CLM`, `@EDG`, …).
-- Later: `query_warm` on the relevant `@TSK` or `@ART` to recall what was decided.
-- **Serve down:** TOON/TRON for ephemeral same-turn handoff only.
+Typical loop: `query_warm` (pin map) → reason → `add`/`update` (Tier A preferred) → optional `session_save`.
 
-## Checklist before emitting wire rows
+## Checklist before emitting rows
 
-- [ ] I have a stable id for this atom (copied from warm output or a prior add).
-- [ ] The row is one indivisible fact / decision / link.
-- [ ] All values are short and will still be meaningful without the surrounding chat.
-- [ ] I have (or will immediately add) the necessary `@EDG` rows so the atom is reachable from useful anchors.
-- [ ] The recycle policy matches the expected lifetime of the information.
+- [ ] Stable id from pin map or prior add (or `NEW` for genuine LLM create)
+- [ ] One indivisible fact / decision / link
+- [ ] Short values meaningful without surrounding chat
+- [ ] Edges so the atom is reachable from useful anchors
+- [ ] Recycle matches expected lifetime
 
-Cross-references (in the user pack):
-- `mcp-memnet` (tools, session lifecycle, goldfish loop)
-- `mcp-memnet/references/atomisation.md` (the write discipline)
-- `mcp-memnet/references/article-breakdown.md` (document → claims pattern)
-- `memnet-goldfish-loop.mdc` (orchestration rule)
-- `toon-prompt-format` and `tron-format` (the in-prompt siblings)
-
-Upstream: MemNet package `LLM-GUIDE.md` and the `application-notes/` directory (especially the SysML one).
+Cross-references:
+- [mcp-memnet](../../mcp-memnet/SKILL.md) — tools and session loop
+- [mcp-memnet/references/atomisation.md](../../mcp-memnet/references/atomisation.md)
+- MemNet `README.md`, `docs/grammar/`, `docs/LLM-GUIDE.md`

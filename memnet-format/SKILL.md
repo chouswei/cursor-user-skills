@@ -1,25 +1,50 @@
 ---
 name: memnet-format
 description: >-
-  Canonical MemNet wire format (@TAG pipe rows, @EDG relations, tag vocabulary, atomisation,
-  tiered handoff). LLM-only skill for authoring rules, skills, and durable graph state.
-  Triggers: memnet format, memnet wire, @TAG, pipe rows, atomised rows, goldfish format,
-  durable graph format, token efficient graph, memnet atoms, @EDG, @SET, @IDX, wire grammar.
+  MemNet formats for agents: Tier A (Write=display) preferred for live pin map and
+  mutate; legacy @TAG pipe for store/snapshots. Triggers: memnet format, Tier A,
+  pin map, @TAG, pipe rows, @EDG, atomised rows, memnet wire.
 metadata:
   pattern: tool-wrapper
-  version: "1.3"
+  version: "2.0"
   domain: data-formats,memnet
+  product: memnet-llm==0.3.1
 ---
 
-# MemNet Wire Format (LLM-only)
+# MemNet formats (LLM-facing)
 
-**Audience:** model. Wire rows are canonical; open `references/memnet-wire-format.md` for full grammar and tag field orders.
+**Audience:** model. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) for tools.
 
-**Role:** format authority for `@TAG:` pipe language. Pair with `mcp-memnet` (tools) and `memnet-goldfish-loop.mdc` (loop). Do not use TOON/TRON for handoffs.
+- **Preferred agent dialect:** **Tier A** — same NODE | EDGE shapes for live pin map and mutate (Write = display).
+- **Legacy store dialect:** `@TAG:` pipe rows — still accepted on mutate; used in older snapshots.
+- **Do not** use TOON/TRON. Prefer Tier A or plain Markdown for handoffs.
+
+Product SSOT: MemNet `README.md`, `docs/grammar/`. Pipe field tables: [references/memnet-wire-format.md](references/memnet-wire-format.md).
 
 ---
 
-## Core record shape
+## Tier A (agent)
+
+Mutate uses ops (`+` create, `~` update, `-` drop). Live pin map is **bare present** (no leading ops).
+
+```text
+## Nodes
++ CLM [NEW] ; type=decision ; code=bitrate cap 2000 bps ; recycle=persistent
+~ TSK [T42] ; status=in_progress ; recycle=persistent
+
+## Edges
++ E77 [N03] --(helps)--> [T42] ; note=labour ; recycle=persistent
+```
+
+- **Create:** `[NEW]` / leading `NEW` — engine mints ids; copy them afterwards.
+- **Update:** known ids only.
+- **Ingest pins:** stable locators (`path=`, `qname=`, …); no client `NEW` for those.
+
+Primary read: live **pin map** (`query_warm` is the legacy MCP/CLI name).
+
+---
+
+## Legacy pipe (store)
 
 ```text
 @TAG: id|field2|field3|...|recycle
@@ -34,52 +59,42 @@ metadata:
 @RUL: F06|SHOULD|query_warm(anchor, depth≤2) before inventing ids|high
 ```
 
----
-
-## Tag selection (when to use which)
+### Tag selection (pipe)
 
 ```text
 @SEL: fact_or_claim|@CLM + @ENT + @EDG|atomic verifiable statement
-@SEL: relationship|@EDG|from|rel|to — verbs: owns,contains,satisfies,documents,next,delegates,overrides,governs,preempts,memberOf
-@SEL: flat_enumeration|@SET or @IDX|membership list; @IDX carries count field for verification
+@SEL: relationship|@EDG|from|rel|to
+@SEL: flat_enumeration|@SET or @IDX|membership list
 @SEL: work_unit|@TSK|goal, phase, status, recycle
-@SEL: pipeline_step|@CLM type=pipe|code=s1:…s6: or G/M codes when serve up
 @SEL: user_constraint|@USR|lasting scope, style, preference
 @SEL: file_or_symbol|@MOD @SYM|coding memory
-@SEL: sysml_element|@PRT @POR @CON @REQ @SYM|see sysml-memnet-patterns.md
+@SEL: sysml_element|@PRT @POR @CON @REQ @SYM|sysml patterns
 @SEL: rule_or_policy|@RUL|normative directive with priority
-@SEL: procedure_step|@PRC|ordered action chain
-@SEL: routing|@ROU|condition → target skill or doc
-@SEL: trigger_map|@TRG|phrase → skill-id
 ```
 
-**@EDG vs @SET:** membership of many ids in one pack → `@SET` (one row). Directed relation between two nodes → `@EDG`. Ordered workflow chain → `@EDG` with `rel=next`.
+**@EDG vs @SET:** membership of many ids → `@SET`. Directed relation → `@EDG`.
 
 ---
 
-## Tiered handoff
+## Handoff tiers
 
 ```text
-@ROU: handoff_0|LLM/author-facing in-prompt|English pins + write=display (md_triple-style); NOT raw @TAG pipe dumps
-@ROU: handoff_1|serve up + durable store write|MemNet MCP wire (@TSK + @CLM type=pipe + @EDG) — store only
-@ROU: handoff_2|serve down + same-turn scratch|plain Markdown tables or short prose (not TOON/TRON)
+@ROU: handoff_0|LLM/author-facing|Tier A Write=display (or English pins)
+@ROU: handoff_1|durable store write|Tier A mutate preferred; @TAG pipe legacy
+@ROU: handoff_2|no session / same-turn scratch|plain Markdown tables or short prose
 @ROU: handoff_3|tool/MCP/CLI boundary|JSON envelope only
-@ROU: handoff_4|human operator deliverable|prose Markdown; Markdown tables for dense grids
+@ROU: handoff_4|human operator deliverable|prose Markdown
 ```
-
-**LLM vs store:** `@TAG|pipe` is machine-durable (MCP). Author feed follows novel-cut doctrine (accurate/precise/consistent/coherent/low-noise/English).
-
-SysML pipeline codes: [sysml-memnet-pipeline.md](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md).
 
 ---
 
-## Atomisation (before every add/update)
+## Atomisation (before every mutate)
 
 ```text
-@RUL: A01|MUST|split fat row into multiple rows + @EDG if possible|high
+@RUL: A01|MUST|split fat row into multiple rows + edges if possible|high
 @RUL: A02|MUST|field values = short ids, paths, codes, numbers (no sentences)|high
-@RUL: A03|MUST|stable id from prior query_warm or add response|high
-@RUL: A04|MUSTNOT|@NOTE paragraphs — use @CLM facts + @EDG instead|high
+@RUL: A03|MUST|stable id from prior pin map or add response|high
+@RUL: A04|MUSTNOT|prose paragraphs on the wire|high
 ```
 
 Full discipline: [mcp-memnet/references/atomisation.md](../mcp-memnet/references/atomisation.md).
@@ -89,30 +104,17 @@ Full discipline: [mcp-memnet/references/atomisation.md](../mcp-memnet/references
 ## Pre-write checklist
 
 ```text
-@CHK: w1|query_warm on tight anchor|pass|fail
+@CHK: w1|pin map (query_warm) on tight anchor|pass|fail
 @CHK: w2|values short and structured|pass|fail
-@CHK: w3|relations are @EDG rows|pass|fail
-@CHK: w4|recycle matches lifetime (transient=delete_on_settle)|pass|fail
-@CHK: w5|atom reachable from useful anchor via @EDG|pass|fail
+@CHK: w3|relations are edges|pass|fail
+@CHK: w4|recycle matches lifetime|pass|fail
+@CHK: w5|atom reachable from useful anchor|pass|fail
 ```
 
 ---
 
-## Pairing edges
+## Further reading
 
-```text
-@EDG: E_fmt_01|memnet-format|implements|wire grammar|canonical|persistent
-@EDG: E_fmt_02|memnet-format|paired_with|mcp-memnet|tools_and_loop|persistent
-@EDG: E_fmt_05|memnet-format|paired_with|sysml-memnet-documentation|sysml_patterns|persistent
-@EDG: E_fmt_06|memnet-format|governed_by|memnet-goldfish-loop.mdc|orchestration|persistent
-@EDG: E_fmt_07|memnet-format|detail_in|references/memnet-wire-format.md|grammar|persistent
-```
-
----
-
-## Further reading (lazy-load)
-
-- [references/memnet-wire-format.md](references/memnet-wire-format.md) — line grammar, tag shapes, good/bad examples
-- [mcp-memnet/references/atomisation.md](../mcp-memnet/references/atomisation.md)
-- [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md)
-- MemNet upstream `LLM-GUIDE.md`
+- [references/memnet-wire-format.md](references/memnet-wire-format.md) — pipe grammar detail
+- [mcp-memnet](../mcp-memnet/SKILL.md) — tools and session loop
+- MemNet `docs/grammar/` — Tier A SSOT

@@ -38,7 +38,7 @@ metadata:
 3. **This skill** — interconnection pipeline below
 4. **`mmdc`** — validate fenced blocks in section `.md` before done
 
-Serve down: TRON `DiagramPlan` per [mermaid-placement-by-degree](../mermaid/references/mermaid-placement-by-degree.md) § Serve down; backfill MemNet before materialise.
+Serve down: Markdown `DiagramPlan` tables per [mermaid-placement-by-degree](../mermaid/references/mermaid-placement-by-degree.md) § Serve down; backfill MemNet before materialise.
 
 ---
 
@@ -55,7 +55,7 @@ Serve down: TRON `DiagramPlan` per [mermaid-placement-by-degree](../mermaid/refe
 8. Validate    mmdc -i <section>.md — p5:review (max 2 layout iterations on graph only)
 ```
 
-**Rule:** Steps 1–6 touch **MemNet only** (or TRON in-prompt). Do **not** hand-edit fenced ` ```mermaid ` until pre-materialise gate passes.
+**Rule:** Steps 1–6 touch **MemNet only** (or Markdown placement tables in-prompt). Do **not** hand-edit fenced ` ```mermaid ` until pre-materialise gate passes.
 
 On layout failure: rewind **p2/p3** on graph — never patch crossings in `.md`.
 
@@ -87,7 +87,7 @@ Typical path: `outputs/system-design-report/04-interconnection.md`.
 
 Each figure: heading → fenced `mermaid` with `%% <figureId>` first line → one-line legend mapping short tokens to `link*`.
 
-**Worked example:** `vedan-foam-detection-lite-ver2` → `04-interconnection.md` (`vfdl2-edgeside-panel-eth`) and TRON `DiagramPlan` in [mermaid-placement-by-degree](../mermaid/references/mermaid-placement-by-degree.md) § Serve down.
+**Worked example:** `vedan-foam-detection-lite-ver2` → `04-interconnection.md` (`vfdl2-edgeside-panel-eth`) and Markdown `DiagramPlan` in [mermaid-placement-by-degree](../mermaid/references/mermaid-placement-by-degree.md) § Serve down.
 
 After section edits: regenerate merged export if the project uses one (`merge_markdown.py` per hub `llm_toc`).
 
@@ -114,13 +114,13 @@ After section edits: regenerate merged export if the project uses one (`merge_ma
 | One figure mixing L2 + power + GPIO | Split by `typedBy` intent |
 | Mate (HDMI) at rank 2 in star | Mates at **leaf rank**, chord last |
 | Unicode `→` in edge labels | ASCII tokens + legend |
-| Edit `.md` before placement graph | `TSK_diagram_*` or TRON first |
+| Edit `.md` before placement graph | `TSK_diagram_*` or Markdown plan first |
 
 ---
 
 ## References
 
 - [layout-and-labels.md](references/layout-and-labels.md) — layers, legend, manual vs script IBD
-- [mermaid-placement-by-degree](../mermaid/references/mermaid-placement-by-degree.md) — MemNet / TRON placement
+- [mermaid-placement-by-degree](../mermaid/references/mermaid-placement-by-degree.md) — MemNet / Markdown placement
 - [architecture-diagrams](../mermaid/references/architecture-diagrams.md) — model-first inventory
 - [interconnection-mermaid (view-doc-sync)](../sysml-view-doc-sync/references/interconnection-mermaid.md) — sync-time doc pairing

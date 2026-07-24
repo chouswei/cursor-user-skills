@@ -488,7 +488,7 @@ KEYWORD_DIRECT: List[Tuple[List[str], str, float]] = [
     (["interconnection", "view"], "sysml-interconnection-mermaid", 2.0),
     (["memnet", "placement"], "sysml-memnet-documentation", 1.9),
     (["TSK", "diagram"], "sysml-memnet-documentation", 1.8),
-    (["DiagramPlan"], "tron-format", 2.0),
+    (["DiagramPlan"], "sysml-interconnection-mermaid", 2.0),
     (["block diagram"], "mermaid", 1.8),
     (["validate", "sysml"], "mcp-sysml-v2", 2.0),
     (["parse", "diagnostic"], "mcp-sysml-v2", 1.5),

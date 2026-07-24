@@ -40,7 +40,7 @@ token_guardrails: |
   - Open references/repo-types.md once for classification; open only matched type playbook(s).
   - Open references/cursor-basement.md once per scaffold.
   - Do not paste sibling skill bodies; link ids only.
-  - Intermediate handoffs: short TOON; final user report = assets/init-report-template.md.
+  - Intermediate handoffs: short Markdown lists or tables; final user report = assets/init-report-template.md.
 ---
 
 # Vibe repo init (Cursor)

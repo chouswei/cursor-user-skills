@@ -14,7 +14,7 @@ Use when **generating**, **scaffolding**, or **maintaining** a `system-design-re
 
 ## Prerequisites
 
-1. `serve_status`. If `running: false`, generate report from warm miss grep only; pipeline steps use TOON in-prompt; skip MemNet write.
+1. `serve_status`. If `running: false`, generate report from warm miss grep only; pipeline steps use plain Markdown in-prompt; skip MemNet write.
 2. Read **`AGENT-CONTEXT.md`** — session id, anchor (`TSK_model_<short>`), cross-artifact `ART_*` (manuals).
 3. **`query_warm(anchor=TSK_model_<short>, depth=2, max_rows=80)`** — prefer warm rows over memory for part/link/req names.
 
@@ -33,7 +33,7 @@ Use when **generating**, **scaffolding**, or **maintaining** a `system-design-re
 | **G6** | Atomise report graph (§Report atomisation). | WRITE + `@CLM` `G6:*` |
 | **G7** | Update `outputs/README.md` pointer; thin `AGENT-CONTEXT.md` if missing. | `@CLM` `G7:done` + settle `TSK_report_*` |
 
-**Pipeline wire:** parent `TSK_report_<short>` + `@CLM` type=`pipe` per G/M step — [sysml-memnet-pipeline.md](../../sysml-memnet-documentation/references/sysml-memnet-pipeline.md). No TOON step log when serve is up.
+**Pipeline wire:** parent `TSK_report_<short>` + `@CLM` type=`pipe` per G/M step — [sysml-memnet-pipeline.md](../../sysml-memnet-documentation/references/sysml-memnet-pipeline.md). Prefer wire rows over chat-only scratch when serve is up.
 
 ## Maintain pack (after deploy edit)
 

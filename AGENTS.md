@@ -1,6 +1,6 @@
 # Agent Rules and Skills (Master)
 
-**Audience:** This pack is read **by models** (Cursor agents), not as end-user documentation. **Tiered handoffs:** MemNet wire (`@CLM` type=`pipe`) when `serve_status` is true; **TOON/TRON** when serve is down or for dense in-skill tabular grids — [toon-prompt-format](toon-prompt-format/SKILL.md), [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md).
+**Audience:** This pack is read **by models** (Cursor agents), not as end-user documentation. **Tiered handoffs:** MemNet wire (`@CLM` type=`pipe`) when `serve_status` is true; **plain Markdown** tables or short prose when serve is down — [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md), [memnet-format](memnet-format/SKILL.md). Do not use TOON/TRON.
 
 **Single source of truth for general routing, workflow, token efficiency, and skill discovery.** For SysML / PCBA in the **system-models-and-architecture** workspace, use that repository’s root **`AGENTS.md`** when that project is open (not a path under this pack).
 
@@ -15,8 +15,8 @@
 | **One specialist per turn** (default) | Cuts redundant context loading |
 | **Lazy-load references/assets** | Open only when a step needs them; obey `token_guardrails` |
 | **MCP tools over file reads** | sysml-v2-lsp-mcp, sysmledgraph-mcp cheaper than reading entire files |
-| **Use MemNet wire for pipeline steps** | When `serve_status` is true: `@CLM` type=`pipe` on server ([sysml-memnet-pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md)); TOON/TRON only when serve down |
-| **Use TOON or TRON when serve down** | Ephemeral in-prompt handoff per [toon-prompt-format](toon-prompt-format/SKILL.md); JSON only at tool boundaries |
+| **Use MemNet wire for pipeline steps** | When `serve_status` is true: `@CLM` type=`pipe` on server ([sysml-memnet-pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md)); plain Markdown when serve down |
+| **Plain Markdown when serve down** | Ephemeral in-prompt handoff (tables / short lists); JSON only at tool boundaries |
 | **Subagents for exploration** | Broad repo search in parallel; return short summaries |
 | **No normative paste** | Cite resource paths, don't paste huge specs |
 
@@ -66,7 +66,7 @@ For 3+ steps, new project, or architecture decisions: write brief plan first. In
 - One skill per turn (default)
 - Follow skill's numbered steps
 - **Serve up:** MemNet wire (`@CLM` type=`pipe`) between steps — [sysml-memnet-pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md) for SysML; [memnet-format](memnet-format/SKILL.md) for general
-- **Serve down:** TOON or TRON per **toon-prompt-format** for in-prompt handoffs only
+- **Serve down:** plain Markdown tables or short prose for in-prompt handoffs only
 
 ### Verify
 - Run scripts or MCP tools
@@ -83,21 +83,21 @@ User corrections → `tasks/lessons.md`. Skim when relevant to current task.
 
 ---
 
-## 4. MemNet wire / TOON / TRON for internal communication
+## 4. MemNet wire / Markdown for internal communication
 
 ### Tiered handoff
 
 | Priority | When | Format |
 |----------|------|--------|
 | 1 | `serve_status` true; multi-step or durable | **MemNet wire** — `@TSK` + `@CLM` type=`pipe` + `@EDG` on server |
-| 2 | `serve_status` false; same-turn scratch | **TOON** / **TRON** in-prompt |
+| 2 | `serve_status` false; same-turn scratch | **Plain Markdown** tables or short prose |
 | 3 | Tool / MCP boundary | JSON envelope only |
 
-**TOON** — tabular uniform rows. **TRON** — repeated object keys. See [toon-prompt-format](toon-prompt-format/SKILL.md) and [tron-format](tron-format/SKILL.md).
+Do **not** use TOON or TRON (deprecated stubs only: [toon-prompt-format](toon-prompt-format/SKILL.md), [tron-format](tron-format/SKILL.md)).
 
-**SysML modeling:** [sysml-memnet-pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md) — `s1:`…`s6:` step codes; do not log pipeline in TOON when serve is up.
+**SysML modeling:** [sysml-memnet-pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md) — `s1:`…`s6:` step codes; do not log pipeline only in chat when serve is up.
 
-### When to use TOON / TRON (serve down or ephemeral)
+### When to use Markdown (serve down or ephemeral)
 
 - **Same-turn scratch** when MemNet unavailable
 - **Internal tables** in skills — BOM rows, pin maps (may also atomise to `@CLM` when serve returns)
@@ -112,18 +112,17 @@ User corrections → `tasks/lessons.md`. Skim when relevant to current task.
 @EDG: E_led|TSK_route_foam|led_to_success|sysml-modeling-workflow|pass|persistent
 ```
 
-### Example: Router output (TOON — serve down fallback)
+### Example: Router output (Markdown — serve down fallback)
 
-```
-skill_id        domain           reason
-sysml-connections  sysml    "User asks about rewiring parts"
-sysml-traceability sysml    "May need to verify satisfaction"
-ask-user           meta     "If still unclear, ask or use repo AGENTS"
-```
+| skill_id | domain | reason |
+|----------|--------|--------|
+| sysml-connections | sysml | User asks about rewiring parts |
+| sysml-traceability | sysml | May need to verify satisfaction |
+| ask-user | meta | If still unclear, ask or use repo AGENTS |
 
 ### Conversion Rule
 
-**TOON / TRON** are internal conventions. At tool boundaries (CLI, API, file I/O), encode TOON → JSON or TRON ↔ JSON as needed. User-facing output stays Markdown.
+User-facing output stays Markdown. At tool boundaries (CLI, API, file I/O), use JSON as required by the tool.
 
 ---
 
@@ -157,8 +156,8 @@ ask-user           meta     "If still unclear, ask or use repo AGENTS"
 | [LLM.md](LLM.md) | Detailed skill discovery procedure |
 | [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) | Optional graph router (explicit multi-match only) |
 | [memnet-format](memnet-format/SKILL.md) | Wire grammar authority (`@TAG`, `@EDG`, meta tags) |
-| [toon-prompt-format](toon-prompt-format/SKILL.md) | TOON / TRON handoffs + decision table |
-| [tron-format](tron-format/SKILL.md) | TRON conventions (full copy in user pack) |
+| [toon-prompt-format](toon-prompt-format/SKILL.md) | Deprecated notice only — do not use for encoding |
+| [tron-format](tron-format/SKILL.md) | Deprecated notice only — do not use for encoding |
 | [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md) | Pipeline step wire (`s1:`…`s6:`, G/M, route) |
 | [sysml-memnet-read-policy](sysml-memnet-documentation/references/sysml-memnet-read-policy.md) | When to `query_warm` vs narrow `.sysml` read |
 | `.cursor/rules/` | Always-on: workflow, goldfish, slim catalog, confirm-build, no-secrets, prompt-quality. On-demand: terminal-windows |
@@ -168,10 +167,4 @@ ask-user           meta     "If still unclear, ask or use repo AGENTS"
 
 ## Key Rule: Limited Iteration
 
-**Allowed:** Scan SKILL-GRAPH.md trigger table (max 2 passes to find the right skill)
-
-**Forbidden:** Iterate `related_skills.txt` as an exhaustive checklist
-
-**When stuck:** Ask the user, or follow the open repo's `AGENTS.md` / domain checklist. Use [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) only for explicit skill multi-match routing.
-
-This balances efficiency with practical usability.
+Do not exhaustively walk skill folders or `related_skills.txt`. Match triggers (≤2 passes), open one skill, execute. Ask the user when routing stays ambiguous.

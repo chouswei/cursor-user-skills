@@ -1,24 +1,25 @@
-# Wire format — token-efficient graph language
+# Wire format — store and legacy pipe
 
-MemNet’s **wire format** is the LLM-facing output: one **`@TAG:` line per record**, fields separated by **`|`** — no JSON graph on the wire for model consumption. It is designed for **token efficiency** together with **atomisation** and **`query_warm`**.
+**Agent-facing dialect (preferred):** **Tier A** Write = display — see MemNet `README.md` and `docs/grammar/`. Live **pin map** is bare present; mutate uses `+` / `~` / `-`.
 
-MCP tools return JSON **envelopes** at the tool boundary; parse **`stdout`** for wire lines only.
+This note covers the **legacy `@TAG:` pipe** still accepted on `add`/`update`, used in older snapshots, and referenced by domain tag maps. Prefer Tier A for new agent I/O. Do **not** use TOON/TRON.
+
+MCP tools return JSON **envelopes**; parse **`stdout`** for pin-map / wire content.
 
 ## Design principles
 
-| Principle | Why it saves tokens |
-|-----------|---------------------|
-| **Pipe rows, not JSON trees** | `@MOD: id\|path\|summary` beats nested objects; ~chars/3.2 tok for typical lines |
-| **Atomisation** | Many small rows → warm pulls **only connected atoms** |
-| **`query warm`, not cold context** | Active slice + `@LAW`; cold store warns `stale_in_store` |
-| **Short fields** | ids, codes, keys, numbers — **no sentences** in fields |
-| **`@EDG` not embedded lists** | Relations are separate one-line edges |
-| **Recycle / settle** | Finished work drops out of warm reads |
-| **Batch ingest** | One `add`/`update` with many `wire_lines` — fewer round trips |
+| Principle | Why |
+|-----------|-----|
+| Atomisation | Many small rows → pin map pulls only connected atoms |
+| Pin map (`query_warm`) | Active slice + LAW; not the whole graph |
+| Short fields | ids, codes, keys, numbers — no sentences in fields |
+| Explicit edges | Relations as separate rows / edges |
+| Recycle / settle | Finished work drops out of warm reads |
+| Batch mutate | One `add`/`update` with many lines — fewer round trips |
 
-Atomisation rules: [atomisation.md](atomisation.md).
+Atomisation: [atomisation.md](atomisation.md).
 
-## Wire line shape
+## Legacy pipe line shape
 
 ```text
 @TAG: field|field|field|…
@@ -27,7 +28,6 @@ Atomisation rules: [atomisation.md](atomisation.md).
 - One record per line
 - Escape `|` in values: `\|`
 - Control tags on stderr: `@ERR`, `@WRN`, `@STAT`, `@SESSION`
-- Data rows on stdout
 
 Example (coding — compact):
 
@@ -36,62 +36,55 @@ Example (coding — compact):
 @EDG: E01|MOD_serve|defines|SYM_send|handler|persistent
 ```
 
-Bad (token-heavy, breaks warm):
+Bad (token-heavy):
 
 ```text
-@NOTE: N01|send_command lives in serve.py and handles TCP stdin for MCP add/update when the Pi runs 0.2.7 or later|persistent
+@NOTE: N01|send_command lives in serve.py and handles TCP stdin …|persistent
 ```
 
-## Warm read economics
+## Pin map economics
 
-Every **`query_warm`** prepends compact **`@LAW:`** rows (protocol discipline), then anchor + EDG-neighbours to **`depth`** / **`max_rows`**.
+Every **`query_warm`** returns a bounded live pin map (LAW + anchor + neighbours to `depth` / `max_rows`).
 
-```text
-Cost per turn ≈ LAW overhead + connected atoms (not whole graph)
-```
-
-- Increase **`depth`** only when the task needs more hops
+- Increase **`depth`** only when needed
 - Cap with **`max_rows`** (default 50)
-- Anchor narrowly (`SYM_*`, `TSK_*`) — not “everything about the project”
+- Anchor narrowly (`SYM_*`, `TSK_*`)
 
-Prefer **`housekeep stats`** + settlement over re-injecting unchanged warm output (see `LLM-GUIDE`: `@STAT: modified`).
+Prefer **`housekeep_stats`** + settlement over re-injecting unchanged pin-map output.
 
 ## What not to put on the wire
 
 | Avoid | Do instead |
 |-------|------------|
-| Paragraphs, markdown, novel prose | Generate prose in the agent turn; store **codes** in graph |
-| Whole file contents | `@MOD` path + `@SYM` signatures |
-| Duplicate facts in chat + graph | Graph is source of truth; cite wire ids |
-| JSON blobs inside fields | Split into rows + `@EDG` |
-| `query context` for normal turns | **`query_warm`** with anchor |
+| Paragraphs, markdown blobs | Codes / short fields; prose stays in the agent turn |
+| Whole file contents | Module path + symbol signatures |
+| Duplicate facts in chat + graph | Graph is source of truth; cite ids |
+| JSON blobs inside fields | Split into rows + edges |
+| TOON / TRON handoffs | Tier A or plain Markdown |
 
 ## MCP mapping
 
-| CLI / wire | MCP |
-|------------|-----|
+| CLI | MCP |
+|-----|-----|
 | `memnet add --stdin` | `add(wire_lines=[...])` |
 | `memnet query warm --anchor X` | `query_warm(anchor="X", depth=2)` |
-| stdout `@TAG:` lines | `envelope.stdout` — parse as text |
+| stdout pin map / wire | `envelope.stdout` |
 
 Tool args: [tool-parameters.md](tool-parameters.md).
 
-## Handoff vs wire format
+## Handoff
 
 | Mechanism | Role |
 |-----------|------|
-| **MemNet wire** | Durable **graph store** + **pipeline step log** (`@CLM` type=`pipe`) when serve up |
-| **Plain Markdown / prose** | In-prompt handoff when **serve down** or ephemeral same-turn scratch (do not use TOON/TRON) |
-
-## Token estimate (rule of thumb)
-
-For pipe-heavy `@TAG:` / `@EDG:` lines: **~chars ÷ 3.2** tokens (±15% by tokenizer). MemNet repo: `scripts/estimate_novel_io_tokens.py` for worked examples.
+| **Tier A / pin map** | Agent read + mutate (preferred) |
+| **Legacy `@TAG` pipe** | Store / snapshots / older call sites |
+| **Plain Markdown** | Ephemeral same-turn scratch when no session |
 
 ## Checklist
 
-- [ ] Every field short and structured?
-- [ ] Could this line be split for a smaller warm slice?
+- [ ] Fields short and structured?
+- [ ] Could this line be split for a smaller pin-map slice?
 - [ ] Using `query_warm` with a tight anchor?
-- [ ] Settling transient rows so warm stays lean?
+- [ ] Settling transient rows so the map stays lean?
 
-Cross-ref: MemNet `README.md` (wire format) · `LLM-GUIDE.md` (EDG, recycle) · [mcp-policy.md](mcp-policy.md)
+Cross-ref: MemNet `README.md` · `docs/grammar/` · [mcp-policy.md](mcp-policy.md)

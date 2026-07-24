@@ -116,15 +116,14 @@ B5IN -->|beaconPowerOut5V| BCN
 
 ---
 
-## 4. TOON inventory (handoff before drawing)
+## 4. Inventory table (handoff before drawing)
 
-```toon
-diagram[6]{id,intent,link_count,source_file}:
-  ARCH-1,power,12,deploy-leo-cubesat-laser-comm.sysml
-  ARCH-2,command,4,deploy-leo-cubesat-laser-comm.sysml
-  ARCH-3,field_io,15,deploy+Cm5Stm32ControlPcba
-  ARCH-4,optical,5,deploy-leo-cubesat-laser-comm.sysml
-```
+| id | intent | link_count | source_file |
+|----|--------|------------|-------------|
+| ARCH-1 | power | 12 | deploy-leo-cubesat-laser-comm.sysml |
+| ARCH-2 | command | 4 | deploy-leo-cubesat-laser-comm.sysml |
+| ARCH-3 | field_io | 15 | deploy+Cm5Stm32ControlPcba |
+| ARCH-4 | optical | 5 | deploy-leo-cubesat-laser-comm.sysml |
 
 Populate `link_count` after `rg "connection link"` for the deployment def.
 
@@ -132,7 +131,7 @@ Populate `link_count` after `rg "connection link"` for the deployment def.
 
 ## 5. Placement and rescue (when still messy)
 
-**Primary:** [mermaid-placement-by-degree.md](mermaid-placement-by-degree.md) — MemNet `TSK_diagram_*` graph first (degree, `typedBy` split, rank_span gate, barycenter lanes, spoke-before-chord edge order), then materialise to `.md`. Serve down: TRON `DiagramPlan`.
+**Primary:** [mermaid-placement-by-degree.md](mermaid-placement-by-degree.md) — MemNet `TSK_diagram_*` graph first (degree, `typedBy` split, rank_span gate, barycenter lanes, spoke-before-chord edge order), then materialise to `.md`. Serve down: Markdown `DiagramPlan`.
 
 **Before placement:** apply split gate in [viewport-and-layout.md](viewport-and-layout.md) §2 (one intent per figure, ≤6 nodes).
 
@@ -155,7 +154,7 @@ If readability is still poor, split by intent — do not add fake layout nodes.
 - [ ] External consumers declared **immediately after** the subgraph (before HOST→PDU edges)
 - [ ] Nested blocks (`subgraph`) used when a part usage is contained inside another part usage in the model
 - [ ] Single-figure rescue protocol applied (placement → lanes → merges → rails) before deciding to split
-- [ ] MemNet `TSK_diagram_*` placement graph or TRON `DiagramPlan` before materialising fenced block ([mermaid-placement-by-degree.md](mermaid-placement-by-degree.md))
+- [ ] MemNet `TSK_diagram_*` placement graph or Markdown `DiagramPlan` before materialising fenced block ([mermaid-placement-by-degree.md](mermaid-placement-by-degree.md))
 - [ ] Container interior is compact (no large blank bands caused by internal allocation)
 - [ ] Edge-density gate checked (fan-out > 6 from one boundary triggers split or focused subfigure)
 - [ ] No port usages rendered as blocks (`beaconGpio`, `quartetADC`, `memsFclkOut`, etc.)

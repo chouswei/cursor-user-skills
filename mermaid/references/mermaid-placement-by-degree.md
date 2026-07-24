@@ -1,8 +1,8 @@
 # Mermaid placement by degree (MemNet graph first)
 
-**Audience:** LLM editing **interconnection / architecture flowcharts** in `outputs/**/*.md`. **Canonical skill:** [sysml-interconnection-mermaid](../sysml-interconnection-mermaid/SKILL.md). **Do not** write fenced ` ```mermaid ` blocks until a **placement graph** exists in MemNet (or **TRON `DiagramPlan`** when serve is down).
+**Audience:** LLM editing **interconnection / architecture flowcharts** in `outputs/**/*.md`. **Canonical skill:** [sysml-interconnection-mermaid](../sysml-interconnection-mermaid/SKILL.md). **Do not** write fenced ` ```mermaid ` blocks until a **placement graph** exists in MemNet (or a **Markdown `DiagramPlan`** when serve is down).
 
-Pair with: [architecture-diagrams.md](architecture-diagrams.md) (model-first blocks), [viewport-and-layout.md](viewport-and-layout.md) (split figures), [edge-label-parser-safety.md](edge-label-parser-safety.md), [sysml-memnet-pipeline.md](~/.cursor/skills/sysml-memnet-documentation/references/sysml-memnet-pipeline.md) (wire rows), [tron-format/SKILL.md](~/.cursor/skills/tron-format/SKILL.md) (serve-down handoff).
+Pair with: [architecture-diagrams.md](architecture-diagrams.md) (model-first blocks), [viewport-and-layout.md](viewport-and-layout.md) (split figures), [edge-label-parser-safety.md](edge-label-parser-safety.md), [sysml-memnet-pipeline.md](~/.cursor/skills/sysml-memnet-documentation/references/sysml-memnet-pipeline.md) (wire rows).
 
 ---
 
@@ -201,49 +201,54 @@ See [sysml-memnet-pipeline.md](~/.cursor/skills/sysml-memnet-documentation/refer
 
 ---
 
-## Serve down — TRON `DiagramPlan`
+## Serve down — Markdown `DiagramPlan`
 
-Per [tron-format/SKILL.md](~/.cursor/skills/tron-format/SKILL.md): use **TRON** (not TOON) — repeated keys across `DiagramNode[]`, `DiagramEdge[]`, `Mate[]`.
-
-Fenced ` ```tron ` between iterations; **backfill MemNet** when serve returns before p4.
+When MemNet is unavailable: keep the same fields in plain Markdown tables between iterations. **Backfill MemNet** when serve returns before p4. Do not use TOON/TRON.
 
 **Canonical example — VFDL2 `vfdl2-edgeside-panel-eth`:**
 
-```tron
-DiagramPlan {
-  figureId: "vfdl2-edgeside-panel-eth"
-  intent: "panel-L2"
-  anchor: "PRT_gs305EP"
-  types: TypeCount[
-    { typedBy: "EthernetHostToSwitchPort", n: 4 }
-    { typedBy: "HdmiHostToTouchDisplay", n: 1 }
-  ]
-  nodes: DiagramNode[
-    { prt: "PRT_gs305EP",         deg: 4, rank: 1, lane: 1, declare: 1, anchor: true  }
-    { prt: "PRT_relayController", deg: 1, rank: 0, lane: 1, declare: 2, anchor: false }
-    { prt: "PRT_poeCameraA",      deg: 1, rank: 0, lane: 2, declare: 3, anchor: false }
-    { prt: "PRT_edgePc",          deg: 2, rank: 0, lane: 3, declare: 4, anchor: false }
-    { prt: "PRT_edgeTouchScreen", deg: 1, rank: 0, lane: 4, declare: 5, anchor: false }
-    { prt: "PRT_poeCameraB",      deg: 1, rank: 0, lane: 5, declare: 6, anchor: false }
-  ]
-  edges: DiagramEdge[
-    { con: "CON_linkRelayControllerToGs305epPort1", typedBy: "EthernetHostToSwitchPort", endA: "relayController", endB: "gs305EP",         rank_span: 1, order: 1 }
-    { con: "CON_linkPoeCameraAToGs305epPort3",      typedBy: "EthernetHostToSwitchPort", endA: "poeCameraA",      endB: "gs305EP",         rank_span: 1, order: 2 }
-    { con: "CON_linkEdgePcToGs305epPort2",          typedBy: "EthernetHostToSwitchPort", endA: "edgePc",          endB: "gs305EP",         rank_span: 1, order: 3 }
-    { con: "CON_linkPoeCameraBToGs305epPort4",      typedBy: "EthernetHostToSwitchPort", endA: "poeCameraB",      endB: "gs305EP",         rank_span: 1, order: 4 }
-    { con: "CON_linkEdgePcToTouchScreen",           typedBy: "HdmiHostToTouchDisplay",   endA: "edgePc",          endB: "edgeTouchScreen", rank_span: 0, order: 5 }
-  ]
-  mates: Mate[{ a: "PRT_edgePc", b: "PRT_edgeTouchScreen", reason: "HDMI" }]
-  edgeOrder: [
-    "CON_linkRelayControllerToGs305epPort1",
-    "CON_linkPoeCameraAToGs305epPort3",
-    "CON_linkEdgePcToGs305epPort2",
-    "CON_linkPoeCameraBToGs305epPort4",
-    "CON_linkEdgePcToTouchScreen"
-  ]
-  spanAudit: { ok: 5, warn: 0 }
-}
-```
+**Meta**
+
+| field | value |
+|-------|-------|
+| figureId | `vfdl2-edgeside-panel-eth` |
+| intent | panel-L2 |
+| anchor | `PRT_gs305EP` |
+| spanAudit | ok=5, warn=0 |
+
+**Types**
+
+| typedBy | n |
+|---------|---|
+| EthernetHostToSwitchPort | 4 |
+| HdmiHostToTouchDisplay | 1 |
+
+**Nodes**
+
+| prt | deg | rank | lane | declare | anchor |
+|-----|-----|------|------|---------|--------|
+| PRT_gs305EP | 4 | 1 | 1 | 1 | true |
+| PRT_relayController | 1 | 0 | 1 | 2 | false |
+| PRT_poeCameraA | 1 | 0 | 2 | 3 | false |
+| PRT_edgePc | 2 | 0 | 3 | 4 | false |
+| PRT_edgeTouchScreen | 1 | 0 | 4 | 5 | false |
+| PRT_poeCameraB | 1 | 0 | 5 | 6 | false |
+
+**Edges** (order = declare order)
+
+| order | con | typedBy | endA | endB | rank_span |
+|-------|-----|---------|------|------|-----------|
+| 1 | CON_linkRelayControllerToGs305epPort1 | EthernetHostToSwitchPort | relayController | gs305EP | 1 |
+| 2 | CON_linkPoeCameraAToGs305epPort3 | EthernetHostToSwitchPort | poeCameraA | gs305EP | 1 |
+| 3 | CON_linkEdgePcToGs305epPort2 | EthernetHostToSwitchPort | edgePc | gs305EP | 1 |
+| 4 | CON_linkPoeCameraBToGs305epPort4 | EthernetHostToSwitchPort | poeCameraB | gs305EP | 1 |
+| 5 | CON_linkEdgePcToTouchScreen | HdmiHostToTouchDisplay | edgePc | edgeTouchScreen | 0 |
+
+**Mates**
+
+| a | b | reason |
+|---|---|--------|
+| PRT_edgePc | PRT_edgeTouchScreen | HDMI |
 
 **Layout:** rank 0 = all leaves + mates; rank 1 = hub (`gs305EP`, declare# 1). All spokes `rank_span 1`; HDMI chord `rank_span 0`.
 
@@ -258,7 +263,7 @@ DiagramPlan {
 | Add Mermaid nodes not in `figure_includes` | Split figure or fix scope |
 | Hand-patch crossing in `.md` | Rewind p2/p3 on graph |
 | Mate at rank 2 in star topology | Mates at leaf rank 0 |
-| TOON for full placement handoff | TRON `DiagramPlan` |
+| Opaque proprietary handoff dialects | Markdown `DiagramPlan` tables (same fields) |
 
 ---
 

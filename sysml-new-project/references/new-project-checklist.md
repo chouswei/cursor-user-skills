@@ -4,12 +4,10 @@ Use with [../SKILL.md](../SKILL.md). Replace `<slug>`, `<Prefix>`, `<PREFIX>` pl
 
 ## Naming example
 
-```toon
-examples[2]{user_name,slug,package_prefix,req_ids}:
-  Delta-DataCentreHeatExchangeUnit-TestBench,delta-datacentre-heat-exchange-unit-test-bench,DeltaDCHXU,DDCHXU-R1…
-  Temperature and I-V Curve,temperature-iv-curve,TempIVCurve,none in early scaffold
-```
-
+| user_name | slug | package_prefix | req_ids |
+|-----------|------|----------------|---------|
+| Delta-DataCentreHeatExchangeUnit-TestBench | delta-datacentre-heat-exchange-unit-test-bench | DeltaDCHXU | DDCHXU-R1… |
+| Temperature and I-V Curve | temperature-iv-curve | TempIVCurve | none in early scaffold |
 ## config.yaml `model_files` (minimal + ISQ)
 
 ```yaml

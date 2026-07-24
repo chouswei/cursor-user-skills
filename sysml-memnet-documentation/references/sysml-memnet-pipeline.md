@@ -13,10 +13,10 @@ Pair with [sysml-memnet-snap.md](sysml-memnet-snap.md) (6-step turn), [memnet-re
 | **SysML modeling turn** (steps 1–6) | MemNet wire `@TSK` + `@CLM` type=`pipe` | `memnet add` / `update` each step |
 | **Report generate/maintain** (G/M steps) | Same + `@ART`/`@SEC` when prose settles | Server graph |
 | **Skill routing** (`order[]`, picks) | `@TSK` phase=`route` + `@CLM` + `@EDG` `led_to_success` | Server graph |
-| **Serve down** | TOON or TRON in-prompt only ([toon-prompt-format](../../toon-prompt-format/SKILL.md)) | Ephemeral — not durable |
+| **Serve down** | Plain Markdown tables or short prose | Ephemeral — not durable |
 | **MCP / CLI tool boundary** | JSON envelope | Tool response only |
 
-**Rule:** If `serve_status.running` and the handoff must survive context shrink or the next sub-step → **wire rows on server**, not a fenced TOON block in the assistant message.
+**Rule:** If `serve_status.running` and the handoff must survive context shrink or the next sub-step → **wire rows on server**, not a Markdown-only scratch in the assistant message.
 
 ---
 
@@ -138,7 +138,7 @@ Use when building or updating **interconnection Mermaid** in `outputs/**/*.md`. 
 | `p5:review` | Visual check; `ok` / `adjust` | Re-p4 only |
 | `p6:settle` | Method `@CLM` on `@SEC`; recycle pipe rows | No |
 
-**Serve down:** TRON `DiagramPlan` in-prompt ([tron-format](../../tron-format/SKILL.md)); backfill MemNet before `p4`.
+**Serve down:** Markdown `DiagramPlan` tables in-prompt ([mermaid-placement-by-degree](../../mermaid/references/mermaid-placement-by-degree.md)); backfill MemNet before `p4`.
 
 ```text
 @TSK: TSK_diagram_vfdl2-edgeside-panel-eth|panel L2 graph|pipe|in_progress|delete_on_settle
@@ -158,7 +158,7 @@ step N:   query_warm(TSK_model_* OR TSK_turn_*)
 step N+1: query_warm(same anchor) — read C_sN rows, not chat
 ```
 
-**MUST NOT** paste pipeline state as TOON in the assistant message when serve is up.
+**MUST NOT** paste pipeline state only as chat Markdown when serve is up.
 
 **MAY** echo a **single-line** summary for the user (`Turn settled: s4:pass s6:24rows`).
 
@@ -168,7 +168,7 @@ step N+1: query_warm(same anchor) — read C_sN rows, not chat
 
 When `s1:down`:
 
-1. Use TOON/TRON for in-turn scratch only ([toon-prompt-format](../../toon-prompt-format/SKILL.md)).
+1. Use plain Markdown tables or short prose for in-turn scratch only.
 2. Set `s6:stale` on turn row if you would have written delta.
 3. On next session with serve up: run incremental delta from disk before relying on warm.
 
@@ -188,7 +188,7 @@ Add to closed list in [sysml-memnet-patterns.md](sysml-memnet-patterns.md):
 
 | Bad | Good |
 |-----|------|
-| TOON block in chat for s1–s6 state | `@CLM` pipe rows on server |
+| Markdown-only scratch in chat for s1–s6 state | `@CLM` pipe rows on server |
 | Re-read deploy because pipeline state was only in chat | `query_warm` on `TSK_turn_*` |
 | One fat `@NOTE` for whole turn | One `@CLM` per step |
 | Skip `update` turn → `settled` | Settle so warm stays lean |
@@ -197,7 +197,7 @@ Add to closed list in [sysml-memnet-patterns.md](sysml-memnet-patterns.md):
 
 ## Quick checklist
 
-- [ ] `serve_status` → choose wire vs TOON tier
+- [ ] `serve_status` → choose wire vs Markdown tier
 - [ ] Opened `TSK_turn_*` or attached to `TSK_model_*` via `childOf`
 - [ ] Each completed step has `@CLM` type=`pipe`
 - [ ] Turn `settled` when done

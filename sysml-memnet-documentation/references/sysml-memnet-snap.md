@@ -25,7 +25,7 @@ Authoritative MemNet-first rules for `sysml-v2-models/projects/<slug>/`. Pair wi
 
 ### Pipeline wire (steps 1–6)
 
-After each step when `serve_status` is true, `add`/`update` one `@CLM` type=`pipe` row (`sN:payload`) under `TSK_turn_*`; settle turn when done. Full template: [sysml-memnet-pipeline.md](sysml-memnet-pipeline.md). **Do not** use TOON in chat for step state when serve is up.
+After each step when `serve_status` is true, `add`/`update` one `@CLM` type=`pipe` row (`sN:payload`) under `TSK_turn_*`; settle turn when done. Full template: [sysml-memnet-pipeline.md](sysml-memnet-pipeline.md). **Do not** keep pipeline step state only in chat when serve is up (use wire rows; plain Markdown only when serve is down).
 
 ### Warm miss
 

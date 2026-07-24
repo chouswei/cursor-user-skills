@@ -14,7 +14,7 @@ Use for folders containing `SKILL.md` (and optional `references/`, `assets/`, `t
 - [ ] **SKILL.md** body is **orchestration** (steps, when to load what), not a dump of all reference text.
 - [ ] **Frontmatter** includes at least **`name`** and **`description`** (non-empty). **`name`** matches **folder** name: lowercase, hyphens, max ~64 chars.
 - [ ] **`description`**: **WHAT + WHEN**, with **concrete trigger phrases** agents and registries can match (contrast: “helps with tasks”).
-- [ ] **Primary reader is the LLM** — optimise for agent parsing (tight steps, **TOON/TRON** for dense structured data per [toon-prompt-format](../../toon-prompt-format/SKILL.md)); prose-for-humans only when the deliverable is explicitly non-agent.
+- [ ] **Primary reader is the LLM** — optimise for agent parsing (tight steps, **plain Markdown tables** for dense structured data); prose-for-humans only when the deliverable is explicitly non-agent. Do not use TOON/TRON.
 - [ ] **`SKILL.md` length** manageable (aim **well under ~500 lines** unique rules; split into `references/` if not).
 
 ## `metadata` and pattern

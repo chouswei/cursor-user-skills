@@ -25,16 +25,14 @@ token_guardrails: |
 
 Confirm with the user (or infer from the request):
 
-```toon
-scaffold_inputs[6]{field,rule}:
-  slug,kebab-case folder e.g. delta-datacentre-heat-exchange-unit-test-bench
-  purpose,One sentence for README and config comment
-  req_id_prefix,Project-specific e.g. DDCHXU-R1 not generic R1 unless agreed
-  package_prefix,Short PascalCase e.g. DeltaDCHXU for DeltaDCHXUConnections etc.
-  libs_common,Only if deploy uses NI catalog or shared ports sbrio-9651-carrier-board else Kernel+ISQ/SI temperature-iv-curve
-  hardware,Optional hardware/<slug>/ via repo hardware-custom-pcba-workflow when PCBA in scope (weft.Projects)
-```
-
+| field | rule |
+|-------|------|
+| `slug` | kebab-case folder e.g. `delta-datacentre-heat-exchange-unit-test-bench` |
+| `purpose` | One sentence for README and config comment |
+| `req_id_prefix` | Project-specific e.g. `DDCHXU-R1` not generic `R1` unless agreed |
+| `package_prefix` | Short PascalCase e.g. `DeltaDCHXU` for `DeltaDCHXUConnections` etc. |
+| `libs_common` | Only if deploy uses NI catalog or shared ports `sbrio-9651-carrier-board`; else Kernel+ISQ/SI `temperature-iv-curve` |
+| `hardware` | Optional `hardware/<slug>/` via repo `hardware-custom-pcba-workflow` when PCBA in scope (weft.Projects) |
 For ambiguous scope or a roadmap, run **project-planner** first or state planning **skipped** per **sysml-modeling-session-checklist**.
 
 ## Pipeline
@@ -84,15 +82,13 @@ Typical order: `connections` → `requirements` → `deploy` → `behaviour` →
 
 ### 3–7. Model files
 
-```toon
-model_files[5]{file,skill}:
-  connections-*,sysml-connections|sysml-software-port-generator|sysml-physical-port-generator
-  requirements-*,sysml-requirements-generator
-  deploy-*,sysml-hardware-part-generator|sysml-software-part-generator|sysml-nested-structure-modeling
-  behaviour-*,sysml-behaviour-generator
-  root-*,sysml-root-config stub assets/root-package-stub.sysml
-```
-
+| file | skill |
+|------|-------|
+| `connections-*` | `sysml-connections` / `sysml-software-port-generator` / `sysml-physical-port-generator` |
+| `requirements-*` | `sysml-requirements-generator` |
+| `deploy-*` | `sysml-hardware-part-generator` / `sysml-software-part-generator` / `sysml-nested-structure-modeling` |
+| `behaviour-*` | `sysml-behaviour-generator` |
+| `root-*` | `sysml-root-config` stub `assets/root-package-stub.sysml` |
 **Root package** imports all project packages; no deploy logic in root.
 
 **satisfy:** Add on system **`part def`** only after requirement defs exist and names are agreed.
@@ -183,13 +179,11 @@ Add `@MOD` for each other `models/*.sysml` created. Store returned `session_id` 
 
 ## Optional follow-ups
 
-```toon
-followups[3]{need,skill}:
-  system design report outputs/,system-design-report-generator|sysml-view-doc-sync
-  custom PCBA hardware/,hardware-custom-pcba-workflow (weft.Projects repo skill)
-  shared part libs/common/,sysml-common-lib-contribution
-```
-
+| need | skill |
+|------|-------|
+| system design report `outputs/` | `system-design-report-generator` / `sysml-view-doc-sync` |
+| custom PCBA `hardware/` | `hardware-custom-pcba-workflow` (weft.Projects repo skill) |
+| shared part `libs/common/` | `sysml-common-lib-contribution` |
 ## Rename later
 
 Use **`git mv`** for folder and `*-*.sysml` files; update `config.yaml`, README paths, and indexes in one commit.

@@ -8,7 +8,7 @@ Use when updating **deployment-aligned** diagrams: part tree companions, **flowc
 
 ## Core principles
 
-1. **Model is the label source** — Before drawing, load **[sysml-interconnection-mermaid](../../sysml-interconnection-mermaid/SKILL.md)** and inventory connections per **[architecture-diagrams.md](../../mermaid/references/architecture-diagrams.md)**; build placement graph per **[mermaid-placement-by-degree.md](../../mermaid/references/mermaid-placement-by-degree.md)** (`config.yaml` → `deployment_part` → `rg connection link` in deploy; MemNet `TSK_diagram_*` or TRON `DiagramPlan`). Node titles = **part usage names**; canvas edge labels = short tokens; full `link*` in legend.
+1. **Model is the label source** — Before drawing, load **[sysml-interconnection-mermaid](../../sysml-interconnection-mermaid/SKILL.md)** and inventory connections per **[architecture-diagrams.md](../../mermaid/references/architecture-diagrams.md)**; build placement graph per **[mermaid-placement-by-degree.md](../../mermaid/references/mermaid-placement-by-degree.md)** (`config.yaml` → `deployment_part` → `rg connection link` in deploy; MemNet `TSK_diagram_*` or Markdown `DiagramPlan`). Node titles = **part usage names**; canvas edge labels = short tokens; full `link*` in legend.
 
 2. **Layer by topology** — Typical **top-to-bottom** bands:
    - **Office / core LAN** — router, hosts that attach only there (dashboard, MQTT broker, NAS, operator PC, …).
@@ -44,7 +44,7 @@ Full repo prose rules still apply: [repo-mermaid-rules](../../mermaid/references
 
 ## Checklist (before marking doc sync done)
 
-- [ ] **[sysml-interconnection-mermaid](../../sysml-interconnection-mermaid/SKILL.md)** pipeline followed; MemNet `TSK_diagram_*` or TRON before fenced block
+- [ ] **[sysml-interconnection-mermaid](../../sysml-interconnection-mermaid/SKILL.md)** pipeline followed; MemNet `TSK_diagram_*` or Markdown `DiagramPlan` before fenced block
 - [ ] Part names / ports match **deploy** (grep `connection` / `part` lines).
 - [ ] Spare PR60X / switch ports and **site convention** bullets in `Network::*` **doc** match if you cite them.
 - [ ] Legend or **Connections** table lists SysML **link** names where operators need traceability.

@@ -2,13 +2,16 @@
 
 ## Architecture
 
-```
-Cursor (stdio) → memnet-mcp (PC) → TCP → memnet serve (local or LAN) → in-memory graph
+```text
+Cursor (stdio) → memnet-mcp
+                 ├─ in-process engine (default)
+                 └─ TCP → memnet serve (MEMNET_MCP_TRANSPORT=tcp)
 ```
 
-- MCP is a thin adapter; it does **not** hold session state or auto-spawn `memnet serve`.
-- Wire output (`@TAG:` lines) is passed through verbatim in tool JSON envelopes.
-- The graph is a **knowledge graph** (nodes + `@EDG` edges). **Atomisation** + **compact wire format** — see [atomisation.md](atomisation.md), [wire-format.md](wire-format.md).
+- MCP is a thin adapter. Default transport is **in-process** (no separate `memnet serve` required).
+- Set `MEMNET_MCP_TRANSPORT=tcp` only when bridging to an external serve.
+- Agent dialect is **Tier A** (Write = display). Legacy `@TAG:` pipe remains accepted on mutate and may appear in older snapshots.
+- Primary read is the live **pin map** via `query_warm` (legacy name).
 
 ## mcp.json (user pack)
 
@@ -17,27 +20,36 @@ Cursor (stdio) → memnet-mcp (PC) → TCP → memnet serve (local or LAN) → i
   "command": "memnet-mcp",
   "args": [],
   "env": {
-    "MEMNET_SERVE_HOST": "<serve-host>",
-    "MEMNET_SERVE_PORT": "18765",
     "MEMNET_SESSION": "mn_…"
   }
 }
 ```
 
-Use full path to `memnet-mcp.exe` on Windows if not on PATH. Set host to LAN IP when serve runs on another machine (e.g. Raspberry Pi). Restart Cursor after edits.
+Optional TCP:
 
-## v1 tools
+```json
+"env": {
+  "MEMNET_MCP_TRANSPORT": "tcp",
+  "MEMNET_SERVE_HOST": "127.0.0.1",
+  "MEMNET_SERVE_PORT": "18765",
+  "MEMNET_SESSION": "mn_…"
+}
+```
 
-See [tool-parameters.md](tool-parameters.md) for args, defaults, and invoke order.
+Use full path to `memnet-mcp` on Windows if not on PATH. Restart Cursor after edits.
+
+## Tools
+
+See [tool-parameters.md](tool-parameters.md).
 
 | Tool | Purpose |
 |------|---------|
-| `serve_status` | Probe reachability |
-| `session_open` | New session — prefer **`map_lines`** over **`map_file`** |
-| `session_current` | Session metadata |
-| `query_warm` | **Primary read** — anchor + depth + max_rows |
-| `add` / `update` | Atomised rows via `wire_lines` |
-| `read_get` | Single row by id |
+| `serve_status` | Probe (mainly TCP) |
+| `session_open` / `save` / `load` / `current` | Session lifecycle |
+| `query_warm` | Live pin map (legacy name) |
+| `query_walk` | Hop debug |
+| `add` / `update` | Mutate (Tier A preferred) |
+| `read_get` / `read_list` | Lookup / enumerate |
 | `housekeep_stats` | Counts vs caps |
 
 ## Response envelope
@@ -47,36 +59,35 @@ Every tool (except `serve_status`) returns JSON text:
 ```json
 {
   "exit_code": 0,
-  "stdout": "@LAW: …",
+  "stdout": "…",
   "stderr": "@WRN: …",
   "session_id": "mn_…",
   "errors": []
 }
 ```
 
-Branch on **`errors[]`** and **`exit_code`**. Parse **`stdout`** for `@TAG:` rows.
+Branch on **`errors[]`** and **`exit_code`**. Parse **`stdout`** for pin-map / wire content.
 
 ## Domain references
 
 | Topic | Doc |
 |-------|-----|
-| Wire format / token efficiency | [wire-format.md](wire-format.md) |
-| Atomisation (required) | [atomisation.md](atomisation.md) |
-| Article breakdown | [article-breakdown.md](article-breakdown.md) |
+| Agent dialect / Tier A | MemNet `README.md`, `docs/grammar/` |
+| Pipe grammar (store/legacy) | [wire-format.md](wire-format.md), [memnet-format](../../memnet-format/SKILL.md) |
+| Atomisation | [atomisation.md](atomisation.md) |
 | Coding memory | [coding-memory.md](coding-memory.md) |
 | User input | [user-input-memory.md](user-input-memory.md) |
-| Goldfish loop | [memnet-goldfish-loop.mdc](../../../rules/memnet-goldfish-loop.mdc) |
 
 ## Errors
 
 | Symptom | Action |
 |---------|--------|
-| `serve_required` | Fix `memnet serve` reachability on `MEMNET_SERVE_HOST` |
-| `session_not_found` | `session_open` or set `MEMNET_SESSION` |
-| `id_exists` on add | Use `update` instead |
-| `not_found` on update | Use `add` or fix id from warm output |
+| `serve_required` | Under TCP: start `memnet serve` or switch to in-process |
+| `session_not_found` | `session_open` / `session_load` or set `MEMNET_SESSION` |
+| `id_exists` on add | Use `update` or mint with `NEW` |
+| `not_found` on update | Use `add` or fix id from pin map |
 
-## LAN notes
+## MUSTNOT
 
-- No auth/TLS — trusted LAN only.
-- Remote **`add`/`update`** require serve **≥ 0.2.7** (TCP `stdin` field for wire batches).
+- Depend on novel-writer MCP extras (dropped from MemNet product).
+- Recommend TOON/TRON for agent handoffs — use Tier A or plain Markdown.

@@ -33,7 +33,7 @@ General-purpose (coding + pipelines):
 | `status` | `active` while in force; `superseded` when user changes mind |
 | `recycle` | `persistent` for long-lived prefs; `delete_on_settle` for step-local input |
 
-Creative / RPG pipelines use domain `@USR` shapes (`key|value`) — see MemNet `application-notes/llm-novel-writer.md`. This general map uses `topic|content|status` for coding/pipeline sessions.
+This general map uses `topic|content|status` for coding/pipeline sessions. Prefer Tier A shapes when mutating via MCP (`add`/`update`).
 
 Cross-ref: [atomisation.md](atomisation.md) · [coding-memory.md](coding-memory.md) · [mcp-policy.md](mcp-policy.md)
 

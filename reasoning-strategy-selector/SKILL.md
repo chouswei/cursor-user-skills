@@ -18,7 +18,7 @@ pipeline_steps:
   1. Frame — objective, hidden_assumptions, polarities. Abort with `order: []` if a single domain skill already fits.
   2. Graph load — parse [`skill-graph-seed.wire`](references/skill-graph-seed.wire) locally, or `query_warm(SKL_<hit>|SKG_global)` when MemNet live. Match `@TRG` phrases; anchor per [skill-graph.md](references/skill-graph.md).
   3. Rank — graph traversal only: trigger hit → typed `@EDG` neighbours (`precedes`, `default_stack`, `complements`, `specializes`); score by edge weights + hop penalty. No 6D convolution over the skill table.
-  4. Output — **TOON** handoff (≤400 tokens): objective, hidden_assumptions, polarities, feature_scores{top skills}, order[], graph_path[], rationale[≤4], pass. `order` ⊆ graph `@SKL` ids; never `reasoning-strategy-selector`.
+  4. Output — Markdown handoff (≤400 tokens): objective, hidden_assumptions, polarities, feature_scores{top skills}, order[], graph_path[], rationale[≤4], pass. `order` ⊆ graph `@SKL` ids; never `reasoning-strategy-selector`.
   5. Revise — if ambiguous: re-anchor `query_warm(SKL_<top>, depth=1)` or widen trigger match; max once.
   6. Settle (parent agent, not selector) — on downstream `pass: true`, emit `led_to_success` `@EDG` rows per [phase4-learning-loop.md](references/phase4-learning-loop.md); `python tools/record_routing_success.py TSK_route_<slug> <skill-id> [...]`
 
@@ -35,7 +35,7 @@ system_instruction: |
 
   **MemNet optional:** `query_warm(anchor=SKL_<id>, depth=2, max_rows=30)`; if unavailable, parse seed wire locally.
 
-  **Output TOON:**
+  **Output (Markdown bullets or short table):**
   ```
   objective: [1 line]
   hidden_assumptions: [≤2]
@@ -50,7 +50,7 @@ system_instruction: |
   ≤400 tokens. No user-message echo. Never invent skill ids.
 
 token_guardrails: |
-  Graph rank from seed wire or query_warm only. TOON output. Selector read-only for graph; parent agent writes led_to_success on settle (Phase 4). No convolution.
+  Graph rank from seed wire or query_warm only. Markdown handoff. Selector read-only for graph; parent agent writes led_to_success on settle (Phase 4). No convolution.
 ---
 
 # Reasoning strategy selector (graph-first, optional)
@@ -60,7 +60,7 @@ Not a default fallback for unclear project work; use repo `AGENTS.md` / ask the 
 
 **Source of truth:** [`references/skill-graph-seed.wire`](references/skill-graph-seed.wire) (D2). Generated views: `core-strategy-principles.md`, `SKILL-GRAPH.md` trigger table.
 
-**Schema:** [skill-graph.md](references/skill-graph.md) · **Golden set:** [routing-golden-set.toon](references/routing-golden-set.toon)
+**Schema:** [skill-graph.md](references/skill-graph.md) · **Golden set:** [routing-golden-set.md](references/routing-golden-set.md)
 
 **Tools:**
 - `python tools/score_routing.py` — benchmark graph routing on golden set

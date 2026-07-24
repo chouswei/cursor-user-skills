@@ -90,7 +90,7 @@ hop penalty           −0.15 per hop beyond 1
 
 No 6D convolution. `@SKL` dir/domain/cx fields are audit metadata on nodes, not a flat-table ranker.
 
-Return `order[]` when top score ≥ **0.55**. Calibrate via `tools/score_routing.py` + [`routing-golden-set.toon`](routing-golden-set.toon).
+Return `order[]` when top score ≥ **0.55**. Calibrate via `tools/score_routing.py` + [`routing-golden-set.md`](routing-golden-set.md).
 
 ### Changelog
 
@@ -110,7 +110,7 @@ Return `order[]` when top score ≥ **0.55**. Calibrate via `tools/score_routing
 1. Match intent tokens against `@TRG.phrase` (case-insensitive substring).
 2. `query_warm(anchor=SKL_<hit>, depth=2, max_rows=30)`.
 3. Rank neighbours by edge type + hop; apply 6D boost from `@SKL` fields.
-4. Output TOON handoff (`order[]`, optional `graph_path[]`).
+4. Output Markdown handoff (`order[]`, optional `graph_path[]`).
 5. Fallback: MemNet empty → parse `skill-graph-seed.wire` locally (same graph walk). Never convolution.
 
 ---
