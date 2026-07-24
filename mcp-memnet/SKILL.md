@@ -2,20 +2,20 @@
 name: mcp-memnet
 description: >-
   MemNet MCP — generic in-memory NODE|EDGE graph: session management, live pin map,
-  shared-dialect mutate via add/update. Triggers: memnet mcp, query_warm, pin map,
-  session_open, shared dialect, Write=display, MutateGate, sysml memnet tools.
+  shared-dialect mutate via add/update. Triggers: memnet mcp, pin_map, query_warm,
+  pin map, session_open, shared dialect, Write=display, MutateGate, sysml memnet tools.
 metadata:
   pattern: tool-wrapper
-  version: "3.3"
+  version: "3.5"
   domain: memnet
-  product: memnet-llm==0.3.1
+  product: memnet-llm==0.3.2
 ---
 
 # MemNet MCP (generic)
 
-PyPI: **`memnet-llm` 0.3.1** (CLI `memnet`). Engine + generic MCP only — **novel-writer is out of scope**.
+PyPI: **`memnet-llm` 0.3.2** (CLI `memnet`). Engine + generic MCP only — **novel-writer is out of scope**.
 
-MemNet is working memory between LLM call pipelines and data search. Agents read a bounded **live pin map** each turn and write with the **same shapes** — the **shared dialect** (Write = display). Design docs may gloss this dialect as “Tier A”; prefer **shared dialect** in agent text.
+MemNet is working memory between LLM call pipelines and data search. Agents read a bounded **live pin map** each turn and write with the **same shapes** — the **shared dialect** (Write = display). Design docs may gloss this dialect as "Tier A"; prefer **shared dialect** in agent text.
 
 ## Doctrine (must)
 
@@ -30,18 +30,19 @@ MemNet is working memory between LLM call pipelines and data search. Agents read
 
 Always pass the same `session` id (or set `MEMNET_SESSION`).
 
-**Tool gloss:** MCP/CLI pin-map read is still named `query_warm` / `query warm` until call sites rename. Formal shapes: MemNet `docs/grammar/` (`MemNet.g4`, golden fixtures) — do not invent a thinner dialect.
+**Tool gloss:** Primary pin-map read is MCP `pin_map` / CLI `query pin-map`. `query_warm` / `query warm` are **deprecated aliases** (same params/behaviour). Formal shapes: MemNet `docs/grammar/` (`MemNet.g4`, golden fixtures) — do not invent a thinner dialect.
 
 ## How MCP tools fit the grammar
 
-MCP is a **thin CLI adapter**. Grammar (`docs/grammar/`, `MemNet.g4`) defines **legal shared-dialect line shapes**. Tools do **not** invent a second dialect: pin-map and mutate payloads live in the JSON envelope’s **`stdout` / `wire_lines`** as shared-dialect text.
+MCP is a **thin CLI adapter**. Grammar (`docs/grammar/`, `MemNet.g4`) defines **legal shared-dialect line shapes**. Tools do **not** invent a second dialect: pin-map and mutate payloads live in the JSON envelope's **`stdout` / `wire_lines`** as shared-dialect text.
 
 | MCP tool | Grammar role | What goes on the wire |
 |----------|--------------|------------------------|
 | `session_open` | Session lifecycle + schema map | `map_lines` = kind field schemas (not NODE/EDGE body). Optional `seed_lines` = shared-dialect rows (LAW auto-seeded). |
 | `session_current` | Session lifecycle | Metadata only — no grammar body. |
 | `session_save` / `session_load` | Snapshot persist / resume | File path; graph reloads; next pin map is still shared dialect. |
-| `query_warm` | **Live pin map read** (legacy name) | `stdout` = bare present NODE/EDGE (+ LAW) — `presentNode` / `presentEdge` / `lawPin` in `MemNet.g4`. |
+| `pin_map` | **Live pin map read** | `stdout` = bare present NODE/EDGE (+ LAW) — `presentNode` / `presentEdge` / `lawPin` in `MemNet.g4`. |
+| `query_warm` | Deprecated alias for `pin_map` | Same as `pin_map`. |
 | `query_walk` | Hop debug (not primary pin map) | Walk lines for topology debug — prefer pin map for agent reason. |
 | `add` | Mutate **create** | `wire_lines` = shared dialect with leading `+` and `[NEW]` / `NEW` as needed. |
 | `update` | Mutate **patch / drop** | `wire_lines` = `~` / `-` on known ids (no invent). |
@@ -49,7 +50,7 @@ MCP is a **thin CLI adapter**. Grammar (`docs/grammar/`, `MemNet.g4`) defines **
 | `housekeep_stats` | Caps / counts | Envelope stats — not NODE/EDGE body. |
 | `serve_status` | Transport probe | `{running,host,port}` — TCP-oriented; optional under default in-process. |
 
-**Agent loop ↔ grammar:** `query_warm` emits **bare present**; `add`/`update` accept **mutate ops** (`+`/`~`/`-`). Same field shapes = Write = display.
+**Agent loop ↔ grammar:** `pin_map` emits **bare present**; `add`/`update` accept **mutate ops** (`+`/`~`/`-`). Same field shapes = Write = display.
 
 **Not weird dialect — transport envelope:** every tool except `serve_status` returns JSON `{exit_code, stdout, stderr, session_id, errors}`. Parse **`stdout`** for pin-map / row text. Do not treat the JSON keys as the MemNet grammar.
 
@@ -57,10 +58,10 @@ MCP is a **thin CLI adapter**. Grammar (`docs/grammar/`, `MemNet.g4`) defines **
 
 | Looks odd | Why | Agent action |
 |-----------|-----|--------------|
-| Name `query_warm` | Pre–pin-map vocabulary | Treat as **live pin map** |
+| Name `query_warm` | Legacy alias | Use **`pin_map`**; alias kept for old call sites |
 | Name `add` / `update` | CLI verbs, not `+`/`~` | Put ops **inside** `wire_lines`, not in the tool name |
 | `serve_status` | Sounds required | Skip under in-process; use when `MEMNET_MCP_TRANSPORT=tcp` |
-| No tool named `pin_map` / `mutate` | API kept stable | Skills use those words; MCP keeps CLI names |
+| No tool named `mutate` | API kept stable | Mutate via `add` / `update` with ops in `wire_lines` |
 | No novel-writer tools | Dropped from product | Do not expect them |
 
 ## Agent loop
@@ -69,7 +70,7 @@ MCP is a **thin CLI adapter**. Grammar (`docs/grammar/`, `MemNet.g4`) defines **
 pin map → reason → mutate → pin map
 ```
 
-1. Pin map — `query_warm(anchor=…, depth≤2)` — bare present.
+1. Pin map — `pin_map(anchor=…, depth≤2)` — bare present.
 2. Reason; copy assigned ids from the map.
 3. `add` / `update` with **shared dialect** mutate lines.
 4. `session_save` when durability is needed.
@@ -78,14 +79,20 @@ pin map → reason → mutate → pin map
 
 | Want | Tool | Why |
 |------|------|-----|
-| Neighbourhood / ego slice (primary) | `query_warm` | Live **pin map**: LAW + NODE + EDGE in shared dialect (`stdout`) |
+| Neighbourhood / ego slice (primary) | `pin_map` | Live **pin map**: LAW + NODE + EDGE in shared dialect (`stdout`) |
 | Hop listing only | `query_walk` | Debug topology (`@WALK: …`); not the reason loop |
 | One known id | `read_get` | Single row; not a full neighbourhood |
-| Find ids by tag / field | `read_list` | Enumerate first; then warm on a real id |
+| Find ids by tag / field | `read_list` | Enumerate first; then pin map on a real id |
 
-**Recipe (node):** resolve id if needed (`read_list` / prior pin map) → `query_warm(anchor=<node_id>, depth=2, max_rows=50, session=…)` → parse envelope **`stdout`** (bare present). Raise `depth` only if the slice is too thin; keep `max_rows` bounded.
+**Recipe (node):** resolve id if needed (`read_list` / prior pin map) → `pin_map(anchor=<node_id>, depth=2, max_rows=50, session=…)` → parse envelope **`stdout`** (bare present). Raise `depth` only if the slice is too thin; keep `max_rows` bounded.
 
-**Recipe (edge):** `read_get(id=<edge_id>)` for the edge row; for neighbourhood, `query_warm` on an **endpoint node** (`src` / `dist`), not the edge id as a substitute for pin-map habit. Do not invent ids — copy from pin map or list/get.
+**Recipe (edge → its two NODE ids):** there is **no** separate “get nodes of edge” tool. Endpoints are **on the EDGE row**.
+
+1. Obtain the EDGE line: `read_get(id=<edge_id>)`, or copy the EDGE line already in a pin-map `stdout`.
+2. **Parse endpoints** (copy those values — they *are* the node ids):
+   - **Shared dialect** (pin map / mutate): `Eid [from] --(rel)--> [to]` — first `[…]` = source node, second `[…]` = destination node. Not trailing `from=` / `to=` / `src=` keys.
+   - **Legacy pipe** (`read_get` / `read_list` still emit `@EDG:…`): `@EDG: <id>|<src>|<relation>|<dist>|…` — columns `src` and `dist` (store field names; grammar abstract model says `from`/`to`).
+3. Optional: `read_get(id=<node>)` for each full NODE row; or `pin_map(anchor=<endpoint>, …)` for that node’s neighbourhood. Do **not** use the edge id as a pin-map anchor. Do not invent ids.
 
 ## When ids must match model / schematic
 
@@ -95,7 +102,7 @@ pin map → reason → mutate → pin map
 |------|------|
 | Find by schematic field | `read_list(tag=…, where=["refdes=R1"])` (or `net=`, `qname=`, `path=`) |
 | Confirm one ground id | `read_get(id=ATO_R1)` |
-| Neighbourhood | `query_warm(anchor=ATO_R1, …)` |
+| Neighbourhood | `pin_map(anchor=ATO_R1, …)` |
 | First materialise pin | `add` with **explicit** id + locators (not `NEW`) |
 | Annotate about a pin | `add` with `+ CLM [NEW] …` then edge to the **copied** pin id |
 
@@ -105,7 +112,7 @@ pin map → reason → mutate → pin map
 + CLM [NEW] ; type=decision ; code=keep R1 10k ; recycle=persistent
 ```
 
-**Forbidden:** client `NEW` for R1/U2/nets/SysML qnames/paths; inventing `C_rand_99`; `NEW` on `~`. **Pitfall:** `add` fails if id exists — look up first. PinMapIngest_* may be stubs in 0.3.1; seed via `seed_lines` / explicit-id `add` until ingest lands. Doctrine: MemNet `docs/grammar/` §4.2.1.
+**Forbidden:** client `NEW` for R1/U2/nets/SysML qnames/paths; inventing `C_rand_99`; `NEW` on `~`. **Pitfall:** `add` fails if id exists — look up first. PinMapIngest_* may be stubs in 0.3.2; seed via `seed_lines` / explicit-id `add` until ingest lands. Doctrine: MemNet `docs/grammar/` §4.2.1.
 
 ## Essential tools (quick)
 
@@ -115,7 +122,8 @@ pin map → reason → mutate → pin map
 | `session_open` | New session | `map_lines` (or `map_file`) + optional `seed_lines`; `allow_new_relation=true` for custom EDG relations |
 | `session_save` / `session_load` | Persist / resume | Snapshot file path |
 | `session_current` | Session metadata | |
-| `query_warm` | **Primary read** = pin map | `anchor` required; `depth` default 2; `max_rows` default 50 |
+| `pin_map` | **Primary read** = pin map | `anchor` required; `depth` default 2; `max_rows` default 50 |
+| `query_warm` | Legacy alias for `pin_map` | Same params |
 | `query_walk` | Hop debug | |
 | `add` / `update` | Mutate | `wire_lines`: shared dialect |
 | `read_get` / `read_list` | Single id / enumerate | Prefer over inventing ids |
@@ -143,7 +151,7 @@ Pin map returns the same fields **without** leading `+`/`~`/`-` and with assigne
 | Turn phase | Tool |
 |------------|------|
 | Preflight | `serve_status` (optional under in-process) |
-| Read cache | pin map — `query_warm(anchor=TSK_model_<short>, depth=2, max_rows=50)` |
+| Read cache | pin map — `pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)` |
 | Bootstrap | `session_open` + `map_file` / `map_lines` + `seed_lines`; `allow_new_relation=true` for `owns` |
 | Write delta | `add` / `update` (shared dialect) |
 | Persist | `session_save` → project `.memnet/` snap |

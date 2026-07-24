@@ -11,7 +11,7 @@ Cursor (stdio) → memnet-mcp
 - MCP is a thin adapter. Default transport is **in-process** (no separate `memnet serve` required).
 - Set `MEMNET_MCP_TRANSPORT=tcp` only when bridging to an external serve.
 - Agent dialect is the **shared dialect** (Write = display).
-- Primary read is the live **pin map** (`query_warm` tool name).
+- Primary read is the live **pin map** (`pin_map` tool; `query_warm` is legacy alias).
 
 ## mcp.json (user pack)
 
@@ -52,7 +52,8 @@ See [tool-parameters.md](tool-parameters.md).
 |------|---------|
 | `serve_status` | Probe (mainly TCP) |
 | `session_open` / `save` / `load` / `current` | Session lifecycle |
-| `query_warm` | Live pin map |
+| `pin_map` | Live pin map |
+| `query_warm` | Deprecated alias for `pin_map` |
 | `query_walk` | Hop debug |
 | `add` / `update` | Mutate (shared dialect) |
 | `read_get` / `read_list` | Lookup / enumerate |

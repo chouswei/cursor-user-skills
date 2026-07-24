@@ -37,7 +37,7 @@ Bad (token-heavy prose blob):
 
 ## Pin map economics
 
-Every pin-map read (`query_warm`) returns a bounded digest (LAW + anchor + neighbours to `depth` / `max_rows`).
+Every pin-map read (`pin_map`) returns a bounded digest (LAW + anchor + neighbours to `depth` / `max_rows`).
 
 - Increase **`depth`** only when needed
 - Cap with **`max_rows`** (default 50)
@@ -60,7 +60,7 @@ Prefer **`housekeep_stats`** + settlement over re-injecting unchanged pin-map ou
 | CLI | MCP |
 |-----|-----|
 | `memnet add --stdin` | `add(wire_lines=[...])` |
-| `memnet query warm --anchor X` | `query_warm(anchor="X", depth=2)` |
+| `memnet query pin-map --anchor X` | `pin_map(anchor="X", depth=2)` (`query_warm` alias) |
 | stdout pin map | `envelope.stdout` |
 
 Tool args: [tool-parameters.md](tool-parameters.md).

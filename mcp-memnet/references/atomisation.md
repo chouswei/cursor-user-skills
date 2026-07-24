@@ -1,6 +1,6 @@
 # Atomisation -- knowledge graph discipline
 
-MemNet is an **in-memory knowledge graph**: **nodes** + **edges**. Agent I/O is the **shared dialect** only (Write = display). The pin map (`query_warm`) returns connected **atoms** -- not the whole store.
+MemNet is an **in-memory knowledge graph**: **nodes** + **edges**. Agent I/O is the **shared dialect** only (Write = display). The pin map (`pin_map`) returns connected **atoms** -- not the whole store.
 
 **Atomisation is the most important step.** Dumping paragraphs or merged facts into one row bloats pin maps and breaks the graph.
 
@@ -18,7 +18,7 @@ Good: `MOD` + several `SYM` + edges linking task -> modules -> symbols.
 ## Why it matters
 
 ```text
-query_warm(anchor=TSK_x, depth=2)
+pin_map(anchor=TSK_x, depth=2)
   -> LAW rows
   -> anchor node
   -> edge-linked neighbours up to depth

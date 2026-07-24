@@ -53,7 +53,7 @@ EDG: id|from|rel|to|note|recycle
      split into CLM rows (one idea each)
      add ENT for named entities
      add edges: ART→SEC, SEC→CLM, CLM→ENT
-4. Each turn: query_warm(anchor=SEC_xx or TSK_xx)  # pin map
+4. Each turn: pin_map(anchor=SEC_xx or TSK_xx)  # pin map
 5. Generate summary / synthesis from pin-map slice only
 6. settle TSK when article pass is done
 ```
@@ -133,7 +133,7 @@ add(wire_lines=[
 Next turn — summarise **only** section 3:
 
 ```text
-query_warm(anchor="S03", depth=2)
+pin_map(anchor="S03", depth=2)
 ```
 
 Returns LAW pins + `S03` + linked `CLM` / `ENT` (bare present) — not sections 1–2.

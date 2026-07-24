@@ -86,7 +86,7 @@ Copy assigned ids from the mutate / pin-map response (replace `NEW` placeholders
 ### Next turn — where is that function?
 
 ```text
-query_warm(anchor="TSK_mcp_session_load", depth=2)
+pin_map(anchor="TSK_mcp_session_load", depth=2)
 ```
 
 Returns LAW + connected task/module/symbol/user/decision/edge atoms — small slice, not the whole repo.

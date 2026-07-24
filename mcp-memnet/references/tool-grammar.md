@@ -1,6 +1,6 @@
 # MCP tools <-> MemNet grammar
 
-**Audience:** model. Package SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py` (12 tools). Formal dialect: `docs/grammar/` (`MemNet.g4`, golden fixtures).
+**Audience:** model. Package SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py` (13 tools). Formal dialect: `docs/grammar/` (`MemNet.g4`, golden fixtures).
 
 MCP does **not** replace the grammar. Tools open a session and move **shared-dialect text** through a JSON envelope. Legal line shapes are still NODE | EDGE (Write = display).
 
@@ -23,7 +23,8 @@ MCP does **not** replace the grammar. Tools open a session and move **shared-dia
 | `session_current` | Session id / TTL | Lifecycle | None |
 | `session_save` | Write snapshot file | Snapshot | None (file holds graph) |
 | `session_load` | Restore snapshot | Snapshot | None |
-| `query_warm` | **Live pin map** (legacy name) | Primary **read** | `stdout`: bare present (`presentNode` / `presentEdge` / `lawPin`) |
+| `pin_map` | **Live pin map** | Primary **read** | `stdout`: bare present (`presentNode` / `presentEdge` / `lawPin`) |
+| `query_warm` | Deprecated alias for `pin_map` | Same as `pin_map` | Same |
 | `query_walk` | Hop listing | Debug read | Walk lines — not the pin-map agent loop |
 | `add` | Create rows | Mutate **create** | `wire_lines`: lines with `+` / `[NEW]` / `NEW` |
 | `update` | Replace / drop rows | Mutate **patch/drop** | `wire_lines`: `~` / `-` on known ids |
@@ -35,20 +36,21 @@ MCP does **not** replace the grammar. Tools open a session and move **shared-dia
 
 | Situation | Tool | Shape (shared dialect) |
 |-----------|------|------------------------|
-| Read this turn | `query_warm` | Bare present: `KIND [Id] ; k=v` / `Eid [a] --(rel)--> [b]` — **no** leading `+`/`~`/`-` |
+| Read this turn | `pin_map` | Bare present: `KIND [Id] ; k=v` / `Eid [a] --(rel)--> [b]` — **no** leading `+`/`~`/`-` |
+| Nodes of an EDGE | `read_get` or pin-map EDGE line | Parse `[a]` / `[b]` (shared dialect) or pipe columns `src`/`dist` — those values **are** the node ids; no extra tool |
 | Create | `add` | `+ KIND [NEW] ; …` or `+ Eid [a] --(rel)--> [b]` |
 | Patch | `update` | `~ KIND [KnownId] ; …` |
 | Drop | `update` | `- KIND [KnownId]` or `- Eid` |
 | Validate shapes | (offline) | `docs/grammar/tools/tier_a.py` + fixtures — not an MCP tool |
 
-## Why names look “weird”
+## Why names look "weird"
 
 | MCP name | Shared-dialect vocabulary | Keep API? |
 |----------|---------------------------|-----------|
-| `query_warm` | live **pin map** | Yes — gloss in skills until rename wave |
+| `pin_map` | live **pin map** | **Primary** read tool |
+| `query_warm` | same as `pin_map` | Yes — deprecated alias |
 | `add` / `update` | mutate ops `+` / `~` / `-` | Yes — ops live in `wire_lines` |
 | `serve_status` | in-process needs no serve | Yes — optional under default transport |
-| Missing `pin_map` tool | same as `query_warm` | Do not add a duplicate tool |
 | Missing novel tools | product dropped novel-writer | Expected |
 
 ## Config note (one MemNet MCP)

@@ -43,7 +43,7 @@ MemNet is **not** a chat log. Store **distilled atoms**, not messages.
 ### Next turn — recall before acting
 
 ```text
-query_warm(anchor="TSK_current", depth=2)
+pin_map(anchor="TSK_current", depth=2)
 ```
 
 Pin map includes `USR` rows linked to the task.

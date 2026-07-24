@@ -1,12 +1,12 @@
 # MemNet MCP — tool parameters
 
-MCP server key: typically **`memnet`** in Cursor MCP config. Tools return **JSON text** (parse as object) unless noted. Product: **`memnet-llm` 0.3.1**.
+MCP server key: typically **`memnet`** in Cursor MCP config. Tools return **JSON text** (parse as object) unless noted. Product: **`memnet-llm` 0.3.2**.
 
 ## Invoke order (typical session)
 
 1. **`serve_status`** — optional under default in-process; required when using TCP/`memnet serve`
 2. **`session_open`** — `map_lines` (or `map_file`); store `session_id`
-3. **`query_warm`** — every turn; anchor required (live **pin map**)
+3. **`pin_map`** — every turn; anchor required (live **pin map**; `query_warm` is legacy alias)
 4. **`add`** / **`update`** — shared-dialect mutate via `wire_lines`
 5. **`session_current`** — optional; pass `session` or set `MEMNET_SESSION`
 6. **`read_get`** / **`read_list`** — single-row or enumerate-by-tag
@@ -23,7 +23,8 @@ Envelope and errors: [mcp-policy.md](mcp-policy.md). Atomisation: [atomisation.m
 | `session_save` | `file` | `session` | Snapshot to disk |
 | `session_load` | `file` | `keep_id`, `ttl` | Resume; no prior session required |
 | `session_current` | — | `session` | Needs `session` or `MEMNET_SESSION` |
-| `query_warm` | `anchor` | `depth` (2), `max_rows` (50), `session` | **Primary read** = live **pin map** (legacy tool name); `stdout` = bare present |
+| `pin_map` | `anchor` | `depth` (2), `max_rows` (50), `session` | **Primary read** = live **pin map**; `stdout` = bare present |
+| `query_warm` | `anchor` | `depth` (2), `max_rows` (50), `session` | Deprecated alias for `pin_map` |
 | `query_walk` | `anchor` | `depth`, `max_rows`, `session` | Hop lines for debug — not the agent pin-map loop |
 | `add` | `wire_lines` | `allow_new_relation`, `agent`, `session` | Create; `+` / `NEW` inside lines |
 | `update` | `wire_lines` | `allow_new_relation`, `agent`, `session` | Patch/drop; `~` / `-` inside lines |
