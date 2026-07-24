@@ -1,0 +1,59 @@
+{
+  "name": "polarfire-soc-setup",
+  "version": "1.0.0",
+  "description": "Set up a PolarFire SoC Discovery Kit embedded firmware project: WSL tools, Yocto SDK build, SSH access, and development workflow.",
+  "author": "PAT_polarfire team",
+  "license": "MIT",
+  "keywords": [
+    "polarfire",
+    "soc",
+    "discovery-kit",
+    "yocto",
+    "embedded-firmware",
+    "risc-v",
+    "wsl",
+    "cross-compile",
+    "setup"
+  ],
+  "homepage": "https://github.com/YOUR_ORG/polarfire-soc-setup",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YOUR_ORG/polarfire-soc-setup.git"
+  },
+  "patterns": ["tool-wrapper", "generator"],
+  "domain": "embedded-firmware",
+  "board_target": "PolarFire SoC Discovery Kit (MPFS095T)",
+  "os_target": "Linux (RISC-V)",
+  "build_host": "WSL (Ubuntu 24.04)",
+  "triggers": [
+    "setup polarfire",
+    "polarfire firmware",
+    "yocto sdk install",
+    "embedded development",
+    "discovery kit",
+    "pat system",
+    "wsl yocto",
+    "arm/risc-v cross-compile",
+    "ssh board"
+  ],
+  "files": {
+    "SKILL.md": "Main skill guide",
+    "references.md": "Yocto, PolarFire, WSL references"
+  },
+  "dependencies": [],
+  "devDependencies": [],
+  "scripts": {
+    "test": "echo 'Run WSL setup steps manually'",
+    "install": "bash scripts/wsl/finish_yocto_sdk_install.sh"
+  },
+  "skillish": {
+    "category": "embedded-dev",
+    "difficulty": "advanced",
+    "time_to_complete_minutes": 180,
+    "related_skills": [
+      "mcp-latex",
+      "project-planner",
+      "architecture-reviewer"
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Node
+node_modules/
+
+# Secrets / local env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+**/secrets/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Local caches / junk
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.log
+
+# Nested clone metadata (do not vendor other repos' .git)
+.git-upstream/
+**/.git-upstream/
+

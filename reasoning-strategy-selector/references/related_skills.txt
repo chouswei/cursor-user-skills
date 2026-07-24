@@ -1,0 +1,31 @@
+# One canonical id per line (comments and blank lines ignored). After edits, run:
+#   python tools/sync_related_skills_from_txt.py
+#   python tools/validate_selector_pack.py
+academic-report-generator
+adr-generator
+architecture-reviewer
+code-reviewer
+commit-message-generator
+control-theory-planner
+decision-inverter
+scientific-method-first-principles
+empirical-paradox-synthesis
+engineering-practices-learner
+incentive-alignment-reviewer
+launch-readiness-assessor
+mcdm-decider
+meeting-notes-generator
+optimization-planner
+pandas-expert
+pr-reviewer
+project-planner
+risk-assessor
+rfc-generator
+security-reviewer
+tech-report-generator
+tech-report-reviewer
+skill-creator
+skillfish
+skill-reviewer
+sysml-new-project
+sysml-refactorer
