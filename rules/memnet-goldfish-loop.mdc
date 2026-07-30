@@ -10,11 +10,11 @@ alwaysApply: true
 
 **Goldfish** = short working memory: re-warm the pin map each turn; do not treat chat as durable state.
 Durable **store** = `memnet serve` atomised rows -- not chat, and not the LLM author feed.
-Reasoning / handoffs: English pins + write=display ([workflow.mdc](workflow.mdc) pri 0).
+Author-facing pins: [workflow.mdc](workflow.mdc) pri 0.
 
 ## Loop
 
-0. `serve_status` -- if not running: skip MemNet; plain Markdown scratch only ([workflow.mdc](workflow.mdc))
+0. `serve_status` -- if not running: skip MemNet; **plain Markdown** scratch only (no TOON/TRON)
 1. `query_warm` -- anchor `@TSK_*` / `@MOD_*` / `@SYM_*` / `@USR_*`
 2. `add` / `update` -- atomised rows + edges (no prose blobs) -- store write only
 3. Act from a **rendered** warm slice (ids + facts) + current request -- do not reason on raw pipe dumps
@@ -38,4 +38,3 @@ On route-success settle: parent writes `led_to_success` edges -- see [phase4-lea
 | Wire grammar | [memnet-format](~/.cursor/skills/memnet-format/SKILL.md) |
 | SysML cache | [sysml-memnet-cache](~/.cursor/skills/sysml-memnet-cache/SKILL.md) |
 | SysML tags/pipe | [sysml-memnet-documentation](~/.cursor/skills/sysml-memnet-documentation/SKILL.md) |
-| Serve-down handoff | Plain Markdown ([AGENTS.md](~/.cursor/skills/AGENTS.md) §4); not TOON/TRON |

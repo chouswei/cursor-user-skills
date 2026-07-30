@@ -29,17 +29,11 @@ This `.mdc` is normative. Pack hubs point here only.
 | Routines with clear steps/guide (mechanical edits / consolidate / implement / verify) | Composer | `composer-2.5` |
 | **Role unclear** | Grok Low | `cursor-grok-4.5-low` |
 
-- Layout/frontend review: always set `model` to `kimi-k3-max`.
-- Thinking and unclear: `cursor-grok-4.5-low` only; higher Grok tier only if the user asks.
-- Routines with clear steps/guide: `composer-2.5` only.
-- If allowlist slugs change, keep the same family; update to the current non-fast slug.
-
-### Allowlist hint (examples; may change)
-
-`composer-2.5`, `cursor-grok-4.5-low`, `gemini-3-flash`, `kimi-k3-max`.
+If allowlist slugs change, keep the same family; update to the current non-fast slug. Examples: `composer-2.5`, `cursor-grok-4.5-low`, `gemini-3-flash`, `kimi-k3-max`.
 
 ## Must not
 
 - Blind fan-out without skill routing
-- Any `*-fast` / FAST Task model (Composer, Grok, or otherwise) -- **never FAST**
+- Any `*-fast` / FAST Task model -- **never FAST**
 - Guessing a model when role is unclear -- use `cursor-grok-4.5-low`
+- Higher Grok tier only if the user asks

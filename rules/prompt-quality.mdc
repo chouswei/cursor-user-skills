@@ -1,0 +1,21 @@
+---
+description: >-
+  Rules and skills are LLM prompts: seven author disciplines; low-noise, consistent.
+alwaysApply: true
+---
+
+# Rules / skills = prompts
+
+`.mdc`, User Rules, `AGENTS.md`, and `SKILL.md` are **injected context**. Author them as prompts.
+
+| Discipline | Meaning |
+|------------|---------|
+| Accurate | Match live paths, tools, ids; no invented facts; fix drift on sight |
+| Precise | One concern; actionable MUST/MUSTNOT; no vague fillers |
+| Low-noise | Pointers over paste; mdc < 120 lines; `alwaysApply` only if every turn needs it |
+| Consistent | One SSOT per fact; no contradictory duplicates across rules / skills / AGENTS |
+| Coherent | Shared terms + routing (SKILL-GRAPH -> seed.wire); constraints in rules, procedure in skills |
+| Abbreviations | Prefer clear English names; expand house labels on first use |
+| Positive | Name the structure positively, then the per-item gate |
+
+Detail: [prompt-writing-discipline](~/.cursor/skills/prompt-writing-discipline/SKILL.md). When editing: **cut before add**; verify cited files still exist.

@@ -7,7 +7,7 @@ alwaysApply: true
 
 # User pack skills catalog (LLM-only)
 
-**Audience:** model. Constraints only -- procedure in [workflow.mdc](workflow.mdc) and [AGENTS.md](~/.cursor/skills/AGENTS.md). Ids/triggers: [SKILL-GRAPH.md](~/.cursor/skills/SKILL-GRAPH.md) -> `skill-graph-seed.wire` (`@SKL` = skill node on first use).
+**Audience:** model. Constraints only -- procedure: [workflow.mdc](workflow.mdc). Ids/triggers: [SKILL-GRAPH.md](~/.cursor/skills/SKILL-GRAPH.md) -> `skill-graph-seed.wire` (`@SKL` = skill node).
 
 ## MUST
 
@@ -32,6 +32,7 @@ alwaysApply: true
 | Topic | Where |
 |-------|--------|
 | Trigger hub | SKILL-GRAPH.md |
-| Handoff / memory | workflow.mdc, memnet-goldfish-loop.mdc |
+| Route procedure | workflow.mdc |
+| MemNet loop / serve-down | memnet-goldfish-loop.mdc |
 | Wire store grammar | memnet-format |
 | Model choice preempts selector | llm-model-suggester |

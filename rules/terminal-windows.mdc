@@ -1,0 +1,17 @@
+---
+description: >-
+  PowerShell: use ; not &&; quote paths; Remove-Item for dirs.
+  Prefer when running shell on Windows (also in User Rules).
+alwaysApply: false
+---
+
+# Terminal (Windows / PowerShell)
+
+- **Chain with `;`** -- not `&&` (invalid in older PowerShell)
+- **Quote paths** with spaces; prefer absolute paths in scripts
+- **Remove dirs:** `Remove-Item -Recurse` (not `rmdir /s`)
+- **Scripts blocked:** `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser` or `cmd /c …`
+
+```powershell
+cd "c:\project"; git status
+```
