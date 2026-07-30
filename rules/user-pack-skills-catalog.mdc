@@ -1,8 +1,8 @@
 ---
 description: >-
   LLM-only user-pack routing constraints. Membership = skill-graph-seed.wire @SKL;
-  route via SKILL-GRAPH.md. Always applies.
-alwaysApply: true
+  route via SKILL-GRAPH.md. Open when picking skills / routing (workflow step 2).
+alwaysApply: false
 ---
 
 # User pack skills catalog (LLM-only)

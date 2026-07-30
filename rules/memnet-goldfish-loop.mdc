@@ -1,24 +1,24 @@
 ---
 description: >-
   MemNet goldfish loop (short-context refresh each turn):
-  serve_status -> query_warm -> add/update -> act -> settle.
+  pin_map -> add/update -> act -> settle (serve_status only if TCP / unsure).
   Detail in mcp-memnet / memnet-format skills.
 alwaysApply: true
 ---
 
 # MemNet goldfish loop
 
-**Goldfish** = short working memory: re-warm the pin map each turn; do not treat chat as durable state.
-Durable **store** = `memnet serve` atomised rows -- not chat, and not the LLM author feed.
+**Goldfish** = short working memory: re-read the live **pin map** each turn; do not treat chat as durable state.
+Durable **store** = MemNet atomised rows -- not chat, and not the LLM author feed.
 Author-facing pins: [workflow.mdc](workflow.mdc) pri 0.
 
 ## Loop
 
-0. `serve_status` -- if not running: skip MemNet; **plain Markdown** scratch only (no TOON/TRON)
-1. `query_warm` -- anchor `@TSK_*` / `@MOD_*` / `@SYM_*` / `@USR_*`
-2. `add` / `update` -- atomised rows + edges (no prose blobs) -- store write only
-3. Act from a **rendered** warm slice (ids + facts) + current request -- do not reason on raw pipe dumps
-4. Settle finished `@TSK` (`status=settled`; `recycle=delete_on_settle` when done)
+0. If TCP / unsure serve is up: `serve_status` -- if down: skip MemNet; **plain Markdown** scratch only (no TOON/TRON). Under default in-process, skip this probe.
+1. `pin_map` -- primary live pin map; anchor `TSK_*` / `MOD_*` / `SYM_*` / `USR_*` (`query_warm` = deprecated alias)
+2. `add` / `update` -- shared-dialect mutate lines + edges (no prose blobs) -- store write only
+3. Act from a **rendered** pin-map slice (ids + facts) + current request -- do not reason on raw dumps
+4. Settle finished `TSK` (`status=settled`; `recycle=delete_on_settle` when done)
 5. Next turn -> (0)
 
 Never treat chat as source of truth for ids, paths, or mission state.
@@ -27,7 +27,7 @@ On route-success settle: parent writes `led_to_success` edges -- see [phase4-lea
 
 ## When
 
-- Multi-turn / 3+ step pipelines; coding memory; SysML; user constraints (`@USR`)
+- Multi-turn / 3+ step pipelines; coding memory; SysML; user constraints (`USR`)
 - **Skip:** one-shot, trivial edit, or serve down
 
 ## Skills (open on need)

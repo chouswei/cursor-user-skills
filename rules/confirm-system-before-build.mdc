@@ -1,6 +1,8 @@
 ---
-description: Before build/scaffold of new system/variant, confirm scope; do not assume or copy.
-alwaysApply: true
+description: >-
+  Before build/scaffold/flash of a new system or variant, confirm scope;
+  do not assume or copy. Apply on build, create, scaffold, flash, new project intents.
+alwaysApply: false
 ---
 
 # Confirm before build
@@ -12,4 +14,4 @@ On **build / add / create / scaffold** of a new system, project, or deployment v
 3. **Confirm first** -- one short question: purpose, main parts, key links, vs existing
 4. **Implement after** description (or "mirror variant X")
 
-**Skip confirm when:** user says mirror/copy X; scope already in MemNet `@USR_*` / active `@TSK`; or repo context + warm read already bound the task.
+**Skip confirm when:** user says mirror/copy X; scope already in MemNet `USR_*` / active `TSK`; or repo context + pin map already bound the task.
