@@ -9,7 +9,7 @@ Logical interfaces between software parts (threads, state machines, services) in
 - **Port defs:** `{{InterfaceName}}OutPort` / `{{InterfaceName}}InPort` (e.g. `SoftwareDataOutPort`, `SoftwareDataInPort`, `StateCommandOutPort`, `StateCommandInPort`)
 - **Connection defs:** `{{InterfaceName}}Flow` or `{{InterfaceName}}Link` (e.g. `SoftwareDataFlow`, `StateCommandFlow`)
 
-See [common-library-naming-detailed.md](../../sysml-common-library-naming/references/common-library-naming-detailed.md) §3, §6.
+See [common-library-naming-detailed.md](../../sysml-common-lib-contribution/references/common-library-naming-detailed.md) §3, §6.
 
 ## Structure
 

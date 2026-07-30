@@ -11,7 +11,7 @@ Fields: `id`, `intent`, `expected_order`, `acceptable_alternatives` (slash-separ
 | premortem | what would fail blind spots decision risks | decision-inverter | decision-inverter / risk-assessor / launch-readiness-assessor |
 | code_review | review this code for quality smells | code-reviewer | code-reviewer / architecture-reviewer |
 | pr_review | PR review merge readiness breaking change | pr-reviewer | pr-reviewer / code-reviewer |
-| pcba_netlist | parse Eagle netlist extract signals | pcba-netlist-reader | pcba-netlist-reader / sysml-eagle-netlist-bridge |
+| pcba_netlist | parse Eagle netlist extract signals | pcba-netlist-reader | pcba-netlist-reader / sysml-pcba-de-facto-alignment |
 | mermaid_block | architecture block diagram from deploy model | mermaid | mermaid / sysml-view-doc-sync |
 | report_gen | technical report white paper design doc | tech-report-generator | tech-report-generator / project-output-article |
 | rfc_vs_adr | RFC design proposal tech spec | rfc-generator | rfc-generator / adr-generator |

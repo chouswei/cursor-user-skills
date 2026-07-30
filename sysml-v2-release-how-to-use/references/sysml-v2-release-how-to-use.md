@@ -70,7 +70,7 @@ Project `config.yaml` files list these paths under `libs/omg/SysML-v2-Release/` 
 
 - **Specs:** Open the PDFs in **doc/** for KerML, SysML v2, and the Systems Modeling API. Use them as the authority for syntax and semantics.
 - **Examples:** Browse **sysml/** and **kerml/** for reference models and patterns. Copy or adapt patterns into your own `.sysml` under `sysml-v2-models/projects/`.
-- **Naming / style:** Our conventions are in [sysml-common-library-naming](../../sysml-common-library-naming/SKILL.md) ([detailed reference](../../sysml-common-library-naming/references/common-library-naming-detailed.md)); the Release repo is the primary reference for **language** rules.
+- **Naming / style:** Our conventions are in [sysml-common-lib-contribution](../../sysml-common-lib-contribution/SKILL.md) ([detailed reference](../../sysml-common-lib-contribution/references/common-library-naming-detailed.md)); the Release repo is the primary reference for **language** rules.
 
 ---
 

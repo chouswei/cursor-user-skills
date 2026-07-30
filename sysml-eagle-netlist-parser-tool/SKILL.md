@@ -3,7 +3,7 @@ name: sysml-eagle-netlist-parser-tool
 description: >-
   Python CLI tool for parsing EAGLE netlist (.scr, .pl) files and extracting structured signal,
   connector, and component data. Supports batch processing multiple design versions.
-  Outputs JSON for downstream SysML generation. Use with sysml-eagle-netlist-bridge skill.
+  Outputs JSON for downstream SysML generation. Use with sysml-pcba-de-facto-alignment.
   Triggers: parse netlist, extract signals, automated netlist, design versioning,
   batch netlist processing, EAGLE data extraction.
 metadata:
@@ -15,7 +15,7 @@ metadata:
 token_guardrails: |
   - **Input validation:** Check .scr/.pl exist and have valid EAGLE export format before parsing.
   - **Error handling:** Report unparseable nets; suggest manual review for non-standard EAGLE exports.
-  - **Output JSON:** Canonical structure (signals, connectors, components) — designed to feed sysml-eagle-netlist-bridge workflow.
+  - **Output JSON:** Canonical structure (signals, connectors, components) — designed to feed sysml-pcba-de-facto-alignment workflow.
   - **Batch processing:** Support V1, V4, V5, V6 versioning — output separate JSON per version.
   - **Large .sch files:** This tool parses .pl and .scr only. For .sch analysis, use grep/ripgrep (see [EAGLE-FILES-ANALYSIS-GUIDE.md](../../hardware/EAGLE-FILES-ANALYSIS-GUIDE.md))
 ---
@@ -24,7 +24,7 @@ token_guardrails: |
 
 **Purpose:** Accelerate netlist consolidation by automatically extracting signal names, connector pin assignments, and component usage from EAGLE `.scr` (netlist) and `.pl` (parts list) files into structured JSON.
 
-**Use case:** Batch process multiple design versions (V4, V5, V6) and feed output to **sysml-eagle-netlist-bridge** for SysML generation.
+**Use case:** Batch process multiple design versions (V4, V5, V6) and feed output to **sysml-pcba-de-facto-alignment** for SysML generation.
 
 ## Inputs & Outputs
 
@@ -173,7 +173,7 @@ designs = {
 results = parse_netlist_batch(designs, output_format="json")
 ```
 
-## Integration with sysml-eagle-netlist-bridge
+## Integration with sysml-pcba-de-facto-alignment
 
 **Workflow:**
 
@@ -184,7 +184,7 @@ EAGLE files (.pl, .scr)
         ↓
 JSON signal/connector/component data
         ↓
-[sysml-eagle-netlist-bridge skill]  ← USES JSON OUTPUT
+[sysml-pcba-de-facto-alignment skill]  ← USES JSON OUTPUT
         ↓
 signals-<design-code>.sysml
 <design-code>-ANALYSIS.md
@@ -196,7 +196,7 @@ signals-<design-code>.sysml
 # Step 1: Run parser (optional automation)
 python parse_eagle_netlist.py --pl hardware/86ewy6qck.pl --scr hardware/86ewy6qck.scr
 
-# Step 2: Load JSON into sysml-eagle-netlist-bridge skill
+# Step 2: Load JSON into sysml-pcba-de-facto-alignment
 # (skill reads JSON to populate item defs and connector ports)
 ```
 
@@ -224,7 +224,7 @@ python parse_eagle_netlist.py --pl hardware/86ewy6qck.pl --scr hardware/86ewy6qc
 
 ## References
 
-- [sysml-eagle-netlist-bridge/references/netlist-consolidation-guidelines.md](../sysml-eagle-netlist-bridge/references/netlist-consolidation-guidelines.md) — signal categorization
+- [sysml-pcba-de-facto-alignment/references/netlist-consolidation-guidelines.md](../sysml-pcba-de-facto-alignment/references/netlist-consolidation-guidelines.md) — signal categorization
 - EAGLE documentation: [Signal definition in netlists](https://www.autodesk.com/products/eagle/documentation)
 
 ---

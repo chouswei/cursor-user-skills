@@ -52,4 +52,4 @@ system_instruction: |
 
 - [references/scale-policy.md](references/scale-policy.md) — thresholds, audit table, anti-patterns, **poe_edge** exception.
 - [assets/split-checklist.md](assets/split-checklist.md) — split PR / task checklist.
-- [sysml-common-library-naming](../sysml-common-library-naming/references/common-library-naming-detailed.md) · [libs/common/README.md](../../../sysml-v2-models/libs/common/README.md)
+- [sysml-common-lib-contribution](../sysml-common-lib-contribution/references/common-library-naming-detailed.md) · [libs/common/README.md](../../../sysml-v2-models/libs/common/README.md)

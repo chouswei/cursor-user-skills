@@ -128,7 +128,6 @@ User-facing output stays Markdown. At tool boundaries, use JSON as required by t
 | [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) | Optional graph router (explicit multi-match only) |
 | [memnet-format](memnet-format/SKILL.md) | Shared dialect |
 | [mcp-memnet](mcp-memnet/SKILL.md) | MemNet MCP tools / pin map |
-| [toon-prompt-format](toon-prompt-format/SKILL.md) / [tron-format](tron-format/SKILL.md) | Do-not-use stubs only |
 | [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md) | Pipeline step atoms |
 | [sysml-memnet-read-policy](sysml-memnet-documentation/references/sysml-memnet-read-policy.md) | Pin map vs narrow `.sysml` |
 | `~/.cursor/rules/` (pack copies in `rules/`) | Always-on required: workflow, goldfish, sub-agent, prompt-quality, no-secrets |

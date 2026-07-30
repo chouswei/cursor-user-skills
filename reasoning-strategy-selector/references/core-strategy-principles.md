@@ -31,7 +31,6 @@
 | mcp-latex | T | meta | medium | medium | structural | low |
 | mcp-markitdown | T | meta | medium | medium | structural | low |
 | mcp-memnet | T | meta | medium | medium | structural | low |
-| mcp-novel-writer | T | meta | medium | medium | structural | low |
 | mcp-sysml-v2 | T | sysml-tool | medium | low | structural | low |
 | mcp-sysmledgraph | T | sysml-tool | high | low | structural | low |
 | md-to-tex | P | doc | medium | low | structural | low |
@@ -64,9 +63,7 @@
 | sysml-behaviour-generator | G | sysml | medium | medium | structural | low |
 | sysml-common-file-scale | P | sysml | medium | medium | structural | low |
 | sysml-common-lib-contribution | P | sysml | medium | medium | structural | low |
-| sysml-common-library-naming | T | sysml | medium | medium | structural | low |
 | sysml-connections | P | sysml | medium | medium | structural | low |
-| sysml-eagle-netlist-bridge | G | sysml | medium | medium | structural | low |
 | sysml-eagle-netlist-parser-tool | T | sysml | medium | medium | structural | low |
 | sysml-hardware-part-generator | G | sysml | medium | medium | structural | low |
 | sysml-import-order-helper | P | sysml | medium | medium | structural | low |
@@ -96,9 +93,7 @@
 | system-design-report-generator | P | doc | medium | medium | structural | low |
 | tech-report-generator | G | doc | medium | low | structural | low |
 | tech-report-reviewer | R | doc | medium | low | structural | low |
-| toon-prompt-format | T | doc | medium | low | structural | low |
 | traceability-footprint-to-sysml | P | user | medium | medium | structural | low |
-| tron-format | T | doc | medium | low | structural | low |
 | vibe-repo-init | P | user | medium | medium | structural | low |
 ---
 

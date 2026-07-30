@@ -7,7 +7,7 @@
 These skill folders live **only** under **`~/.cursor/skills/`** (user pack), not under **`<repo>/.cursor/skills/`**:
 
 - **SysML:** all **`sysml-*`**, **`mcp-sysml-v2`**, **`mcp-sysmledgraph`**, **`traceability-footprint-to-sysml`** (open-issue; pack SSOT in that skill’s `references/` — ignore stale `../../../docs` paths)
-- **Doc / diagrams / PCBA readers:** **`mermaid`** (cluster entry → **`mmdc`**, **`pretty-mermaid`**, **`mermaid-doc-readability`**), **`project-output-article`**, **`system-design-report-generator`**, **`toon-prompt-format`** / **`tron-format`** (deprecated stubs only), **`pcba-netlist-reader`**, **`pcba-design-reviewer`**
+- **Doc / diagrams / PCBA readers:** **`mermaid`** (cluster entry → **`mmdc`**, **`pretty-mermaid`**, **`mermaid-doc-readability`**), **`project-output-article`**, **`system-design-report-generator`**, **`pcba-netlist-reader`**, **`pcba-design-reviewer`**
 
 ## What still ships **in** the repo (`.cursor/skills/`)
 

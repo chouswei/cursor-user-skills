@@ -55,7 +55,7 @@ When workspace is `modelbasedPrj-ITRI-VEDAN-DecanterCentrifugeHealthDiagnosis`:
 
 ## Related skills
 
-- [sysml-common-library-naming](../../sysml-common-library-naming/SKILL.md) — part naming, IPN
+- [sysml-common-lib-contribution](../../sysml-common-lib-contribution/SKILL.md) — part naming, IPN
 - [sysml-hardware-part-generator](../../sysml-hardware-part-generator/SKILL.md) — part scaffolding
 - [mcp-digikey](../../mcp-digikey/SKILL.md) — MPN / category
 - [mcp-inventree](../../mcp-inventree/SKILL.md) — stock / IPN

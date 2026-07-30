@@ -6,7 +6,7 @@
 - **Connector port def:** `{{ConnectorName}}Port` (e.g. `Gpio40PinPort`, `MikroBusPort`)
 - **Pin ports:** `pinN` where N = physical pin number (e.g. `pin3`, `pin8`)
 
-See [common-library-naming-detailed.md](../../sysml-common-library-naming/references/common-library-naming-detailed.md) §3.
+See [common-library-naming-detailed.md](../../sysml-common-lib-contribution/references/common-library-naming-detailed.md) §3.
 
 ## Port types (HardwarePorts)
 

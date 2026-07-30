@@ -10,7 +10,7 @@ Hardware part definitions (development boards, HATs, modules, breakout boards, c
 - **Ports:** camelCase (powerIn, p1, ethernet, gpio40p, hatInterface)
 - **Attributes:** camelCase (productCategory, partNumber, currentDraw5VMax, formFactor)
 
-See [common-library-naming-detailed.md](../../sysml-common-library-naming/references/common-library-naming-detailed.md) §4, §5.
+See [common-library-naming-detailed.md](../../sysml-common-lib-contribution/references/common-library-naming-detailed.md) §4, §5.
 
 ## OTS vs custom
 

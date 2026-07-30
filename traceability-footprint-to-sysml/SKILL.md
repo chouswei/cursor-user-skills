@@ -14,7 +14,7 @@ metadata:
   status: open-issue
   pairs_with:
     - sysml-hardware-part-generator
-    - sysml-common-library-naming
+    - sysml-common-lib-contribution
     - mcp-digikey
     - mcp-inventree
 system_instruction: |
@@ -61,7 +61,7 @@ When the open workspace is a system repo:
 | Parts workflow | `sysml-models/libs/common/parts/README.md` (or `sysml-v2-models/...` in older monorepos) |
 | Footprint catalog | `pcba-libs/footprints/README.md` when present |
 | Custom PCBA layout | Repo skill `hardware-custom-pcba-workflow` under `.cursor/skills/` |
-| Naming | [sysml-common-library-naming](../sysml-common-library-naming/SKILL.md) |
+| Naming | [sysml-common-lib-contribution](../sysml-common-lib-contribution/SKILL.md) |
 | Part scaffolding | [sysml-hardware-part-generator](../sysml-hardware-part-generator/SKILL.md) |
 
 If a copy of `docs/TRACEABILITY_FOOTPRINT_TO_SYSML_ISSUE.md` exists at the repo root, treat it as a mirror of the skill reference; prefer the skill `references/` file when they diverge.

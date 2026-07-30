@@ -38,7 +38,7 @@
 | sysml-root-config | `@MOD` load-order note `@CLM` |
 | sysml-common-lib-contribution | `@PRT`/`@POR` in lib + `@CONV` if naming rule |
 | sysml-pcba-de-facto-alignment | `@PRT` de-facto attrs `@CLM` |
-| sysml-eagle-netlist-bridge | `@CLM` netlist bridge status (no full netlist in MemNet) |
+| sysml-pcba-de-facto-alignment | `@CLM` netlist / de-facto bridge status (no full netlist in MemNet) |
 
 Skills not listed: if they touch `.sysml` structure, use the matching row above or hub [sysml-memnet-snap.md](sysml-memnet-snap.md) §Delta write.
 

@@ -68,7 +68,7 @@ Also: confirm project/scope; derive plans from the model when needed.
 - Shared library changes or file splits: `sysml-common-lib-contribution`, `sysml-common-file-scale`
 - Part maturity gate: `sysml-part-reviewer`
 - Long-form outputs packs: `project-output-article`, `system-design-report-generator`
-- EAGLE / de-facto PCBA alignment: `sysml-pcba-de-facto-alignment` (not the deprecated eagle-netlist-bridge stub)
+- EAGLE / de-facto PCBA alignment: `sysml-pcba-de-facto-alignment`
 
 ## File rules
 

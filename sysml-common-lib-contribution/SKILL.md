@@ -13,7 +13,7 @@ token_guardrails: |
   - **Part / port / shared item maturity:** For substantive edits to **part def**, **port def**, or shared **item def**, consider **sysml-part-reviewer** (only **under-design** may change without accompanying docs).
   - Confirm user wants cross-project reuse before editing libs/common.
   - After common change: validate + consider grep projects importing the package.
-  - Naming: [common-library-naming-detailed.md](../sysml-common-library-naming/references/common-library-naming-detailed.md) and libs/common/README.md.
+  - Naming: [common-library-naming-detailed.md](references/common-library-naming-detailed.md) and libs/common/README.md.
   - IMD PCBA, **network.sysml**, **poe_edge_computer.sysml**: [references/workspace-imd-lib-conventions.md](references/workspace-imd-lib-conventions.md).
   - Very large common files: [sysml-common-file-scale/SKILL.md](../sysml-common-file-scale/SKILL.md).
   - **De facto modeling** for shared parts (especially `network.sysml`): [sysml-traceability/references/de-facto-modeling.md](../sysml-traceability/references/de-facto-modeling.md) — avoid mixing **physical** and **role** port patterns on the same product class without an explicit `doc` rationale.
@@ -35,7 +35,7 @@ system_instruction: |
 
 2. **Target file** — [libs/common/README.md](../../../sysml-v2-models/libs/common/README.md) layout: `parts/flow_items.sysml`, `parts/hardware_ports.sysml`, `parts/network.sysml`, `connections/connections.sysml`, `composites/poe_edge_computer.sysml`, other `composites/*.sysml`. (Placement detail: [workspace-imd-lib-conventions.md](references/workspace-imd-lib-conventions.md).)
 
-3. **Naming** -- [detailed rules](../sysml-common-library-naming/references/common-library-naming-detailed.md) (naming skill folder is a deprecate stub; rules live in that reference): PascalCase defs, snake_case files, no shadowing OMG names.
+3. **Naming** -- [detailed rules](references/common-library-naming-detailed.md): PascalCase defs, snake_case files, no shadowing OMG names.
 
 4. **Load order** — **FlowItems** before **hardware_ports**; **parts** before **connections** where types are referenced; document new file in README if new top-level file.
 

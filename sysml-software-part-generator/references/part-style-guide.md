@@ -11,7 +11,7 @@ Software part definitions (threads, state machines, services, composites) in Sys
 - **Ports:** camelCase (e.g. `spotAngleOut`, `dataIn`, `stateCommandOut`)
 - **Attributes:** camelCase (e.g. `imageRateHz`, `positionUpdateRateHz`)
 
-See [common-library-naming-detailed.md](../../sysml-common-library-naming/references/common-library-naming-detailed.md) §4, §5.
+See [common-library-naming-detailed.md](../../sysml-common-lib-contribution/references/common-library-naming-detailed.md) §4, §5.
 
 ## Structure (simple part)
 

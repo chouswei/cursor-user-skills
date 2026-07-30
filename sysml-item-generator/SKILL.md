@@ -43,4 +43,4 @@ token_guardrails: |
 - **sysml-software-port-generator** — logical software flow types before binding items to software ports (project convention).
 - **sysml-part-reviewer** — when items are tied to **well-design** or **COTS** interfaces; changing shared **FlowItems** may need the doc gate (often **well-design**).
 
-**Repo:** [flow_items.sysml](../../../sysml-v2-models/libs/common/parts/flow_items.sysml) · [sysml-common-library-naming](../sysml-common-library-naming/SKILL.md) · [libs/common README](../../../sysml-v2-models/libs/common/README.md)
+**Repo:** [flow_items.sysml](../../../sysml-v2-models/libs/common/parts/flow_items.sysml) · [sysml-common-lib-contribution](../sysml-common-lib-contribution/SKILL.md) · [libs/common README](../../../sysml-v2-models/libs/common/README.md)

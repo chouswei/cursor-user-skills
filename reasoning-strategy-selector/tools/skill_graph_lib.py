@@ -59,8 +59,6 @@ FEATURE_MAP: Dict[str, Tuple[str, str, str, str, str, str]] = {
     "adr-generator": ("G", "doc", "low", "low", "structural", "low"),
     "commit-message-generator": ("G", "doc", "low", "low", "structural", "low"),
     "meeting-notes-generator": ("G", "doc", "low", "low", "structural", "low"),
-    "toon-prompt-format": ("T", "doc", "medium", "low", "structural", "low"),
-    "tron-format": ("T", "doc", "medium", "low", "structural", "low"),
     "pandas-expert": ("T", "user", "medium", "low", "structural", "low"),
     "mdtohtml": ("T", "doc", "low", "low", "structural", "low"),
     "engineering-practices-learner": ("P", "user", "high", "low", "structural", "low"),
@@ -114,7 +112,6 @@ MANUAL_COMPLEMENTS = [
     ("skill-creator", "skill-reviewer"),
     ("mermaid", "sysml-memnet-documentation"),
     ("mermaid", "sysml-view-doc-sync"),
-    ("tron-format", "mermaid"),
     ("sysml-view-doc-sync", "mermaid"),
 ]
 
