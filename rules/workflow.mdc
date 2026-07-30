@@ -9,7 +9,7 @@ alwaysApply: true
 ## 1. Plan
 
 3+ steps, new project, or architecture -> brief plan + scope confirm first.
-See [confirm-system-before-build.mdc](confirm-system-before-build.mdc).
+On build/scaffold of a new system or variant: do not assume or copy; one short confirm (purpose, parts, links) unless user said mirror X or MemNet/`USR_*` already bound scope.
 
 ## 2. Route by trigger
 
@@ -22,7 +22,7 @@ See [confirm-system-before-build.mdc](confirm-system-before-build.mdc).
    - SysML: checklist + workflow hubs + <=1 `sysml-*` specialist
    - Selector may return short `order[]` -- open those only, in order
 
-Ids: seed.wire `@SKL` via SKILL-GRAPH.md. Constraints: [user-pack-skills-catalog.mdc](user-pack-skills-catalog.mdc).
+Ids: seed.wire `@SKL` via SKILL-GRAPH.md (membership = `@SKL` count). After 2 ambiguous scans: ask user or open-repo `AGENTS.md`.
 
 ## 3. Tiered handoff (store vs LLM feed)
 
@@ -45,4 +45,4 @@ Proof = commands run + sane output. Corrections -> `tasks/lessons.md` (or repo e
 
 ## Refs
 
-[AGENTS.md](~/.cursor/skills/AGENTS.md) · repo `AGENTS.md` if present · [prompt-quality.mdc](prompt-quality.mdc) · [sub-agent-policy.mdc](sub-agent-policy.mdc) · [no-secrets.mdc](no-secrets.mdc)
+[AGENTS.md](~/.cursor/skills/AGENTS.md) · repo `AGENTS.md` if present · [prompt-quality.mdc](prompt-quality.mdc) · [sub-agent-policy.mdc](sub-agent-policy.mdc) · [no-secrets.mdc](no-secrets.mdc) · [memnet-goldfish-loop.mdc](memnet-goldfish-loop.mdc)

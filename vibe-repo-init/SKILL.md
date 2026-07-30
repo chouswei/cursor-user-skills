@@ -19,7 +19,7 @@ pipeline_steps:
      - Map user intent → one or more types from references/repo-types.md (mcu | linux-pc | online-server | html-ui | pc-ui | hybrid).
      - Hybrid = ordered list of primary + secondary types (e.g. mcu+online-server+html-ui).
   3. Confirm scope (gate)
-     - One short question unless confirm-system-before-build skip conditions apply.
+     - One short question unless user said mirror X or MemNet/`USR_*` already bound scope.
      - Capture: purpose, primary type(s), language/toolchain prefs, deploy target, non-goals.
   4. Emit init plan
      - Fill assets/init-plan-template.md; show user; wait for OK before writing files (unless user said "just scaffold").
@@ -54,7 +54,7 @@ token_guardrails: |
 ## Execution contract
 
 1. Follow `pipeline_steps` in order; **do not write files before step 4 OK** (unless user waived).
-2. Honor [confirm-system-before-build](~/.cursor/rules/confirm-system-before-build.mdc).
+2. Confirm scope before scaffold (workflow §1): do not assume or copy unless user said mirror X.
 3. Always apply [references/cursor-basement.md](references/cursor-basement.md) on scaffold — **`.cursor/skills/` is mandatory**.
 4. Seed `.cursor/skills/repo-context/` from [assets/repo-context-skill-stub.md](assets/repo-context-skill-stub.md) unless the user names a different first project skill.
 5. One primary type playbook; hybrid adds secondary slices without duplicating shared root.

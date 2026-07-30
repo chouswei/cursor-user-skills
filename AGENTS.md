@@ -3,11 +3,11 @@
 **Audience:** models (Cursor agents), not end-user docs.
 
 **SSOT pointers (do not restate):**
-- Procedure: [workflow.mdc](~/.cursor/rules/workflow.mdc)
+- Procedure / routing: [workflow.mdc](~/.cursor/rules/workflow.mdc) (SKILL-GRAPH.md triggers; seed.wire `@SKL`)
 - MemNet loop / serve-down Markdown / no TOON/TRON: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
-- Routing constraints: [user-pack-skills-catalog.mdc](~/.cursor/rules/user-pack-skills-catalog.mdc)
 - Sub-agents / models: [sub-agent-policy.mdc](~/.cursor/rules/sub-agent-policy.mdc)
 - Prompt authoring: [prompt-quality.mdc](~/.cursor/rules/prompt-quality.mdc)
+- No secrets: [no-secrets.mdc](~/.cursor/rules/no-secrets.mdc)
 - Store grammar: [memnet-format](memnet-format/SKILL.md) · tools: [mcp-memnet](mcp-memnet/SKILL.md)
 - Open **`modelbasedPrj-*`**: use that repo's root `AGENTS.md` for SysML / PCBA
 
@@ -27,6 +27,7 @@ Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)).
 | **MemNet / Markdown handoff** | See memnet-goldfish-loop.mdc |
 | **Subagents for exploration** | See sub-agent-policy.mdc |
 | **No normative paste** | Cite paths; don't paste huge specs |
+
 
 ---
 
@@ -55,13 +56,13 @@ Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)).
 | Inventree stock | inventree, IPN, inventree part | `mcp-inventree` |
 | File to Markdown | markitdown, pdf to md, docx to markdown | `mcp-markitdown` |
 
-**See:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -> `skill-graph-seed.wire`; constraints: [user-pack-skills-catalog.mdc](~/.cursor/rules/user-pack-skills-catalog.mdc). Normative route steps: [workflow.mdc](~/.cursor/rules/workflow.mdc).
+**See:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -> `skill-graph-seed.wire`. Normative route steps: [workflow.mdc](~/.cursor/rules/workflow.mdc).
 
 ---
 
 ## 3. General Workflow
 
-Normative: [workflow.mdc](~/.cursor/rules/workflow.mdc). Memory: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc). Constraints: [user-pack-skills-catalog.mdc](~/.cursor/rules/user-pack-skills-catalog.mdc).
+Normative: [workflow.mdc](~/.cursor/rules/workflow.mdc). Memory: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc).
 
 Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 
@@ -128,7 +129,7 @@ User-facing output stays Markdown. At tool boundaries, use JSON as required by t
 | [toon-prompt-format](toon-prompt-format/SKILL.md) / [tron-format](tron-format/SKILL.md) | Do-not-use stubs only |
 | [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md) | Pipeline step atoms |
 | [sysml-memnet-read-policy](sysml-memnet-documentation/references/sysml-memnet-read-policy.md) | Pin map vs narrow `.sysml` |
-| `~/.cursor/rules/` (pack copies in `rules/`) | Always-on + on-demand terminal-windows |
+| `~/.cursor/rules/` (pack copies in `rules/`) | Always-on required: workflow, goldfish, sub-agent, prompt-quality, no-secrets |
 | Open-repo **AGENTS.md** (`modelbasedPrj-*`) | SysML / PCBA when that system repo is open |
 
 ---
