@@ -107,7 +107,7 @@ User-facing output stays Markdown. At tool boundaries, use JSON as required by t
 | **Pick by trigger** | SKILL-GRAPH.md (max 2 passes) |
 | **Unclear route** | Ask user, or open-repo `AGENTS.md`; optional [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) only for explicit multi-match |
 | **New/audit skills** | [skill-creator](skill-creator/SKILL.md), [skill-reviewer](skill-reviewer/SKILL.md); **skillfish** (registry) |
-| **Cursor rules** | [rule-writer](rule-writer/SKILL.md) -- Project/User/Team/AGENTS.md; not Settings User Rules vs pack `.mdc` confusion |
+| **Cursor rules** | [rule-writer](rule-writer/SKILL.md) -- Project/Team/AGENTS.md writable; User Rules = draft for user paste (Customize -> Rules); never `state.vscdb` / pack≠Settings |
 
 **Version rule:** bump `metadata.version` in skill frontmatter before pushing pack changes to GitHub (skillfish consumers).
 

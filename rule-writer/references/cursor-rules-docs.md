@@ -4,12 +4,20 @@ Source: https://cursor.com/docs/rules (fetch when details may have changed).
 
 ## Rule types
 
-| Type | Storage | Scope |
-|------|---------|-------|
-| Project | `.cursor/rules/*.mdc` | Repo, version-controlled |
-| User | Customize -> Rules | Global; Agent Chat only |
-| Team | Dashboard (Team/Enterprise) | Org-wide; optional enforce + globs |
-| AGENTS.md | Root / nested markdown | Simple alternative; nested combine |
+| Type | Storage | Scope | Agent writable? |
+|------|---------|-------|-----------------|
+| Project | `.cursor/rules/*.mdc` | Repo, version-controlled | Yes |
+| User | Customize -> Rules -> User Rules | Global; Agent Chat only | **No** -- draft for user paste |
+| Team | Dashboard (Team/Enterprise) | Org-wide; optional enforce + globs | No (dashboard) |
+| AGENTS.md | Root / nested markdown | Simple alternative; nested combine | Yes |
+
+## User Rules (docs)
+
+- Global preferences in **Customize -> Rules** (freeform text).
+- Used by Agent (Chat); not Inline Edit (Cmd/Ctrl+K).
+- **Not** a reliable filesystem target. Agents **MUST NOT** write `aicontext.personalContext`, `state.vscdb`, or AppData hacks to set them.
+- **MUST** output a clean markdown block; user replaces the User Rules field and saves.
+- Optional helper file (e.g. `user-rules-settings-composed.txt`) = copy/paste aid only -- not "Settings updated".
 
 ## Project: extension and frontmatter
 
@@ -61,11 +69,13 @@ Result: `.cursor/rules/imported/<...>/` (relative paths kept).
 
 | Name | Location | Not to confuse with |
 |------|----------|---------------------|
-| Settings User Rules | Customize -> Rules UI | Pack `~/.cursor/rules/*.mdc` |
+| Settings User Rules | Customize -> Rules UI (user pastes) | Pack `~/.cursor/rules/*.mdc` |
 | Pack user `.mdc` | `~/.cursor/rules/` (copies in pack `rules/`) | Settings User Rules blob |
 | Project Rules | `<repo>/.cursor/rules/` | Either of the above |
 
 Do not double-inject the same content via Settings User Rules and alwaysApply `.mdc`.
+
+Pack `.mdc` edits: sync to a paste buffer / composed helper for User Rules if the user wants that text in Settings -- **never** silent DB write.
 
 ## Best practices (docs)
 
