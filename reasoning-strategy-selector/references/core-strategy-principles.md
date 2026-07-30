@@ -19,6 +19,7 @@
 | empirical-paradox-synthesis | P | user | high | high | measured | high |
 | engineering-practices-learner | P | user | high | low | structural | low |
 | file-operations | P | user | medium | medium | structural | low |
+| fusion-electronics-fetch | T | pcba | medium | medium | structural | low |
 | incentive-alignment-reviewer | R | user | high | high | conceptual | high |
 | launch-readiness-assessor | R | user | medium | high | structural | low |
 | llm-model-suggester | P | meta | medium | low | structural | low |
@@ -51,8 +52,10 @@
 | pretty-mermaid | T | user | medium | medium | structural | low |
 | project-output-article | P | user | medium | medium | structural | low |
 | project-planner | G | user | medium | high | structural | low |
+| prompt-writing-discipline | P | doc | medium | medium | structural | low |
 | rfc-generator | G | doc | medium | low | structural | low |
 | risk-assessor | R | user | medium | high | measured | low |
+| rule-writer | G | meta | medium | medium | structural | low |
 | scientific-method-first-principles | P | user | high | high | measured | medium |
 | security-reviewer | R | user | high | high | structural | low |
 | skill-creator | G | meta | high | low | structural | low |

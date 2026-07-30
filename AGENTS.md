@@ -55,6 +55,7 @@ Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)).
 | DigiKey search | digikey, MPN search, digikey pricing | `mcp-digikey` |
 | Inventree stock | inventree, IPN, inventree part | `mcp-inventree` |
 | File to Markdown | markitdown, pdf to md, docx to markdown | `mcp-markitdown` |
+| Cursor rules | create rule, .mdc, alwaysApply, AGENTS.md, user/team rules | `rule-writer` |
 
 **See:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -> `skill-graph-seed.wire`. Normative route steps: [workflow.mdc](~/.cursor/rules/workflow.mdc).
 
@@ -106,6 +107,7 @@ User-facing output stays Markdown. At tool boundaries, use JSON as required by t
 | **Pick by trigger** | SKILL-GRAPH.md (max 2 passes) |
 | **Unclear route** | Ask user, or open-repo `AGENTS.md`; optional [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) only for explicit multi-match |
 | **New/audit skills** | [skill-creator](skill-creator/SKILL.md), [skill-reviewer](skill-reviewer/SKILL.md); **skillfish** (registry) |
+| **Cursor rules** | [rule-writer](rule-writer/SKILL.md) -- Project/User/Team/AGENTS.md; not Settings User Rules vs pack `.mdc` confusion |
 
 **Version rule:** bump `metadata.version` in skill frontmatter before pushing pack changes to GitHub (skillfish consumers).
 
