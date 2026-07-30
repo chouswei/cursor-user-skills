@@ -1,7 +1,5 @@
 ---
-description: >-
-  Plan -> trigger-route -> verify; store vs LLM-feed handoffs; one skill/turn.
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Workflow

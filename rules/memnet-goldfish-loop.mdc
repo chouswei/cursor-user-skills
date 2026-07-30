@@ -1,9 +1,5 @@
 ---
-description: >-
-  MemNet goldfish loop (short-context refresh each turn):
-  pin_map -> add/update -> act -> settle (serve_status only if TCP / unsure).
-  Detail in mcp-memnet / memnet-format skills.
-alwaysApply: true
+alwaysApply: false
 ---
 
 # MemNet goldfish loop

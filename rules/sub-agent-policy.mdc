@@ -1,7 +1,5 @@
 ---
-description: >-
-  Sub-agents: skill route, role->family models, never FAST.
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Sub-agent policy

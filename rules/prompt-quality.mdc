@@ -1,7 +1,5 @@
 ---
-description: >-
-  Rules and skills are LLM prompts: seven author disciplines; low-noise, consistent.
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Rules / skills = prompts
