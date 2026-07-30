@@ -1,0 +1,37 @@
+---
+description: >-
+  LLM-only user-pack routing constraints. Membership = skill-graph-seed.wire @SKL;
+  route via SKILL-GRAPH.md. Always applies.
+alwaysApply: true
+---
+
+# User pack skills catalog (LLM-only)
+
+**Audience:** model. Constraints only -- procedure in [workflow.mdc](workflow.mdc) and [AGENTS.md](~/.cursor/skills/AGENTS.md). Ids/triggers: [SKILL-GRAPH.md](~/.cursor/skills/SKILL-GRAPH.md) -> `skill-graph-seed.wire` (`@SKL` = skill node on first use).
+
+## MUST
+
+- Route by SKILL-GRAPH.md triggers (<=2 passes); do not browse skill directories
+- SysML paths: checklist -> workflow -> <=1 `sysml-*` specialist
+- After 2 ambiguous scans: ask user or open-repo `AGENTS.md`; optional `reasoning-strategy-selector` only for explicit multi-match
+- Model-choice intent -> `llm-model-suggester`
+- On add/remove skill: update seed.wire (+ bootstrap `--regenerate-views`)
+- Keep `~/.cursor/skills/*/SKILL.md` count equal to `@SKL` count in seed.wire
+
+## MUST NOT
+
+- Load full skill id lists every turn
+- Invent skill ids absent from skill-graph-seed.wire `@SKL`
+
+## MAY
+
+- Open-repo `AGENTS.md` overrides SysML routing; skill bodies stay at `~/.cursor/skills/<id>/`
+
+## Authority pointers
+
+| Topic | Where |
+|-------|--------|
+| Trigger hub | SKILL-GRAPH.md |
+| Handoff / memory | workflow.mdc, memnet-goldfish-loop.mdc |
+| Wire store grammar | memnet-format |
+| Model choice preempts selector | llm-model-suggester |

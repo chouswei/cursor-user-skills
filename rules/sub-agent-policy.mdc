@@ -1,6 +1,6 @@
 ---
 description: >-
-  Sub-agents: skill route, role->family models, no Composer FAST.
+  Sub-agents: skill route, role->family models, never FAST.
 alwaysApply: true
 ---
 
@@ -15,29 +15,31 @@ This `.mdc` is normative. Pack hubs point here only.
 
 ## How to spawn
 
-1. **Select via skill** — `reasoning-strategy-selector` or the task-appropriate skill. Do not spawn blindly.
+1. **Select via skill** -- `reasoning-strategy-selector` or the task-appropriate skill. Do not spawn blindly.
 2. **One coherent worker** over many siblings unless workstreams are clearly independent.
-3. **Self-contained prompts** — nested agents lack parent chat context unless resumed. Include goal, paths, constraints, return shape.
+3. **Self-contained prompts** -- nested agents lack parent chat context unless resumed. Include goal, paths, constraints, return shape.
 
 ## Model by role (user pack)
 
 | Role | Family | Default slug (set `model`) |
 |------|--------|----------------------------|
-| Thinking / hard reasoning / planning / architecture | Grok | `cursor-grok-4.5-low` (Grok Low) |
-| Web searching / live web research / docs fetch needing search | Gemini | `gemini-3-flash` (current allowlist) |
-| Routines / mechanical edits / consolidate / implement / verify | Composer | `composer-2.5` |
-| **Role unclear** | Grok Low | **`cursor-grok-4.5-low`** |
+| Thinking / hard reasoning / planning / architecture | Grok | `cursor-grok-4.5-low` |
+| Web searching / live web research / docs fetch needing search | Gemini | `gemini-3-flash` |
+| Layout / frontend review (UI, CSS, letterhead, visual layout) | Kimi | `kimi-k3-max` (Kimi K3) |
+| Routines with clear steps/guide (mechanical edits / consolidate / implement / verify) | Composer | `composer-2.5` |
+| **Role unclear** | Grok Low | `cursor-grok-4.5-low` |
 
-- Thinking and unclear roles: prefer **Grok Low** (`cursor-grok-4.5-low`) unless the user asks for a higher Grok tier.
-- Routines: `composer-2.5` only — **never** `composer-2.5-fast` or any `*-fast`.
-- If allowlist slugs change, keep the same family; update the slug to the current Grok Low / Gemini / Composer full (non-fast) name.
+- Layout/frontend review: always set `model` to `kimi-k3-max`.
+- Thinking and unclear: `cursor-grok-4.5-low` only; higher Grok tier only if the user asks.
+- Routines with clear steps/guide: `composer-2.5` only.
+- If allowlist slugs change, keep the same family; update to the current non-fast slug.
 
 ### Allowlist hint (examples; may change)
 
-`composer-2.5`, `composer-2.5-fast` (banned), `cursor-grok-4.5-low`, `gemini-3-flash`.
+`composer-2.5`, `cursor-grok-4.5-low`, `gemini-3-flash`, `kimi-k3-max`.
 
 ## Must not
 
 - Blind fan-out without skill routing
-- `composer-2.5-fast` / any Composer `*-fast` on nested Task
-- Guessing a model when role is unclear — use `cursor-grok-4.5-low`
+- Any `*-fast` / FAST Task model (Composer, Grok, or otherwise) -- **never FAST**
+- Guessing a model when role is unclear -- use `cursor-grok-4.5-low`

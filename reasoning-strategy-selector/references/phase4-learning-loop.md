@@ -33,6 +33,14 @@ python tools/record_routing_success.py TSK_route_<slug> <skill-id> [more-ids...]
 
 Paste output into `memnet.add` with `allow_new_relation=true`.
 
+### Settle example (store write; not always-on rule body)
+
+When `reasoning-strategy-selector` `order[]` succeeds, **parent** writes (pipe legacy import form; prefer shared-dialect mutate when authoring live):
+
+```text
+@EDG: E_route_<slug>_<n>|TSK_route_<slug>|led_to_success|<skill_id>|pass|persistent
+```
+
 ## Validation
 
 - `led_to_success` dst must be existing `@SKL` id (`record_routing_success.py` checks seed)

@@ -1,8 +1,8 @@
 # Agent Rules and Skills (Master)
 
-**Audience:** This pack is read **by models** (Cursor agents), not as end-user documentation. **Tiered handoffs:** MemNet **shared dialect** (Write = display; **memnet-llm 0.3.1** -- pin map bare present; mutate `+`/`~`/`-`; `NEW` for creates) when MemNet is up; **plain Markdown** tables or short prose when MemNet is down -- [memnet-format](memnet-format/SKILL.md), [mcp-memnet](mcp-memnet/SKILL.md), [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md). Do not use TOON/TRON. Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)).
+**Audience:** This pack is read **by models** (Cursor agents), not as end-user documentation. **Tiered handoffs:** MemNet **shared dialect** (Write = display; **memnet-llm 0.3.5** -- pin map bare present; mutate `+`/`~`/`-`; `NEW` for creates) when MemNet is up; **plain Markdown** tables or short prose when MemNet is down -- [memnet-format](memnet-format/SKILL.md), [mcp-memnet](mcp-memnet/SKILL.md), [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md). Do not use TOON/TRON. Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)).
 
-**Single source of truth for general routing, workflow, token efficiency, and skill discovery.** For SysML / PCBA in the **system-models-and-architecture** workspace, use that repository's root **`AGENTS.md`** when that project is open (not a path under this pack).
+**Single source of truth for general routing, workflow, token efficiency, and skill discovery.** Procedure: [workflow.mdc](~/.cursor/rules/workflow.mdc). Constraints: [user-pack-skills-catalog.mdc](~/.cursor/rules/user-pack-skills-catalog.mdc). For SysML / PCBA in an open **`modelbasedPrj-*`** system repo, use that repository's root **`AGENTS.md`** (not a path under this pack).
 
 ---
 
@@ -17,7 +17,7 @@
 | **MCP tools over file reads** | sysml-v2-lsp-mcp, sysmledgraph-mcp cheaper than reading entire files |
 | **Use MemNet shared dialect for durable steps** | When MemNet is up: pin map + mutate ([memnet-format](memnet-format/SKILL.md)); plain Markdown when down |
 | **Plain Markdown when MemNet down** | Ephemeral in-prompt handoff (tables / short lists); JSON only at tool boundaries |
-| **Subagents for exploration** | Broad repo search in parallel; short summaries. Normative: [sub-agent-policy](~/.cursor/rules/sub-agent-policy.mdc) (thinking/unclear=`cursor-grok-4.5-low`; web=Gemini; routines=`composer-2.5`; no Composer FAST) |
+| **Subagents for exploration** | Broad repo search in parallel; short summaries. Normative: [sub-agent-policy](~/.cursor/rules/sub-agent-policy.mdc) (thinking/unclear=`cursor-grok-4.5-low` never FAST; web=Gemini; layout/frontend review=`kimi-k3-max`; routines with clear steps/guide=`composer-2.5`; never `*-fast`) |
 | **No normative paste** | Cite resource paths, don't paste huge specs |
 
 ---
@@ -53,33 +53,9 @@
 
 ## 3. General Workflow
 
-### Plan
-For 3+ steps, new project, or architecture decisions: write brief plan first. Include scope confirmation.
+Normative procedure: [workflow.mdc](~/.cursor/rules/workflow.mdc) (plan -> trigger-route -> execute lean -> verify). Memory loop: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc). Constraints only: [user-pack-skills-catalog.mdc](~/.cursor/rules/user-pack-skills-catalog.mdc).
 
-### Route by Trigger
-1. Match user phrase to triggers in SKILL-GRAPH.md
-2. **Limited iteration allowed**: max 2 scans of trigger table
-3. Open matched skill's `SKILL.md`
-4. **Never** iterate `related_skills.txt` as a checklist
-
-### Execute
-- One skill per turn (default)
-- Follow skill's numbered steps
-- **MemNet up:** **shared dialect** between steps -- [memnet-format](memnet-format/SKILL.md); SysML step codes in [sysml-memnet-pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md)
-- **MemNet down:** plain Markdown tables or short prose for in-prompt handoffs only
-
-### Verify
-- Run scripts or MCP tools
-- Inspect outputs (code, docs, diagrams)
-- **Proof** = commands executed + sane results
-
-### Lessons
-User corrections -> `tasks/lessons.md`. Skim when relevant to current task.
-
-### Minimal Impact
-- Touch only what the task needs
-- Root cause fixes, not band-aids
-- Prefer clear structure over hacks
+Lessons: user corrections -> `tasks/lessons.md`. Minimal impact: touch only what the task needs.
 
 ---
 
@@ -93,7 +69,7 @@ User corrections -> `tasks/lessons.md`. Skim when relevant to current task.
 | 2 | MemNet down; same-turn scratch | **Plain Markdown** tables or short prose |
 | 3 | Tool / MCP boundary | JSON envelope only |
 
-Do **not** use TOON or TRON (deprecated stubs only: [toon-prompt-format](toon-prompt-format/SKILL.md), [tron-format](tron-format/SKILL.md)).
+Do **not** use TOON or TRON ([toon-prompt-format](toon-prompt-format/SKILL.md) / [tron-format](tron-format/SKILL.md) are do-not-use stubs only).
 
 **SysML modeling:** [sysml-memnet-pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md) -- `s1:`...`s6:` step codes; do not log pipeline only in chat when MemNet is up.
 
@@ -160,12 +136,12 @@ User-facing output stays Markdown. At tool boundaries (CLI, API, file I/O), use 
 | [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) | Optional graph router (explicit multi-match only) |
 | [memnet-format](memnet-format/SKILL.md) | Shared dialect |
 | [mcp-memnet](mcp-memnet/SKILL.md) | MemNet MCP tools / pin map |
-| [toon-prompt-format](toon-prompt-format/SKILL.md) | Deprecated notice only -- do not use for encoding |
-| [tron-format](tron-format/SKILL.md) | Deprecated notice only -- do not use for encoding |
+| [toon-prompt-format](toon-prompt-format/SKILL.md) | Do not use -- deprecated stub only |
+| [tron-format](tron-format/SKILL.md) | Do not use -- deprecated stub only |
 | [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md) | Pipeline step atoms (`s1:`...`s6:`, G/M, route) |
 | [sysml-memnet-read-policy](sysml-memnet-documentation/references/sysml-memnet-read-policy.md) | When to read pin map vs narrow `.sysml` |
-| `.cursor/rules/` | Always-on: workflow, goldfish, slim catalog, confirm-build, no-secrets, prompt-quality. On-demand: terminal-windows |
-| Repo **AGENTS.md** (system-models-and-architecture root) | SysML / PCBA workflow when that repo is open |
+| `~/.cursor/rules/` (pack copies in `rules/`) | Always-on: workflow, goldfish, catalog, sub-agent, confirm-build, no-secrets, prompt-quality. On-demand: terminal-windows |
+| Open-repo **AGENTS.md** (`modelbasedPrj-*`) | SysML / PCBA workflow when that system repo is open |
 
 ---
 

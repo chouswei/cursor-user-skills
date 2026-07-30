@@ -1,0 +1,50 @@
+---
+description: >-
+  Plan -> trigger-route -> verify; store vs LLM-feed handoffs; one skill/turn.
+alwaysApply: true
+---
+
+# Workflow
+
+## 1. Plan
+
+3+ steps, new project, or architecture -> brief plan + scope confirm first.
+
+## 2. Route by trigger
+
+**Never browse skill lists.** Match phrase -> trigger -> open one `SKILL.md`.
+
+1. Extract triggers from request
+2. Match in [SKILL-GRAPH.md](~/.cursor/skills/SKILL-GRAPH.md) (<=2 passes); [LLM.md](~/.cursor/skills/LLM.md) secondary
+3. Open matched skill -> follow steps
+4. **One skill/turn** (default)
+   - SysML: checklist + workflow hubs + <=1 `sysml-*` specialist
+   - Selector may return short `order[]` -- open those only, in order
+
+Ids: seed.wire `@SKL` (skill node) via [SKILL-GRAPH.md](~/.cursor/skills/SKILL-GRAPH.md). Catalog = constraints only.
+
+## 3. Tiered handoff (store vs LLM feed)
+
+| Pri | When | Format |
+|-----|------|--------|
+| 0 | In-prompt / author-facing (always) | English pins + short imperatives; write=display (`[Id] --(Rel)--> [Id] ; key=value`). Not raw `@TAG|pipe` dumps. |
+| 1 | serve up; durable state | MemNet MCP `add`/`update`/`query_warm` -- wire is **store**, not the reasoning feed |
+| 2 | serve down; same-turn scratch | **Plain Markdown** tables or short prose |
+| 3 | MCP/CLI boundary | JSON only |
+
+Do **not** use TOON/TRON. Loop: [memnet-goldfish-loop.mdc](memnet-goldfish-loop.mdc). Store: [memnet-format](~/.cursor/skills/memnet-format/SKILL.md). Hub: [AGENTS.md](~/.cursor/skills/AGENTS.md).
+
+## 4. Execute lean
+
+- `serve_status` first on multi-step/SysML
+- MCP before bulk file reads; `query_warm` before full `.sysml`
+- Lazy-load `references/` only when a step needs them
+- After warm: act on a **rendered** slice (ids + facts), not the raw pipe blob
+
+## 5. Verify / lessons
+
+Proof = commands run + sane output. Corrections -> `tasks/lessons.md` (or repo equivalent).
+
+## Refs
+
+[AGENTS.md](~/.cursor/skills/AGENTS.md) · repo `AGENTS.md` if present · [confirm-system-before-build.mdc](confirm-system-before-build.mdc) · [prompt-quality.mdc](prompt-quality.mdc)
