@@ -22,7 +22,6 @@
 | fusion-electronics-fetch | T | pcba | medium | medium | structural | low |
 | incentive-alignment-reviewer | R | user | high | high | conceptual | high |
 | launch-readiness-assessor | R | user | medium | high | structural | low |
-| llm-model-suggester | P | meta | medium | low | structural | low |
 | markdown-preview-enhanced | G | user | medium | medium | structural | low |
 | markdown-viewer-user-pack | T | user | medium | medium | structural | low |
 | mcdm-decider | P | user | high | high | measured | medium |

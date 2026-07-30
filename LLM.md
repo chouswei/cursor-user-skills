@@ -17,7 +17,7 @@ Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>
 RUL [R01] ; kind=MUSTNOT ; code=load every skill; one user request -> <=1 specialist active ; priority=high ; recycle=persistent
 RUL [R02] ; kind=MUSTNOT ; code=treat "list every skill" as a workflow ; priority=high ; recycle=persistent
 RUL [R03] ; kind=MUST ; code=if selector order=[] -> answer without opening another SKILL.md ; priority=high ; recycle=persistent
-RUL [R04] ; kind=MUST ; code=model-choice question -> llm-model-suggester (not reasoning-strategy-selector) ; priority=high ; recycle=persistent
+RUL [R04] ; kind=MUST ; code=model-choice / Task model -> user rule sub-agent-policy Model by role table (not reasoning-strategy-selector) ; priority=high ; recycle=persistent
 RUL [R05] ; kind=MUST ; code=model above $6/1M tokens requires explicit user approval ; priority=high ; recycle=persistent
 RUL [R06] ; kind=SHOULD ; code=obvious single-skill task -> apply that skill directly ; priority=med ; recycle=persistent
 RUL [R07] ; kind=SHOULD ; code=general reasoning/planning, no domain -> user-domain skills ; priority=med ; recycle=persistent
@@ -30,7 +30,7 @@ RUL [R13] ; kind=MUST ; code=pipeline handoffs: MemNet up -> shared dialect (pin
 RUL [R14] ; kind=SHOULD ; code=large uniform tabular data in answers -> Markdown table over JSON when clearer ; priority=med ; recycle=persistent
 RUL [R15] ; kind=MUSTNOT ; code=invent skill-ids absent from skill-graph-seed.wire / SKILL-GRAPH.md ; priority=high ; recycle=persistent
 RUL [R16] ; kind=MUST ; code=ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes) ; priority=high ; recycle=persistent
-RUL [R17] ; kind=MUST ; code=Task models per user rule sub-agent-policy: thinking/unclear->cursor-grok-4.5-low; web->gemini-3-flash; routines->composer-2.5; never composer-*-fast ; priority=high ; recycle=persistent
+RUL [R17] ; kind=MUST ; code=Task models per user rule sub-agent-policy: thinking/unclear->cursor-grok-4.5-low (never FAST); web->gemini-3-flash; layout/frontend review->kimi-k3-max; routines with clear steps/guide->composer-2.5; never *-fast ; priority=high ; recycle=persistent
 ```
 
 
@@ -46,7 +46,7 @@ Cross-refs: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
 2. Match triggers in SKILL-GRAPH.md (<=2 passes) -> 3
 3. Branch:
    - exactly one match -> open `<id>/SKILL.md` -> 4
-   - model-choice intent -> `llm-model-suggester` only -> done
+   - model-choice / Task `model` intent -> user rule sub-agent-policy **Model by role** table only -> done
    - ambiguous -> ask user or repo AGENTS; optional `reasoning-strategy-selector` only for explicit multi-match -> 4
    - conflict between candidates -> SKILL-GRAPH.md Contrasts/Edges -> 4
 4. Follow SKILL.md frontmatter + numbered steps as binding -> 5
@@ -61,7 +61,7 @@ Cross-refs: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
 
 | Anchor | Condition | Target |
 |--------|-----------|--------|
-| `route_model` | "which model" / "best LLM" | `llm-model-suggester` |
+| `route_model` | "which model" / "best LLM" / Task `model` | user rule sub-agent-policy Model by role table |
 | `route_reason` | general reasoning / planning / no domain | user-domain skills (SKILL-GRAPH Domain Registry) |
 | `route_unclear` | trigger ambiguous | ask user / repo AGENTS (optional reasoning-strategy-selector for explicit multi-match) |
 | `route_skillqa` | skill quality / structure | `skill-reviewer` |
@@ -73,10 +73,10 @@ Shared-dialect mutate sketch:
 
 ```text
 ## Nodes
-+ CLM [NEW] ; type=decision ; code=route_model->llm-model-suggester ; recycle=persistent
++ CLM [NEW] ; type=decision ; code=route_model->sub-agent-policy_Model_by_role ; recycle=persistent
 
 ## Edges
-+ E01 [NEW] --(routes_to)--> [llm-model-suggester] ; note=model_choice ; recycle=persistent
++ E01 [NEW] --(routes_to)--> [sub-agent-policy] ; note=model_choice ; recycle=persistent
 ```
 
 ---
@@ -99,7 +99,7 @@ Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Stru
 
 - **Routing aid:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -- hub -> [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) (engine seed; docs use shared dialect).
 - **Handoff aid:** `memnet-goldfish-loop.mdc` + `memnet-format/SKILL.md` + `mcp-memnet` + `sysml-memnet-pipeline.md`; plain Markdown when MemNet down.
-- **Model routing aid:** `llm-model-suggester/SKILL.md`.
+- **Model choice SSOT:** user rule sub-agent-policy **Model by role** table (paste-3 / `~/.cursor/rules/sub-agent-policy.mdc`).
 
 ---
 

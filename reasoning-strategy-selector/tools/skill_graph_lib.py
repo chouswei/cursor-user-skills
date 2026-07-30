@@ -51,7 +51,6 @@ FEATURE_MAP: Dict[str, Tuple[str, str, str, str, str, str]] = {
     "incentive-alignment-reviewer": ("R", "user", "high", "high", "conceptual", "high"),
     "skill-creator": ("G", "meta", "high", "low", "structural", "low"),
     "skill-reviewer": ("R", "meta", "high", "low", "structural", "low"),
-    "llm-model-suggester": ("P", "meta", "medium", "low", "structural", "low"),
     "skillfish": ("T", "meta", "low", "low", "structural", "low"),
     "academic-report-generator": ("G", "doc", "medium", "low", "structural", "low"),
     "tech-report-generator": ("G", "doc", "medium", "low", "structural", "low"),
