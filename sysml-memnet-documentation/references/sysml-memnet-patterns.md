@@ -47,6 +47,20 @@ ART, SEC, CLM, ENT, PKG, PRT, POR, CON, BEH, ITM, REQ, MOD, SYM, CONV, DEC, ISSU
 | CLM.type | fact, decision, assumption, convention, conclusion, stat |
 | TSK.phase | model, sync, audit, refactor, report, verify, turn, route |
 
+## ITM is a node
+
+`ITM` is a **NODE only**: an item definition or flow item. It is never an edge. Use `declaredIn` to link an ITM to its package and optionally `flowOf` to link a flow item to its item definition. Ports and connections remain `POR` and `CON`; do not model them as ITM edges.
+
+```text
+## Nodes
++ ITM [ITM_LaserFrame] ; name=LaserFrame ; kind=itemDef ; recycle=persistent
++ ITM [ITM_LaserFrameFlow] ; name=LaserFrameFlow ; kind=flowItem ; recycle=persistent
+
+## Edges
++ E01 [ITM_LaserFrame] --(declaredIn)--> [PKG_LaserComm] ; recycle=persistent
++ E02 [ITM_LaserFrameFlow] --(flowOf)--> [ITM_LaserFrame] ; recycle=persistent
+```
+
 ## Recycle
 
 - `persistent` -- structure, claims, campaign TSK

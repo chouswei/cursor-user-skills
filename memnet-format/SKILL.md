@@ -87,7 +87,7 @@ Engine-generic dialect stays above. **SysML construct map, `kind` enums, EDG clo
 | `port def` / port usage | `POR` (+ `SYM`) | `POR_<name>` |
 | `connection` / `connect` / link | `CON` (+ `SYM`) | `CON_<name>` |
 | `requirement` def/usage | `REQ` (+ `SYM`) | `REQ_<requirementId>` |
-| `item def` / flow item | `ITM` | `ITM_<name>` |
+| `item def` / flow item | `ITM` **NODE** (see [ITM pattern](../sysml-memnet-documentation/references/sysml-memnet-patterns.md#itm-is-a-node)) | `ITM_<name>` |
 | `state def` / action / calc | `BEH` (+ `SYM`) | `BEH_<name>` |
 | `assert` … `satisfy` | **edge only** `satisfies` | — |
 | `allocate` / `allocation` | **edge only** `allocates` | — |

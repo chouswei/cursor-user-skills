@@ -72,6 +72,8 @@ Pair with [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) and [me
 
 Model elements: `@PRT`/`@POR`/`@CON`/`@BEH`/`@ITM`/`@REQ` + `@SYM` (path, line) + `@MOD` per file. Conventions: `@CONV`. Open forks: `@DEC`. Backlog: `@ISSUE`. Docs: `@ART`/`@SEC`/`@CLM`. Campaign: `@TSK_model_<short>`.
 
+ITM is a NODE only (item definition / flow item); see [the ITM pattern](references/sysml-memnet-patterns.md#itm-is-a-node).
+
 ## Pairing
 
 - **sysml-modeling-workflow** — encodes the 6-step sequence
