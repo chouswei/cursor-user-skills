@@ -4,10 +4,18 @@ alwaysApply: false
 
 # Sub-agent policy
 
-**Off:** prefer Task for non-trivial tool work; skip trivial single-tool answers.
-**On:** system Multitask gate wins -- spawn async background subagent(s); end turn (no await/poll); one coherent worker unless workstreams are independent; self-contained prompts; model table applies.
+When Multitask Mode is **off**:
+- Prefer Task for non-trivial multi-step or parallel tool work.
+- MUST NOT spawn Task for a trivial single-tool answer.
 
-**Spawn:** (1) set `model` from table (default `cursor-grok-4.5-low`); (2) one worker, self-contained prompt; (3) specialised skill optional.
+When Multitask Mode is **on**:
+- The system Multitask gate wins: MUST spawn async background subagent(s).
+- MUST end the turn; MUST NOT await or poll.
+- Prefer one coherent worker; parallel siblings only for independent top-level workstreams.
+- MUST use self-contained prompts.
+- MUST set `model` from the table below.
+
+**Spawn:** (1) set `model` from the table (default `cursor-grok-4.5-low` when unclear); (2) one worker with a self-contained prompt; (3) open a specialised skill only when needed.
 
 | Role | Family | Slug |
 |------|--------|------|
@@ -18,5 +26,7 @@ alwaysApply: false
 | MemNet snapshot (docs / SysML / code atomise) | Luna | `gpt-5.6-luna-medium` |
 | Unclear | Grok | `cursor-grok-4.5-low` |
 
-Luna = high-volume pin_map / atomise / snapshot loops (cost-sensitive); not peak planning (Grok), visual review (Kimi), or web search (Gemini).
-Allowlist drift: same family, current non-fast slug. **Never** `*-fast` / FAST. No blind fan-out. Higher Grok only if user asks.
+Luna (`gpt-5.6-luna-medium`): high-volume pin_map / atomise / snapshot loops (cost-sensitive). MUST NOT use Luna for peak planning (Grok), visual review (Kimi), or web search (Gemini).
+
+MUST NOT: blind fan-out; any `*-fast` / FAST slug; a higher Grok tier unless the user asks.
+On allowlist drift: keep the same family; use the current non-fast slug.

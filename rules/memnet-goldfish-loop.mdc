@@ -4,15 +4,18 @@ alwaysApply: false
 
 # MemNet goldfish loop
 
-Re-read live **pin map** each turn; chat is not durable. Store = atomised MemNet rows.
+Goldfish = short working memory: re-read the live pin map each turn. Chat is not durable state. The durable store is atomised MemNet rows.
 
-0. Unsure TCP serve: `serve_status`; if down, plain Markdown only (no TOON/TRON). In-process default: skip probe.
-1. `pin_map` -- anchors `TSK_*` / `MOD_*` / `SYM_*` / `USR_*`
-2. `add` / `update` -- shared-dialect lines + edges (no prose blobs)
-3. Act from rendered pin-map slice + request (not raw dumps)
-4. Settle done `TSK` (`status=settled`; `recycle=delete_on_settle` when done)
-5. Next turn -> (0)
+House id prefixes (first use): `TSK_*` = task; `MOD_*` = file or package; `SYM_*` = symbol; `USR_*` = user constraint.
 
-Chat is not SSOT for ids/paths/mission. Route-success: parent may write `led_to_success` edges.
-**When:** multi-turn / 3+ step / SysML / `USR`. **Skip:** one-shot, trivial, or serve down.
-Skills on need: `mcp-memnet`, `memnet-format`, `sysml-memnet-*` under `~/.cursor/skills/`.
+0. If TCP / unsure serve is up: `serve_status`. If down: skip MemNet; plain Markdown scratch only (no TOON/TRON). Under in-process default, skip this probe.
+1. `pin_map(anchor=<id>)` -- live ego slice (bare present).
+2. `add` / `update` -- shared-dialect lines and edges (no prose blobs).
+3. Act from a rendered pin-map slice plus the current request; MUST NOT reason on raw dumps.
+4. Settle finished tasks (`TSK_*`): `status=settled`; set `recycle=delete_on_settle` when done.
+5. Next turn -> step 0.
+
+MUST NOT treat chat as SSOT for ids, paths, or mission state. On route-success settle, the parent may write `led_to_success` edges.
+
+**When:** multi-turn, 3+ step pipelines, SysML, or user constraints. **Skip:** one-shot, trivial edit, or serve down.
+Skills on need under `~/.cursor/skills/`: `mcp-memnet`, `memnet-format`, `sysml-memnet-cache`, `sysml-memnet-documentation`.

@@ -4,8 +4,8 @@ alwaysApply: false
 
 # Workflow
 
-**Plan:** 3+ steps / new project / architecture -> brief plan + scope confirm. New system/variant: confirm purpose/parts/links unless mirror X or MemNet/`USR_*` already bound.
+**Plan:** for 3+ steps, a new project, or architecture -- brief plan plus scope confirm first. For a new system or variant: confirm purpose, parts, and links unless the user said to mirror X or MemNet / user-constraint (`USR_*`) pins already bind scope.
 
-**Route:** never browse skill lists. Triggers -> [SKILL-GRAPH.md](~/.cursor/skills/SKILL-GRAPH.md) (<=2); [LLM.md](~/.cursor/skills/LLM.md) secondary -> open one `SKILL.md`. One skill/turn (SysML: checklist + workflow + <=1 `sysml-*`; honour selector `order[]`). After 2 ambiguous scans: ask or open-repo `AGENTS.md`.
+**Route:** MUST NOT browse skill lists. Match triggers in `~/.cursor/skills/SKILL-GRAPH.md` (at most 2 passes); `~/.cursor/skills/LLM.md` is secondary. Open one `SKILL.md` and follow it. Default one skill per turn (SysML: checklist + workflow + at most one `sysml-*` specialist; honour selector `order[]`). After two ambiguous scans: ask the user or open the repo `AGENTS.md`.
 
-**Execute / verify:** MemNet -> goldfish loop below ([memnet-format](~/.cursor/skills/memnet-format/SKILL.md)). MCP before bulk reads; lazy-load `references/`. Proof = commands + sane output; corrections -> `tasks/lessons.md`.
+**Execute / verify:** follow the MemNet goldfish loop; dialect detail in `~/.cursor/skills/memnet-format/SKILL.md`. Prefer MCP before bulk file reads; lazy-load `references/` only when a step needs them. Proof = commands run with sane output. Write corrections to `tasks/lessons.md` (or the repo equivalent).
