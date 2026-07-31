@@ -1,14 +1,14 @@
 ---
 name: memnet-format
 description: >-
-  MemNet 0.3.2 shared dialect (Write=display) for live pin map and mutate.
+  MemNet 0.3.5 shared dialect (Write=display) for live pin map and mutate.
   Triggers: memnet format, shared dialect, Write=display, pin map, pin_map, mutate NEW,
   NODE EDGE, atomised rows.
 metadata:
   pattern: tool-wrapper
-  version: "3.2"
+  version: "3.5"
   domain: data-formats,memnet
-  product: memnet-llm==0.3.2
+  product: memnet-llm==0.3.5
 ---
 
 # MemNet formats (LLM-facing)
@@ -23,19 +23,34 @@ Product SSOT: MemNet `README.md`, `docs/grammar/`. Field notes: [references/memn
 
 ## Shared dialect
 
-Mutate uses ops (`+` create, `~` update, `-` drop). Live pin map is **bare present** (no leading ops).
+Mutate uses ops (`+` create, `~` update, `-` drop). Live pin map is **bare present** (no leading ops). Formal SSOT: `MemNet.g4`, golden fixtures under `docs/grammar/examples/`.
 
 ```text
 ## Nodes
 + CLM [NEW] ; type=decision ; code=bitrate cap 2000 bps ; recycle=persistent
-~ TSK [T42] ; status=in_progress ; recycle=persistent
+~ [T42] ; status=in_progress ; phase+=1 ; recycle=persistent
 
 ## Edges
 + E77 [N03] --(helps)--> [T42] ; note=labour ; recycle=persistent
++ NEW [S03] --(part_of)--> [ART_pdu] ; recycle=delete_on_settle
+~ E77 ; recycle=delete_on_settle
+- E77
 ```
 
+| Op | Shape |
+|----|-------|
+| Create node | `+ KIND [NEW\|Id] ; fields…` |
+| Patch node | `~ [KnownId] ; fields…` — **no kind** on patch |
+| Create edge | `+ [NEW\|Eid]? [from] --(rel)--> [to] ; fields…` |
+| Patch edge | `~ [from] --(rel)--> [to] ; …` or `~ Eid ; …` |
+| Drop edge | `- Eid` |
+| Present | `KIND [Id] ; …` / `Eid [from] --(rel)--> [to] ; …` |
+| Session schema | `SCHEMA KIND ; fields=id …` — registry only (`session_open` map) |
+
 - **Create:** `[NEW]` / leading `NEW` — engine mints ids; copy them afterwards.
-- **Update:** known ids only.
+- **Update:** known ids in `[brackets]` only — `[NEW]` illegal on `~`.
+- **Fields (R1):** `key=value` or `key+=N` / `key-=N`; atoms only — use edges for membership, not comma lists.
+- **Quotes:** `"C:\\Projects\\…"` when paths need `\` or spaces.
 - **Ingest pins:** stable locators (`path=`, `qname=`, …); no client `NEW` for those.
 
 Primary read: live **pin map** via MCP `pin_map` / CLI `query pin-map`. (`query_warm` is legacy alias.)
@@ -48,14 +63,14 @@ Primary read: live **pin map** via MCP `pin_map` / CLI `query pin-map`. (`query_
 |------|------|
 | Fact / claim | `CLM` (+ edges) |
 | Directed relation | edge `--(rel)-->` |
-| Flat membership list | `SET` or `IDX` |
+| Flat membership list | edges (`member_of`, `contains`, …) — R1: no id lists in fields |
 | Work unit | `TSK` |
 | User constraint | `USR` |
 | File / symbol | `MOD` / `SYM` |
 | SysML element | `PRT` / `POR` / `CON` / `REQ` / `SYM` |
 | Rule / policy | `RUL` |
 
-Membership of many ids → `SET`. Directed relation → edge.
+Membership of many ids → multiple **edges**. Directed relation → edge.
 
 ---
 

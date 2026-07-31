@@ -4,7 +4,7 @@ Use with [atomisation.md](../../mcp-memnet/references/atomisation.md), [sysml-me
 
 **Core discipline:** one row = one fact/link/status. Short fields. Explicit edges. Stable ids from the pin map. **MUST NOT** create rows tagged PARTD, PORTD, BEHD, or TASK (old aliases -- re-snap to unified kinds on warm miss).
 
-Agent I/O: MemNet **0.3.1 shared dialect** only (Write = display). Do not teach pipe `@TAG:|` rows.
+Agent I/O: MemNet **0.3.5 shared dialect** only (Write = display). Do not teach pipe `@TAG:|` rows.
 
 ## Canonical kinds
 

@@ -6,14 +6,14 @@ description: >-
   pin map, session_open, shared dialect, Write=display, MutateGate, sysml memnet tools.
 metadata:
   pattern: tool-wrapper
-  version: "3.6"
+  version: "3.7"
   domain: memnet
-  product: memnet-llm==0.3.2
+  product: memnet-llm==0.3.5
 ---
 
 # MemNet MCP (generic)
 
-PyPI: **`memnet-llm` 0.3.2** (CLI `memnet`). Engine + generic MCP only — **novel-writer is out of scope**.
+PyPI: **`memnet-llm` 0.3.5** (CLI `memnet`). Engine + generic MCP only — **novel-writer is out of scope**.
 
 MemNet is working memory between LLM call pipelines and data search. Agents read a bounded **live pin map** each turn and write with the **same shapes** — the **shared dialect** (Write = display). Design docs may gloss this dialect as "Tier A"; prefer **shared dialect** in agent text.
 
@@ -38,7 +38,7 @@ MCP is a **thin CLI adapter**. Grammar (`docs/grammar/`, `MemNet.g4`) defines **
 
 | MCP tool | Grammar role | What goes on the wire |
 |----------|--------------|------------------------|
-| `session_open` | Session lifecycle + schema map | `map_lines` = kind field schemas (not NODE/EDGE body). Optional `seed_lines` = shared-dialect rows (LAW auto-seeded). |
+| `session_open` | Session lifecycle + schema map | `map_lines` = `SCHEMA KIND ; fields=id …` rows (registry, not graph NODE/EDGE). Optional `seed_lines` = shared-dialect rows (LAW auto-seeded). |
 | `session_current` | Session lifecycle | Metadata only — no grammar body. |
 | `session_save` / `session_load` | Snapshot persist / resume | File path; graph reloads; next pin map is still shared dialect. |
 | `pin_map` | **Live pin map read** | `stdout` = bare present NODE/EDGE (+ LAW) — `presentNode` / `presentEdge` / `lawPin` in `MemNet.g4`. |
@@ -108,19 +108,19 @@ pin map → reason → mutate → pin map
 
 ```text
 + CMP [ATO_R1] ; refdes=R1 ; path=boards/pdu/pdu.ato ; recycle=persistent
-~ CMP [ATO_R1] ; value=10k ; recycle=persistent
+~ [ATO_R1] ; value=10k ; recycle=persistent
 + CLM [NEW] ; type=decision ; code=keep R1 10k ; recycle=persistent
 ```
 
-**Forbidden:** client `NEW` for R1/U2/nets/SysML qnames/paths; inventing `C_rand_99`; `NEW` on `~`. **Pitfall:** `add` fails if id exists — look up first. PinMapIngest_* may be stubs in 0.3.2; seed via `seed_lines` / explicit-id `add` until ingest lands. Doctrine: MemNet `docs/grammar/` §4.2.1.
+**Forbidden:** client `NEW` for R1/U2/nets/SysML qnames/paths; inventing `C_rand_99`; `NEW` on `~`. **Pitfall:** `add` fails if id exists — look up first. PinMapIngest_* may be stubs; seed via `seed_lines` / explicit-id `add` until ingest lands. Doctrine: MemNet `docs/grammar/` §4.2.1.
 
-**Re-id (wrong ground id):** `update` with `~ KIND [OldId] ; id=NewId`. If `NewId` exists → `id_occupied` unless `; merge=true` (fold mistaken mint into locator id; retarget edges; drop OldId). Self `id=OldId` is a no-op. Not the MCP tool rename `query_warm`→`pin_map`.
+**Re-id (wrong ground id):** `update` with `~ [OldId] ; id=NewId` (patch omits kind — id is in brackets only). If `NewId` exists → `id_occupied` unless `; merge=true` (nodes only; fold mistaken mint into locator id; retarget edges; drop OldId). Self `id=OldId` is a no-op. Not the MCP tool rename `query_warm`→`pin_map`.
 
 ```text
-~ CMP [C_rand_99] ; id=ATO_R1 ; merge=true ; recycle=persistent
+~ [C_rand_99] ; id=ATO_R1 ; merge=true ; recycle=persistent
 ```
 
-## Multi-agent reserve (design — not 0.3.2)
+## Multi-agent reserve (design — not yet shipped)
 
 Neighbourhood **reserve** with holder **`llm_id`** + **TTL** prevents same-session write races. MCP sketch (next minor):
 
@@ -156,15 +156,35 @@ RSV [R7] ; llm_id=coder_a ; anchor=ATO_R1 ; depth=2 ; until=2026-07-24T08:15:00Z
 
 Args detail: [references/tool-parameters.md](references/tool-parameters.md). Policy: [references/mcp-policy.md](references/mcp-policy.md). Full map: [references/tool-grammar.md](references/tool-grammar.md).
 
+## Shared-dialect line shapes (R1)
+
+Formal SSOT: `MemNet.g4` + `docs/grammar/examples/`. Package twin: `memnet.tier_a`.
+
+| Op | Shape |
+|----|-------|
+| Create node | `+ KIND [NEW\|Id] ; key=value ; …` |
+| Patch node | `~ [KnownId] ; key=value ; …` — **no kind** on `~` |
+| Create edge | `+ [NEW\|Eid]? [from] --(rel)--> [to] ; …` — eid optional (implicit mint) |
+| Patch edge | `~ [from] --(rel)--> [to] ; …` **or** `~ Eid ; …` |
+| Drop edge | `- Eid` |
+| Present (pin map) | `KIND [Id] ; …` / `Eid [from] --(rel)--> [to] ; …` — no leading op |
+| Session schema | `SCHEMA KIND ; fields=id path …` — `map_lines` only; `id` first |
+
+**Fields (R1 atoms-only):** `key=value` joined by `;`. Optional numeric ops: `phase+=1`, `risk-=0.5`. Values are atoms (`STRING` for paths with `\`/spaces), not nested lists — encode membership as **edges**, not comma lists in one field.
+
+**Sections:** pin map emits `## Laws` / `## Nodes` (or `## Pins`) / `## Edges`. Mutate batches may omit headers.
+
 ## Mutate sketch (shared dialect)
 
 ```text
 ## Nodes
 + CLM [NEW] ; type=decision ; code=bitrate cap 2000 bps ; recycle=persistent
-~ TSK [T42] ; status=in_progress ; recycle=persistent
+~ [T42] ; status=in_progress ; phase+=1 ; recycle=persistent
 
 ## Edges
 + E77 [N03] --(helps)--> [T42] ; note=labour ; recycle=persistent
++ NEW [S03] --(part_of)--> [ART_pdu] ; recycle=delete_on_settle
+~ E77 ; recycle=delete_on_settle
 ```
 
 Pin map returns the same fields **without** leading `+`/`~`/`-` and with assigned ids (no `NEW`). Copy those ids on the next mutate.

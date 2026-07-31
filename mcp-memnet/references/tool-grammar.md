@@ -19,7 +19,7 @@ MCP does **not** replace the grammar. Tools open a session and move **shared-dia
 | Tool | Purpose | Grammar role | Dialect payload |
 |------|---------|--------------|-----------------|
 | `serve_status` | Probe TCP serve | Transport only | None |
-| `session_open` | New session + tag map | Lifecycle + schema | `map_lines` = field schemas; `seed_lines` = optional shared-dialect seed (LAW01–05 auto) |
+| `session_open` | New session + tag map | Lifecycle + schema | `map_lines`: `SCHEMA KIND ; fields=id …`; `seed_lines` = optional shared-dialect seed (LAW01–05 auto) |
 | `session_current` | Session id / TTL | Lifecycle | None |
 | `session_save` | Write snapshot file | Snapshot | None (file holds graph) |
 | `session_load` | Restore snapshot | Snapshot | None |
@@ -32,7 +32,7 @@ MCP does **not** replace the grammar. Tools open a session and move **shared-dia
 | `read_list` | Enumerate by tag / where | Lookup | Many rows |
 | `housekeep_stats` | Counts vs caps | Housekeeping | Stats text / envelope |
 
-**Design (next minor, not 0.3.2):** `reserve` / `extend` / `release` — session control plane; pin map shows `RSV [rid] ; llm_id=… ; anchor=… ; depth=… ; until=…` (shared dialect). See MemNet `docs/grammar/memnet-neighbourhood-reserve.md`.
+**Design (not yet shipped):** `reserve` / `extend` / `release` — session control plane; pin map shows `RSV [rid] ; llm_id=… ; anchor=… ; depth=… ; until=…` (shared dialect). See MemNet `docs/grammar/memnet-neighbourhood-reserve.md`.
 
 ## Grammar productions agents must recognise
 
@@ -40,9 +40,11 @@ MCP does **not** replace the grammar. Tools open a session and move **shared-dia
 |-----------|------|------------------------|
 | Read this turn | `pin_map` | Bare present: `KIND [Id] ; k=v` / `Eid [a] --(rel)--> [b]` — **no** leading `+`/`~`/`-` |
 | Nodes of an EDGE | `read_get` or pin-map EDGE line | Parse `[a]` / `[b]` (shared dialect) or pipe columns `src`/`dist` — those values **are** the node ids; no extra tool |
-| Create | `add` | `+ KIND [NEW] ; …` or `+ Eid [a] --(rel)--> [b]` |
-| Patch | `update` | `~ KIND [KnownId] ; …` |
-| Re-id | `update` | `~ KIND [OldId] ; id=NewId` (optional `; merge=true` if NewId exists) |
+| Create | `add` | `+ KIND [NEW] ; …` or `+ [from] --(rel)--> [to]` / `+ NEW [from] --(rel)--> [to]` |
+| Patch | `update` | `~ [KnownId] ; …` (no kind on patch) |
+| Re-id | `update` | `~ [OldId] ; id=NewId` (optional `; merge=true` if NewId exists; nodes only) |
+| Patch edge (bare) | `update` | `~ Eid ; …` |
+| Patch edge (full) | `update` | `~ [from] --(rel)--> [to] ; …` |
 | Drop | `update` | `- KIND [KnownId]` or `- Eid` |
 | Validate shapes | (offline) | `docs/grammar/tools/tier_a.py` + fixtures — not an MCP tool |
 

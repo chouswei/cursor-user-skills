@@ -1,6 +1,6 @@
 # Skills pack -- agent policy (LLM-only)
 
-**Audience:** model. Durable MemNet handoffs use the **shared dialect** (Write = display) for **memnet-llm 0.3.1** -- same NODE|EDGE shapes for pin-map read and mutate. Dialect SSOT: [memnet-format](memnet-format/SKILL.md), [mcp-memnet](mcp-memnet/SKILL.md). Reference lookups -> [SKILL-GRAPH.md](SKILL-GRAPH.md).
+**Audience:** model. Durable MemNet handoffs use the **shared dialect** (Write = display) for **memnet-llm 0.3.5** -- same NODE|EDGE shapes for pin-map read and mutate. Dialect SSOT: [memnet-format](memnet-format/SKILL.md), [mcp-memnet](mcp-memnet/SKILL.md). Reference lookups -> [SKILL-GRAPH.md](SKILL-GRAPH.md).
 
 Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>/SKILL.md`.
 

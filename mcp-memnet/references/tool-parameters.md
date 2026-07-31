@@ -1,6 +1,6 @@
 # MemNet MCP — tool parameters
 
-MCP server key: typically **`memnet`** in Cursor MCP config. Tools return **JSON text** (parse as object) unless noted. Product: **`memnet-llm` 0.3.2**.
+MCP server key: typically **`memnet`** in Cursor MCP config. Tools return **JSON text** (parse as object) unless noted. Product: **`memnet-llm` 0.3.5**.
 
 ## Invoke order (typical session)
 
@@ -63,9 +63,11 @@ Shared dialect mutate (`+` / `~` / `-`):
 ```text
 ## Nodes
 + CLM [NEW] ; type=decision ; code=… ; recycle=persistent
+~ [T42] ; status=in_progress ; recycle=persistent
 
 ## Edges
-+ E01 [NEW] --(helps)--> [T42] ; recycle=persistent
++ [N03] --(helps)--> [T42] ; recycle=persistent
+~ E01 ; recycle=delete_on_settle
 ```
 
 Batch many atoms in one `add`/`update` call.

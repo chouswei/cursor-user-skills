@@ -1,6 +1,6 @@
 # Skill Graph (LLM-only hub)
 
-**Audience:** model. Agent-facing examples use MemNet **0.3.1 shared dialect** (Write = display). **Do not** treat this file as the graph -- it routes you to the graph.
+**Audience:** model. Agent-facing examples use MemNet **0.3.5 shared dialect** (Write = display). **Do not** treat this file as the graph -- it routes you to the graph.
 
 **Engine seed only:** [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) is machine input for the selector/bootstrap tools (may still be compact store form). Skills and docs teach **shared dialect**; do not copy seed pipe syntax into agent I/O.
 

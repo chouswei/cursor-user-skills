@@ -1,6 +1,6 @@
 # MemNet shared dialect — field notes
 
-**Audience:** model. Agent I/O for **memnet-llm 0.3.1** is the **shared dialect** only (Write = display). See [../SKILL.md](../SKILL.md) and MemNet `docs/grammar/`.
+**Audience:** model. Agent I/O for **memnet-llm 0.3.5** is the **shared dialect** only (Write = display). See [../SKILL.md](../SKILL.md) and MemNet `docs/grammar/`.
 
 Do **not** emit `@TAG: field|field|…` pipe rows as agent format.
 
@@ -11,16 +11,23 @@ Do **not** emit `@TAG: field|field|…` pipe rows as agent format.
 ```text
 ## Nodes
 + KIND [NEW] ; field=value ; … ; recycle=persistent
-~ KIND [KnownId] ; field=value ; recycle=persistent
-- KIND [KnownId]
+~ [KnownId] ; field=value ; recycle=persistent
+- Eid
 
 ## Edges
-+ Eid [FromId] --(rel)--> [ToId] ; note=… ; recycle=persistent
++ [NEW|Eid]? [FromId] --(rel)--> [ToId] ; note=… ; recycle=persistent
+~ [FromId] --(rel)--> [ToId] ; …
+~ Eid ; recycle=delete_on_settle
 ```
+
+Patch nodes: **`~ [Id]` only** — do not repeat kind (`~ TSK [T42]` is invalid). Re-id: `~ [OldId] ; id=NewId` (optional `; merge=true` on nodes).
 
 **Pin map** (bare present — copy these shapes on the next mutate, without leading ops):
 
 ```text
+## Laws
+LAW01 kind=engine ; text=one_row_per_id_tag ; recycle=persistent
+
 ## Nodes
 CLM [C12] ; type=decision ; code=bitrate cap 2000 bps ; recycle=persistent
 TSK [T42] ; goal=Clear warehouse ; status=in_progress ; recycle=persistent
@@ -28,6 +35,19 @@ TSK [T42] ; goal=Clear warehouse ; status=in_progress ; recycle=persistent
 ## Edges
 E77 [N03] --(helps)--> [T42] ; note=labour ; recycle=persistent
 ```
+
+**Session schema** (`session_open` map — not graph rows):
+
+```text
+SCHEMA MOD ; fields=id path summary status recycle
+```
+
+## Fields (R1 atoms-only)
+
+- Join with `;` — `key=value`
+- Numeric patch ops: `phase+=1`, `risk-=0.5` (numbers only)
+- Values: bare atoms, `NUMBER`, or `"quoted strings"` (paths with `\` or spaces)
+- No nested lists/maps in one field — use EDGE lines for membership
 
 ## Recycle
 
@@ -48,7 +68,7 @@ E77 [N03] --(helps)--> [T42] ; note=labour ; recycle=persistent
 | `PRT` / `POR` / `CON` / `REQ` | SysML patterns — see sysml-memnet-patterns |
 | Edge | `--(rel)-->` plus optional `note`, `recycle` |
 
-Keep field values short. Relations are separate edges, never embedded arrays.
+Keep field values short. Relations are separate edges, never embedded arrays or comma id-lists.
 
 ## Design principles
 

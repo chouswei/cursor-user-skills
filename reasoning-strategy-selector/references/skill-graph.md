@@ -1,6 +1,6 @@
 # Skill graph (schema for seed + MemNet)
 
-**Audience:** LLM + tooling. Canonical routing store is [`skill-graph-seed.wire`](skill-graph-seed.wire) (**engine seed only** -- may use compact store rows). Agent-facing docs use MemNet **0.3.1 shared dialect** (see [SKILL-GRAPH.md](../../SKILL-GRAPH.md), [memnet-format](../../memnet-format/SKILL.md)).
+**Audience:** LLM + tooling. Canonical routing store is [`skill-graph-seed.wire`](skill-graph-seed.wire) (**engine seed only** -- may use compact store rows). Agent-facing docs use MemNet **0.3.5 shared dialect** (see [SKILL-GRAPH.md](../../SKILL-GRAPH.md), [memnet-format](../../memnet-format/SKILL.md)).
 
 ## Pre-Phase-1 decisions (D1-D4)
 

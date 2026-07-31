@@ -79,8 +79,8 @@ Copy assigned ids from the mutate / pin-map response (replace `NEW` placeholders
 
 ```text
 ## Nodes
-~ DEC [DEC_mcp_keep_id] ; chosen=true ; recycle=delete_on_settle
-~ TSK [TSK_mcp_session_load] ; status=done ; recycle=delete_on_settle
+~ [DEC_mcp_keep_id] ; chosen=true ; recycle=delete_on_settle
+~ [TSK_mcp_session_load] ; status=done ; recycle=delete_on_settle
 ```
 
 ### Next turn — where is that function?
@@ -95,7 +95,7 @@ Returns LAW + connected task/module/symbol/user/decision/edge atoms — small sl
 
 ```text
 ## Nodes
-~ SYM [SYM_cli_session_load] ; path=src/memnet/cli.py ; line=352 ; recycle=persistent
+~ [SYM_cli_session_load] ; path=src/memnet/cli.py ; line=352 ; recycle=persistent
 ```
 
 ## Anchors to prefer

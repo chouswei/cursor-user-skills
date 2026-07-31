@@ -52,7 +52,7 @@ Pin map includes `USR` rows linked to the task.
 
 ```text
 ## Nodes
-~ USR [USR_scope] ; content=memnet repo only, no user-pack edits ; status=active ; recycle=persistent
+~ [USR_scope] ; content=memnet repo only, no user-pack edits ; status=active ; recycle=persistent
 ```
 
 Same id — **update**, not add.
