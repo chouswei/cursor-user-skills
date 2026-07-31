@@ -4,45 +4,17 @@ alwaysApply: false
 
 # Sub-agent policy
 
-This `.mdc` is normative. Pack hubs point here only.
+**Off:** prefer Task for non-trivial tool work; skip trivial single-tool answers.
+**On:** system Multitask gate wins -- spawn async background subagent(s); end turn (no await/poll); one coherent worker unless workstreams are independent; self-contained prompts; model table applies.
 
-## When
+**Spawn:** (1) set `model` from table (default `cursor-grok-4.5-low`); (2) one worker, self-contained prompt; (3) specialised skill optional.
 
-When Multitask Mode is **off**:
+| Role | Slug |
+|------|------|
+| Thinking / planning / architecture | `cursor-grok-4.5-low` |
+| Web search / live docs fetch | `gemini-3-flash` |
+| Layout / frontend review | `kimi-k3-max` |
+| Clear-step routines | `composer-2.5` |
+| Unclear | `cursor-grok-4.5-low` |
 
-- Prefer a sub-agent (Task) for **non-trivial tool work**: multi-step exploration, parallel independent streams, long command/MCP runs.
-- Skip for trivial single-tool answers.
-
-## When Multitask Mode is on
-
-Follow Multitask Mode system instructions as the stronger gate: if tools are needed, **must** spawn async background subagent(s); do not do that tool work in the parent.
-
-- After spawn: end turn; do not await/poll; rely on completion notification.
-- Prefer **one coherent worker**; parallel siblings only for clearly independent top-level workstreams.
-- Self-contained prompts still required.
-- Model-by-role table still applies when setting Task `model`.
-
-## How to spawn
-
-1. Set `model` from the role table (default `cursor-grok-4.5-low` if unclear).
-2. One coherent worker; self-contained prompt.
-3. Open a task skill only when the work is specialised (optional, not a gate).
-
-## Model by role (user pack)
-
-| Role | Family | Default slug (set `model`) |
-|------|--------|----------------------------|
-| Thinking / hard reasoning / planning / architecture | Grok | `cursor-grok-4.5-low` |
-| Web searching / live web research / docs fetch needing search | Gemini | `gemini-3-flash` |
-| Layout / frontend review (UI, CSS, letterhead, visual layout) | Kimi | `kimi-k3-max` (Kimi K3) |
-| Routines with clear steps/guide (mechanical edits / consolidate / implement / verify) | Composer | `composer-2.5` |
-| **Role unclear** | Grok Low | `cursor-grok-4.5-low` |
-
-If allowlist slugs change, keep the same family; update to the current non-fast slug. Examples: `composer-2.5`, `cursor-grok-4.5-low`, `gemini-3-flash`, `kimi-k3-max`.
-
-## Must not
-
-- Blind fan-out without skill routing
-- Any `*-fast` / FAST Task model -- **never FAST**
-- Guessing a model when role is unclear -- use `cursor-grok-4.5-low`
-- Higher Grok tier only if the user asks
+Allowlist drift: same family, current non-fast slug. **Never** `*-fast` / FAST. No blind fan-out. Higher Grok only if user asks.
