@@ -65,8 +65,8 @@ SCHEMA MOD ; fields=id path summary status recycle
 | `RUL` | `kind`, `code`, `priority`, `recycle` |
 | `MOD` | `path`, `lang`, `role`, `loc`, `recycle` |
 | `SYM` | `name`, `kind`, `path`, `line`, `sig`, `vis`, `recycle` |
-| `PRT` / `POR` / `CON` / `REQ` | SysML patterns — see sysml-memnet-patterns |
-| Edge | `--(rel)-->` plus optional `note`, `recycle` |
+| `PKG` / `PRT` / `POR` / `CON` / `BEH` / `ITM` / `REQ` | SysML model atoms — fields and closed EDG list in [sysml-memnet-patterns](../../sysml-memnet-documentation/references/sysml-memnet-patterns.md); thin map in [../SKILL.md](../SKILL.md) §SysML x MemNet |
+| Edge | `--(rel)-->` plus optional `note`, `recycle` — engine style: English verb / snake token; SysML campaigns: copy patterns / pin map |
 
 Keep field values short. Relations are separate edges, never embedded arrays or comma id-lists.
 

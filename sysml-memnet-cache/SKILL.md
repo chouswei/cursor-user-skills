@@ -69,7 +69,7 @@ Per-skill write map: [relatives-cache-map.md](../sysml-memnet-documentation/refe
 
 Mechanics: [mcp-memnet](../mcp-memnet/SKILL.md). Procedure: [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md).
 
-**MCP wire:** `@EDG` relation names are **`snake_case`** (`declared_in`, `in_file`, `has_port`, `typed_by`, `satisfies`) — the MemNet MCP rejects camelCase (`declaredIn`).
+**MCP wire:** EDG `rel` names are **session-registered strings**. SysML closed list: [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md) (`declaredIn`, `hasPort`, `typedBy`, `inFile`, `satisfies`, `allocates`, …). **Copy exact spellings from the live pin map**; seed unknowns with `allow_new_relation=true`. Engine-generic new edges prefer English verb / snake tokens (MemNet `docs/grammar/`); do not invent a second spelling for an existing link.
 
 ## Specialist defer rule
 

@@ -78,7 +78,7 @@ Model elements: `@PRT`/`@POR`/`@CON`/`@BEH`/`@ITM`/`@REQ` + `@SYM` (path, line) 
 - **system-design-report-generator** — full pack generate/maintain: warm before prose, `@ART`/`@SEC`/`@CLM` after sync ([memnet-report-pipeline.md](../system-design-report-generator/references/memnet-report-pipeline.md))
 - **sysml-view-doc-sync** — sync outputs, then atomise key claims as `@CLM`
 - **sysml-refactorer**, **sysml-traceability**, **sysml-requirements-audit** — persist findings after work
-- **memnet-format** — wire-format field order for SysML tags
+- **memnet-format** — engine shared dialect; thin SysML x MemNet kind/id pointer only
 - **mcp-sysmledgraph** — impact/rename; record intent in MemNet
 - **mcp-memnet** — base MCP mechanics
 

@@ -72,6 +72,8 @@ ART, SEC, CLM, ENT, PKG, PRT, POR, CON, BEH, ITM, REQ, MOD, SYM, CONV, DEC, ISSU
 
 ## Edge relations (closed list)
 
+Copy these spellings exactly (session registry). Engine-generic new edges outside this list prefer English verb / snake tokens (MemNet `docs/grammar/`); do not dual-spell the same link.
+
 `satisfies`, `allocates`, `declaredIn`, `hasPort`, `typedBy`, `connects`, `realizes`, `owns`, `inFile`, `contains`, `mentions`, `constrained_by`, `dependsOn`, `audits`, `flowOf`, `declaredAs`
 
 Diagram placement (`TSK_diagram_*`): `figure_includes`, `figure_uses`, `anchor_of`, `adjacent_to`, `documents` -- see [sysml-memnet-pipeline.md](sysml-memnet-pipeline.md).

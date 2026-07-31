@@ -67,10 +67,35 @@ Primary read: live **pin map** via MCP `pin_map` / CLI `query pin-map`. (`query_
 | Work unit | `TSK` |
 | User constraint | `USR` |
 | File / symbol | `MOD` / `SYM` |
-| SysML element | `PRT` / `POR` / `CON` / `REQ` / `SYM` |
 | Rule / policy | `RUL` |
+| SysML model atoms | see **SysML x MemNet** below — do not invent kinds here |
 
 Membership of many ids → multiple **edges**. Directed relation → edge.
+
+**`rel` style (engine):** English verb / snake token (`owns`, `satisfies`, `contains`, …) per MemNet `docs/grammar/`. Session registries may already hold other spellings — **copy from the live pin map**; never invent a second spelling for the same link.
+
+---
+
+## SysML x MemNet
+
+Engine-generic dialect stays above. **SysML construct map, `kind` enums, EDG closed list, and batch rules** are SSOT in [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) → [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md). Cache loop: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md).
+
+| SysML v2 textual (grammar) | MemNet | Stable id |
+|----------------------------|--------|-----------|
+| `package` | `PKG` | `PKG_<suffix>` |
+| `part def` / part usage | `PRT` (+ `SYM` locator) | `PRT_<name>` |
+| `port def` / port usage | `POR` (+ `SYM`) | `POR_<name>` |
+| `connection` / `connect` / link | `CON` (+ `SYM`) | `CON_<name>` |
+| `requirement` def/usage | `REQ` (+ `SYM`) | `REQ_<requirementId>` |
+| `item def` / flow item | `ITM` | `ITM_<name>` |
+| `state def` / action / calc | `BEH` (+ `SYM`) | `BEH_<name>` |
+| `assert` … `satisfy` | **edge only** `satisfies` | — |
+| `allocate` / `allocation` | **edge only** `allocates` | — |
+| `.sysml` file / edit locus | `MOD` / `SYM` | `MOD_<slug>` / `SYM_<name>` |
+
+House anchors (copy, do not mint colliding prefixes): `TSK_model_<short>`, `TSK_diagram_<figureId>`, `USR_*`, plus the `PRT_` / `POR_` / `REQ_` / `BEH_` / `SYM_` / `MOD_` rows above. `satisfy` / `allocate` are never structure nodes — edges only (`@SYM` only if a line locator is needed).
+
+Deep atomisation, closed EDG spellings, and specialist write map → patterns / [relatives-cache-map.md](../sysml-memnet-documentation/references/relatives-cache-map.md).
 
 ---
 
@@ -110,4 +135,5 @@ Full discipline: [mcp-memnet/references/atomisation.md](../mcp-memnet/references
 
 - [references/memnet-wire-format.md](references/memnet-wire-format.md) — shared-dialect field notes
 - [mcp-memnet](../mcp-memnet/SKILL.md) — tools and session loop
+- [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) — SysML atomisation SSOT (patterns, snap, cache)
 - MemNet `docs/grammar/` — design SSOT
