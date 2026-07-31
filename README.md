@@ -43,7 +43,7 @@ If the folder already has content and is not a git clone of this repo, back it u
 - Includes meta tooling (e.g. **skillfish**, **skill-creator**) and domain skills.
 - Some skills are marked **deprecated** in their `SKILL.md` (e.g. TOON/TRON, novel-writer, merged SysML stubs); keep them for trigger resolution, but follow the survivor skill they point to.
 - MemNet agent I/O: **shared dialect** only (`memnet-format` + `mcp-memnet`). Do not teach pipe `@TAG` rows as agent format.
-- Sub-agents: role->slug in `rules/sub-agent-policy.mdc` (unclear/thinking -> `cursor-grok-4.5-low` never FAST; visual items review -> `kimi-k3-max`; clear-step routines -> `composer-2.5`; never `*-fast`).
+- Sub-agents: role->slug in `rules/sub-agent-policy.mdc` (unclear/thinking -> `cursor-grok-4.5-low` never FAST; visual items review -> `kimi-k3-max`; MemNet snapshot -> `gpt-5.6-luna-medium`; clear-step routines -> `composer-2.5`; never `*-fast`).
 
 
 ## Maintain

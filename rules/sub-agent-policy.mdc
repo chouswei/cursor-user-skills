@@ -9,12 +9,14 @@ alwaysApply: false
 
 **Spawn:** (1) set `model` from table (default `cursor-grok-4.5-low`); (2) one worker, self-contained prompt; (3) specialised skill optional.
 
-| Role | Slug |
-|------|------|
-| Thinking / planning / architecture | `cursor-grok-4.5-low` |
-| Web search / live docs fetch | `gemini-3-flash` |
-| Visual items review (UI screenshots, layout appearance, letterhead) | `kimi-k3-max` |
-| Clear-step routines | `composer-2.5` |
-| Unclear | `cursor-grok-4.5-low` |
+| Role | Family | Slug |
+|------|--------|------|
+| Thinking / planning / architecture | Grok | `cursor-grok-4.5-low` |
+| Web search / live docs fetch | Gemini | `gemini-3-flash` |
+| Visual items review (UI screenshots, layout appearance, letterhead) | Kimi | `kimi-k3-max` |
+| Clear-step routines | Composer | `composer-2.5` |
+| MemNet snapshot (docs / SysML / code atomise) | Luna | `gpt-5.6-luna-medium` |
+| Unclear | Grok | `cursor-grok-4.5-low` |
 
+Luna = high-volume pin_map / atomise / snapshot loops (cost-sensitive); not peak planning (Grok), visual review (Kimi), or web search (Gemini).
 Allowlist drift: same family, current non-fast slug. **Never** `*-fast` / FAST. No blind fan-out. Higher Grok only if user asks.
