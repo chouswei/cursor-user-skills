@@ -13,7 +13,7 @@ alwaysApply: false
 |------|------|
 | Thinking / planning / architecture | `cursor-grok-4.5-low` |
 | Web search / live docs fetch | `gemini-3-flash` |
-| Layout / frontend review | `kimi-k3-max` |
+| Visual items review (UI screenshots, layout appearance, letterhead) | `kimi-k3-max` |
 | Clear-step routines | `composer-2.5` |
 | Unclear | `cursor-grok-4.5-low` |
 

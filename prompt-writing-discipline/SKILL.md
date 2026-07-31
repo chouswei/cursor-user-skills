@@ -43,7 +43,7 @@ Writing or editing prose that a model will read. Skip for human-only marketing f
 4. Do not invent cryptic tiers/codes (`T1`, `LAW-PIPE20`, unglossed house labels) as the primary agent-facing term.
 5. Optional example (MemNet): if a design doc says "Tier A", write **Tier A (shared dialect -- Write = display)** once, then prefer **shared dialect**.
 6. Prefer **ASCII** in LLM-consumed skill/rule/hub text (`->` not arrows; `--` not em dashes; no smart quotes). See pack rule R16 in `LLM.md`.
-7. When spawning Task/subagents: **MUSTNOT** select FAST/flash/low speed model slugs. See pack rule R17 in `LLM.md`.
+7. When spawning Task/subagents: set `model` per `sub-agent-policy` / R17 (thinking/unclear -> `cursor-grok-4.5-low`; visual items review -> `kimi-k3-max`). **MUSTNOT** use any `*-fast` / FAST slug.
 
 ## Good vs bad (one-liners)
 
