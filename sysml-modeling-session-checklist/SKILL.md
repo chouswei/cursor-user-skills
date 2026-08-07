@@ -7,11 +7,12 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.1"
+  version: "1.2"
   pairs_with: [sysml-memnet-documentation, sysml-memnet-cache, sysml-modeling-workflow, project-planner, mcp-sysml-v2, mcp-sysmledgraph, mcp-memnet, sysml-view-doc-sync]
 token_guardrails: |
   - **Thin:** run the checklist mentally or as bullets; do not paste long repo trees.
   - **MemNet first:** steps 0–1 before any `.sysml` Read (see sysml-memnet-read-policy.md).
+  - **Model SSOT:** plan edits to `.sysml` first; commissioning / power-cycle / setup flows → behaviour + requirements (refine/derive), then outputs diagrams.
   - **After edits:** mcp-sysml-v2 validate; step 6 MemNet delta when structure changed.
   - Use project-planner in a separate turn for full requirements interview + roadmap.
 ---
@@ -48,7 +49,7 @@ After the checklist, state briefly:
 
 3. **Cross-file scope** — Large setups: **mcp-sysmledgraph** **indexDbGraph** / **impact** before wide renames.
 
-4. **Modeling sequence** — requirements → deploy / connections → behaviour → satisfy / allocate → outputs ([sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) 6-step turn).
+4. **Modeling sequence** — requirements (prefer **refine** / **derive** under parents) → deploy / connections → behaviour (incl. commissioning / power-cycle when in scope) → satisfy / allocate → outputs + **`outputs/diagrams/`** ([sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) 6-step turn). Model first; do not author architecture only in Markdown.
 
 5. **After changes** — **Validate** (step 4); **sysml-view-doc-sync** if outputs (step 5); **MemNet delta + `@CLM` pipe settle** (step 6) unless comment-only or serve down. Optional: `python sysml-v2-models/scripts/exam_model.py --project <name>`.
 

@@ -5,8 +5,10 @@ description: >-
   behaviour) and optional Mermaid; use SysML v2 MCP preview for BDD/IBD checks—not visualizeFile unless user
   asks. Preserve de facto alignment: markdown must use the same port names and site conventions as deploy
   (see sysml-traceability/references/de-facto-modeling.md). Interconnection Mermaid: layered topology, short
-  edge labels + legend, one diagram per intent—see references/interconnection-mermaid.md. Triggers: sync doc
-  to model, update outputs from deploy, diagram from sysml, IBD markdown, operator-facing wiring table.
+  edge labels + legend, one diagram per intent—see references/interconnection-mermaid.md. Commissioning /
+  plant-setup flows: prefer outputs/diagrams/ (e.g. plant-setup-flow.md) from behaviour + requirements.
+  Triggers: sync doc to model, update outputs from deploy, diagram from sysml, IBD markdown,
+  plant-setup flow diagram, operator-facing wiring table.
 metadata:
   pattern: pipeline
   pairs_with: [mcp-sysml-v2, mermaid, mmdc, sysml-connections, sysml-behaviour-generator, project-output-article, system-design-report-generator]
@@ -47,7 +49,7 @@ This skill should help the report read cleanly, not just stay mechanically synce
 
 1. **Identify outputs** — `projects/<name>/outputs/` — which `.md` (or **`system-design-report/`** hub + `*.md` sections) reference deploy part names, connections, states (see project README or DOCS_INDEX). For packs, read **hub `llm_toc`** first, then the **section `file`** you need.
 
-2. **Diff narrative** — Update sections: architecture, part tree, connection summary, behaviour states — **from** grep/read of deploy and behaviour files, not from memory. Copy **exact** qualified port paths from deploy for tables (de facto wiring).
+2. **Diff narrative** — Update sections: architecture, part tree, connection summary, behaviour states, **requirements traceability** (`10-requirements-traceability.md` or pack equivalent -- parent/child requirementIds + satisfy) — **from** grep/read of deploy, behaviour, and requirements files, not from memory. Copy **exact** qualified port paths from deploy for tables (de facto wiring).
    Keep prose terse and factual; avoid repeating port lists in multiple paragraphs when one table or caption suffices.
 
 3. **Mermaid (system / interconnection)** — Load **[sysml-interconnection-mermaid](../sysml-interconnection-mermaid/SKILL.md)** first. Model-first inventory: [architecture-diagrams](../mermaid/references/architecture-diagrams.md). Placement: MemNet `TSK_diagram_*` or Markdown `DiagramPlan` per [mermaid-placement-by-degree](../mermaid/references/mermaid-placement-by-degree.md) **before** fenced blocks. Layout/legend: [interconnection-mermaid.md](references/interconnection-mermaid.md):
@@ -61,6 +63,7 @@ This skill should help the report read cleanly, not just stay mechanically synce
    - **Optional:** `classDef` for office vs field vs terminal; directed `-->` from switch to field legs where it aids reading.
    - **Validate AFTER edit:** Run `mmdc -i <diagram>.mmd` to catch parse errors before rendering or export. **Fix all errors before finalizing.**
 
+3b. **Commissioning / plant-setup diagrams** — When behaviour defines ordered setup or power-cycle recovery, add or refresh a flowchart under **`outputs/diagrams/`** (e.g. **`plant-setup-flow.md`**): steps from the model (sticky reservation → transport → switch visibility → inventory commit); cite parent requirementIds / action names; **no invented architecture** in the diagram alone. Keep site addresses out of **shared** skill templates -- diagrams may mirror the project's modelled examples.
 4. **SysML diagrams** — **SysML v2 MCP preview** for structural sanity; **not** **visualizeFile** / **visualize.py** unless user explicitly asks ([cursor-mcp-rules](../mcp-sysml-v2/references/cursor-mcp-rules.md)).
 
 5. **Optional HTML IBD** — If the project defines `ibd_html_path` in `config.yaml`, run `visualize.py --diagram ibd --format html` after deploy edits so **generated** Mermaid matches the model; align **manual** diagrams in `.md` per step 3.

@@ -8,7 +8,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: mbse-outputs
-  version: "2.1"
+  version: "2.2"
   pairs_with:
     - project-output-article
     - sysml-view-doc-sync
@@ -23,7 +23,7 @@ token_guardrails: |
   - **MemNet before prose (when serve up):** `serve_status` → `pin_map(TSK_model_<short>)` → then hub → **one** section file. Do not grep-deploy from memory when warm rows exist.
   - **Normative layout:** [references/SYSTEM_DESIGN_REPORT_LAYOUT.md](references/SYSTEM_DESIGN_REPORT_LAYOUT.md) — do not invent a second competing root under `docs/`.
   - **MemNet pipeline:** [references/memnet-report-pipeline.md](references/memnet-report-pipeline.md) — ART/SEC/claim atoms after sync; G/M step codes per [sysml-memnet-pipeline.md](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md) (shared dialect preferred; pipe legacy).
-  - **Model wins:** deploy/connections/behaviour `.sysml` stay authoritative; **sysml-view-doc-sync** after edits.
+  - **Model wins:** deploy/connections/behaviour/requirements `.sysml` stay authoritative; **sysml-view-doc-sync** after edits. Keep `10-requirements-traceability` and `outputs/diagrams/` plant-setup flows aligned with refine/derive + behaviour.
   - Report sections are **human-first**: write compact, precise prose. Prefer tables, bullets, and short notes; avoid long introductory filler and avoid restating the same fact in multiple sections.
   - If a section can be understood from a table plus one short sentence, do that instead of a paragraph.
   - **UTF-8 encoding:** All `.md` files **must** be UTF-8 encoded (no mixed encoding, no BOM). Merge using Python (see skill): read each file with explicit `encoding='utf-8'`, combine in order, write merged output as UTF-8. **No Unicode sanitization needed** — proper UTF-8 handles all special characters (–, →, ↔, ×, §) correctly.
@@ -54,8 +54,8 @@ These packs are for human readers too, so keep each section tight and purposeful
 2. **Read layout** — [references/SYSTEM_DESIGN_REPORT_LAYOUT.md](references/SYSTEM_DESIGN_REPORT_LAYOUT.md) (folder name, hub schema, section filenames, **LOC** discipline).
 3. **Create or adopt folder** — Under `sysml-v2-models/projects/<name>/outputs/`, use pack root **`system-design-report/`** (or legacy `system-design/` if the project already started — one pack per project, **documented in hub**).
 4. **Hub file** — From [assets/hub-index-template.md](assets/hub-index-template.md): project title, **source** line (model paths), **`llm_toc`** with **`file`**, optional **`llm_keywords`**, optional **`memnet:`** block (anchor, `art_id`, session, cross-artifact manuals).
-5. **Section files** — From [assets/section-template.md](assets/section-template.md): content from **warm graph + deploy grep** — exact `link*` names, requirement ids, behaviour action names, de-facto part notes from model `doc` comments.
-6. **Sync** — Run **sysml-view-doc-sync**; validate **mermaid** / **mmdc** only when rendering assets.
+5. **Section files** — From [assets/section-template.md](assets/section-template.md): content from **warm graph + deploy grep** — exact `link*` names, requirement ids (parent/child via refine/derive), behaviour action names, de-facto part notes from model `doc` comments.
+6. **Sync** — Run **sysml-view-doc-sync**; validate **mermaid** / **mmdc** only when rendering assets. Include **`outputs/diagrams/`** commissioning / plant-setup flowcharts when behaviour defines them; keep **`10-requirements-traceability`** in step with the requirements package.
 7. **MemNet report delta** — [references/memnet-report-pipeline.md](references/memnet-report-pipeline.md): `@ART` + `@SEC` per hub section + key `@CLM` facts with `mentions` EDGs to `@CON`/`@PRT`/`@REQ`. Skip only if `serve_status` false.
 8. **Pointers** — Update `outputs/README.md`; keep `AGENT-CONTEXT.md` thin (session + anchor + `ART_*` ids, not topology).
 

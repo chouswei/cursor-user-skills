@@ -7,10 +7,12 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.2"
-  pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability]
+  version: "1.3"
+  pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator]
 token_guardrails: |
   - MUST follow the 6-step MemNet turn sequence below on every substantive modeling turn.
+  - Model SSOT: edit `.sysml` first; then outputs; then programs under parts/**. Never invent architecture only in Markdown or code.
+  - Commissioning / plant-setup / power-cycle policy: capture in behaviour + requirements (prefer refine/derive children), then sync `outputs/diagrams/` and report sections.
   - pin_map before edit; MemNet delta + line refresh after validate (see sysml-memnet-snap.md).
   - Pipeline handoffs: shared dialect mutate when MemNet is up (sysml-memnet-pipeline.md); plain Markdown when down (not TOON/TRON).
   - MUST follow sysml-memnet-read-policy.md: no full deploy read for topology; <=2 narrow Read windows per turn.
@@ -54,15 +56,23 @@ Full policy: [sysml-memnet-read-policy.md](../sysml-memnet-documentation/referen
 
 Also: confirm project/scope; derive plans from the model when needed.
 
+### Model-first (SSOT)
+
+1. Edit **`models/*.sysml`** (requirements / deploy / behaviour / items).
+2. Validate; then sync **`outputs/`** (report sections + **`outputs/diagrams/`** commissioning / setup flows when those behaviours exist).
+3. Align **`parts/**`** programs to allocate / behaviour / modelled APIs -- peers realign via the model, not by reading each other's code first.
+
+Commissioning, ordered plant setup, sticky DHCP, and power-down/up recovery belong in **behaviour** and **requirements** (**refine** / **derive** under the parent theme), not only in operator Markdown.
+
 ## Routing
 
 - MemNet cache (relatives read/write): `sysml-memnet-cache` -> `mcp-memnet` tools
 - MemNet policy / snap procedure: `sysml-memnet-documentation`
 - Session preflight: `sysml-modeling-session-checklist`
 - New project root/config or load order: `sysml-root-config`, `sysml-import-order-helper`
-- Requirements, traceability, audits: `sysml-requirements-generator`, `sysml-traceability`, `sysml-requirements-audit`
+- Requirements, refine/derive, traceability, audits: `sysml-requirements-generator`, `sysml-traceability`, `sysml-requirements-audit`
 - Ports, parts, items: `sysml-physical-port-generator`, `sysml-hardware-part-generator`, `sysml-software-port-generator`, `sysml-software-part-generator`, `sysml-item-generator`
-- Wiring, interconnection, outputs sync: `sysml-connections`, `sysml-view-doc-sync`
+- Wiring, interconnection, outputs sync: `sysml-connections`, `sysml-view-doc-sync` (include `outputs/diagrams/` plant-setup style flows)
 - Behaviour or state machines: `sysml-behaviour-generator`, `sysml-view-doc-sync`
 - Rename, migration, blast radius: `sysml-refactorer`, `mcp-sysmledgraph`
 - Shared library changes or file splits: `sysml-common-lib-contribution`, `sysml-common-file-scale`

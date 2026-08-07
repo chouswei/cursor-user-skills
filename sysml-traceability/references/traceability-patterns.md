@@ -4,8 +4,11 @@
 |------|----------------|--------|
 | Requirement → design | `satisfy ReqName;` inside `part def` / on usage | deploy package; imports requirements |
 | Software → hardware | `allocate partUsage to partUsage;` | deployment composite in deploy |
-| Refinement | `derive req` / refinement (project-specific; follow OMG examples if used) | requirements or deploy |
+| Parent → child requirement | `refine` / `derive` (project SysML v2 form) | requirements package |
+| Doc cross-cite | Mention related requirementIds in `doc` | clarifying only; not a substitute for refine/derive |
 
-- **Imports:** Deploy file needs `private import …Requirements::*` for `satisfy`.
-- **Naming:** Use exact **`requirement def`** name after `satisfy`.
-- **sysmledgraph:** Query “who references ReqX” before deleting or renaming.
+- **Imports:** Deploy needs `private import …Requirements::*` for `satisfy`.
+- **Naming:** Exact **`requirement def`** name after `satisfy`.
+- **Trees:** Prefer one parent theme id with derived/refined children over parallel flat peers for the same concern (e.g. plant setup → sticky DHCP / ordered steps / power-cycle recovery).
+- **Outputs:** After model change, sync **`outputs/**/10-requirements-traceability.md`** (parent/child + satisfy matrix).
+- **sysmledgraph:** Query who references a requirement before deleting or renaming.

@@ -233,6 +233,8 @@
 @TRG: TRG_sysml-requirements-audit_1|sysml|persistent
 @TRG: TRG_sysml-requirements-generator_0|sysml requirements generator|persistent
 @TRG: TRG_sysml-requirements-generator_1|sysml|persistent
+@TRG: TRG_sysml-requirements-generator_refine|refine requirements|persistent
+@TRG: TRG_sysml-requirements-generator_derive|derive requirements|persistent
 @TRG: TRG_sysml-root-config_0|sysml root config|persistent
 @TRG: TRG_sysml-root-config_1|sysml|persistent
 @TRG: TRG_sysml-signal-processing-pipeline_0|sysml signal processing pipeline|persistent
@@ -407,6 +409,8 @@
 @EDG: E0144|TRG_sysml-requirements-audit_1|triggers|sysml-requirements-audit|sysml|persistent
 @EDG: E0145|TRG_sysml-requirements-generator_0|triggers|sysml-requirements-generator|sysml requirements generator|persistent
 @EDG: E0146|TRG_sysml-requirements-generator_1|triggers|sysml-requirements-generator|sysml|persistent
+@EDG: E0287|TRG_sysml-requirements-generator_refine|triggers|sysml-requirements-generator|refine requirements|persistent
+@EDG: E0288|TRG_sysml-requirements-generator_derive|triggers|sysml-requirements-generator|derive requirements|persistent
 @EDG: E0147|TRG_sysml-root-config_0|triggers|sysml-root-config|sysml root config|persistent
 @EDG: E0148|TRG_sysml-root-config_1|triggers|sysml-root-config|sysml|persistent
 @EDG: E0149|TRG_sysml-signal-processing-pipeline_0|triggers|sysml-signal-processing-pipeline|sysml signal processing pipeline|persistent

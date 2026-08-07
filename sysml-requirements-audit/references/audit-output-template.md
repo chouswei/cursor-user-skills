@@ -7,13 +7,22 @@ Use as the **user-visible** structure for a read-only audit (adjust sections if 
 - **Project / package:** …
 - **Requirements file(s):** …
 - **Deploy (and other) files scanned:** …
-- **Counts:** requirement defs = *n*; requirement usages in deploy = *m*; **satisfy** statements = *k*.
+- **Counts:** requirement defs = *n*; refine/derive edges = *r*; requirement usages in deploy = *m*; **satisfy** statements = *k*.
 
 ## Requirement definitions
 
 | Def name | requirementId / note | Doc snippet |
 |----------|----------------------|-------------|
 | … | … | … |
+
+## Refine / derive hierarchy
+
+| Parent requirementId | Relation | Child requirementId |
+|----------------------|----------|---------------------|
+| … | refine / derive | … |
+
+- **Missing children** (parent theme needs nested obligations): …
+- **Orphan / broken hierarchy links:** …
 
 ## Satisfy coverage
 
@@ -26,9 +35,10 @@ Use as the **user-visible** structure for a read-only audit (adjust sections if 
 - **Orphaned defs** (no satisfy): …
 - **Unknown / broken satisfy refs:** …
 - **Duplicates / convention issues:** …
+- **Flat peers** that should derive/refine under one parent: …
 
 ## Suggested next steps
 
-- **sysml-traceability** — add or fix **satisfy** / **allocate**, align with design.
-- **sysml-requirements-generator** — scaffold missing **requirement def** entries.
-- **sysml-view-doc-sync** — refresh **outputs/*.md** tables **after** model changes (not part of this audit unless requested).
+- **sysml-traceability** — add or fix **satisfy** / **allocate** / hierarchy docs; sync **`10-requirements-traceability.md`**.
+- **sysml-requirements-generator** — scaffold missing or **derived/refined** **requirement def** entries.
+- **sysml-view-doc-sync** — refresh **outputs/*.md** **after** model changes (not part of this audit unless requested).
