@@ -116,8 +116,8 @@ Mark `@EDG` `anchor_of` from anchor `@PRT` → `TSK_diagram_*`.
 
 **p2c:spans audit:** for each CON in `figure_uses`, compute `rank_span`. If any `> 1` (non-uplink): **do not materialise** — re-rank or split.
 
-```text
-@CLM: C_span_audit|TSK_diagram_*|pipe|p2c:spans ok:5 warn:0|active|delete_on_settle
+```cypher
+CREATE (c:CLM {id: 'C_span_audit', type: 'pipe', code: 'p2c:spans ok:5 warn:0', status: 'active', recycle: 'delete_on_settle'})
 ```
 
 ---
