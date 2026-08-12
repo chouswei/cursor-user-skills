@@ -1,13 +1,13 @@
 ---
 name: file-operations
 description: >-
-  Teach efficient file move/copy/batch operations; avoid Read→Write→Delete antipattern.
+  Teach efficient file move/copy/batch operations; avoid Read->Write->Delete antipattern.
   Triggers: batch file operations, organizing outputs, preserving file content exactly,
-  file cleanup, avoiding regeneration waste.
+  file cleanup, avoiding regeneration waste, move copy batch files.
 metadata:
   pattern: pipeline
   severity-levels: info
-  version: 1.0
+  version: 1.1
   domain: workflow
 ---
 

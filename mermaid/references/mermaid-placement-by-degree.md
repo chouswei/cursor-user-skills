@@ -181,20 +181,21 @@ From `pin_map(TSK_diagram_<figureId>)`:
 
 ## MemNet wire (serve up)
 
-See [sysml-memnet-pipeline.md](~/.cursor/skills/sysml-memnet-documentation/references/sysml-memnet-pipeline.md) § Diagram placement task.
+See [sysml-memnet-pipeline.md](~/.cursor/skills/sysml-memnet-documentation/references/sysml-memnet-pipeline.md) section Diagram placement task. Agent I/O is openCypher-shaped (not pipe `@TAG`).
 
 **Task:**
 
-```text
-@TSK: TSK_diagram_vfdl2-edgeside-panel-eth|panel L2 graph|pipe|in_progress|delete_on_settle
-@EDG: E…|TSK_diagram_vfdl2-edgeside-panel-eth|childOf|TSK_model_vfdl2|diagram|delete_on_settle
-@EDG: E…|TSK_diagram_vfdl2-edgeside-panel-eth|documents|SEC_S04|04-interconnection.md|delete_on_settle
+```cypher
+CREATE (t:TSK {id: 'TSK_diagram_vfdl2-edgeside-panel-eth', goal: 'panel L2 graph', phase: 'pipe', status: 'in_progress', recycle: 'delete_on_settle'})
+CREATE (t)-[:CHILDOF {id: 'NEW', note: 'diagram', recycle: 'delete_on_settle'}]->(:TSK {id: 'TSK_model_vfdl2'})
+CREATE (t)-[:DOCUMENTS {id: 'NEW', note: '04-interconnection.md', recycle: 'delete_on_settle'}]->(:SEC {id: 'SEC_S04'})
 ```
 
 **Placement stat per node:**
 
-```text
-@CLM: C_place_gs305EP|TSK_diagram_vfdl2-edgeside-panel-eth|stat|PRT_gs305EP deg4 rank1 lane1 declare1|active|delete_on_settle
+```cypher
+CREATE (c:CLM {id: 'C_place_gs305EP', type: 'stat', code: 'PRT_gs305EP deg4 rank1 lane1 declare1', status: 'active', recycle: 'delete_on_settle'})
+CREATE (:TSK {id: 'TSK_diagram_vfdl2-edgeside-panel-eth'})-[:OWNS {id: 'NEW', recycle: 'delete_on_settle'}]->(c)
 ```
 
 **Pipe codes:** `p0:types` · `p1:scope` · `p2:place` · `p2b:bary` · `p2c:spans` · `p3:edges` · `p4:materialise` · `p5:review` · `p6:settle`

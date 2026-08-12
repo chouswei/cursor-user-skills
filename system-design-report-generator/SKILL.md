@@ -8,7 +8,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: mbse-outputs
-  version: "2.3"
+  version: "2.4"
   pairs_with:
     - project-output-article
     - sysml-view-doc-sync

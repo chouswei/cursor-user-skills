@@ -4,7 +4,7 @@
 
 ## Goal
 
-Strengthen routing edges from empirical outcomes: `@EDG: TSK_route_* led_to_success SKL_<id>`.
+Strengthen routing edges from empirical outcomes: `TSK_route_* -[:LED_TO_SUCCESS]-> SKL_<id>` (openCypher-shaped mutate).
 
 ## Write ownership
 
@@ -35,11 +35,13 @@ Paste output into `memnet.add` with `allow_new_relation=true`.
 
 ### Settle example (store write; not always-on rule body)
 
-When `reasoning-strategy-selector` `order[]` succeeds, **parent** writes (pipe legacy import form; prefer shared-dialect mutate when authoring live):
+When `reasoning-strategy-selector` `order[]` succeeds, **parent** writes openCypher-shaped mutate (GQL wire):
 
-```text
-@EDG: E_route_<slug>_<n>|TSK_route_<slug>|led_to_success|<skill_id>|pass|persistent
+```cypher
+CREATE (:TSK {id: $tid})-[:LED_TO_SUCCESS {id: 'NEW', note: 'pass', recycle: 'persistent'}]->(:SKL {id: $skillId})
 ```
+
+(Engine seed / import may still use compact store rows; do not teach pipe `@EDG:` as agent I/O.)
 
 ## Validation
 

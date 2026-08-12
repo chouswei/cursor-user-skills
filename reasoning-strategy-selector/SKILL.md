@@ -11,7 +11,7 @@ description: >-
 metadata:
   pattern: pipeline
   secondary: router
-  version: 3.4-method-pack
+  version: 3.5-method-pack
   related_skills: [academic-report-generator, adr-generator, architecture-reviewer, code-reviewer, commit-message-generator, control-theory-planner, decision-inverter, scientific-method-first-principles, empirical-paradox-synthesis, engineering-practices-learner, incentive-alignment-reviewer, launch-readiness-assessor, mcdm-decider, meeting-notes-generator, optimization-planner, pandas-expert, pr-reviewer, project-planner, risk-assessor, rfc-generator, security-reviewer, tech-report-generator, tech-report-reviewer, skill-creator, skillfish, skill-reviewer, sysml-new-project, sysml-refactorer]
 
 pipeline_steps:

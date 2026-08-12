@@ -18,5 +18,5 @@ Fields: `id`, `intent`, `expected_order`, `acceptable_alternatives` (slash-separ
 | mcp_validate | validate sysml parse diagnostics | mcp-sysml-v2 | mcp-sysml-v2 / mcp-sysmledgraph |
 | skill_creator | create new skill write SKILL.md | skill-creator | skill-creator / skill-reviewer |
 | memnet_warm | memnet query warm goldfish loop design memory | sysml-memnet-documentation | sysml-memnet-documentation / mcp-memnet / memnet-format |
-| pcba_review | PCBA design review power ground thermal | pcba-design-reviewer | pcba-design-reviewer / hardware-custom-pcba-workflow |
+| pcba_review | PCBA design review power ground thermal | pcba-design-reviewer | pcba-design-reviewer / hardware-custom-pcba-workflow (deprecated stub -> pack hub) |
 | mermaid_placement | interconnection mermaid placement memnet graph first | sysml-interconnection-mermaid | sysml-interconnection-mermaid / mermaid / sysml-memnet-documentation / sysml-view-doc-sync |

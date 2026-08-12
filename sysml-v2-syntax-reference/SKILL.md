@@ -8,7 +8,7 @@ metadata:
   pattern: tool-wrapper
   domain: sysml-v2
   pairs_with: [mcp-sysml-v2, sysml-modeling-workflow]
-  version: "1.0"
+  version: "1.1"
 ---
 
 # SysML v2 syntax reference
@@ -23,6 +23,6 @@ metadata:
 - Troubleshooting parser/LSP/MCP diagnostics against the grammar.
 - Stuck on *how* to express something (not raw grammar): SysML Forum / FAQ per [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md).
 
-## Stub
+## Pack-local note
 
-Stable URL: [docs/SYSML_V2_SYNTAX_REFERENCE.md](../../../docs/SYSML_V2_SYNTAX_REFERENCE.md)
+Normative extract lives under this skill's `references/`. Ignore stale repo-relative `docs/SYSML_V2_SYNTAX_REFERENCE.md` paths from older layouts.

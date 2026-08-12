@@ -8,7 +8,7 @@ description: >-
   alone (mmdc), declutter-only passes (mermaid-doc-readability).
 metadata:
   pattern: pipeline
-  version: "1.3"
+  version: "1.4"
   domain: documentation
   updated: 2026-07-23
   notes: Router for Mermaid cluster; flat stateDiagram-v2; pretty-mermaid bridge.

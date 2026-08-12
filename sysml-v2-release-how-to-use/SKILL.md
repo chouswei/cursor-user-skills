@@ -8,17 +8,18 @@ metadata:
   pattern: pipeline
   domain: sysml-v2
   pairs_with: [sysml-v2-syntax-reference, mcp-sysml-v2, sysml-root-config]
+  version: "1.1"
 system_instruction: |
   Prefer plain Markdown tables or domain wire; do not use TOON/TRON. JSON only at tool boundaries.
 
 ---
 
-# SysML v2 Release — how to use
+# SysML v2 Release -- how to use
 
 **Full guide:** [references/sysml-v2-release-how-to-use.md](references/sysml-v2-release-how-to-use.md).
 
 **Summary:** Cursor + MCP for daily work; Release repo on disk for **normative libraries** (`sysml-v2-models/libs/omg/SysML-v2-Release/`) and PDF/spec reference.
 
-## Stub
+## Pack-local note
 
-[docs/SYSML_V2_RELEASE_HOW_TO_USE.md](../../../docs/SYSML_V2_RELEASE_HOW_TO_USE.md)
+Guide lives under this skill's `references/`. Ignore stale repo-relative `docs/SYSML_V2_RELEASE_HOW_TO_USE.md` paths from older layouts.

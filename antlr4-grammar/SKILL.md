@@ -11,8 +11,8 @@ description: >-
 metadata:
   pattern: pipeline
   domain: languages
-  version: "1.1"
-  notes: Generic ANTLR4; MemNet shared-dialect parsing is an optional application only.
+  version: "1.2"
+  notes: Generic ANTLR4; MemNet GQL wire is not authored via .g4 -- use memnet-format.
 ---
 
 # ANTLR4 grammar
@@ -29,7 +29,7 @@ British English in new prose for this pack.
 | Generate / install runtime (Python, JS, Java) | This skill + [references/toolchain.md](references/toolchain.md) |
 | Precedence, keywords vs ids, left-recursion fixes | [references/recipes.md](references/recipes.md) |
 | Ambiguity, mutual left recursion, token traps | [references/pitfalls.md](references/pitfalls.md) |
-| MemNet shared-dialect *as text*, not as grammar | [memnet-format](../memnet-format/SKILL.md) |
+| MemNet agent wire (GQL / shaped pin_map) | [memnet-format](../memnet-format/SKILL.md) -- not an ANTLR task |
 
 ## Pipeline
 
