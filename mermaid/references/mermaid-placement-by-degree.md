@@ -44,8 +44,8 @@ Current project snaps may have `@CON` + `ends` but **no `typedBy` EDG**. Before 
 
 1. `query_warm` `@CON_*`; for each missing `typedBy`:
 2. Grep `connection link<Name>\s*:\s*<DefName>` in `deploy-*.sysml`.
-3. Add `@EDG … typedBy … CONDEF_<DefName>` in the **same batch** as snap delta.
-4. Fallback (grep miss only): name-prefix heuristic (`linkEdgePanelAc*` → power, `link*ToGs305epPort*` → L2) as `@CLM` type=`assumption`.
+3. Add `:typedBy` -> `CONDEF_<DefName>` in the **same batch** as snap delta.
+4. Fallback (grep miss only): name-prefix heuristic (`linkEdgePanelAc*` → power, `link*ToGs305epPort*` → L2) as `:CLM` type=`assumption`.
 
 Subsequent `connection` adds **must** include `typedBy` per [sysml-memnet-patterns.md](~/.cursor/skills/sysml-memnet-documentation/references/sysml-memnet-patterns.md).
 
@@ -76,7 +76,7 @@ Abort single-figure scope when **any** holds:
 
 | Term | Definition |
 |------|------------|
-| **rank** | Integer 0..N, top-to-bottom row in `flowchart TB`. Per `PRT` in `@CLM` stat. |
+| **rank** | Integer 0..N, top-to-bottom row in `flowchart TB`. Per `PRT` in `:CLM` stat. |
 | **lane** | Integer 1..K, left-to-right within a rank. |
 | **declare#** | Order in fenced block. **Anchor = declare# 1** always; not equal to rank order. |
 | **rank_span** | `|rank(endA) − rank(endB)|` per CON. ≤ 1 mandatory except uplinks. |
@@ -99,7 +99,7 @@ Abort single-figure scope when **any** holds:
 | Power | `edgePanelAc220V` (source) or `relayChainPcba` (hub) |
 | Control | PCBA hub |
 
-Mark `@EDG` `anchor_of` from anchor `@PRT` → `TSK_diagram_*`.
+Mark `:anchor_of` from anchor `:PRT` -> `TSK_diagram_*`.
 
 ---
 
@@ -129,7 +129,7 @@ Max **2 barycenter iterations** on MemNet only:
 1. Fix ranks from p2.
 2. Seed lanes: anchor centred; leaves by `typedBy` then name.
 3. For each rank `R` (top→bottom, then bottom→top): `lane(node) = average(lane(neighbours in R±1))`; ties by name.
-4. Write `lane` to `@CLM` stat; set `declare#`: anchor=1, then `(rank asc, lane asc)`.
+4. Write `lane` to `:CLM` stat; set `declare#`: anchor=1, then `(rank asc, lane asc)`.
 5. Stop when lane order unchanged or after 2 sweeps.
 
 **Star leaf tie-break:** order rank-0 leaves to match hub port order in `ends` (P1..P4).
@@ -148,7 +148,7 @@ p3:edges = (hub spokes, leaf lane left→right) → (power chains, rank asc) →
 - Declare **mate edge** (HDMI) **after all spokes**, even though it is same-rank (chord).
 - Never interleave chord between spokes.
 
-Store ordered `CON_*` list on `TSK_diagram_*` as `@CLM` pipe `p3:edges:…`.
+Store ordered `CON_*` list on `TSK_diagram_*` as `:CLM` pipe `p3:edges:…`.
 
 ---
 
@@ -278,4 +278,4 @@ When MemNet is unavailable: keep the same fields in plain Markdown tables betwee
 - [ ] `p3:edges` spokes → chains → chords
 - [ ] `p5:review=ok`
 - [ ] `mmdc -i <section>.md` pass
-- [ ] `p6:settle` + method `@CLM` on `@SEC`
+- [ ] `p6:settle` + method `:CLM` on `:SEC`
