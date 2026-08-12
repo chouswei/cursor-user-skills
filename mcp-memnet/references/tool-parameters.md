@@ -19,7 +19,7 @@ Envelope and errors: [mcp-policy.md](mcp-policy.md). Atomisation: [atomisation.m
 | Tool | Required args | Optional args | Notes |
 |------|---------------|---------------|-------|
 | `serve_status` | — | — | `{ running, host, port }` — transport probe |
-| `session_open` | `map_lines` **or** `map_file` | `ttl`, `seed_lines`, `allow_new_relation` | Auto-seeds LAW01–LAW05 (shared dialect) |
+| `session_open` | `map_lines` **or** `map_file` | `ttl`, `seed_lines`, `allow_new_relation` | Auto-seeds LAW01-LAW05 (GQL / shaped seed) |
 | `session_save` | `file` | `session` | Snapshot to disk |
 | `session_load` | `file` | `keep_id`, `ttl` | Resume; no prior session required |
 | `session_current` | — | `session` | Needs `session` or `MEMNET_SESSION` |
@@ -45,7 +45,7 @@ Envelope and errors: [mcp-policy.md](mcp-policy.md). Atomisation: [atomisation.m
 ```
 
 - Branch on **`exit_code`** and **`errors[]`**
-- Parse **`stdout`** for the live pin map (shared dialect, bare present)
+- Parse **`stdout`** for the live pin map (shaped subgraph)
 - **`wire_lines`** are joined with `\n` before send
 
 ## Environment
@@ -60,7 +60,7 @@ Set these under `mcpServers.memnet.env` in `~/.cursor/mcp.json`. Restart the `me
 
 ## wire_lines
 
-Shared dialect mutate (`+` / `~` / `-`):
+openCypher-shaped mutate:
 
 ```text
 ## Nodes

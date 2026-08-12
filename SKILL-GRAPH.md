@@ -1,8 +1,8 @@
 # Skill Graph (LLM-only hub)
 
-**Audience:** model. Agent-facing examples use MemNet **0.4.2 shared dialect** (Write = display). Dialect SSOT: [memnet-format](memnet-format/SKILL.md). **Do not** treat this file as the graph -- it routes you to the graph.
+**Audience:** model. Agent-facing examples use MemNet **GQL wire** (shaped pin_map + openCypher-shaped mutate). Wire SSOT: [memnet-format](memnet-format/SKILL.md). **Do not** treat this file as the graph -- it routes you to the graph.
 
-**Engine seed only:** [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) is machine input for the selector/bootstrap tools (may still be compact store form). Skills and docs teach **shared dialect**; do not copy seed pipe syntax into agent I/O.
+**Engine seed only:** [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) is machine input for the selector/bootstrap tools (may still be compact store form). Skills and docs teach **GQL wire / shaped pin_map**; do not copy seed pipe syntax into agent I/O.
 
 ---
 
@@ -53,7 +53,7 @@ Steps:
 
 ## Graph node shapes (summary)
 
-Full schema: [`skill-graph.md`](reasoning-strategy-selector/references/skill-graph.md). Agent I/O uses shared dialect:
+Full schema: [`skill-graph.md`](reasoning-strategy-selector/references/skill-graph.md). Agent I/O uses GQL / shaped MemNet forms:
 
 ```text
 ## Nodes

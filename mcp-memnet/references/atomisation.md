@@ -1,6 +1,6 @@
 # Atomisation -- knowledge graph discipline
 
-MemNet is an **in-memory knowledge graph**: **nodes** + **edges**. Agent I/O is the **shared dialect** only (Write = display). The pin map (`pin_map`) returns connected **atoms** -- not the whole store.
+MemNet is an **in-memory knowledge graph**: **nodes** + **relationships**. Agent I/O is the **GQL wire** only (shaped pin_map + openCypher-shaped mutate). The pin map (`pin_map`) returns connected **atoms** -- not the whole store.
 
 **Atomisation is the most important step.** Dumping paragraphs or merged facts into one row bloats pin maps and breaks the graph.
 
@@ -34,7 +34,7 @@ pin_map(anchor=TSK_x, depth=2)
 | SysML | PKG, PRT, POR, CON, REQ, ... | declaredIn, satisfies, connects |
 | Article | ART, SEC, CLM, ENT | contains, part_of, mentions, contradicts |
 
-## MCP write pattern (shared dialect)
+## MCP write pattern (openCypher-shaped)
 
 Prefer **one `add` call, many atom lines**:
 

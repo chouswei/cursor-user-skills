@@ -2,7 +2,7 @@
 
 Use MemNet when the agent must **remember where things are across turns** — function locations, modules touched, refactor plans — without stuffing paths into chat history.
 
-**Atomise first:** one `MOD` per file, one `SYM` per symbol, edges for relationships — see [atomisation.md](atomisation.md). Short field values only ([wire-format.md](wire-format.md)). Shared dialect only (Write = display).
+**Atomise first:** one `MOD` per file, one `SYM` per symbol, edges for relationships — see [atomisation.md](atomisation.md). Short field values only ([wire-format.md](wire-format.md)). GQL wire only (shaped pin_map + openCypher-shaped mutate).
 
 MemNet is **agent-maintained index + task graph**, not a substitute for `grep`, LSP, or semantic search. **Verify** on disk; **store** confirmed atoms.
 

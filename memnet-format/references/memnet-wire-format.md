@@ -1,53 +1,37 @@
-# MemNet shared dialect — field notes
+# MemNet GQL wire — field notes
 
-**Audience:** model. Agent I/O for **memnet-llm 0.3.5** is the **shared dialect** only (Write = display). See [../SKILL.md](../SKILL.md) and MemNet `docs/grammar/`.
+**Audience:** model. Agent I/O is **GQL / openCypher-shaped** via the MCP envelope. See [../SKILL.md](../SKILL.md). General GQL: [graph-query-language](../../graph-query-language/SKILL.md), [gql-path-patterns](../../gql-path-patterns/SKILL.md).
 
 Do **not** emit `@TAG: field|field|…` pipe rows as agent format.
 
-## Line shapes
+## Mutate sketch
 
-**Mutate** (ops required):
-
-```text
-## Nodes
-+ KIND [NEW] ; field=value ; … ; recycle=persistent
-~ [KnownId] ; field=value ; recycle=persistent
-- Eid
-
-## Edges
-+ [NEW|Eid]? [FromId] --(rel)--> [ToId] ; note=… ; recycle=persistent
-~ [FromId] --(rel)--> [ToId] ; …
-~ Eid ; recycle=delete_on_settle
+```cypher
+CREATE (c:CLM {id: 'NEW', type: 'decision', code: 'bitrate cap 2000 bps', recycle: 'persistent'})
+MATCH (t {id: $tid}) SET t.status = 'in_progress', t.recycle = 'persistent'
+CREATE (a)-[:HELPS {id: 'NEW', note: 'labour', recycle: 'persistent'}]->(b)
+MATCH ()-[e {id: $eid}]->() SET e.recycle = 'delete_on_settle'
+MATCH ()-[e {id: $eid}]->() DELETE e
 ```
 
-Patch nodes: **`~ [Id]` only** — do not repeat kind (`~ TSK [T42]` is invalid). Re-id: `~ [OldId] ; id=NewId` (optional `; merge=true` on nodes).
+Patch nodes by id only — do not invent a second id for the same ground atom. Re-id: `MATCH (n {id: $old}) SET n.id = $new` (optional merge when `$new` exists; nodes only).
 
-**Pin map** (bare present — copy these shapes on the next mutate, without leading ops):
+## Pin_map (shaped subgraph)
 
-```text
-## Laws
-LAW01 kind=engine ; text=one_row_per_id_tag ; recycle=persistent
+Primary read returns a bounded neighbourhood (laws + nodes + relationships). Copy shapes into the next mutate; prefer `$param` binds for known ids.
 
-## Nodes
-CLM [C12] ; type=decision ; code=bitrate cap 2000 bps ; recycle=persistent
-TSK [T42] ; goal=Clear warehouse ; status=in_progress ; recycle=persistent
-
-## Edges
-E77 [N03] --(helps)--> [T42] ; note=labour ; recycle=persistent
-```
-
-**Session schema** (`session_open` map — not graph rows):
+Session schema (`session_open` map — not graph rows):
 
 ```text
 SCHEMA MOD ; fields=id path summary status recycle
 ```
 
-## Fields (R1 atoms-only)
+## Properties (atoms-only)
 
-- Join with `;` — `key=value`
-- Numeric patch ops: `phase+=1`, `risk-=0.5` (numbers only)
-- Values: bare atoms, `NUMBER`, or `"quoted strings"` (paths with `\` or spaces)
-- No nested lists/maps in one field — use EDGE lines for membership
+- Short keys: `type`, `code`, `status`, `path`, `line`, `recycle`, …
+- Numeric patches: prefer explicit SET arithmetic on known number props
+- Values: bare atoms, numbers, or quoted strings (paths with `\` or spaces)
+- No nested lists/maps in one property — use relationships for membership
 
 ## Recycle
 
@@ -55,31 +39,28 @@ SCHEMA MOD ; fields=id path summary status recycle
 - `delete_on_settle` — drop when owning task settles
 - `delete_on_expire` — time-based (rare in agent flows)
 
-## Common kinds (fields are English keys)
+## Common labels
 
-| Kind | Typical fields |
-|------|----------------|
+| Label | Typical props |
+|-------|----------------|
 | `CLM` | `type`, `code`, `status`, `recycle` |
 | `TSK` | `goal`, `phase`, `status`, `recycle` |
 | `USR` | `topic`, `content`, `status`, `recycle` |
 | `RUL` | `kind`, `code`, `priority`, `recycle` |
 | `MOD` | `path`, `lang`, `role`, `loc`, `recycle` |
 | `SYM` | `name`, `kind`, `path`, `line`, `sig`, `vis`, `recycle` |
-| `PKG` / `PRT` / `POR` / `CON` / `BEH` / `ITM` / `REQ` | SysML model atoms — fields and closed EDG list in [sysml-memnet-patterns](../../sysml-memnet-documentation/references/sysml-memnet-patterns.md); thin map in [../SKILL.md](../SKILL.md) §SysML x MemNet |
-| Edge | `--(rel)-->` plus optional `note`, `recycle` — engine style: English verb / snake token; SysML campaigns: copy patterns / pin map |
-
-Keep field values short. Relations are separate edges, never embedded arrays or comma id-lists.
+| `PKG` / `PRT` / `POR` / `CON` / `BEH` / `ITM` / `REQ` | SysML atoms — see [sysml-memnet-patterns](../../sysml-memnet-documentation/references/sysml-memnet-patterns.md) |
+| Rel types | `BIND` (port-port); else English verb / snake / upper token — copy from pin_map |
 
 ## Design principles
 
 | Principle | Why |
 |-----------|-----|
-| Atomisation | Pin map returns only connected atoms |
-| Short fields | ids, codes, paths, numbers — no prose |
-| Explicit edges | Filterable relations |
+| Atomisation | pin_map returns only connected atoms |
+| Short props | ids, codes, paths, numbers — no prose |
+| Explicit relationships | Filterable; BIND vs typed relation |
 | Recycle / settle | Finished work drops out of pin maps |
-| Batch mutate | One `add`/`update` with many lines |
-
-Primary read: live **pin map** via MCP `pin_map`. (`query_warm` is legacy alias.)
+| Batch mutate | One `add`/`update` with many statements |
+| View budget | `view=shell` / `max_rows` keep slices small |
 
 Cross-ref: MemNet `README.md` · `docs/grammar/` · [mcp-memnet](../../mcp-memnet/SKILL.md)

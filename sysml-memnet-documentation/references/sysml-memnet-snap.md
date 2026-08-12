@@ -1,5 +1,7 @@
 # SysML MemNet snap — canonical procedure (user pack)
 
+**Wire:** agent mutate/read uses MemNet **GQL / shaped pin_map** ([memnet-format](../../memnet-format/SKILL.md)). Examples below that still show `@TAG` compact forms are **locator mnemonics** for kinds/ids — emit openCypher-shaped statements on the wire, not pipe rows.
+
 Authoritative MemNet-first rules for SysML project roots. Pair with [sysml-memnet-patterns.md](sysml-memnet-patterns.md), [sysml-memnet-cookbook-bridge.md](sysml-memnet-cookbook-bridge.md), and [mcp-memnet](../../mcp-memnet/SKILL.md).
 
 **Model root (pick one; do not mix):**

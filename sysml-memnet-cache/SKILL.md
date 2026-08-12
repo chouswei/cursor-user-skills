@@ -9,12 +9,12 @@ description: >-
 metadata:
   pattern: tool-wrapper
   domain: sysml-v2,memnet
-  version: "1.1"
+  version: "1.2"
   pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format]
 token_guardrails: |
   - MemNet is the cache; .sysml is source of truth for structure; AGENT-CONTEXT is session+anchor only.
   - pin_map(TSK_model_<short>) before substantive edit; add/update delta after mcp-sysml-v2 validate.
-  - Atomise only — one fact per shared-dialect row; never store full .sysml or paragraph prose.
+  - Atomise only — one fact per GQL/shaped graph row; never store full .sysml or paragraph prose.
   - Skip cache write: comment-only edit, serve down / MCP missing, question-only turn (see sysml-memnet-snap.md).
 ---
 
@@ -38,7 +38,7 @@ Specialist **`sysml-*`** skills (generators, reviewers, refactorers) **do not** 
 | Store | Holds | Agent rule |
 |-------|-------|------------|
 | Project `models/*.sysml` | Structure, syntax, satisfy | Edit first; validate |
-| **MemNet** | Relatives (below) | `pin_map` → act → shared-dialect delta |
+| **MemNet** | Relatives (below) | `pin_map` -> act -> GQL/openCypher-shaped delta |
 | `AGENT-CONTEXT.md` | Session id + anchor + short summary | Never topology/backlog |
 
 ## What counts as a “relative”
@@ -73,11 +73,11 @@ Per-skill write map: [relatives-cache-map.md](../sysml-memnet-documentation/refe
 3. … specialist skill edits project models/*.sysml …
 4. mcp-sysml-v2 validate
 5. sysml-view-doc-sync (iff outputs + structure changed)
-6. add/update shared-dialect rows + refresh SYM line + settle CLM/TSK   # WRITE cache
+6. add/update openCypher-shaped rows + refresh SYM line + settle CLM/TSK   # WRITE cache
 7. session_save → <model-root>/.memnet/<short>.snap
 ```
 
-Mechanics: [mcp-memnet](../mcp-memnet/SKILL.md). Procedure: [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md). Dialect detail: [memnet-format](../memnet-format/SKILL.md) — do not invent a thinner dialect here.
+Mechanics: [mcp-memnet](../mcp-memnet/SKILL.md). Procedure: [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md). Wire detail: [memnet-format](../memnet-format/SKILL.md) (GQL / shaped pin_map) — do not invent a thinner dialect here.
 
 **MCP wire:** EDG `rel` names are **session-registered strings**. SysML closed list: [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md) (`declaredIn`, `hasPort`, `typedBy`, `inFile`, `satisfies`, `allocates`, …). **Copy exact spellings from the live pin map**; seed unknowns with `allow_new_relation=true`. Engine-generic new edges prefer English verb / snake tokens (MemNet `docs/grammar/`); do not invent a second spelling for an existing link.
 

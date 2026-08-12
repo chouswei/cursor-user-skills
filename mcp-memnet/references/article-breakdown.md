@@ -4,7 +4,7 @@ Use MemNet to **atomise a long article** (paper, report, blog, spec, **instrumen
 
 **Do not** store the full article text in the graph. Store **structure + atomic claims** (codes/keys). Prose summaries are generated in the agent turn from pin-map atoms.
 
-Agent I/O is the **shared dialect** (Write = display) only. Do **not** emit pipe `@TAG:…` rows as mutate input.
+Agent I/O is the **GQL wire** (shaped pin_map + openCypher-shaped mutate) only. Do **not** emit pipe `@TAG:…` rows as mutate input.
 
 Pair with [atomisation.md](atomisation.md) and [wire-format.md](wire-format.md).
 
@@ -47,7 +47,7 @@ EDG: id|from|rel|to|note|recycle
 
 ```text
 1. session_open(map_lines=[...])
-2. add ART + TSK_breakdown (shared dialect)
+2. add ART + TSK_breakdown (GQL / openCypher-shaped)
 3. Per section:
      add SEC
      split into CLM rows (one idea each)
@@ -68,7 +68,7 @@ EDG: id|from|rel|to|note|recycle
 + NOTE [NEW] ; code=MemNet is a goldfish brain graph. You query warm. Atomisation matters… ; recycle=persistent
 ```
 
-**Good** (hierarchy + atoms, shared dialect mutate):
+**Good** (hierarchy + atoms, openCypher-shaped mutate):
 
 ```text
 ## Nodes
@@ -78,7 +78,7 @@ EDG: id|from|rel|to|note|recycle
 + SEC [S02] ; art=A01 ; heading=Wire format ; order=2 ; recycle=persistent
 + CLM [C01] ; sec=S01 ; type=fact ; code=external graph not chat ; recycle=persistent
 + CLM [C02] ; sec=S01 ; type=method ; code=pin map anchored read ; recycle=persistent
-+ CLM [C03] ; sec=S02 ; type=fact ; code=shared dialect not pipe ; recycle=persistent
++ CLM [C03] ; sec=S02 ; type=fact ; code=GQL wire not pipe ; recycle=persistent
 + CLM [C04] ; sec=S02 ; type=fact ; code=atomisation required ; recycle=persistent
 + ENT [E01] ; name=query_warm ; kind=concept ; code=pin_map_alias ; recycle=persistent
 + ENT [E02] ; name=EDG ; kind=concept ; code=graph_edge ; recycle=persistent
@@ -199,7 +199,7 @@ CMD: id|sec|scpi|role|params_code|status|recycle
 
 One SCPI command per row; `scpi` field uses **mixed-case long+short** canonical form (e.g. `:CHANnel1:SCALe`, `:MEASurement1:RESult?`). Wire automation order with `CLM type=procedure` + `precedes` / `requires` edges.
 
-Mini example (shared dialect):
+Mini example (GQL wire):
 
 ```text
 ## Nodes

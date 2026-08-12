@@ -1,5 +1,7 @@
 # SysML MemNet read policy — when to read `.sysml` vs `pin_map`
 
+**Wire:** topology comes from shaped `pin_map` (GQL wire); `@PRT`/`@SYM` below mean label/id mnemonics, not pipe agent I/O.
+
 **Problem:** Agents with MemNet still **re-read** `deploy*.sysml`, `requirements*.sysml`, and report sections every turn — duplicating work the graph already holds and burning context.
 
 **Rule:** On the live **model root** (`sysml-v2-models/projects/<slug>/` **or** system-repo `sysml-models/`), **topology discovery = MemNet**; **syntax edit = narrow file window**; **full file read = last resort**.

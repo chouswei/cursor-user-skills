@@ -10,7 +10,7 @@ Cursor (stdio) → memnet-mcp
 
 - MCP is a thin adapter. Default transport is **in-process** (no separate `memnet serve` required).
 - Set `MEMNET_MCP_TRANSPORT=tcp` only when bridging to an external serve.
-- Agent dialect is the **shared dialect** (Write = display).
+- Agent wire is **GQL / openCypher-shaped** (shaped pin_map read).
 - Primary read is the live **pin map** (`pin_map` tool; `query_warm` is legacy alias).
 
 ## mcp.json (user pack)
@@ -55,7 +55,7 @@ See [tool-parameters.md](tool-parameters.md).
 | `pin_map` | Live pin map |
 | `query_warm` | Deprecated alias for `pin_map` |
 | `query_walk` | Hop debug |
-| `add` / `update` | Mutate (shared dialect) |
+| `add` / `update` | Mutate (openCypher-shaped) |
 | `read_get` / `read_list` | Lookup / enumerate |
 | `housekeep_stats` | Counts vs caps |
 
@@ -79,7 +79,7 @@ Branch on **`errors[]`** and **`exit_code`**. Parse **`stdout`** for pin-map con
 
 | Topic | Doc |
 |-------|-----|
-| Shared dialect | MemNet `README.md`, `docs/grammar/`, [memnet-format](../../memnet-format/SKILL.md) |
+| GQL wire | MemNet `README.md`, `docs/grammar/`, [memnet-format](../../memnet-format/SKILL.md) |
 | Wire / pin map notes | [wire-format.md](wire-format.md) |
 | Atomisation | [atomisation.md](atomisation.md) |
 | Coding memory | [coding-memory.md](coding-memory.md) |
@@ -98,6 +98,6 @@ Branch on **`errors[]`** and **`exit_code`**. Parse **`stdout`** for pin-map con
 ## MUSTNOT
 
 - Depend on novel-writer MCP extras (dropped from MemNet product).
-- Recommend TOON/TRON for agent handoffs — use shared dialect or plain Markdown.
+- Recommend TOON/TRON for agent handoffs — use GQL wire or plain Markdown.
 - Teach pipe `@TAG:…` as agent I/O.
 - Call MemNet tools when they are not listed in the session MCP catalog.

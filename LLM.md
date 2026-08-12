@@ -1,16 +1,16 @@
 # Skills pack -- agent policy (LLM-only)
 
-**Audience:** model. Durable MemNet handoffs use the **shared dialect** (Write = display) for **memnet-llm 0.4.2** -- same NODE|EDGE shapes for pin-map read and mutate. Dialect SSOT: [memnet-format](memnet-format/SKILL.md), [mcp-memnet](mcp-memnet/SKILL.md). Reference lookups -> [SKILL-GRAPH.md](SKILL-GRAPH.md).
+**Audience:** model. Durable MemNet handoffs use the **GQL wire** (shaped pin_map read + openCypher-shaped mutate). Wire SSOT: [memnet-format](memnet-format/SKILL.md), [mcp-memnet](mcp-memnet/SKILL.md). General GQL: [graph-query-language](graph-query-language/SKILL.md). Reference lookups -> [SKILL-GRAPH.md](SKILL-GRAPH.md).
 
 Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>/SKILL.md`.
 
-**Dialect reminder:** pin map = **bare present** (no leading ops). Mutate = `+` create, `~` update, `-` drop; mint creates with `NEW`.
+**Wire reminder:** pin_map = **shaped subgraph**. Mutate = openCypher-shaped CREATE / MATCH-SET / DELETE; mint creates with `NEW`.
 
 ---
 
 ## Rules (MUST / MUST NOT)
 
-**Preferred format** (shared dialect, bare present -- as on a pin map):
+**Preferred format** (shaped present -- as on a pin_map):
 
 ```text
 ## Nodes
@@ -26,7 +26,7 @@ RUL [R09] ; kind=MUST ; code=no summary/review docs unless user asks ; priority=
 RUL [R10] ; kind=MUST ; code=skill-creator only when user wants to create/scaffold a skill ; priority=med ; recycle=persistent
 RUL [R11] ; kind=MUST ; code=bump metadata.version before pushing a user-pack skill to GitHub ; priority=med ; recycle=persistent
 RUL [R12] ; kind=MUST ; code=obey active skill token_guardrails; prefer tools/* over dumping references/* ; priority=high ; recycle=persistent
-RUL [R13] ; kind=MUST ; code=pipeline handoffs: MemNet up -> shared dialect (pin map + mutate +/~/-); MemNet down -> plain Markdown; tool boundary -> JSON ; priority=high ; recycle=persistent
+RUL [R13] ; kind=MUST ; code=pipeline handoffs: MemNet up -> GQL wire (shaped pin_map + openCypher mutate); MemNet down -> plain Markdown; tool boundary -> JSON ; priority=high ; recycle=persistent
 RUL [R14] ; kind=SHOULD ; code=large uniform tabular data in answers -> Markdown table over JSON when clearer ; priority=med ; recycle=persistent
 RUL [R15] ; kind=MUSTNOT ; code=invent skill-ids absent from skill-graph-seed.wire / SKILL-GRAPH.md ; priority=high ; recycle=persistent
 RUL [R16] ; kind=MUST ; code=ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes) ; priority=high ; recycle=persistent
@@ -51,7 +51,7 @@ Cross-refs: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
    - conflict between candidates -> SKILL-GRAPH.md Contrasts/Edges -> 4
 4. Follow SKILL.md frontmatter + numbered steps as binding -> 5
 5. Lazy-load `references/` `assets/` `tools/` only when a step needs them -> 6
-6. Between steps: MemNet up -> shared-dialect mutate on server; MemNet down -> plain Markdown in-prompt -> 7
+6. Between steps: MemNet up -> GQL/openCypher-shaped mutate on server; MemNet down -> plain Markdown in-prompt -> 7
 7. Keep user-visible format per skill template (separate from internal handoff) -> 8
 8. Do not echo user message verbatim unless skill requires -> done
 
@@ -69,14 +69,11 @@ Cross-refs: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
 | `route_multi` | multi-step / broad | sub-agent + re-apply routing inside |
 | `route_sysml` | `sysml-v2-models/*` edit | `sysml-modeling-session-checklist` -> `sysml-modeling-workflow` -> one `sysml-*` specialist |
 
-Shared-dialect mutate sketch:
+openCypher-shaped mutate sketch:
 
-```text
-## Nodes
-+ CLM [NEW] ; type=decision ; code=route_model->sub-agent-policy_Model_by_role ; recycle=persistent
-
-## Edges
-+ E01 [NEW] --(routes_to)--> [sub-agent-policy] ; note=model_choice ; recycle=persistent
+```cypher
+CREATE (c:CLM {id: 'NEW', type: 'decision', code: 'route_model->sub-agent-policy_Model_by_role', recycle: 'persistent'})
+CREATE (c)-[:ROUTES_TO {id: 'NEW', note: 'model_choice', recycle: 'persistent'}]->(:SKL {id: 'sub-agent-policy'})
 ```
 
 ---
@@ -97,7 +94,7 @@ Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Stru
 
 ## Cross-references
 
-- **Routing aid:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -- hub -> [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) (engine seed; docs use shared dialect).
+- **Routing aid:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -- hub -> [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) (engine seed; docs use GQL wire).
 - **Handoff aid:** `memnet-goldfish-loop.mdc` + `memnet-format/SKILL.md` + `mcp-memnet` + `memnet-multitask` (Multitask / Task sub-agents) + `sysml-memnet-pipeline.md`; plain Markdown when MemNet down.
 - **Model choice SSOT:** user rule sub-agent-policy **Model by role** table (paste-3 / `~/.cursor/rules/sub-agent-policy.mdc`).
 
@@ -107,7 +104,7 @@ Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Stru
 
 Project: `sysml-v2-models/projects/leo-cubesat-laser-comm/`. Scenario: multi-stage DSP firmware (acquisition -> demod -> position -> aggregation) with thread states, inter-stage ports, latency budget.
 
-Skill chain (shared dialect -- mutate):
+Skill chain (GQL wire -- mutate sketch):
 
 ```text
 ## Edges
@@ -121,7 +118,7 @@ Skill chain (shared dialect -- mutate):
 
 (From: `sysml-modeling-session-checklist` -> ... as listed; copy assigned ids from the pin map after mint.)
 
-Outcome facts (shared dialect -- bare present after settle):
+Outcome facts (shaped present after settle):
 
 ```text
 ## Nodes

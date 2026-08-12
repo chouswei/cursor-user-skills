@@ -65,7 +65,7 @@ Normative loop and tiers: **User Rules** (Workflow + MemNet goldfish loop). Stor
 
 **SysML modeling:** [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md) -- `s1:`...`s6:` step codes; do not log pipeline only in chat when MemNet is up.
 
-### Example: Router output (shared dialect -- MemNet up)
+### Example: Router output (GQL / shaped pin_map -- MemNet up)
 
 ```text
 ## Nodes
@@ -119,7 +119,7 @@ Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 | [LLM.md](LLM.md) | Detailed skill discovery / pack rules |
 | [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt) | User Rules SSOT draft (prefs, secrets, terminal, sub-agent, workflow, goldfish, multitask MemNet) |
 | [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) | Optional graph router (explicit multi-match only) |
-| [memnet-format](memnet-format/SKILL.md) | Shared dialect |
+| [memnet-format](memnet-format/SKILL.md) | MemNet GQL wire / shaped pin_map |
 | [mcp-memnet](mcp-memnet/SKILL.md) | MemNet MCP tools / pin map |
 | [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md) | Pipeline step atoms |
 | [sysml-memnet-read-policy](sysml-memnet-documentation/references/sysml-memnet-read-policy.md) | Pin map vs narrow `.sysml` |

@@ -9,16 +9,16 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.7"
+  version: "1.8"
   pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, mcp-sysmledgraph, memnet-format]
 token_guardrails: |
   - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; pin_map before substantive edits.
   - MUST follow references/sysml-memnet-read-policy.md: topology from warm; ≤2 narrow Read windows per turn; no full deploy re-read.
-  - MUST follow references/sysml-memnet-pipeline.md: pipeline step atoms via shared dialect mutate when MemNet is up; plain Markdown when down (not TOON/TRON).
-  - Use unified tags @PRT/@POR/@BEH with kind field; MUST NOT write @PARTD/@PORTD/@BEHD/@TASK.
-  - Atomise first: one fact per row; short pipe fields; never store full .sysml or paragraph prose.
-  - Copy stable ids from warm output; refresh @SYM.line after every validated edit.
-  - satisfy/allocate → @EDG only (satisfies, allocates); @SYM only for line locators.
+  - MUST follow references/sysml-memnet-pipeline.md: pipeline step atoms via GQL/openCypher-shaped mutate when MemNet is up; plain Markdown when down (not TOON/TRON).
+  - Use unified labels PRT/POR/BEH with kind prop; MUST NOT write PARTD/PORTD/BEHD/TASK aliases.
+  - Atomise first: one fact per node/rel; short props; never store full .sysml or paragraph prose.
+  - Copy stable ids from pin_map; refresh SYM.line after every validated edit.
+  - satisfy/allocate -> relationships only (SATISFIES, ALLOCATES); SYM only for line locators.
   - AGENT-CONTEXT.md: agents read session+anchor only; topology/backlog live in MemNet.
   - If MemNet MCP is missing from the catalog, or serve_status false (TCP): skip MemNet read/write; plain Markdown only.
 ---
@@ -31,12 +31,12 @@ token_guardrails: |
 
 **Durable graph memory** for SysML v2 projects: symbol index with file/line locators, ports, connections, behaviour, design rationale, and documentation atoms. Complements `mcp-sysmledgraph` (structural impact) and `mcp-sysml-v2` (validate/parse).
 
-MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `deploy*.sysml` for topology** when warm has `@PRT`/`@CON` — see [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md). Tools and dialect: [mcp-memnet](../mcp-memnet/SKILL.md); shapes: [memnet-format](../memnet-format/SKILL.md).
+MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `deploy*.sysml` for topology** when pin_map has PRT/CON — see [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md). Tools: [mcp-memnet](../mcp-memnet/SKILL.md); GQL wire: [memnet-format](../memnet-format/SKILL.md).
 
 ## Read policy (mandatory)
 
-**Discovery:** `pin_map` → `@PRT` / `@CON` / `@SYM` / `@REQ`. (`query_warm` is legacy alias.)  
-**Edit:** `Read(path, offset=line-12, limit=35)` at `@SYM.line` only.  
+**Discovery:** `pin_map` -> PRT / CON / SYM / REQ. (`query_warm` is legacy alias.)  
+**Edit:** `Read(path, offset=line-12, limit=35)` at SYM.line only.  
 **Forbidden per turn:** full deploy read; re-grep names already in warm; multi-file read without warm miss.
 
 Full rules: [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md).
@@ -45,7 +45,7 @@ Full rules: [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md
 
 1. [references/sysml-memnet-snap.md](references/sysml-memnet-snap.md) — **mandatory** 6-step sequence, grep, delta, `.snap`
 2. [references/sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md) — **when to read `.sysml`** vs warm (anti-patterns, read budget)
-3. [references/sysml-memnet-pipeline.md](references/sysml-memnet-pipeline.md) -- **pipeline handoffs** (shared dialect step atoms)
+3. [references/sysml-memnet-pipeline.md](references/sysml-memnet-pipeline.md) -- **pipeline handoffs** (GQL/shaped step atoms)
 4. [references/sysml-memnet-patterns.md](references/sysml-memnet-patterns.md) — canonical 19-tag map, construct table, EDG list
 5. [references/relatives-cache-map.md](references/relatives-cache-map.md) — **which specialist skill writes which tags**
 6. [references/sysml-memnet-cookbook-bridge.md](references/sysml-memnet-cookbook-bridge.md) — upstream cookbook pointer, unified-tag policy
@@ -66,24 +66,24 @@ Pair with [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) and [me
   - Multi-project pack: `sysml-v2-models/projects/<slug>/`
   - System repo (`modelbasedPrj-*`): `sysml-models/` (NCU-LEO anchor `TSK_model_leo_cubesat`)
 - Recording design decisions, assumptions, backlog not fully expressed in `.sysml`
-- Maintaining `outputs/*.md` / system-design-report atoms (`@ART`/`@SEC`/`@CLM`)
+- Maintaining `outputs/*.md` / system-design-report atoms (ART/SEC/CLM)
 - Multi-turn refactors, requirement audits, report updates
 
 **Skip MemNet** when: one-shot question with no edit; comment-only `.sysml` change; MemNet MCP missing from catalog; or `serve_status` false (TCP).
 
 ## Atomisation (docs + model)
 
-Model elements: `@PRT`/`@POR`/`@CON`/`@BEH`/`@ITM`/`@REQ` + `@SYM` (path, line) + `@MOD` per file. Conventions: `@CONV`. Open forks: `@DEC`. Backlog: `@ISSUE`. Docs: `@ART`/`@SEC`/`@CLM`. Campaign: `@TSK_model_<short>`.
+Model elements: PRT/POR/CON/BEH/ITM/REQ + SYM (path, line) + MOD per file. Conventions: CONV. Open forks: DEC. Backlog: ISSUE. Docs: ART/SEC/CLM. Campaign: TSK_model_<short>.
 
-ITM is a NODE only (item definition / flow item); see [the ITM pattern](references/sysml-memnet-patterns.md#itm-is-a-node).
+ITM is a **node** only (item definition / flow item); see [the ITM pattern](references/sysml-memnet-patterns.md#itm-is-a-node).
 
 ## Pairing
 
 - **sysml-modeling-workflow** — encodes the 6-step sequence
-- **system-design-report-generator** — full pack generate/maintain: warm before prose, `@ART`/`@SEC`/`@CLM` after sync ([memnet-report-pipeline.md](../system-design-report-generator/references/memnet-report-pipeline.md))
-- **sysml-view-doc-sync** — sync outputs, then atomise key claims as `@CLM`
+- **system-design-report-generator** — full pack generate/maintain: pin_map before prose, ART/SEC/CLM after sync ([memnet-report-pipeline.md](../system-design-report-generator/references/memnet-report-pipeline.md))
+- **sysml-view-doc-sync** — sync outputs, then atomise key claims as CLM
 - **sysml-refactorer**, **sysml-traceability**, **sysml-requirements-audit** — persist findings after work
-- **memnet-format** — engine shared dialect; thin SysML x MemNet kind/id pointer only
+- **memnet-format** — MemNet GQL wire; thin SysML x MemNet kind/id pointer only
 - **mcp-sysmledgraph** — impact/rename; record intent in MemNet
 - **mcp-memnet** — base MCP mechanics
 

@@ -7,17 +7,17 @@ description: >-
   Triggers: Multitask Mode, multitask, multi-agent, Task sub-agent, background
   worker, parent coordinator, delegate worker, shared session, memnet multitask,
   system-dev multitask, modelbasedPrj multitask, MN-REQ-12, parallel workers,
-  TSK_* settle, TCP serve, streamable-http MCP.
+  TSK_* settle, TCP serve, streamable-http MCP, GQL wire, shaped pin_map.
 metadata:
   pattern: pipeline
-  version: "1.0"
+  version: "1.1"
   domain: memnet
   product: memnet-llm==0.4.2
 ---
 
 # MemNet + Multitask Mode
 
-User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Task** sub-agents. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) (tools) and [memnet-format](../memnet-format/SKILL.md) (wire shapes).
+User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Task** sub-agents. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) (tools) and [memnet-format](../memnet-format/SKILL.md) (GQL wire / shaped pin_map).
 
 **Product ops SSOT (MemNet repo, developers):** `docs/multi-agent-sessions.md`.
 **System-repo adoption (applications):** MemNet `docs/application-notes/llm-system-dev-multitask.md`.
@@ -123,5 +123,5 @@ Path-B external pins: seed via `session_open` `seed_lines` or `add` with determi
 | Skill | Role |
 |-------|------|
 | [mcp-memnet](../mcp-memnet/SKILL.md) | MCP tools, transport, session lifecycle |
-| [memnet-format](../memnet-format/SKILL.md) | Shared dialect wire shapes |
+| [memnet-format](../memnet-format/SKILL.md) | MemNet GQL wire / shaped pin_map |
 | [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) | SysML design memory (single-agent; pair when SysML + Multitask) |

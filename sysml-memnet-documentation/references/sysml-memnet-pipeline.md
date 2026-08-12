@@ -1,6 +1,6 @@
 # SysML + MemNet — pipeline handoffs
 
-**Audience:** LLM agents. Structured state **between pipeline steps** uses MemNet **shared dialect** (Write = display) when `serve_status` is true — not TOON/TRON in chat. Dialect: [memnet-format](../../memnet-format/SKILL.md), [mcp-memnet](../../mcp-memnet/SKILL.md).
+**Audience:** LLM agents. Structured state **between pipeline steps** uses MemNet **GQL / openCypher-shaped** wire when MemNet MCP is up — not TOON/TRON in chat. Wire: [memnet-format](../../memnet-format/SKILL.md), [mcp-memnet](../../mcp-memnet/SKILL.md).
 
 Pair with [sysml-memnet-snap.md](sysml-memnet-snap.md) (6-step turn), [memnet-report-pipeline.md](../../system-design-report-generator/references/memnet-report-pipeline.md).
 
@@ -10,7 +10,7 @@ Pair with [sysml-memnet-snap.md](sysml-memnet-snap.md) (6-step turn), [memnet-re
 
 | Situation | Format | Where it lives |
 |-----------|--------|----------------|
-| **SysML modeling turn** (steps 1–6) | Shared dialect mutate (`+`/`~`/`-`); step `code` = `sN:payload` | `add` / `update` each step |
+| **SysML modeling turn** (steps 1-6) | openCypher-shaped mutate; step `code` = `sN:payload` | `add` / `update` each step |
 | **Report generate/maintain** (G/M steps) | Same + ART/SEC when prose settles | Server graph |
 | **Skill routing** (`order[]`, picks) | Task + claim atoms + `led_to_success` edges | Server graph |
 | **Serve down** | Plain Markdown tables or short prose | Ephemeral — not durable |
@@ -168,7 +168,7 @@ When `s1:down`:
 
 ## Quick checklist
 
-- [ ] MemNet up → shared dialect; down → Markdown
+- [ ] MemNet up -> GQL wire; down -> Markdown
 - [ ] Opened turn task or attached to `TSK_model_*` via `childOf`
 - [ ] Each completed step has a step atom (`code` = `sN:…`)
 - [ ] Turn `settled` when done

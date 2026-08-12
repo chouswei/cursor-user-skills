@@ -4,7 +4,7 @@ Use with [atomisation.md](../../mcp-memnet/references/atomisation.md), [sysml-me
 
 **Core discipline:** one row = one fact/link/status. Short fields. Explicit edges. Stable ids from the pin map. **MUST NOT** create rows tagged PARTD, PORTD, BEHD, or TASK (old aliases -- re-snap to unified kinds on warm miss).
 
-Agent I/O: MemNet **0.3.5 shared dialect** only (Write = display). Do not teach pipe `@TAG:|` rows.
+Agent I/O: MemNet **GQL / openCypher-shaped** wire only ([memnet-format](../../memnet-format/SKILL.md)). Do not teach pipe `@TAG:|` rows. pin_map returns a shaped subgraph.
 
 ## Canonical kinds
 
@@ -51,14 +51,11 @@ ART, SEC, CLM, ENT, PKG, PRT, POR, CON, BEH, ITM, REQ, MOD, SYM, CONV, DEC, ISSU
 
 `ITM` is a **NODE only**: an item definition or flow item. It is never an edge. Use `declaredIn` to link an ITM to its package and optionally `flowOf` to link a flow item to its item definition. Ports and connections remain `POR` and `CON`; do not model them as ITM edges.
 
-```text
-## Nodes
-+ ITM [ITM_LaserFrame] ; name=LaserFrame ; kind=itemDef ; recycle=persistent
-+ ITM [ITM_LaserFrameFlow] ; name=LaserFrameFlow ; kind=flowItem ; recycle=persistent
-
-## Edges
-+ E01 [ITM_LaserFrame] --(declaredIn)--> [PKG_LaserComm] ; recycle=persistent
-+ E02 [ITM_LaserFrameFlow] --(flowOf)--> [ITM_LaserFrame] ; recycle=persistent
+```cypher
+CREATE (i:ITM {id: 'ITM_LaserFrame', name: 'LaserFrame', kind: 'itemDef', recycle: 'persistent'})
+CREATE (f:ITM {id: 'ITM_LaserFrameFlow', name: 'LaserFrameFlow', kind: 'flowItem', recycle: 'persistent'})
+CREATE (i)-[:DECLAREDIN {id: 'E01', recycle: 'persistent'}]->(:PKG {id: 'PKG_LaserComm'})
+CREATE (f)-[:FLOWOF {id: 'E02', recycle: 'persistent'}]->(i)
 ```
 
 ## Recycle
@@ -92,27 +89,24 @@ Copy these spellings exactly (session registry). Engine-generic new edges outsid
 
 Diagram placement (`TSK_diagram_*`): `figure_includes`, `figure_uses`, `anchor_of`, `adjacent_to`, `documents` -- see [sysml-memnet-pipeline.md](sysml-memnet-pipeline.md).
 
-## Example (shared dialect)
+## Example (GQL / openCypher-shaped)
 
-```text
-## Nodes
-+ TSK [NEW] ; goal=Model 6U CubeSat PDU ; phase=model ; status=in_progress ; recycle=persistent
-+ PKG [NEW] ; qname=project/pdu-controller ; kind=deploy ; status=active ; recycle=persistent
-+ MOD [NEW] ; path=models/deploy-pdu.sysml ; role=deploy ; status=active ; recycle=persistent
-+ PRT [NEW] ; name=PDUController ; kind=partUsage ; role=power ; status=active ; recycle=persistent
-+ POR [NEW] ; name=pwr_in_28v ; kind=portUsage ; dir=in ; typeRef=Power28V ; status=active ; recycle=persistent
-+ REQ [NEW] ; requirementId=REQ-01 ; text=Total output 15 W avg 20 W peak ; status=active ; recycle=persistent
-+ SYM [NEW] ; name=PDUController ; kind=partUsage ; path=models/deploy-pdu.sysml ; line=42 ; recycle=persistent
-
-## Edges
-+ E01 [NEW] --(owns)--> [MOD_pdu] ; note=scope ; recycle=persistent
-+ E02 [NEW] --(declaredIn)--> [PKG_PDU] ; recycle=persistent
-+ E03 [NEW] --(inFile)--> [MOD_pdu] ; note=loc ; recycle=persistent
-+ E04 [NEW] --(hasPort)--> [POR_pwr_in_28v] ; recycle=persistent
-+ E05 [NEW] --(satisfies)--> [REQ-01] ; recycle=persistent
+```cypher
+CREATE (t:TSK {id: 'NEW', goal: 'Model 6U CubeSat PDU', phase: 'model', status: 'in_progress', recycle: 'persistent'})
+CREATE (pkg:PKG {id: 'NEW', qname: 'project/pdu-controller', kind: 'deploy', status: 'active', recycle: 'persistent'})
+CREATE (m:MOD {id: 'NEW', path: 'models/deploy-pdu.sysml', role: 'deploy', status: 'active', recycle: 'persistent'})
+CREATE (p:PRT {id: 'NEW', name: 'PDUController', kind: 'partUsage', role: 'power', status: 'active', recycle: 'persistent'})
+CREATE (por:POR {id: 'NEW', name: 'pwr_in_28v', kind: 'portUsage', dir: 'in', typeRef: 'Power28V', status: 'active', recycle: 'persistent'})
+CREATE (r:REQ {id: 'NEW', requirementId: 'REQ-01', text: 'Total output 15 W avg 20 W peak', status: 'active', recycle: 'persistent'})
+CREATE (s:SYM {id: 'NEW', name: 'PDUController', kind: 'partUsage', path: 'models/deploy-pdu.sysml', line: 42, recycle: 'persistent'})
+CREATE (t)-[:OWNS {id: 'NEW', note: 'scope', recycle: 'persistent'}]->(m)
+CREATE (p)-[:DECLAREDIN {id: 'NEW', recycle: 'persistent'}]->(pkg)
+CREATE (p)-[:INFILE {id: 'NEW', note: 'loc', recycle: 'persistent'}]->(m)
+CREATE (p)-[:HASPORT {id: 'NEW', recycle: 'persistent'}]->(por)
+CREATE (p)-[:SATISFIES {id: 'NEW', recycle: 'persistent'}]->(r)
 ```
 
-Copy assigned ids from the pin map / mutate response.
+Copy assigned ids from the pin_map / mutate response. Port-port links use BIND; node-node use typed rels ([memnet-format](../../memnet-format/SKILL.md)).
 
 ## Anchor strategy
 

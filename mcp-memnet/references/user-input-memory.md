@@ -1,6 +1,6 @@
 # MemNet for user input and preferences
 
-When the agent **must recall what the user said** across turns — atomise each constraint as its own **`USR`** row (one fact, short `content`), link to `TSK` via an edge. See [atomisation.md](atomisation.md), [wire-format.md](wire-format.md). Shared dialect only.
+When the agent **must recall what the user said** across turns — atomise each constraint as its own **`USR`** row (one fact, short `content`), link to `TSK` via an edge. See [atomisation.md](atomisation.md), [wire-format.md](wire-format.md). GQL wire only.
 
 MemNet is **not** a chat log. Store **distilled atoms**, not messages.
 
