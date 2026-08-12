@@ -7,9 +7,9 @@ description: >-
   mmdc CLI reference (mmdc), or themed/ASCII export (pretty-mermaid).
 metadata:
   pattern: pipeline
-  version: "1.1"
+  version: "1.2"
   domain: documentation
-  pairs_with: [mermaid, mmdc, markdown-viewer-user-pack]
+  pairs_with: [mermaid, mmdc, mdtohtml]
 ---
 
 # Mermaid Doc Readability
@@ -39,6 +39,6 @@ mmdc -i <doc.md>
 
 ## Companion
 
-- Preview / zoom: [markdown-viewer-user-pack](../markdown-viewer-user-pack/SKILL.md)
+- HTML export / web view: [mdtohtml](../mdtohtml/SKILL.md)
 - Parser-safe labels: [mermaid](../mermaid/SKILL.md) prohibited-characters table
 - Themed export after cleanup: [pretty-mermaid](../pretty-mermaid/SKILL.md)

@@ -88,9 +88,12 @@ Then at most one specialist SKL from `triggers` match. Repo `AGENTS.md` may add 
 E_mn_01 [mcp-memnet] --(complements)--> [memnet-format] ; note=wire ; recycle=persistent
 E_mn_02 [memnet-multitask] --(complements)--> [mcp-memnet] ; note=multitask ; recycle=persistent
 E_mn_03 [memnet-multitask] --(complements)--> [memnet-format] ; note=multitask ; recycle=persistent
+E_mn_04 [sysml-gql] --(complements)--> [memnet-format] ; note=sysml_bridge ; recycle=persistent
+E_mn_05 [sysml-gql] --(complements)--> [graph-query-language] ; note=gql_core ; recycle=persistent
+E_mn_06 [sysml-gql] --(complements)--> [sysml-memnet-documentation] ; note=snap_ssot ; recycle=persistent
 ```
 
-Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play. Product ops doc: MemNet `docs/multi-agent-sessions.md` (developers). System-repo pattern: MemNet `docs/application-notes/llm-system-dev-multitask.md` (applications).
+Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play. Load `sysml-gql` when SysML modeling uses MemNet GQL working memory. Product ops doc: MemNet `docs/multi-agent-sessions.md` (developers). System-repo pattern: MemNet `docs/application-notes/llm-system-dev-multitask.md` (applications).
 
 ---
 

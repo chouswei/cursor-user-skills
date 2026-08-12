@@ -7,20 +7,20 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.4"
-  pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator]
+  version: "1.5"
+  pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator]
 token_guardrails: |
   - MUST follow the 6-step MemNet turn sequence below on every substantive modeling turn.
   - Model SSOT: edit `.sysml` first; then outputs; then programs under parts/**. Never invent architecture only in Markdown or code.
   - Commissioning / plant-setup / power-cycle policy: capture in behaviour + requirements (prefer refine/derive children), then sync `outputs/diagrams/` and report sections.
   - pin_map before edit; MemNet delta + line refresh after validate (see sysml-memnet-snap.md).
-  - Pipeline handoffs: shared dialect mutate when MemNet is up (sysml-memnet-pipeline.md); plain Markdown when down (not TOON/TRON).
+  - Pipeline handoffs: GQL / openCypher-shaped mutate when MemNet is up (sysml-memnet-pipeline.md); plain Markdown when down (not TOON/TRON).
   - MUST follow sysml-memnet-read-policy.md: no full deploy read for topology; <=2 narrow Read windows per turn.
   - After .sysml edits, validate with mcp-sysml-v2; route to specialist sysml-* skills for depth.
 ---
 
 system_instruction: |
-  Prefer plain Markdown or MemNet shared dialect; do not use TOON/TRON. JSON only at tool boundaries.
+  Prefer plain Markdown or MemNet GQL wire; do not use TOON/TRON. JSON only at tool boundaries.
 
 
 # SysML modeling workflow
@@ -81,6 +81,7 @@ Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sy
 ## Routing
 
 - MemNet cache (relatives read/write): `sysml-memnet-cache` -> `mcp-memnet` tools
+- MemNet GQL thin bridge: `sysml-gql`
 - MemNet policy / snap procedure: `sysml-memnet-documentation`
 - Session preflight: `sysml-modeling-session-checklist`
 - New project root/config or load order: `sysml-root-config`, `sysml-import-order-helper`
@@ -105,7 +106,7 @@ Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sy
 
 ## Pipeline atoms (between steps)
 
-When MemNet is up, each step writes MemNet atoms in the **shared dialect** -- not chat scratch encodings.
+When MemNet is up, each step writes MemNet atoms via **GQL / openCypher-shaped** mutate -- not chat scratch encodings.
 
 Template: [sysml-memnet-pipeline.md](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md).
 

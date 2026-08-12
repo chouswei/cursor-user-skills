@@ -44,8 +44,8 @@ Current project snaps may have `@CON` + `ends` but **no `typedBy` EDG**. Before 
 
 1. `query_warm` `@CON_*`; for each missing `typedBy`:
 2. Grep `connection link<Name>\s*:\s*<DefName>` in `deploy-*.sysml`.
-3. Add `@EDG … typedBy … CONDEF_<DefName>` in the **same batch** as snap delta.
-4. Fallback (grep miss only): name-prefix heuristic (`linkEdgePanelAc*` → power, `link*ToGs305epPort*` → L2) as `@CLM` type=`assumption`.
+3. Add `:typedBy` -> `CONDEF_<DefName>` in the **same batch** as snap delta.
+4. Fallback (grep miss only): name-prefix heuristic (`linkEdgePanelAc*` → power, `link*ToGs305epPort*` → L2) as `:CLM` type=`assumption`.
 
 Subsequent `connection` adds **must** include `typedBy` per [sysml-memnet-patterns.md](~/.cursor/skills/sysml-memnet-documentation/references/sysml-memnet-patterns.md).
 
@@ -76,7 +76,7 @@ Abort single-figure scope when **any** holds:
 
 | Term | Definition |
 |------|------------|
-| **rank** | Integer 0..N, top-to-bottom row in `flowchart TB`. Per `PRT` in `@CLM` stat. |
+| **rank** | Integer 0..N, top-to-bottom row in `flowchart TB`. Per `PRT` in `:CLM` stat. |
 | **lane** | Integer 1..K, left-to-right within a rank. |
 | **declare#** | Order in fenced block. **Anchor = declare# 1** always; not equal to rank order. |
 | **rank_span** | `|rank(endA) − rank(endB)|` per CON. ≤ 1 mandatory except uplinks. |
@@ -99,7 +99,7 @@ Abort single-figure scope when **any** holds:
 | Power | `edgePanelAc220V` (source) or `relayChainPcba` (hub) |
 | Control | PCBA hub |
 
-Mark `@EDG` `anchor_of` from anchor `@PRT` → `TSK_diagram_*`.
+Mark `:anchor_of` from anchor `:PRT` -> `TSK_diagram_*`.
 
 ---
 
@@ -116,8 +116,8 @@ Mark `@EDG` `anchor_of` from anchor `@PRT` → `TSK_diagram_*`.
 
 **p2c:spans audit:** for each CON in `figure_uses`, compute `rank_span`. If any `> 1` (non-uplink): **do not materialise** — re-rank or split.
 
-```text
-@CLM: C_span_audit|TSK_diagram_*|pipe|p2c:spans ok:5 warn:0|active|delete_on_settle
+```cypher
+CREATE (c:CLM {id: 'C_span_audit', type: 'pipe', code: 'p2c:spans ok:5 warn:0', status: 'active', recycle: 'delete_on_settle'})
 ```
 
 ---
@@ -129,7 +129,7 @@ Max **2 barycenter iterations** on MemNet only:
 1. Fix ranks from p2.
 2. Seed lanes: anchor centred; leaves by `typedBy` then name.
 3. For each rank `R` (top→bottom, then bottom→top): `lane(node) = average(lane(neighbours in R±1))`; ties by name.
-4. Write `lane` to `@CLM` stat; set `declare#`: anchor=1, then `(rank asc, lane asc)`.
+4. Write `lane` to `:CLM` stat; set `declare#`: anchor=1, then `(rank asc, lane asc)`.
 5. Stop when lane order unchanged or after 2 sweeps.
 
 **Star leaf tie-break:** order rank-0 leaves to match hub port order in `ends` (P1..P4).
@@ -148,7 +148,7 @@ p3:edges = (hub spokes, leaf lane left→right) → (power chains, rank asc) →
 - Declare **mate edge** (HDMI) **after all spokes**, even though it is same-rank (chord).
 - Never interleave chord between spokes.
 
-Store ordered `CON_*` list on `TSK_diagram_*` as `@CLM` pipe `p3:edges:…`.
+Store ordered `CON_*` list on `TSK_diagram_*` as `:CLM` pipe `p3:edges:…`.
 
 ---
 
@@ -181,20 +181,21 @@ From `pin_map(TSK_diagram_<figureId>)`:
 
 ## MemNet wire (serve up)
 
-See [sysml-memnet-pipeline.md](~/.cursor/skills/sysml-memnet-documentation/references/sysml-memnet-pipeline.md) § Diagram placement task.
+See [sysml-memnet-pipeline.md](~/.cursor/skills/sysml-memnet-documentation/references/sysml-memnet-pipeline.md) section Diagram placement task. Agent I/O is openCypher-shaped (not pipe `@TAG`).
 
 **Task:**
 
-```text
-@TSK: TSK_diagram_vfdl2-edgeside-panel-eth|panel L2 graph|pipe|in_progress|delete_on_settle
-@EDG: E…|TSK_diagram_vfdl2-edgeside-panel-eth|childOf|TSK_model_vfdl2|diagram|delete_on_settle
-@EDG: E…|TSK_diagram_vfdl2-edgeside-panel-eth|documents|SEC_S04|04-interconnection.md|delete_on_settle
+```cypher
+CREATE (t:TSK {id: 'TSK_diagram_vfdl2-edgeside-panel-eth', goal: 'panel L2 graph', phase: 'pipe', status: 'in_progress', recycle: 'delete_on_settle'})
+CREATE (t)-[:CHILDOF {id: 'NEW', note: 'diagram', recycle: 'delete_on_settle'}]->(:TSK {id: 'TSK_model_vfdl2'})
+CREATE (t)-[:DOCUMENTS {id: 'NEW', note: '04-interconnection.md', recycle: 'delete_on_settle'}]->(:SEC {id: 'SEC_S04'})
 ```
 
 **Placement stat per node:**
 
-```text
-@CLM: C_place_gs305EP|TSK_diagram_vfdl2-edgeside-panel-eth|stat|PRT_gs305EP deg4 rank1 lane1 declare1|active|delete_on_settle
+```cypher
+CREATE (c:CLM {id: 'C_place_gs305EP', type: 'stat', code: 'PRT_gs305EP deg4 rank1 lane1 declare1', status: 'active', recycle: 'delete_on_settle'})
+CREATE (:TSK {id: 'TSK_diagram_vfdl2-edgeside-panel-eth'})-[:OWNS {id: 'NEW', recycle: 'delete_on_settle'}]->(c)
 ```
 
 **Pipe codes:** `p0:types` · `p1:scope` · `p2:place` · `p2b:bary` · `p2c:spans` · `p3:edges` · `p4:materialise` · `p5:review` · `p6:settle`
@@ -277,4 +278,4 @@ When MemNet is unavailable: keep the same fields in plain Markdown tables betwee
 - [ ] `p3:edges` spokes → chains → chords
 - [ ] `p5:review=ok`
 - [ ] `mmdc -i <section>.md` pass
-- [ ] `p6:settle` + method `@CLM` on `@SEC`
+- [ ] `p6:settle` + method `:CLM` on `:SEC`

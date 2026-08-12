@@ -9,8 +9,8 @@ description: >-
 metadata:
   pattern: tool-wrapper
   domain: sysml-v2,memnet
-  version: "1.2"
-  pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format]
+  version: "1.3"
+  pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format, sysml-gql]
 token_guardrails: |
   - MemNet is the cache; .sysml is source of truth for structure; AGENT-CONTEXT is session+anchor only.
   - pin_map(TSK_model_<short>) before substantive edit; add/update delta after mcp-sysml-v2 validate.
@@ -54,15 +54,16 @@ Atomised rows the warm graph must carry so the next turn avoids re-reading deplo
 | `ITM` | Flow items | sysml-item-generator |
 | `SYM` | File + line locators | **every** substantive edit |
 | `MOD` | Model file registry | sysml-new-project, root-config |
-| EDGE `--(rel)-->` | satisfies, allocates, hasPort, declaredIn | traceability, refactorer |
+| Typed rels | satisfies, allocates, hasPort, declaredIn | traceability, refactorer |
 | `DEC` / `ISSUE` | Open choices, backlog | part-reviewer, requirements-audit |
 | `CONV` | Site conventions | common-lib-contribution |
 | `ART` / `SEC` / `CLM` | Report atoms | view-doc-sync, system-design-report |
 | `TSK` | Campaign + pipe steps | modeling-workflow |
 | `USR` | User constraints that must persist | any turn |
 
-Full tag map: [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md).  
+Full kind map: [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md).
 Per-skill write map: [relatives-cache-map.md](../sysml-memnet-documentation/references/relatives-cache-map.md).
+Thin bridge: [sysml-gql](../sysml-gql/SKILL.md).
 
 ## MCP tool loop (every modeling turn)
 

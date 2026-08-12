@@ -12,7 +12,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: doc
-  version: "1.3"
+  version: "1.4"
 ---
 
 # Prompt writing discipline
@@ -41,7 +41,7 @@ Writing or editing prose that a model will read. Skip for human-only marketing f
 2. Keep an abbreviation only if it is standard in the domain **and** clearer than the expansion after first use.
 3. If a house label must appear (design-doc shorthand, legacy pin): expand on first use with the meaning, then prefer the plain name thereafter.
 4. Do not invent cryptic tiers/codes (`T1`, `LAW-PIPE20`, unglossed house labels) as the primary agent-facing term.
-5. Optional example (MemNet): if a design doc says "Tier A", write **Tier A (shared dialect -- Write = display)** once, then prefer **shared dialect**.
+5. Optional example (MemNet): if a design doc says "Tier A" or "Write = display", gloss once as obsolete house labels, then prefer **GQL wire** (shaped pin_map + openCypher-shaped mutate).
 6. Prefer **ASCII** in LLM-consumed skill/rule/hub text (`->` not arrows; `--` not em dashes; no smart quotes). See pack rule R16 in `LLM.md`.
 7. When spawning Task/subagents: set `model` per `sub-agent-policy` / R17 (thinking/unclear -> `cursor-grok-4.5-low`; visual items review -> `kimi-k3-max`; MemNet snapshot -> `gpt-5.6-luna-medium`). **MUSTNOT** use any `*-fast` / FAST slug.
 
@@ -51,7 +51,7 @@ Writing or editing prose that a model will read. Skip for human-only marketing f
 |-----|------|
 | "Leverage the util to somehow sync stuff ASAP." | "Run `scripts/sync.py` to copy config into the target folder." |
 | "Use CFG / ENV / RT interchangeably." | "Use **config** for files; **environment variable** for process env." |
-| "Follow Tier A / T1 / LAW-PIPE20." | "Follow the **shared dialect** (Write = display); expand any house label on first use." |
+| "Follow Tier A / T1 / LAW-PIPE20." | "Follow the **GQL wire** (shaped pin_map + openCypher mutate); expand any house label on first use." |
 | "The NFT of the SKL is TBD w.r.t. QoS." | "Skill metadata version is unset; quality targets are not defined yet." |
 | Three paragraphs restating the same MUST. | One MUST line; no restatement. |
 

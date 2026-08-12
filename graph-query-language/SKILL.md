@@ -5,10 +5,10 @@ description: >-
   RETURN, paths) against graph databases or graph APIs. Triggers: GQL, graph
   query, MATCH RETURN, property graph, Cypher-like read query.
 metadata:
-  pattern: reference
+  pattern: tool-wrapper
   specialization: graph-query
   domain: data
-  version: "1.0"
+  version: "1.1"
 token_guardrails: |
   - Prefer parameterized values ($id) over string-concatenated literals.
   - Bound match cardinality (labels + filters + LIMIT) before returning rows.
@@ -76,3 +76,5 @@ RETURN n
 
 ## Related
 - Path depth / reachability: [gql-path-patterns](../gql-path-patterns/SKILL.md)
+- MemNet agent wire: [memnet-format](../memnet-format/SKILL.md), [mcp-memnet](../mcp-memnet/SKILL.md)
+- SysML modeling + MemNet: [sysml-gql](../sysml-gql/SKILL.md)

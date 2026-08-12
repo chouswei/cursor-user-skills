@@ -1,6 +1,6 @@
-# SysML + MemNet — pipeline handoffs
+# SysML + MemNet -- pipeline handoffs
 
-**Audience:** LLM agents. Structured state **between pipeline steps** uses MemNet **GQL / openCypher-shaped** wire when MemNet MCP is up — not TOON/TRON in chat. Wire: [memnet-format](../../memnet-format/SKILL.md), [mcp-memnet](../../mcp-memnet/SKILL.md).
+**Audience:** LLM agents. Structured state **between pipeline steps** uses MemNet **GQL / openCypher-shaped** wire when MemNet MCP is up -- not TOON/TRON in chat. Wire: [memnet-format](../../memnet-format/SKILL.md), [mcp-memnet](../../mcp-memnet/SKILL.md). Thin SysML bridge: [sysml-gql](../../sysml-gql/SKILL.md).
 
 Pair with [sysml-memnet-snap.md](sysml-memnet-snap.md) (6-step turn), [memnet-report-pipeline.md](../../system-design-report-generator/references/memnet-report-pipeline.md).
 
@@ -13,28 +13,29 @@ Pair with [sysml-memnet-snap.md](sysml-memnet-snap.md) (6-step turn), [memnet-re
 | **SysML modeling turn** (steps 1-6) | openCypher-shaped mutate; step `code` = `sN:payload` | `add` / `update` each step |
 | **Report generate/maintain** (G/M steps) | Same + ART/SEC when prose settles | Server graph |
 | **Skill routing** (`order[]`, picks) | Task + claim atoms + `led_to_success` edges | Server graph |
-| **Serve down** | Plain Markdown tables or short prose | Ephemeral — not durable |
+| **Serve down** | Plain Markdown tables or short prose | Ephemeral -- not durable |
 | **MCP / CLI tool boundary** | JSON envelope | Tool response only |
 
-**Rule:** If MemNet is up and the handoff must survive context shrink → **atoms on server**, not Markdown-only scratch in chat.
+**Rule:** If MemNet is up and the handoff must survive context shrink -> **atoms on server**, not Markdown-only scratch in chat.
 
 ---
 
-## Shared-dialect step atoms
+## Step atoms (openCypher-shaped)
 
-Mutate after each step (or batch s1–s2, then s3, then s4–s6). Pin map is bare present; mutate keeps ops.
+Mutate after each step (or batch s1-s2, then s3, then s4-s6). Pin map is the shaped present; mutate keeps ops.
 
-```text
-## Nodes
-+ TSK [NEW] ; goal={goal ≤8 words} ; phase=turn ; status=in_progress ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=s1:up ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=s2:hit ; recycle=delete_on_settle
-
-## Edges
-+ E01 [NEW] --(childOf)--> [TSK_model_<short>] ; note=turn ; recycle=delete_on_settle
+```cypher
+CREATE (t:TSK {id: 'NEW', goal: $goal, phase: 'turn', status: 'in_progress', recycle: 'delete_on_settle'})
+CREATE (c1:CLM {id: 'NEW', type: 'decision', code: 's1:up', recycle: 'delete_on_settle'})
+CREATE (c2:CLM {id: 'NEW', type: 'decision', code: 's2:hit', recycle: 'delete_on_settle'})
+CREATE (t)-[:CHILDOF {id: 'NEW', note: 'turn', recycle: 'delete_on_settle'}]->(:TSK {id: $modelTid})
 ```
 
-Copy assigned ids from the pin map / mutate response for later `~` updates. Settle with `~ TSK […] ; status=settled`.
+Copy assigned ids from the pin map / mutate response. Settle with:
+
+```cypher
+MATCH (t:TSK {id: $tid}) SET t.status = 'settled'
+```
 
 ### Step `code` vocabulary
 
@@ -53,58 +54,51 @@ Copy assigned ids from the pin map / mutate response for later `~` updates. Sett
 
 **Step 6 skip** (comment-only): `s6:skip` + settle turn.
 
-**Resume next turn:** pin map on `TSK_model_<short>` — latest in-progress turn or last step atoms; **do not** re-derive from chat.
+**Resume next turn:** pin map on `TSK_model_<short>` -- latest in-progress turn or last step atoms; **do not** re-derive from chat.
 
 ### Six-step template
 
-```text
-## Nodes
-+ TSK [NEW] ; goal={goal} ; phase=turn ; status=in_progress ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=s1:up ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=s2:hit ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=s3:SYM_<symbol> ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=s4:pass ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=s5:sync:done ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=s6:24rows ; recycle=delete_on_settle
-
-## Edges
-+ E_turn [NEW] --(childOf)--> [TSK_model_<short>] ; note=turn ; recycle=delete_on_settle
+```cypher
+CREATE (t:TSK {id: 'NEW', goal: $goal, phase: 'turn', status: 'in_progress', recycle: 'delete_on_settle'})
+CREATE (c1:CLM {id: 'NEW', type: 'decision', code: 's1:up', recycle: 'delete_on_settle'})
+CREATE (c2:CLM {id: 'NEW', type: 'decision', code: 's2:hit', recycle: 'delete_on_settle'})
+CREATE (c3:CLM {id: 'NEW', type: 'decision', code: 's3:SYM_<symbol>', recycle: 'delete_on_settle'})
+CREATE (c4:CLM {id: 'NEW', type: 'decision', code: 's4:pass', recycle: 'delete_on_settle'})
+CREATE (c5:CLM {id: 'NEW', type: 'decision', code: 's5:sync:done', recycle: 'delete_on_settle'})
+CREATE (c6:CLM {id: 'NEW', type: 'decision', code: 's6:24rows', recycle: 'delete_on_settle'})
+CREATE (t)-[:CHILDOF {id: 'NEW', note: 'turn', recycle: 'delete_on_settle'}]->(:TSK {id: $modelTid})
 ```
 
 ### Router / skill pick
 
-```text
-## Nodes
-+ TSK [NEW] ; goal={intent ≤8 words} ; phase=route ; status=in_progress ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=pick:sysml-modeling-workflow ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=pick:sysml-memnet-documentation ; recycle=delete_on_settle
-
-## Edges
-+ E_led [NEW] --(led_to_success)--> [sysml-modeling-workflow] ; note=pass ; recycle=persistent
+```cypher
+CREATE (t:TSK {id: 'NEW', goal: $intent, phase: 'route', status: 'in_progress', recycle: 'delete_on_settle'})
+CREATE (c1:CLM {id: 'NEW', type: 'decision', code: 'pick:sysml-modeling-workflow', recycle: 'delete_on_settle'})
+CREATE (c2:CLM {id: 'NEW', type: 'decision', code: 'pick:sysml-memnet-documentation', recycle: 'delete_on_settle'})
+CREATE (t)-[:LED_TO_SUCCESS {id: 'NEW', note: 'pass', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
 ```
 
 Phase-4 learning: `led_to_success` edges are **`persistent`**; route task is **`delete_on_settle`**.
 
 ---
 
-## Report pipeline — G / M steps
+## Report pipeline -- G / M steps
 
 Parent: `TSK_model_<short>` or `TSK_report_<short>` (`phase=report`, `delete_on_settle`).
 
 | Phase | Step | `code` |
 |-------|------|--------|
-| Generate | G0–G7 | `G0:serve` … `G7:done` |
-| Maintain | M1–M5 | `M1:warm` … `M5:clm_delta` |
+| Generate | G0-G7 | `G0:serve` … `G7:done` |
+| Maintain | M1-M5 | `M1:warm` … `M5:clm_delta` |
 
-```text
-## Nodes
-+ TSK [NEW] ; goal=Sync relay section ; phase=report ; status=in_progress ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=M1:warm ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=M2:sec_S05-relay ; recycle=delete_on_settle
-+ CLM [NEW] ; type=decision ; code=M5:8clm ; recycle=delete_on_settle
+```cypher
+CREATE (t:TSK {id: 'NEW', goal: 'Sync relay section', phase: 'report', status: 'in_progress', recycle: 'delete_on_settle'})
+CREATE (c1:CLM {id: 'NEW', type: 'decision', code: 'M1:warm', recycle: 'delete_on_settle'})
+CREATE (c2:CLM {id: 'NEW', type: 'decision', code: 'M2:sec_S05-relay', recycle: 'delete_on_settle'})
+CREATE (c3:CLM {id: 'NEW', type: 'decision', code: 'M5:8clm', recycle: 'delete_on_settle'})
 ```
 
-Link report atoms with edges (`mentions` → CON/PRT) in the same batch as model delta.
+Link report atoms with edges (`mentions` -> CON/PRT) in the same batch as model delta.
 
 ---
 
@@ -112,14 +106,14 @@ Link report atoms with edges (`mentions` → CON/PRT) in the same batch as model
 
 Use when building or updating **interconnection Mermaid** in `outputs/**/*.md`. Full algorithm: [mermaid/references/mermaid-placement-by-degree.md](../../mermaid/references/mermaid-placement-by-degree.md).
 
-**Parent:** `TSK_diagram_<figureId>` `childOf` → `TSK_model_<short>` · `documents` → section atom · `delete_on_settle` until `p6:settle`.
+**Parent:** `TSK_diagram_<figureId>` `childOf` -> `TSK_model_<short>` · `documents` -> section atom · `delete_on_settle` until `p6:settle`.
 
 | Code | Action | Touches `.md`? |
 |------|--------|----------------|
-| `p0:types` | typedBy histogram → intent bucket | No |
+| `p0:types` | typedBy histogram -> intent bucket | No |
 | `p1:scope` | figure_includes / figure_uses edges | No |
 | `p2:place` | Ranks, anchor, adjacent_to, claim stats | No |
-| `p2b:bary` | Barycenter lane iteration ≤2 | No |
+| `p2b:bary` | Barycenter lane iteration <=2 | No |
 | `p2c:spans` | Per-CON rank_span | No |
 | `p3:edges` | Ordered CON_* | No |
 | `p4:materialise` | Patch section `.md`; mmdc | **Yes** |
@@ -134,9 +128,9 @@ Use when building or updating **interconnection Mermaid** in `outputs/**/*.md`. 
 
 ```
 step N:   pin map on TSK_model_* OR TSK_turn_*
-          → act
-          → add/update step atom for step N
-step N+1: pin map (same anchor) — read step atoms, not chat
+          -> act
+          -> add/update step atom for step N
+step N+1: pin map (same anchor) -- read step atoms, not chat
 ```
 
 **MUST NOT** paste pipeline state only as chat Markdown when MemNet is up.
@@ -159,10 +153,11 @@ When `s1:down`:
 
 | Bad | Good |
 |-----|------|
-| Markdown-only scratch in chat for s1–s6 state | Step atoms on server |
+| Markdown-only scratch in chat for s1-s6 state | Step atoms on server |
 | Re-read deploy because pipeline state was only in chat | Pin map on turn task |
 | One fat note for whole turn | One claim per step |
-| Skip settle → `settled` | Settle so the pin map stays lean |
+| Skip settle -> `settled` | Settle so the pin map stays lean |
+| Pipe `@TAG` or Layer line dialect as mutate | openCypher-shaped `CREATE` / `MATCH`/`SET` |
 
 ---
 

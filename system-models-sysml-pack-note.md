@@ -11,7 +11,7 @@ These skill folders live **only** under **`~/.cursor/skills/`** (user pack), not
 
 ## What still ships **in** the repo (`.cursor/skills/`)
 
-**`reasoning-strategy-selector`**, **`md-to-tex`**, **`mmdc`**, **`hardware-custom-pcba-workflow`**. Their `SKILL.md` bodies link to user-pack ids above (e.g. Mermaid) for pairing.
+**`hardware-custom-pcba-workflow`** (deprecated pack stub -> `pcba-design-reviewer`; full workflow may still live under a system repo `.cursor/skills/`), **`reasoning-strategy-selector`**, **`md-to-tex`**, **`mmdc`**. Their `SKILL.md` bodies link to user-pack ids above (e.g. Mermaid) for pairing.
 
 ## Markdown links inside user-pack skills
 

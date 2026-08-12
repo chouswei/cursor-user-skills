@@ -6,7 +6,7 @@ description: >-
   openCypher mutate, view budget, bind vs relation.
 metadata:
   pattern: tool-wrapper
-  version: "4.0"
+  version: "4.1"
   domain: data-formats,memnet
   product: memnet-llm
 token_guardrails: |
@@ -105,7 +105,7 @@ User-pack engine: TCP serve **`10.0.0.10:18765`** — see [mcp-memnet](../mcp-me
 
 ## SysML x MemNet
 
-Engine-generic wire stays above. **SysML construct map, kind enums, closed rel list, and batch rules** are SSOT in [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) -> [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md). Cache loop: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md).
+**SysML construct map, kind enums, closed rel list, and batch rules** are SSOT in [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) -> [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md). Thin turn loop: [sysml-gql](../sysml-gql/SKILL.md). Cache loop: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md).
 
 | SysML v2 textual (grammar) | MemNet | Stable id |
 |----------------------------|--------|-----------|
@@ -158,9 +158,10 @@ Full discipline: [mcp-memnet/references/atomisation.md](../mcp-memnet/references
 
 ## Further reading
 
-- [references/memnet-wire-format.md](references/memnet-wire-format.md) — MemNet GQL field notes
-- [graph-query-language](../graph-query-language/SKILL.md) — general GQL
-- [gql-path-patterns](../gql-path-patterns/SKILL.md) — bounded paths
-- [mcp-memnet](../mcp-memnet/SKILL.md) — tools and session loop
-- [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) — SysML atomisation SSOT
-- MemNet `docs/grammar/` — design SSOT
+- [references/memnet-wire-format.md](references/memnet-wire-format.md) -- MemNet GQL field notes
+- [graph-query-language](../graph-query-language/SKILL.md) -- general GQL
+- [gql-path-patterns](../gql-path-patterns/SKILL.md) -- bounded paths
+- [mcp-memnet](../mcp-memnet/SKILL.md) -- tools and session loop
+- [sysml-gql](../sysml-gql/SKILL.md) -- thin SysML x MemNet GQL bridge
+- [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) -- SysML atomisation SSOT
+- MemNet `docs/grammar/` -- design SSOT

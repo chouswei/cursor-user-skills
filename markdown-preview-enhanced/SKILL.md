@@ -3,8 +3,11 @@ name: markdown-preview-enhanced
 description: >-
   VS Code / Cursor Markdown Preview Enhanced extension workflows: KaTeX/MathJax,
   Mermaid/PlantUML, scroll sync, Pandoc/PDF export. Use only when the user asks
-  to configure or exploit that extension — not for generic markdown edits.
+  to configure or exploit that extension -- not for generic markdown edits.
   Triggers: markdown preview enhanced, MPE export PDF, katex preview, plantuml preview.
+metadata:
+  pattern: tool-wrapper
+  version: "1.2"
 ---
 
 # Markdown Preview Enhanced
@@ -22,10 +25,9 @@ Use this skill when working with Markdown files that benefit from advanced previ
 
 ## When to Activate
 
-- User opens or edits `.md` / `.markdown` files.
-- Requests involving equations, diagrams, or technical reports.
-- Exporting documentation or generating PDFs from Markdown.
-- Using Mermaid, PlantUML, or math in notes.
+- User **names** Markdown Preview Enhanced / MPE, or asks to configure that extension.
+- MPE-specific export (PDF via the extension), KaTeX/PlantUML preview in MPE, or MPE scroll sync.
+- **Not** for generic `.md` edits, Mermaid authoring ([mermaid](../mermaid/SKILL.md)), or HTML export ([mdtohtml](../mdtohtml/SKILL.md)).
 
 ## Quick Start
 

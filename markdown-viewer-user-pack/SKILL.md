@@ -1,35 +1,19 @@
 ---
 name: markdown-viewer-user-pack
 description: >-
-  Run Markdown Viewer as a local user-pack tool for markdown and Mermaid
-  inspection with zoom, pan, and export. Use when preview readability is poor or
-  when the user asks to inspect or export Mermaid diagrams.
+  DEPRECATED stub. Mermaid/markdown readability preview lives in mermaid-doc-readability
+  (pair mermaid / mmdc). Triggers: markdown viewer, docker markdown viewer, zoom mermaid
+  preview (resolve to mermaid-doc-readability).
 metadata:
   pattern: tool-wrapper
-  version: "1.0"
+  domain: documentation
+  status: deprecated
+  version: "2.0-deprecated"
+  pairs_with: [mermaid-doc-readability, mermaid, mmdc]
 ---
 
-# Markdown Viewer User Pack Tool
+# DEPRECATED -- use mermaid-doc-readability
 
-## Start
+**Status:** retired as a pack entry skill (docker one-liner only added routing noise).
 
-```powershell
-docker run -d --name markdown-viewer -p 8080:80 --restart unless-stopped ghcr.io/thisis-developer/markdown-viewer:latest
-```
-
-Open: `http://localhost:8080`
-
-## Operate
-
-```powershell
-docker ps --filter "name=markdown-viewer"
-docker stop markdown-viewer
-docker start markdown-viewer
-docker rm -f markdown-viewer
-```
-
-## Apply
-
-- Load `.md` files and inspect Mermaid with zoom/pan.
-- Export SVG/PNG from the viewer when needed.
-- If `8080` is occupied, use another host port (`-p 18080:80`).
+Open **[mermaid-doc-readability](../mermaid-doc-readability/SKILL.md)** for declutter/preview passes; author/validate with [mermaid](../mermaid/SKILL.md) + [mmdc](../mmdc/SKILL.md). HTML export: [mdtohtml](../mdtohtml/SKILL.md). File to Markdown: [mcp-markitdown](../mcp-markitdown/SKILL.md).

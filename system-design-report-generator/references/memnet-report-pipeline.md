@@ -8,9 +8,9 @@ Use when **generating**, **scaffolding**, or **maintaining** a `system-design-re
 |-------|-----------|-------------|
 | `models/*.sysml` | Structure, links, requirements | **Source** for section content |
 | `outputs/system-design-report/*.md` | Human-readable narrative | **Derived** — tables/diagrams from model |
-| MemNet `@ART`/`@SEC`/`@CLM` | Claim index, section map, cross-links | **Atomised facts** — not full prose |
+| MemNet `:ART` / `:SEC` / `:CLM` | Claim index, section map, cross-links | **Atomised facts** -- not full prose |
 
-**Do not** duplicate topology tables in MemNet; **do** atomise one fact per `@CLM` and link to `@CON`/`@PRT`/`@REQ` via `@EDG`.
+**Do not** duplicate topology tables in MemNet; **do** atomise one fact per `:CLM` and link to `:CON` / `:PRT` / `:REQ` via typed relationships.
 
 ## Prerequisites
 
@@ -64,47 +64,47 @@ memnet:
 
 Agents: **`pin_map(art_id)`** or **`pin_map(anchor)`** before opening section files when serve is up.
 
-## `@ART` / `@SEC` / `@CLM` mapping
+## `:ART` / `:SEC` / `:CLM` mapping
 
-**One report pack → one `@ART`:**
+**One report pack -> one `:ART`:**
 
-```text
-@ART: ART_vfdl2-design|VFDL2 system design|outputs/system-design-report/index.md|report|active|persistent
-@EDG: E…|TSK_model_vfdl2|owns|ART_vfdl2-design|scope|persistent
+```cypher
+CREATE (a:ART {id: 'ART_vfdl2-design', title: 'VFDL2 system design', source: 'outputs/system-design-report/index.md', kind: 'report', status: 'active', recycle: 'persistent'})
+CREATE (:TSK {id: 'TSK_model_vfdl2'})-[:OWNS {id: 'NEW', note: 'scope', recycle: 'persistent'}]->(a)
 ```
 
-**Each `llm_toc` entry → one `@SEC`:**
+**Each `llm_toc` entry -> one `:SEC`:**
 
 | Hub field | MemNet row |
 |-----------|------------|
-| `llm_toc[].id` | `@SEC.id` suffix (e.g. `S02-interconnection`) |
-| `llm_toc[].title` | `@SEC.heading` |
-| list order (1-based) | `@SEC.order` |
-| `llm_toc[].file` | `@CLM` / prose lives in that path — store path on `@ART.source` only |
+| `llm_toc[].id` | `:SEC.id` suffix (e.g. `S02-interconnection`) |
+| `llm_toc[].title` | `:SEC.heading` |
+| list order (1-based) | `:SEC.order` |
+| `llm_toc[].file` | `:CLM` / prose lives in that path -- store path on `:ART.source` only |
 
-```text
-@SEC: S01|ART_vfdl2-design|Scope and sources|1|active|persistent
-@SEC: S04|ART_vfdl2-design|Interconnection view|4|active|persistent
-@EDG: E…|ART_vfdl2-design|contains|S04||persistent
+```cypher
+CREATE (s1:SEC {id: 'S01', heading: 'Scope and sources', order: 1, status: 'active', recycle: 'persistent'})
+CREATE (s4:SEC {id: 'S04', heading: 'Interconnection view', order: 4, status: 'active', recycle: 'persistent'})
+CREATE (:ART {id: 'ART_vfdl2-design'})-[:CONTAINS {id: 'NEW', recycle: 'persistent'}]->(s4)
 ```
 
-**Section content → `@CLM` (one fact per row, ≤15 words in `code`):**
+**Section content -> `:CLM` (one fact per row, <=15 words in `code`):**
 
 | Section topic | Atomise as |
 |---------------|------------|
-| Interconnection table row | `@CLM` type=`fact` + `@EDG` `mentions` → `@CON_<linkName>` |
-| De-facto part (e.g. ASCO 8262) | `@CLM` type=`convention` + `mentions` → `@PRT_valveController` + optional `dependsOn` → `ART_asco8262` |
-| Requirement summary row | `@CLM` type=`fact` + `mentions` → `@REQ_<id>` |
-| Open BOM gap | `@CLM` type=`assumption` or `@ISSUE` |
-| Design choice in prose | `@DEC` if still open; `@CLM` type=`decision` when settled |
+| Interconnection table row | `:CLM` type=`fact` + `mentions` -> `:CON_<linkName>` |
+| De-facto part (e.g. ASCO 8262) | `:CLM` type=`convention` + `mentions` -> `:PRT_valveController` + optional `dependsOn` -> `ART_asco8262` |
+| Requirement summary row | `:CLM` type=`fact` + `mentions` -> `:REQ_<id>` |
+| Open BOM gap | `:CLM` type=`assumption` or `:ISSUE` |
+| Design choice in prose | `:DEC` if still open; `:CLM` type=`decision` when settled |
 
-```text
-@CLM: C81|S04|fact|ValveController switched via relay4p2t twoPoleB|active|persistent
-@EDG: E…|C81|mentions|CON_linkRelay4p2tTwoPoleBToValveController|subject|persistent
-@EDG: E…|C81|mentions|PRT_valveController_vfdl2|subject|persistent
+```cypher
+CREATE (c:CLM {id: 'C81', type: 'fact', code: 'ValveController switched via relay4p2t twoPoleB', status: 'active', recycle: 'persistent'})
+CREATE (c)-[:MENTIONS {id: 'NEW', note: 'subject', recycle: 'persistent'}]->(:CON {id: 'CON_linkRelay4p2tTwoPoleBToValveController'})
+CREATE (c)-[:MENTIONS {id: 'NEW', note: 'subject', recycle: 'persistent'}]->(:PRT {id: 'PRT_valveController_vfdl2'})
 ```
 
-**Do not** store Mermaid source or full markdown tables in `@CLM.code`.
+**Do not** store Mermaid source or full markdown tables in `CLM.code`.
 
 ## Read strategy (token-efficient)
 
