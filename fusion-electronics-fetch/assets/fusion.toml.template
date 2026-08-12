@@ -1,0 +1,23 @@
+# Fusion 360 Electronics — hub / project / folder
+# Fetched YYYY-MM-DD via Fusion MCP + Neutron ElectronFileOutput cache.
+
+[fusion]
+project = "applied electronics"
+folder = "PA107"
+fetched = "YYYY-MM-DD"
+
+[fusion.schematic]
+name = "Schematic-Name"
+lineage_id = "urn:adsk.wipprod:dm.lineage:REPLACE"
+file = "Schematic-Name.sch"
+
+[fusion.board]
+name = "Board-Name"
+lineage_id = "urn:adsk.wipprod:dm.lineage:REPLACE"
+# lineage_id_alt = "urn:adsk.wipprod:dm.lineage:OPTIONAL"
+file = "Board-Name.brd"
+
+[fusion.notes]
+# Optional free-form keys, e.g.:
+# amplifier_ic = "PA107DP"
+# key_nets = ["SIG_IN", "OUT", "0V"]

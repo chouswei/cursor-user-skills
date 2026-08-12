@@ -9,7 +9,7 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.6"
+  version: "1.7"
   pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, mcp-sysmledgraph, memnet-format]
 token_guardrails: |
   - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; pin_map before substantive edits.
@@ -20,7 +20,7 @@ token_guardrails: |
   - Copy stable ids from warm output; refresh @SYM.line after every validated edit.
   - satisfy/allocate → @EDG only (satisfies, allocates); @SYM only for line locators.
   - AGENT-CONTEXT.md: agents read session+anchor only; topology/backlog live in MemNet.
-  - Confirm serve_status before session work. Skip MemNet write only per snap reference (comment-only, serve down).
+  - If MemNet MCP is missing from the catalog, or serve_status false (TCP): skip MemNet read/write; plain Markdown only.
 ---
 
 # SysML MemNet (design memory + model snap)
@@ -31,7 +31,7 @@ token_guardrails: |
 
 **Durable graph memory** for SysML v2 projects: symbol index with file/line locators, ports, connections, behaviour, design rationale, and documentation atoms. Complements `mcp-sysmledgraph` (structural impact) and `mcp-sysml-v2` (validate/parse).
 
-MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `deploy-*.sysml` for topology** when warm has `@PRT`/`@CON` — see [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md). See [mcp-memnet](mcp-memnet/SKILL.md) for wire format and tools.
+MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `deploy*.sysml` for topology** when warm has `@PRT`/`@CON` — see [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md). Tools and dialect: [mcp-memnet](../mcp-memnet/SKILL.md); shapes: [memnet-format](../memnet-format/SKILL.md).
 
 ## Read policy (mandatory)
 
@@ -56,17 +56,20 @@ Pair with [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) and [me
 ## Prerequisites
 
 1. `pip install memnet-llm[mcp]`
-2. `memnet` entry in `~/.cursor/mcp.json`. Set `MEMNET_SERVE_HOST`, `MEMNET_SERVE_PORT`, optional `MEMNET_SESSION`.
-3. `memnet serve` running — confirm with `serve_status`.
+2. MemNet entry in `~/.cursor/mcp.json` (in-process preferred; see [mcp-policy.md](../mcp-memnet/references/mcp-policy.md)).
+3. MemNet MCP tools visible in the session catalog. If absent: treat as serve down — no `pin_map` / mutate.
+4. Under TCP only: `memnet serve` + optional `serve_status`. Skip that probe under in-process default.
 
 ## When to use
 
-- Opening or resuming work on `sysml-v2-models/projects/<slug>/`
+- Opening or resuming work on a SysML project root:
+  - Multi-project pack: `sysml-v2-models/projects/<slug>/`
+  - System repo (`modelbasedPrj-*`): `sysml-models/` (NCU-LEO anchor `TSK_model_leo_cubesat`)
 - Recording design decisions, assumptions, backlog not fully expressed in `.sysml`
 - Maintaining `outputs/*.md` / system-design-report atoms (`@ART`/`@SEC`/`@CLM`)
 - Multi-turn refactors, requirement audits, report updates
 
-**Skip MemNet** only when: one-shot question with no edit; comment-only `.sysml` change; or `serve_status` false.
+**Skip MemNet** when: one-shot question with no edit; comment-only `.sysml` change; MemNet MCP missing from catalog; or `serve_status` false (TCP).
 
 ## Atomisation (docs + model)
 
@@ -88,7 +91,7 @@ ITM is a NODE only (item definition / flow item); see [the ITM pattern](referenc
 
 | Anchor | Use when |
 |--------|----------|
-| `TSK_model_<short>` | Start/resume project session |
+| `TSK_model_<short>` | Start/resume project session (NCU-LEO: `TSK_model_leo_cubesat`) |
 | `TSK_diagram_<figureId>` | Mermaid placement graph ([mermaid-placement-by-degree.md](../mermaid/references/mermaid-placement-by-degree.md)) |
 | `SYM_<name>` | Jump to edit location (path + line) |
 | `PRT_<name>` / `POR_<name>` | Part or port + linked claims/reqs |
@@ -105,5 +108,5 @@ ITM is a NODE only (item definition / flow item); see [the ITM pattern](referenc
 - [sysml-memnet-pipeline.md](references/sysml-memnet-pipeline.md)
 - [sysml-memnet-patterns.md](references/sysml-memnet-patterns.md)
 - [sysml-memnet-cookbook-bridge.md](references/sysml-memnet-cookbook-bridge.md)
-- [mcp-memnet](mcp-memnet/SKILL.md), [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
+- [mcp-memnet](../mcp-memnet/SKILL.md), [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
 - [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md)

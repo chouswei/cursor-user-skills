@@ -1,0 +1,12 @@
+---
+alwaysApply: false
+---
+
+# Terminal (Windows)
+
+When the host shell is Windows PowerShell:
+
+- MUST chain commands with `;`, not `&&` (example: `cd path; git status`).
+- Prefer absolute paths; MUST quote paths that contain spaces.
+- MUST remove directories with `Remove-Item -Recurse` (not `rmdir /s`).
+- If script execution is disabled: run `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`, or use cmd.exe.

@@ -1,6 +1,6 @@
 # Skill Graph (LLM-only hub)
 
-**Audience:** model. Agent-facing examples use MemNet **0.3.5 shared dialect** (Write = display). **Do not** treat this file as the graph -- it routes you to the graph.
+**Audience:** model. Agent-facing examples use MemNet **0.4.2 shared dialect** (Write = display). Dialect SSOT: [memnet-format](memnet-format/SKILL.md). **Do not** treat this file as the graph -- it routes you to the graph.
 
 **Engine seed only:** [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) is machine input for the selector/bootstrap tools (may still be compact store form). Skills and docs teach **shared dialect**; do not copy seed pipe syntax into agent I/O.
 
@@ -80,6 +80,17 @@ E_sys_02 [sysml-modeling-workflow] --(default_stack)--> [sysml-memnet-documentat
 ```
 
 Then at most one specialist SKL from `triggers` match. Repo `AGENTS.md` may add project overrides.
+
+## MemNet application stack (graph edges, not prose)
+
+```text
+## Edges
+E_mn_01 [mcp-memnet] --(complements)--> [memnet-format] ; note=wire ; recycle=persistent
+E_mn_02 [memnet-multitask] --(complements)--> [mcp-memnet] ; note=multitask ; recycle=persistent
+E_mn_03 [memnet-multitask] --(complements)--> [memnet-format] ; note=multitask ; recycle=persistent
+```
+
+Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play. Product ops doc: MemNet `docs/multi-agent-sessions.md` (developers). System-repo pattern: MemNet `docs/application-notes/llm-system-dev-multitask.md` (applications).
 
 ---
 

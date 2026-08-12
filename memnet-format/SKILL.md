@@ -1,14 +1,14 @@
 ---
 name: memnet-format
 description: >-
-  MemNet 0.3.5 shared dialect (Write=display) for live pin map and mutate.
+  MemNet 0.4.2 shared dialect (Write=display) for live pin map and mutate.
   Triggers: memnet format, shared dialect, Write=display, pin map, pin_map, mutate NEW,
-  NODE EDGE, atomised rows.
+  NODE EDGE, atomised rows, Layer, view=shell.
 metadata:
   pattern: tool-wrapper
-  version: "3.5"
+  version: "3.7"
   domain: data-formats,memnet
-  product: memnet-llm==0.3.5
+  product: memnet-llm==0.4.2
 ---
 
 # MemNet formats (LLM-facing)
@@ -53,7 +53,11 @@ Mutate uses ops (`+` create, `~` update, `-` drop). Live pin map is **bare prese
 - **Quotes:** `"C:\\Projects\\…"` when paths need `\` or spaces.
 - **Ingest pins:** stable locators (`path=`, `qname=`, …); no client `NEW` for those.
 
-Primary read: live **pin map** via MCP `pin_map` / CLI `query pin-map`. (`query_warm` is legacy alias.)
+Primary read: live **pin map** via MCP `pin_map` / CLI `query pin-map`. Optional `view=shell` (tight budget) or `view=interior`. (`query_warm` is legacy alias.)
+
+**Layer (0.4 additive):** dual EDGE — port↔port teach **`bind`** (`[Node.port] --bind--> [Node.port]`); node↔node = relation label. Law/`ports=` on NODE (`CST`). SSOT: MemNet `docs/grammar/memnet-multi-layer.md`. Coexists with shared-dialect `--(rel)-->` edge labels.
+
+User-pack engine: TCP serve **`10.0.0.10:18765`** — see [mcp-memnet](../mcp-memnet/SKILL.md).
 
 ---
 

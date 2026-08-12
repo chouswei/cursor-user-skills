@@ -23,8 +23,8 @@ MCP does **not** replace the grammar. Tools open a session and move **shared-dia
 | `session_current` | Session id / TTL | Lifecycle | None |
 | `session_save` | Write snapshot file | Snapshot | None (file holds graph) |
 | `session_load` | Restore snapshot | Snapshot | None |
-| `pin_map` | **Live pin map** | Primary **read** | `stdout`: bare present (`presentNode` / `presentEdge` / `lawPin`) |
-| `query_warm` | Deprecated alias for `pin_map` | Same as `pin_map` | Same |
+| `pin_map` | **Live pin map** | Primary **read** | `stdout`: bare present; optional tool arg `view` |
+| `query_warm` | Deprecated alias for `pin_map` | Same as `pin_map` | Same (incl. `view`) |
 | `query_walk` | Hop listing | Debug read | Walk lines — not the pin-map agent loop |
 | `add` | Create rows | Mutate **create** | `wire_lines`: lines with `+` / `[NEW]` / `NEW` |
 | `update` | Replace / drop rows | Mutate **patch/drop** | `wire_lines`: `~` / `-` on known ids |
@@ -58,8 +58,8 @@ MCP does **not** replace the grammar. Tools open a session and move **shared-dia
 | `serve_status` | in-process needs no serve | Yes — optional under default transport |
 | Missing novel tools | product dropped novel-writer | Expected |
 
-## Config note (one MemNet MCP)
+## Config note (user pack)
 
-Prefer **project** `.cursor/mcp.json` for MemNet repo work (in-process). Do not also register `memnet` in user `~/.cursor/mcp.json` — that doubles the MCP list.
+This pack registers **`memnet`** in `~/.cursor/mcp.json` as a **stdio client** with `MEMNET_MCP_TRANSPORT=tcp` → **`10.0.0.10:18765`**. Do not also enable a second MemNet MCP in a project mcp.json (doubles the tool list). Engine version = remote serve, not the local stdio wrapper.
 
 Cross-ref: [tool-parameters.md](tool-parameters.md) · [mcp-policy.md](mcp-policy.md) · MemNet `docs/grammar/memnet-grammar-design.md`

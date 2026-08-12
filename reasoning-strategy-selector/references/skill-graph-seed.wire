@@ -30,6 +30,7 @@
 @SKL: meeting-notes-generator|user|G|G|doc|low|low|structural|low|C:/Users/chous/.cursor/skills/meeting-notes-generator|persistent
 @SKL: memnet-codebase-snap|user|P|P|user|medium|medium|structural|low|C:/Users/chous/.cursor/skills/memnet-codebase-snap|persistent
 @SKL: memnet-format|user|T|T|meta|medium|medium|structural|low|C:/Users/chous/.cursor/skills/memnet-format|persistent
+@SKL: memnet-multitask|user|P|P|memnet|medium|medium|structural|low|C:/Users/chous/.cursor/skills/memnet-multitask|persistent
 @SKL: mermaid|user|G|G|doc|medium|low|structural|low|C:/Users/chous/.cursor/skills/mermaid|persistent
 @SKL: mermaid-doc-readability|user|P|P|user|medium|medium|structural|low|C:/Users/chous/.cursor/skills/mermaid-doc-readability|persistent
 @SKL: mmdc|user|T|T|doc|low|low|structural|low|C:/Users/chous/.cursor/skills/mmdc|persistent
@@ -83,6 +84,7 @@
 @SKL: sysml-v2-syntax-reference|user|T|T|sysml|medium|medium|structural|low|C:/Users/chous/.cursor/skills/sysml-v2-syntax-reference|persistent
 @SKL: sysml-view-doc-sync|user|R|R|sysml|medium|medium|structural|low|C:/Users/chous/.cursor/skills/sysml-view-doc-sync|persistent
 @SKL: system-design-report-generator|user|P|P|doc|medium|medium|structural|low|C:/Users/chous/.cursor/skills/system-design-report-generator|persistent
+@SKL: system-nesting|user|P|P|sysml|medium|medium|structural|low|C:/Users/chous/.cursor/skills/system-nesting|persistent
 @SKL: tech-report-generator|user|G|G|doc|medium|low|structural|low|C:/Users/chous/.cursor/skills/tech-report-generator|persistent
 @SKL: tech-report-reviewer|user|R|R|doc|medium|low|structural|low|C:/Users/chous/.cursor/skills/tech-report-reviewer|persistent
 @SKL: traceability-footprint-to-sysml|user|P|P|user|medium|medium|structural|low|C:/Users/chous/.cursor/skills/traceability-footprint-to-sysml|persistent
@@ -147,6 +149,12 @@
 @TRG: TRG_memnet-codebase-snap_1|memnet|persistent
 @TRG: TRG_memnet-format_0|memnet format|persistent
 @TRG: TRG_memnet-format_1|memnet|persistent
+@TRG: TRG_memnet-multitask_0|memnet multitask|persistent
+@TRG: TRG_memnet-multitask_1|multitask mode|persistent
+@TRG: TRG_memnet-multitask_2|multi-agent|persistent
+@TRG: TRG_memnet-multitask_3|multitask|persistent
+@TRG: TRG_memnet-multitask_4|task sub-agent|persistent
+@TRG: TRG_memnet-multitask_5|parent coordinator|persistent
 @TRG: TRG_mermaid-doc-readability_0|mermaid doc readability|persistent
 @TRG: TRG_mermaid-doc-readability_1|mermaid|persistent
 @TRG: TRG_mermaid_0|mermaid|persistent
@@ -217,6 +225,8 @@
 @TRG: TRG_sysml-modeling-session-checklist_1|sysml|persistent
 @TRG: TRG_sysml-modeling-workflow_0|sysml modeling workflow|persistent
 @TRG: TRG_sysml-modeling-workflow_1|sysml|persistent
+@TRG: TRG_sysml-modeling-workflow_2|sysml forum|persistent
+@TRG: TRG_sysml-modeling-workflow_3|sysml faq|persistent
 @TRG: TRG_sysml-nested-structure-modeling_0|sysml nested structure modeling|persistent
 @TRG: TRG_sysml-nested-structure-modeling_1|sysml|persistent
 @TRG: TRG_sysml-new-project_0|sysml new project|persistent
@@ -255,6 +265,12 @@
 @TRG: TRG_sysml-view-doc-sync_1|sysml|persistent
 @TRG: TRG_system-design-report-generator_0|system design report generator|persistent
 @TRG: TRG_system-design-report-generator_1|system|persistent
+@TRG: TRG_system-nesting_0|detail the system|persistent
+@TRG: TRG_system-nesting_1|detail the x|persistent
+@TRG: TRG_system-nesting_2|dig into|persistent
+@TRG: TRG_system-nesting_3|system of systems|persistent
+@TRG: TRG_system-nesting_4|nested parts unclear|persistent
+@TRG: TRG_system-nesting_5|architecture decomposition|persistent
 @TRG: TRG_tech-report-generator_0|tech report generator|persistent
 @TRG: TRG_tech-report-generator_1|tech|persistent
 @TRG: TRG_tech-report-reviewer_0|tech report reviewer|persistent
@@ -323,6 +339,10 @@
 @EDG: E0058|TRG_memnet-codebase-snap_1|triggers|memnet-codebase-snap|memnet|persistent
 @EDG: E0059|TRG_memnet-format_0|triggers|memnet-format|memnet format|persistent
 @EDG: E0060|TRG_memnet-format_1|triggers|memnet-format|memnet|persistent
+@EDG: E0287|TRG_memnet-multitask_0|triggers|memnet-multitask|memnet multitask|persistent
+@EDG: E0288|TRG_memnet-multitask_1|triggers|memnet-multitask|multitask mode|persistent
+@EDG: E0289|TRG_memnet-multitask_2|triggers|memnet-multitask|multi-agent|persistent
+@EDG: E0290|TRG_memnet-multitask_3|triggers|memnet-multitask|multitask|persistent
 @EDG: E0061|TRG_mermaid_0|triggers|mermaid|mermaid|persistent
 @EDG: E0062|TRG_mermaid_pad1|triggers|mermaid|pad|persistent
 @EDG: E0063|TRG_mermaid-doc-readability_0|triggers|mermaid-doc-readability|mermaid doc readability|persistent
@@ -431,6 +451,12 @@
 @EDG: E0164|TRG_sysml-view-doc-sync_1|triggers|sysml-view-doc-sync|sysml|persistent
 @EDG: E0165|TRG_system-design-report-generator_0|triggers|system-design-report-generator|system design report generator|persistent
 @EDG: E0166|TRG_system-design-report-generator_1|triggers|system-design-report-generator|system|persistent
+@EDG: E0298|TRG_system-nesting_0|triggers|system-nesting|detail the system|persistent
+@EDG: E0299|TRG_system-nesting_1|triggers|system-nesting|detail the x|persistent
+@EDG: E0300|TRG_system-nesting_2|triggers|system-nesting|dig into|persistent
+@EDG: E0301|TRG_system-nesting_3|triggers|system-nesting|system of systems|persistent
+@EDG: E0302|TRG_system-nesting_4|triggers|system-nesting|nested parts unclear|persistent
+@EDG: E0305|TRG_system-nesting_5|triggers|system-nesting|architecture decomposition|persistent
 @EDG: E0167|TRG_tech-report-generator_0|triggers|tech-report-generator|tech report generator|persistent
 @EDG: E0168|TRG_tech-report-generator_1|triggers|tech-report-generator|tech|persistent
 @EDG: E0169|TRG_tech-report-reviewer_0|triggers|tech-report-reviewer|tech report reviewer|persistent
@@ -551,3 +577,12 @@
 @EDG: E0284|tech-report-generator|specializes|tech-report-reviewer|doc|persistent
 @EDG: E0285|scientific-method-first-principles|specializes|traceability-footprint-to-sysml|user|persistent
 @EDG: E0286|scientific-method-first-principles|specializes|vibe-repo-init|user|persistent
+@EDG: E0291|memnet-multitask|complements|mcp-memnet|memnet|persistent
+@EDG: E0292|memnet-multitask|complements|memnet-format|memnet|persistent
+@EDG: E0293|skill-creator|specializes|memnet-multitask|memnet|persistent
+@EDG: E0294|TRG_memnet-multitask_4|triggers|memnet-multitask|task sub-agent|persistent
+@EDG: E0295|TRG_memnet-multitask_5|triggers|memnet-multitask|parent coordinator|persistent
+@EDG: E0296|TRG_sysml-modeling-workflow_2|triggers|sysml-modeling-workflow|sysml forum|persistent
+@EDG: E0297|TRG_sysml-modeling-workflow_3|triggers|sysml-modeling-workflow|sysml faq|persistent
+@EDG: E0303|sysml-modeling-workflow|specializes|system-nesting|sysml|persistent
+@EDG: E0304|system-nesting|complements|sysml-nested-structure-modeling|sysml|persistent

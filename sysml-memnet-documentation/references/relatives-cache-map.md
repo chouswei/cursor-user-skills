@@ -47,7 +47,7 @@ Skills not listed: if they touch `.sysml` structure, use the matching row above 
 - Full `deploy-*.sysml` paste
 - Paragraph requirement text (use `@REQ` id + one-line `text` field)
 - Duplicate `AGENT-CONTEXT` topology prose
-- Chat scrollback as substitute for `query_warm`
+- Chat scrollback as substitute for `pin_map`
 
 ## Initial snap (warm_miss)
 
@@ -55,6 +55,6 @@ On first warm hit with zero `@PRT`/`@SYM` for a non-trivial project:
 
 1. `add` `@TSK`, all `@MOD` from `config.yaml`
 2. Grep each `part def`, `requirement def`, `connection def` → `@PRT`/`@REQ`/`@CON` + `@SYM`
-3. `session_save` → `projects/<slug>/.memnet/<short>.snap`
+3. `session_save` → `<model-root>/.memnet/<short>.snap`
 
 Procedure: [sysml-memnet-snap.md](sysml-memnet-snap.md#initial-snap-warm-miss-only).

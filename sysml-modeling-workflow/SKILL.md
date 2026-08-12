@@ -7,7 +7,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.3"
+  version: "1.4"
   pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator]
 token_guardrails: |
   - MUST follow the 6-step MemNet turn sequence below on every substantive modeling turn.
@@ -63,6 +63,20 @@ Also: confirm project/scope; derive plans from the model when needed.
 3. Align **`parts/**`** programs to allocate / behaviour / modelled APIs -- peers realign via the model, not by reading each other's code first.
 
 Commissioning, ordered plant setup, sticky DHCP, and power-down/up recovery belong in **behaviour** and **requirements** (**refine** / **derive** under the parent theme), not only in operator Markdown.
+
+## SysML usage questions (forum, FAQ)
+
+When stuck on **SysML usage** — how to express a construct, satisfy/allocate patterns, diagram vs model element, or language/MBSE concepts:
+
+- **MUST** search the [SysML Forum](https://groups.google.com/g/sysmlforum) for usage discussions before inventing syntax or process.
+- **MUST** check the [SysML FAQ](https://sysmlforum.com/sysml-faq/) for language / MBSE FAQ (diagram types, Block vs Class, MBSE concepts).
+- Prefer forum / FAQ + OMG spec over chat invention.
+- **MUST** cite the URL(s) used when an answer from these references is used.
+- **MUST NOT** use these for project-specific architecture already in `deploy.sysml` or MemNet — follow model SSOT instead.
+
+**Stack:** textual SysML v2 in Cursor (`voidaliot.vscode-sysml-v2` / `sysml-v2` LSP MCP) + system repos — not commercial modeling GUIs (Cameo, MagicDraw, Sparx EA, Papyrus GUI, etc.). **MAY** consult [sysmltools.com](https://sysmltools.com/) / [sysmltools.com/faq](https://sysmltools.com/faq/) only when the user **explicitly** asks about SysML *tool selection*; otherwise ignore.
+
+Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sysml-faq`.
 
 ## Routing
 

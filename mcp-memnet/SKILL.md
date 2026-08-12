@@ -6,16 +6,37 @@ description: >-
   pin map, session_open, shared dialect, Write=display, MutateGate, sysml memnet tools.
 metadata:
   pattern: tool-wrapper
-  version: "3.7"
+  version: "4.1"
   domain: memnet
-  product: memnet-llm==0.3.5
+  product: memnet-llm==0.4.2
 ---
 
 # MemNet MCP (generic)
 
-PyPI: **`memnet-llm` 0.3.5** (CLI `memnet`). Engine + generic MCP only — **novel-writer is out of scope**.
+Product **`memnet-llm` 0.4.2** (CLI `memnet`). Engine + generic MCP only — **novel-writer is out of scope**.
 
 MemNet is working memory between LLM call pipelines and data search. Agents read a bounded **live pin map** each turn and write with the **same shapes** — the **shared dialect** (Write = display). Design docs may gloss this dialect as "Tier A"; prefer **shared dialect** in agent text.
+
+## User-pack transport (this machine)
+
+| Role | Where |
+|------|--------|
+| **Cursor MCP** | HTTP `url` → **`http://10.0.0.10:18766/mcp`** (0.4.2 streamable-http + Bearer) |
+| **Pi graph store** | Prefer TCP `memnet serve` **`:18765`** with HTTP MCP set `MEMNET_MCP_TRANSPORT=tcp` (same graph) |
+| Local stdio `command` | Optional `memnet-local` only — not the primary `memnet-pi` path |
+
+Cursor `~/.cursor/mcp.json` → primary server id **`memnet-pi`** (Cursor may show it as `user-memnet-pi`). Shape matches Inventree-style `url` + `headers` (no local `command` / `env`):
+
+```json
+"memnet-pi": {
+  "url": "http://10.0.0.10:18766/mcp",
+  "headers": {
+    "Authorization": "Bearer <token>"
+  }
+}
+```
+
+After editing mcp.json: **Cursor → MCP / Tools → restart `memnet-pi`** (or reload the window). Do **not** dual-run InProcess HTTP MCP against a separate TCP store without `MEMNET_MCP_TRANSPORT=tcp` on the Pi HTTP process.
 
 ## Doctrine (must)
 
@@ -26,11 +47,12 @@ MemNet is working memory between LLM call pipelines and data search. Agents read
 | Live pin map | Bounded ego/anchor digest (not a session dump); **primary read** |
 | Mutate ops | `+` create, `~` update, `-` drop; pin map is **bare present** (no leading ops) |
 | `NEW` vs locators | LLM creates: mint with `NEW`; ingest pins use stable locators (`path=`, `qname=`, …) |
-| Transport | **In-process first**; `MEMNET_MCP_TRANSPORT=tcp` + `memnet serve` as fallback |
+| Transport (user pack) | **HTTP `:18766/mcp` → Pi**; bridge HTTP MCP to TCP serve `:18765` when sharing one graph |
+| Layer / `view=` (0.4) | Optional `pin_map(view=shell\|interior\|…)`; dual EDGE bind/relation — see MemNet `docs/grammar/memnet-multi-layer.md` |
 
 Always pass the same `session` id (or set `MEMNET_SESSION`).
 
-**Tool gloss:** Primary pin-map read is MCP `pin_map` / CLI `query pin-map`. `query_warm` / `query warm` are **deprecated aliases** (same params/behaviour). Formal shapes: MemNet `docs/grammar/` (`MemNet.g4`, golden fixtures) — do not invent a thinner dialect.
+**Tool gloss:** Primary pin-map read is MCP `pin_map` / CLI `query pin-map`. Optional **`view=`** (`shell` \| `interior`; soft-accept `flowchart` \| `parts` \| `statechart`). Omit `view` for 0.3-style `depth`/`max_rows` only. `query_warm` / `query warm` are **deprecated aliases**. Formal shapes: MemNet `docs/grammar/` — do not invent a thinner dialect.
 
 ## How MCP tools fit the grammar
 
@@ -41,8 +63,8 @@ MCP is a **thin CLI adapter**. Grammar (`docs/grammar/`, `MemNet.g4`) defines **
 | `session_open` | Session lifecycle + schema map | `map_lines` = `SCHEMA KIND ; fields=id …` rows (registry, not graph NODE/EDGE). Optional `seed_lines` = shared-dialect rows (LAW auto-seeded). |
 | `session_current` | Session lifecycle | Metadata only — no grammar body. |
 | `session_save` / `session_load` | Snapshot persist / resume | File path; graph reloads; next pin map is still shared dialect. |
-| `pin_map` | **Live pin map read** | `stdout` = bare present NODE/EDGE (+ LAW) — `presentNode` / `presentEdge` / `lawPin` in `MemNet.g4`. |
-| `query_warm` | Deprecated alias for `pin_map` | Same as `pin_map`. |
+| `pin_map` | **Live pin map read** | `stdout` = bare present NODE/EDGE (+ LAW). Optional arg `view`. |
+| `query_warm` | Deprecated alias for `pin_map` | Same as `pin_map` (including `view`). |
 | `query_walk` | Hop debug (not primary pin map) | Walk lines for topology debug — prefer pin map for agent reason. |
 | `add` | Mutate **create** | `wire_lines` = shared dialect with leading `+` and `[NEW]` / `NEW` as needed. |
 | `update` | Mutate **patch / drop** | `wire_lines` = `~` / `-` on known ids (no invent). |
@@ -60,7 +82,7 @@ MCP is a **thin CLI adapter**. Grammar (`docs/grammar/`, `MemNet.g4`) defines **
 |-----------|-----|--------------|
 | Name `query_warm` | Legacy alias | Use **`pin_map`**; alias kept for old call sites |
 | Name `add` / `update` | CLI verbs, not `+`/`~` | Put ops **inside** `wire_lines`, not in the tool name |
-| `serve_status` | Sounds required | Skip under in-process; use when `MEMNET_MCP_TRANSPORT=tcp` |
+| `serve_status` | Sounds optional | User pack: TCP store probe (`10.0.0.10:18765`); Cursor itself uses HTTP `:18766/mcp` |
 | No tool named `mutate` | API kept stable | Mutate via `add` / `update` with ops in `wire_lines` |
 | No novel-writer tools | Dropped from product | Do not expect them |
 
@@ -70,10 +92,12 @@ MCP is a **thin CLI adapter**. Grammar (`docs/grammar/`, `MemNet.g4`) defines **
 pin map → reason → mutate → pin map
 ```
 
-1. Pin map — `pin_map(anchor=…, depth≤2)` — bare present.
+1. Pin map — `pin_map(anchor=…, depth≤2)` — bare present; optional `view=shell` (tight) or `view=interior`.
 2. Reason; copy assigned ids from the map.
 3. `add` / `update` with **shared dialect** mutate lines.
 4. `session_save` when durability is needed.
+
+**MCP missing:** if MemNet tools are not in the session catalog, skip this loop — plain Markdown scratch only (no TOON/TRON). Do not invent tool calls. Dialect shapes: [memnet-format](../memnet-format/SKILL.md).
 
 ## Graph about a node or edge
 
@@ -143,11 +167,11 @@ RSV [R7] ; llm_id=coder_a ; anchor=ATO_R1 ; depth=2 ; until=2026-07-24T08:15:00Z
 
 | Tool | When | Notes |
 |------|------|-------|
-| `serve_status` | Reachability / probe | TCP mode mainly; in-process is default |
+| `serve_status` | Reachability / probe | TCP serve `:18765` when HTTP MCP bridges; Cursor entry is `:18766/mcp` |
 | `session_open` | New session | `map_lines` (or `map_file`) + optional `seed_lines`; `allow_new_relation=true` for custom EDG relations |
 | `session_save` / `session_load` | Persist / resume | Snapshot file path |
 | `session_current` | Session metadata | |
-| `pin_map` | **Primary read** = pin map | `anchor` required; `depth` default 2; `max_rows` default 50 |
+| `pin_map` | **Primary read** = pin map | `anchor` required; `depth`/`max_rows`; optional `view` |
 | `query_warm` | Legacy alias for `pin_map` | Same params |
 | `query_walk` | Hop debug | |
 | `add` / `update` | Mutate | `wire_lines`: shared dialect |
@@ -156,38 +180,9 @@ RSV [R7] ; llm_id=coder_a ; anchor=ATO_R1 ; depth=2 ; until=2026-07-24T08:15:00Z
 
 Args detail: [references/tool-parameters.md](references/tool-parameters.md). Policy: [references/mcp-policy.md](references/mcp-policy.md). Full map: [references/tool-grammar.md](references/tool-grammar.md).
 
-## Shared-dialect line shapes (R1)
+## Shared dialect (wire shapes)
 
-Formal SSOT: `MemNet.g4` + `docs/grammar/examples/`. Package twin: `memnet.tier_a`.
-
-| Op | Shape |
-|----|-------|
-| Create node | `+ KIND [NEW\|Id] ; key=value ; …` |
-| Patch node | `~ [KnownId] ; key=value ; …` — **no kind** on `~` |
-| Create edge | `+ [NEW\|Eid]? [from] --(rel)--> [to] ; …` — eid optional (implicit mint) |
-| Patch edge | `~ [from] --(rel)--> [to] ; …` **or** `~ Eid ; …` |
-| Drop edge | `- Eid` |
-| Present (pin map) | `KIND [Id] ; …` / `Eid [from] --(rel)--> [to] ; …` — no leading op |
-| Session schema | `SCHEMA KIND ; fields=id path …` — `map_lines` only; `id` first |
-
-**Fields (R1 atoms-only):** `key=value` joined by `;`. Optional numeric ops: `phase+=1`, `risk-=0.5`. Values are atoms (`STRING` for paths with `\`/spaces), not nested lists — encode membership as **edges**, not comma lists in one field.
-
-**Sections:** pin map emits `## Laws` / `## Nodes` (or `## Pins`) / `## Edges`. Mutate batches may omit headers.
-
-## Mutate sketch (shared dialect)
-
-```text
-## Nodes
-+ CLM [NEW] ; type=decision ; code=bitrate cap 2000 bps ; recycle=persistent
-~ [T42] ; status=in_progress ; phase+=1 ; recycle=persistent
-
-## Edges
-+ E77 [N03] --(helps)--> [T42] ; note=labour ; recycle=persistent
-+ NEW [S03] --(part_of)--> [ART_pdu] ; recycle=delete_on_settle
-~ E77 ; recycle=delete_on_settle
-```
-
-Pin map returns the same fields **without** leading `+`/`~`/`-` and with assigned ids (no `NEW`). Copy those ids on the next mutate.
+Line shapes, mutate ops, and examples: [memnet-format](../memnet-format/SKILL.md). Formal SSOT: MemNet `docs/grammar/` (`MemNet.g4`, golden fixtures).
 
 ## SysML v2 modeling (relatives cache)
 
@@ -195,7 +190,7 @@ Pin map returns the same fields **without** leading `+`/`~`/`-` and with assigne
 
 | Turn phase | Tool |
 |------------|------|
-| Preflight | `serve_status` (optional under in-process) |
+| Preflight | MemNet MCP in catalog? Then optional `serve_status` (TCP only) |
 | Read cache | pin map — `pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)` |
 | Bootstrap | `session_open` + `map_file` / `map_lines` + `seed_lines`; `allow_new_relation=true` for `owns` |
 | Write delta | `add` / `update` (shared dialect) |

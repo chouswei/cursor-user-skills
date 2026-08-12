@@ -1,6 +1,6 @@
 # MemNet MCP — tool parameters
 
-MCP server key: typically **`memnet`** in Cursor MCP config. Tools return **JSON text** (parse as object) unless noted. Product: **`memnet-llm` 0.3.5**.
+MCP server key: typically **`memnet`** in Cursor MCP config. Tools return **JSON text** (parse as object) unless noted. Product: **`memnet-llm` 0.4.0**. User-pack engine: TCP **`10.0.0.10:18765`**.
 
 ## Invoke order (typical session)
 
@@ -23,8 +23,8 @@ Envelope and errors: [mcp-policy.md](mcp-policy.md). Atomisation: [atomisation.m
 | `session_save` | `file` | `session` | Snapshot to disk |
 | `session_load` | `file` | `keep_id`, `ttl` | Resume; no prior session required |
 | `session_current` | — | `session` | Needs `session` or `MEMNET_SESSION` |
-| `pin_map` | `anchor` | `depth` (2), `max_rows` (50), `session` | **Primary read** = live **pin map**; `stdout` = bare present |
-| `query_warm` | `anchor` | `depth` (2), `max_rows` (50), `session` | Deprecated alias for `pin_map` |
+| `pin_map` | `anchor` | `depth` (2), `max_rows` (50), `view`, `session` | **Primary read**; optional `view=shell\|interior` (also soft `flowchart\|parts\|statechart`) |
+| `query_warm` | `anchor` | `depth` (2), `max_rows` (50), `view`, `session` | Deprecated alias for `pin_map` |
 | `query_walk` | `anchor` | `depth`, `max_rows`, `session` | Hop lines for debug — not the agent pin-map loop |
 | `add` | `wire_lines` | `allow_new_relation`, `agent`, `session` | Create; `+` / `NEW` inside lines |
 | `update` | `wire_lines` | `allow_new_relation`, `agent`, `session` | Patch/drop; `~` / `-` inside lines |
@@ -52,9 +52,11 @@ Envelope and errors: [mcp-policy.md](mcp-policy.md). Atomisation: [atomisation.m
 
 | Variable | Purpose |
 |----------|---------|
-| `MEMNET_MCP_TRANSPORT` | Default **in-process**; set `tcp` for serve bridge |
-| `MEMNET_SERVE_HOST` / `MEMNET_SERVE_PORT` | TCP bind target (default `127.0.0.1:18765`) |
+| `MEMNET_MCP_TRANSPORT` | User pack: **`tcp`**. (Product default elsewhere: in-process.) |
+| `MEMNET_SERVE_HOST` / `MEMNET_SERVE_PORT` | User pack: **`10.0.0.10`** / **`18765`**. (Library default: `127.0.0.1:18765`.) |
 | `MEMNET_SESSION` | Default session id after open/load |
+
+Set these under `mcpServers.memnet.env` in `~/.cursor/mcp.json`. Restart the `memnet` MCP server after changes.
 
 ## wire_lines
 

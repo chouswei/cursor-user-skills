@@ -1,13 +1,22 @@
 # SysML MemNet snap — canonical procedure (user pack)
 
-Authoritative MemNet-first rules for `sysml-v2-models/projects/<slug>/`. Pair with [sysml-memnet-patterns.md](sysml-memnet-patterns.md), [sysml-memnet-cookbook-bridge.md](sysml-memnet-cookbook-bridge.md), and [mcp-memnet](../../mcp-memnet/SKILL.md).
+Authoritative MemNet-first rules for SysML project roots. Pair with [sysml-memnet-patterns.md](sysml-memnet-patterns.md), [sysml-memnet-cookbook-bridge.md](sysml-memnet-cookbook-bridge.md), and [mcp-memnet](../../mcp-memnet/SKILL.md).
+
+**Model root (pick one; do not mix):**
+
+| Layout | Root | Snap dir |
+|--------|------|----------|
+| Multi-project pack | `sysml-v2-models/projects/<slug>/` | `…/projects/<slug>/.memnet/` |
+| System repo (`modelbasedPrj-*`) | `sysml-models/` | `sysml-models/.memnet/` |
+
+Copy the live root from repo `AGENTS.md` / `AGENT-CONTEXT.md`. NCU-LEO: `sysml-models/` + anchor `TSK_model_leo_cubesat`.
 
 ## Three stores — one authority each
 
 | Store | Authority for | Agent rule |
 |-------|---------------|------------|
-| `models/*.sysml` | Structure, syntax, satisfy links | Edit here first. Validate with `mcp-sysml-v2`. |
-| `memnet serve` | Symbol index, locators, rationale, backlog | `query_warm` before edit; `add`/`update` after validate. |
+| `<model-root>/models/*.sysml` | Structure, syntax, satisfy links | Edit here first. Validate with `mcp-sysml-v2`. |
+| MemNet (MCP) | Symbol index, locators, rationale, backlog | `pin_map` before edit; `add`/`update` after validate. |
 | `AGENT-CONTEXT.md` | Human stub only | Session id + anchor only. Never duplicate topology/backlog. |
 
 **Snap** = batch `add` of atomised shared-dialect rows. Do **not** paste snap contents into chat.
@@ -16,7 +25,8 @@ Authoritative MemNet-first rules for `sysml-v2-models/projects/<slug>/`. Pair wi
 
 | Step | Action | MemNet |
 |------|--------|--------|
-| **1** | `serve_status`. If `running: false` → edit `.sysml` only; skip 2 and 6. | — |
+| **0** | MemNet MCP in catalog? If no → edit `.sysml` only; skip 1–2 and 6. Plain Markdown (no TOON/TRON). | — |
+| **1** | `serve_status` only if TCP / unsure. If `running: false` → edit `.sysml` only; skip 2 and 6. Under in-process default, skip this probe. | — |
 | **2** | `pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)`. | **READ** |
 | **3** | Locate symbol (§Locate). Edit `models/*.sysml`. | — |
 | **4** | `mcp-sysml-v2 validate`. Fix until pass. | — |
@@ -25,13 +35,14 @@ Authoritative MemNet-first rules for `sysml-v2-models/projects/<slug>/`. Pair wi
 
 ### Pipeline wire (steps 1–6)
 
-After each step when `serve_status` is true, `add`/`update` one `@CLM` type=`pipe` row (`sN:payload`) under `TSK_turn_*`; settle turn when done. Full template: [sysml-memnet-pipeline.md](sysml-memnet-pipeline.md). **Do not** keep pipeline step state only in chat when serve is up (use wire rows; plain Markdown only when serve is down).
+After each step when MemNet is up, `add`/`update` one `@CLM` type=`pipe` row (`sN:payload`) under `TSK_turn_*`; settle turn when done. Full template: [sysml-memnet-pipeline.md](sysml-memnet-pipeline.md). **Do not** keep pipeline step state only in chat when MemNet is up (use wire rows; plain Markdown only when down / MCP missing).
 
 ### Warm miss
 
 - No `@TSK` for project anchor
 - `@TSK` exists but zero `@PRT`/`@SYM` for non-greenfield project
 - Wrong session / empty graph
+- Snap/wire `path=` still cites a root that does not exist in the workspace (e.g. legacy `sysml-v2-models/…` under a `sysml-models/` system repo)
 
 **On warm miss:** run §Initial snap once, then continue from step 3. If graph uses legacy `@PARTD`/`@PORTD`/`@BEHD`/`@TASK` → re-snap with unified tags.
 
@@ -40,7 +51,7 @@ After each step when `serve_status` is true, `add`/`update` one `@CLM` type=`pip
 | Case | Skip? |
 |------|-------|
 | Comment/whitespace only | Yes |
-| `serve_status` false | Yes (note stale) |
+| MemNet MCP missing / `serve_status` false | Yes (note stale) |
 | User question only; no `.sysml` edit | Yes |
 | Any new/renamed symbol, port, connection, req, satisfy, allocate, behaviour | **No** |
 
@@ -86,13 +97,13 @@ Use the **full canonical map** in [sysml-memnet-patterns.md](sysml-memnet-patter
 
 **Read policy:** [sysml-memnet-read-policy.md](sysml-memnet-read-policy.md) — per-turn budget, anti-patterns, decision tree.
 
-1. `query_warm` on `@PRT_*` / `@POR_*` / `@REQ_*` / `@CON_*` / `@SYM_*` → `path`, `name`, `line`, link ends
+1. `pin_map` on `@PRT_*` / `@POR_*` / `@REQ_*` / `@CON_*` / `@SYM_*` → `path`, `name`, `line`, link ends
 2. **Only if editing:** `Read(path, offset=line-12, limit=35)` — not full file
 3. Window miss → `Grep` exact name scoped to `path` from `@MOD_*`
 4. Still ambiguous → `mcp-sysml-v2` `getDefinition` or `getSymbols` (not bulk Read)
 5. Grep/LSP line ≠ stored line → `update` `@SYM.line` (self-heal)
 
-**MUST NOT** open `deploy-*.sysml` without `@SYM.line` or validate error when `serve_status` is true and warm hit.
+**MUST NOT** open `deploy*.sysml` without `@SYM.line` or validate error when MemNet is up and warm hit.
 
 ## Line drift (after edit)
 
@@ -126,16 +137,16 @@ Do **not** store full `.sysml` text or paragraph prose in any `@TAG` row.
 ## Initial snap (warm miss only)
 
 1. `session_open` with full canonical map from [sysml-memnet-patterns.md](sysml-memnet-patterns.md)
-2. `Glob` `sysml-v2-models/projects/<slug>/models/*.sysml`
+2. `Glob` `<model-root>/models/*.sysml` (see layout table above)
 3. Per file — grep by role:
 
 | File pattern | Grep / extract → MemNet |
 |--------------|-------------------------|
-| `deploy-*.sysml` | `part def`, `^\s*part\s+\w+`, `port def`, nested ports, top-level usages |
-| `connections-*.sysml` | `connection def`, `connect `, `link\w+` |
-| `requirements-*.sysml` | `requirement def`, `requirementId` |
-| `behaviour-*.sysml` | `state def`, `action def`, `perform action`, transitions |
-| `root-*.sysml` | imports → `@PKG` kind=`root`; **`satisfy`** → `@EDG` satisfies |
+| `deploy*.sysml` | `part def`, `^\s*part\s+\w+`, `port def`, nested ports, top-level usages |
+| `connections*.sysml` | `connection def`, `connect `, `link\w+` |
+| `requirements*.sysml` | `requirement def`, `requirementId` |
+| `behaviour*.sysml` | `state def`, `action def`, `perform action`, transitions |
+| `root*.sysml` | imports → `@PKG` kind=`root`; **`satisfy`** → `@EDG` satisfies |
 | any file | `item def`, `flow of`, `allocate` |
 
 4. Per file: one `@MOD` + N `@SYM` (with line) + semantic `@PRT`/`@POR`/`@CON`/`@REQ`/`@BEH`/`@ITM` + `@EDG`
@@ -154,7 +165,7 @@ memnet session load --file <project>.snap
 
 Agents **MUST NOT** paste `.snap` contents into chat. After load: `pin_map(TSK_model_*)` only.
 
-Optional store path: `sysml-v2-models/projects/<slug>/.memnet/<slug>.snap` (not required in repo).
+Optional store path: `<model-root>/.memnet/<short>.snap` (not required in repo). For system repos this is typically `sysml-models/.memnet/`.
 
 ## AGENT-CONTEXT.md contract
 

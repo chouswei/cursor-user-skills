@@ -1,0 +1,41 @@
+---
+description: >-
+  When Cursor Multitask Mode is on or Task sub-agents are active: shared MemNet
+  session, TCP or streamable-http transport, parent/worker split. Open
+  memnet-multitask. Complements memnet-goldfish-loop (do not restate dialect).
+alwaysApply: false
+---
+
+# MemNet under Multitask Mode
+
+**WHEN** Multitask Mode is on, or Task / background sub-agents are active:
+open and follow `~/.cursor/skills/memnet-multitask/SKILL.md`.
+
+**ELSE** (single-agent): use the MemNet goldfish loop rule; in-process MCP is OK.
+Tools / dialect: `mcp-memnet`, `memnet-format` -- do not re-copy here.
+
+## Transport
+
+- MUST use shared MemNet: TCP `:18765` (`memnet serve`) or streamable-http (`:18766/mcp`).
+- MUST NOT use in-process MCP under Multitask (isolated graph per process).
+- If serve is down or MemNet tools are absent: skip MemNet; plain Markdown only (no TOON/TRON).
+
+## Parent coordinator
+
+- MUST open or load **one** mission session id; pass it in every worker prompt.
+- MUST mint and settle `TSK_*` / `USR_*` from shared-session pin-map facts (not from worker chat).
+- MUST end the turn after background spawn -- no poll, no await.
+- Next coordinator turn: `pin_map` first; act from the refreshed slice.
+- Prefer one worker per coherent workstream; parallel only with disjoint anchors or separate session ids.
+
+## Worker
+
+- MUST use the parent's session id; `pin_map` first every turn.
+- MUST mutate only the assigned subgraph; MUST NOT invent ids the parent already minted.
+- MUST NOT settle parent-owned `TSK_*` / `USR_*` unless delegated.
+- MUST NOT open a different session unless explicitly assigned.
+
+## Scope
+
+House-generic. Projects may pin mission anchors in `AGENT-CONTEXT.md` -- MUST NOT hardcode one repo here.
+Chat is never mission SSOT.

@@ -19,14 +19,14 @@ When Multitask Mode is **on**:
 
 | Role | Family | Slug |
 |------|--------|------|
-| Thinking / planning / architecture | Grok | `cursor-grok-4.5-low` |
+| Thinking / planning / architecture | Grok | `cursor-grok-4.5-medium` |
 | Web search / live docs fetch | Gemini | `gemini-3-flash` |
-| Visual items review (UI screenshots, layout appearance, letterhead) | Kimi | `kimi-k3-max` |
+| Visual items review (UI screenshots, layout appearance, letterhead) | Kimi | `kimi-k3-high` |
 | Clear-step routines | Composer | `composer-2.5` |
-| MemNet snapshot (docs / SysML / code atomise) | Luna | `gpt-5.6-luna-medium` |
+| MemNet snapshot (docs / SysML / code atomise) | Luna | `gpt-5.6-luna-high` |
 | Unclear | Grok | `cursor-grok-4.5-low` |
 
-Luna (`gpt-5.6-luna-medium`): high-volume pin_map / atomise / snapshot loops (cost-sensitive). MUST NOT use Luna for peak planning (Grok), visual review (Kimi), or web search (Gemini).
+Luna (`gpt-5.6-luna-high`): high-volume pin_map / atomise / snapshot loops. MUST NOT use Luna for peak planning (Grok), visual review (Kimi), or web search (Gemini).
 
-MUST NOT: blind fan-out; any `*-fast` / FAST slug; a higher Grok tier unless the user asks.
+MUST NOT: blind fan-out; any `*-fast` / FAST slug; a higher Grok tier than the table unless the user asks.
 On allowlist drift: keep the same family; use the current non-fast slug.

@@ -89,6 +89,7 @@ Branch on **`errors[]`** and **`exit_code`**. Parse **`stdout`** for pin-map con
 
 | Symptom | Action |
 |---------|--------|
+| MemNet MCP tools absent from session catalog | Skip MemNet entirely: plain Markdown only (no TOON/TRON); do not call `pin_map` / `add` / `update` |
 | `serve_required` | Under TCP: start `memnet serve` or switch to in-process |
 | `session_not_found` | `session_open` / `session_load` or set `MEMNET_SESSION` |
 | `id_exists` on add | Use `update` or mint with `NEW` |
@@ -99,3 +100,4 @@ Branch on **`errors[]`** and **`exit_code`**. Parse **`stdout`** for pin-map con
 - Depend on novel-writer MCP extras (dropped from MemNet product).
 - Recommend TOON/TRON for agent handoffs — use shared dialect or plain Markdown.
 - Teach pipe `@TAG:…` as agent I/O.
+- Call MemNet tools when they are not listed in the session MCP catalog.

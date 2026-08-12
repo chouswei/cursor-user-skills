@@ -38,6 +38,7 @@
 | meeting-notes-generator | G | doc | low | low | structural | low |
 | memnet-codebase-snap | P | user | medium | medium | structural | low |
 | memnet-format | T | meta | medium | medium | structural | low |
+| memnet-multitask | P | memnet | medium | medium | structural | low |
 | mermaid | G | doc | medium | low | structural | low |
 | mermaid-doc-readability | P | user | medium | medium | structural | low |
 | mmdc | T | doc | low | low | structural | low |
@@ -91,6 +92,7 @@
 | sysml-v2-syntax-reference | T | sysml | medium | medium | structural | low |
 | sysml-view-doc-sync | R | sysml | medium | medium | structural | low |
 | system-design-report-generator | P | doc | medium | medium | structural | low |
+| system-nesting | P | sysml | medium | medium | structural | low |
 | tech-report-generator | G | doc | medium | low | structural | low |
 | tech-report-reviewer | R | doc | medium | low | structural | low |
 | traceability-footprint-to-sysml | P | user | medium | medium | structural | low |

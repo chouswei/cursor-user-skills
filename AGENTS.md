@@ -7,7 +7,7 @@
 
 | Store | Owns |
 |-------|------|
-| **User Rules** (Cursor Settings; draft [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt)) | Global prefs, no secrets, Terminal (Windows), prompt disciplines, sub-agent policy + model table, Workflow, MemNet goldfish loop. **SSOT -- do not restate here.** |
+| **User Rules** (Cursor Settings; draft [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt)) | Global prefs, no secrets, Terminal (Windows), prompt disciplines, sub-agent policy + model table, Workflow, MemNet goldfish loop, MemNet under Multitask Mode. **SSOT -- do not restate here.** |
 | **This file** | Pack hub: skill-graph routing, token tips, MemNet examples, skill binding, cross-refs |
 | **Pack `rules/*.mdc`** | Optional always-on mirrors; User Rules win when both apply |
 | **Open-repo `AGENTS.md`** (`modelbasedPrj-*`) | SysML / PCBA / part layout for that system |
@@ -27,7 +27,7 @@ Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)). Neve
 | **MCP over bulk file reads** | Cheaper than reading entire trees |
 | **No normative paste** | Cite paths; do not paste huge specs |
 
-Sub-agents / MemNet handoff: follow **User Rules** (sub-agent policy; MemNet goldfish loop).
+Sub-agents / MemNet handoff: follow **User Rules** (sub-agent policy; MemNet goldfish loop; MemNet under Multitask Mode when Multitask / Task workers are active).
 
 ---
 
@@ -117,7 +117,7 @@ Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 |----------|---------|
 | [SKILL-GRAPH.md](SKILL-GRAPH.md) | Wire hub -> `skill-graph-seed.wire` |
 | [LLM.md](LLM.md) | Detailed skill discovery / pack rules |
-| [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt) | User Rules SSOT draft (prefs, secrets, terminal, sub-agent, workflow, goldfish) |
+| [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt) | User Rules SSOT draft (prefs, secrets, terminal, sub-agent, workflow, goldfish, multitask MemNet) |
 | [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) | Optional graph router (explicit multi-match only) |
 | [memnet-format](memnet-format/SKILL.md) | Shared dialect |
 | [mcp-memnet](mcp-memnet/SKILL.md) | MemNet MCP tools / pin map |

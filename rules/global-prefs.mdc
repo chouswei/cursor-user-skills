@@ -1,0 +1,10 @@
+---
+alwaysApply: false
+---
+
+# Global prefs
+
+- MUST run `git submodule update --init --recursive` when opening a `modelbasedPrj-*` repo.
+- Prefer a correct result over a merely good one.
+- MUST use ASCII-only filenames and folder names.
+- MUST write concise British English; when using Chinese, write as a native speaker would.

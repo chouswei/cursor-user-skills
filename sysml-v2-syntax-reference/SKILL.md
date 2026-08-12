@@ -8,6 +8,7 @@ metadata:
   pattern: tool-wrapper
   domain: sysml-v2
   pairs_with: [mcp-sysml-v2, sysml-modeling-workflow]
+  version: "1.0"
 ---
 
 # SysML v2 syntax reference
@@ -20,6 +21,7 @@ metadata:
 
 - Editing or reviewing `.sysml` and you need **keywords**, **EBNF**, or **production rules**.
 - Troubleshooting parser/LSP/MCP diagnostics against the grammar.
+- Stuck on *how* to express something (not raw grammar): SysML Forum / FAQ per [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md).
 
 ## Stub
 

@@ -10,7 +10,7 @@ metadata:
   specialization: mcp-integration
   domain: sysml-v2
   mcp_key: sysml-v2
-  version: "1.1"
+  version: "1.2"
 token_guardrails: |
   - After workspace .sysml edits: call validate (and preview if diagram requested).
   - Obey references/cursor-mcp-rules.md for preview vs visualizeFile and complexity.
@@ -37,3 +37,4 @@ token_guardrails: |
 - If Cursor opens `node_modules/sysml-v2-lsp/dist/server/mcpServer.js`, that bundle is expected and should not be edited directly.
 - Use `python tools/check_sysml_v2_lsp_version.py` to check or upgrade the pinned version, and restart Cursor after upgrades.
 - For the broader reference, use this skill and [docs/mcp/SYSML_V2_MCP_SETUP.md](../../../docs/mcp/SYSML_V2_MCP_SETUP.md).
+- **Usage questions** (how to express constructs, not MCP tools): [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) — SysML Forum / FAQ before inventing.
