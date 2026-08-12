@@ -3,8 +3,11 @@ name: markdown-preview-enhanced
 description: >-
   VS Code / Cursor Markdown Preview Enhanced extension workflows: KaTeX/MathJax,
   Mermaid/PlantUML, scroll sync, Pandoc/PDF export. Use only when the user asks
-  to configure or exploit that extension — not for generic markdown edits.
+  to configure or exploit that extension -- not for generic markdown edits.
   Triggers: markdown preview enhanced, MPE export PDF, katex preview, plantuml preview.
+metadata:
+  pattern: tool-wrapper
+  version: "1.1"
 ---
 
 # Markdown Preview Enhanced

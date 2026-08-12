@@ -2,7 +2,8 @@
 name: system-nesting
 description: Recursively clarifies architecture by treating every part and relevant nested usage as a system. Use when detailing a system, digging into an architecture, reviewing system-of-systems structure, or when nested parts, ownership, interfaces, behaviour, or requirements are unclear.
 metadata:
-  version: "1.0"
+  pattern: pipeline
+  version: "1.1"
 ---
 
 # System nesting

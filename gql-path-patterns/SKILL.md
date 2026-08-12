@@ -6,10 +6,10 @@ description: >-
   Triggers: variable-length path, reachability, DEPENDS_ON walk, path explode,
   bounded hops.
 metadata:
-  pattern: reference
+  pattern: tool-wrapper
   specialization: graph-paths
   domain: data
-  version: "1.0"
+  version: "1.1"
 token_guardrails: |
   - Always bound hop depth (e.g. {1,4}); never bare unbounded walks by default.
   - Anchor at least one endpoint with label + selective property.
@@ -72,3 +72,5 @@ Give the bounded query first. State max depth and relationship types assumed. Ad
 
 ## Related
 - Core GQL: [graph-query-language](../graph-query-language/SKILL.md)
+- MemNet agent wire: [memnet-format](../memnet-format/SKILL.md), [mcp-memnet](../mcp-memnet/SKILL.md)
+- SysML modeling + MemNet: [sysml-gql](../sysml-gql/SKILL.md)

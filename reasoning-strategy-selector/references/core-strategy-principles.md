@@ -10,6 +10,7 @@
 |-------|-----------|--------|------------|--------|----------|---------|
 | academic-report-generator | G | doc | medium | low | structural | low |
 | adr-generator | G | doc | low | low | structural | low |
+| antlr4-grammar | P | user | medium | medium | structural | low |
 | api-client-pattern | G | user | medium | medium | structural | low |
 | architecture-reviewer | R | user | high | high | structural | medium |
 | code-reviewer | R | user | medium | medium | structural | low |
@@ -20,6 +21,8 @@
 | engineering-practices-learner | P | user | high | low | structural | low |
 | file-operations | P | user | medium | medium | structural | low |
 | fusion-electronics-fetch | T | pcba | medium | medium | structural | low |
+| gql-path-patterns | T | user | medium | medium | structural | low |
+| graph-query-language | T | user | medium | medium | structural | low |
 | incentive-alignment-reviewer | R | user | high | high | conceptual | high |
 | launch-readiness-assessor | R | user | medium | high | structural | low |
 | markdown-preview-enhanced | G | user | medium | medium | structural | low |
@@ -38,7 +41,7 @@
 | meeting-notes-generator | G | doc | low | low | structural | low |
 | memnet-codebase-snap | P | user | medium | medium | structural | low |
 | memnet-format | T | meta | medium | medium | structural | low |
-| memnet-multitask | P | memnet | medium | medium | structural | low |
+| memnet-multitask | P | user | medium | medium | structural | low |
 | mermaid | G | doc | medium | low | structural | low |
 | mermaid-doc-readability | P | user | medium | medium | structural | low |
 | mmdc | T | doc | low | low | structural | low |
@@ -66,6 +69,7 @@
 | sysml-common-lib-contribution | P | sysml | medium | medium | structural | low |
 | sysml-connections | P | sysml | medium | medium | structural | low |
 | sysml-eagle-netlist-parser-tool | T | sysml | medium | medium | structural | low |
+| sysml-gql | P | sysml | medium | medium | structural | low |
 | sysml-hardware-part-generator | G | sysml | medium | medium | structural | low |
 | sysml-import-order-helper | P | sysml | medium | medium | structural | low |
 | sysml-interconnection-mermaid | P | sysml | medium | medium | structural | low |
@@ -92,7 +96,7 @@
 | sysml-v2-syntax-reference | T | sysml | medium | medium | structural | low |
 | sysml-view-doc-sync | R | sysml | medium | medium | structural | low |
 | system-design-report-generator | P | doc | medium | medium | structural | low |
-| system-nesting | P | sysml | medium | medium | structural | low |
+| system-nesting | P | user | medium | medium | structural | low |
 | tech-report-generator | G | doc | medium | low | structural | low |
 | tech-report-reviewer | R | doc | medium | low | structural | low |
 | traceability-footprint-to-sysml | P | user | medium | medium | structural | low |

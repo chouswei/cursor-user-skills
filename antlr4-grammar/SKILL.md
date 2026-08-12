@@ -11,13 +11,13 @@ description: >-
 metadata:
   pattern: pipeline
   domain: languages
-  version: "1.0"
+  version: "1.1"
   notes: Generic ANTLR4; MemNet shared-dialect parsing is an optional application only.
 ---
 
 # ANTLR4 grammar
 
-Author and validate **ANTLR4** `.g4` grammars. Generic -- not MemNet-only. Optional application: parsing a line-oriented shared dialect (e.g. MemNet) is fine; do **not** invent project-specific `.g4` unless the user asks or a trivial illustration is enough.
+Author and validate **ANTLR4** `.g4` grammars. Generic -- not MemNet-only. Optional application: parsing a line-oriented product dialect is fine; do **not** invent project-specific `.g4` unless the user asks or a trivial illustration is enough.
 
 British English in new prose for this pack.
 

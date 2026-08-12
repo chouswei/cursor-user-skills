@@ -2,7 +2,7 @@
 
 Use with [atomisation.md](../../mcp-memnet/references/atomisation.md), [sysml-memnet-snap.md](sysml-memnet-snap.md), and [sysml-memnet-cookbook-bridge.md](sysml-memnet-cookbook-bridge.md).
 
-**Core discipline:** one row = one fact/link/status. Short fields. Explicit edges. Stable ids from the pin map. **MUST NOT** create rows tagged PARTD, PORTD, BEHD, or TASK (old aliases -- re-snap to unified kinds on warm miss).
+**Core discipline:** one row = one fact/link/status. Short fields. Explicit edges. Stable ids from the pin map. **MUST NOT** create nodes labelled PARTD, PORTD, BEHD, or TASK (old aliases -- re-snap to unified kinds on warm miss).
 
 Agent I/O: MemNet **GQL / openCypher-shaped** wire only ([memnet-format](../../memnet-format/SKILL.md)). Do not teach pipe `@TAG:|` rows. pin_map returns a shaped subgraph.
 

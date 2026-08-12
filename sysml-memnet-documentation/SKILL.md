@@ -9,8 +9,8 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.8"
-  pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, mcp-sysmledgraph, memnet-format]
+  version: "1.9"
+  pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, mcp-sysmledgraph, memnet-format, sysml-gql]
 token_guardrails: |
   - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; pin_map before substantive edits.
   - MUST follow references/sysml-memnet-read-policy.md: topology from warm; ≤2 narrow Read windows per turn; no full deploy re-read.
@@ -31,7 +31,7 @@ token_guardrails: |
 
 **Durable graph memory** for SysML v2 projects: symbol index with file/line locators, ports, connections, behaviour, design rationale, and documentation atoms. Complements `mcp-sysmledgraph` (structural impact) and `mcp-sysml-v2` (validate/parse).
 
-MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `deploy*.sysml` for topology** when pin_map has PRT/CON — see [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md). Tools: [mcp-memnet](../mcp-memnet/SKILL.md); GQL wire: [memnet-format](../memnet-format/SKILL.md).
+MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `deploy*.sysml` for topology** when pin_map has PRT/CON -- see [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md). Tools: [mcp-memnet](../mcp-memnet/SKILL.md); GQL wire: [memnet-format](../memnet-format/SKILL.md). Thin SysML bridge: [sysml-gql](../sysml-gql/SKILL.md).
 
 ## Read policy (mandatory)
 
@@ -46,10 +46,11 @@ Full rules: [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md
 1. [references/sysml-memnet-snap.md](references/sysml-memnet-snap.md) — **mandatory** 6-step sequence, grep, delta, `.snap`
 2. [references/sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md) — **when to read `.sysml`** vs warm (anti-patterns, read budget)
 3. [references/sysml-memnet-pipeline.md](references/sysml-memnet-pipeline.md) -- **pipeline handoffs** (GQL/shaped step atoms)
-4. [references/sysml-memnet-patterns.md](references/sysml-memnet-patterns.md) — canonical 19-tag map, construct table, EDG list
-5. [references/relatives-cache-map.md](references/relatives-cache-map.md) — **which specialist skill writes which tags**
-6. [references/sysml-memnet-cookbook-bridge.md](references/sysml-memnet-cookbook-bridge.md) — upstream cookbook pointer, unified-tag policy
-7. Upstream cookbook — `C:/Projects/MemNet/application-notes/llm-sysml-v2-modeling.md` (worked turns)
+4. [references/sysml-memnet-patterns.md](references/sysml-memnet-patterns.md) -- canonical 19-kind map, construct table, closed rel list
+5. [references/relatives-cache-map.md](references/relatives-cache-map.md) -- **which specialist skill writes which kinds**
+6. [references/sysml-memnet-cookbook-bridge.md](references/sysml-memnet-cookbook-bridge.md) -- upstream cookbook pointer, unified-kind policy
+7. [sysml-gql](../sysml-gql/SKILL.md) -- thin turn loop + construct abbrev
+8. Upstream cookbook -- MemNet `docs/application-notes/llm-sysml-v2-modeling.md` (worked turns)
 
 Pair with [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) and [memnet-codebase-snap](../memnet-codebase-snap/SKILL.md).
 

@@ -41,8 +41,8 @@ If the folder already has content and is not a git clone of this repo, back it u
 
 - One repo for the whole personal user-pack under `.cursor/skills/`.
 - Includes meta tooling (e.g. **skillfish**, **skill-creator**) and domain skills.
-- Some skills are marked **deprecated** in their `SKILL.md` (e.g. TOON/TRON, novel-writer, merged SysML stubs); keep them for trigger resolution, but follow the survivor skill they point to.
-- MemNet agent I/O: **GQL wire** only (`memnet-format` + `mcp-memnet`; shaped pin_map + openCypher-shaped mutate). Do not teach pipe `@TAG` rows as agent format.
+- MemNet agent I/O: **GQL wire** only (`memnet-format` + `mcp-memnet`; shaped pin_map + openCypher-shaped mutate). Do not teach pipe `@TAG` rows or Layer line dialect as agent format. SysML bridge: `sysml-gql`.
+- Dead product skills (TOON/TRON, novel-writer, merged SysML stubs) were **removed** from the pack; do not reintroduce.
 - Sub-agents: role->slug in `rules/sub-agent-policy.mdc` (unclear/thinking -> `cursor-grok-4.5-low` never FAST; visual items review -> `kimi-k3-max`; MemNet snapshot -> `gpt-5.6-luna-medium`; clear-step routines -> `composer-2.5`; never `*-fast`).
 
 
