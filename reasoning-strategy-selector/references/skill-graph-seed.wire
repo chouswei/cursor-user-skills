@@ -1,591 +1,593 @@
-# skill-graph-seed.wire — single source (D2). Regenerate via scan_skills_to_wire.py
-@SKG: SKG_global|1|user_pack|persistent
-@SKL: academic-report-generator|user|G|G|doc|medium|low|structural|low|/workspace/academic-report-generator|persistent
-@SKL: adr-generator|user|G|G|doc|low|low|structural|low|/workspace/adr-generator|persistent
-@SKL: antlr4-grammar|user|P|P|user|medium|medium|structural|low|/workspace/antlr4-grammar|persistent
-@SKL: api-client-pattern|user|G|G|user|medium|medium|structural|low|/workspace/api-client-pattern|persistent
-@SKL: architecture-reviewer|user|R|R|user|high|high|structural|medium|/workspace/architecture-reviewer|persistent
-@SKL: code-reviewer|user|R|R|user|medium|medium|structural|low|/workspace/code-reviewer|persistent
-@SKL: commit-message-generator|user|G|G|doc|low|low|structural|low|/workspace/commit-message-generator|persistent
-@SKL: control-theory-planner|user|P|P|user|high|high|conceptual|low|/workspace/control-theory-planner|persistent
-@SKL: decision-inverter|user|R|R|user|high|high|conceptual|high|/workspace/decision-inverter|persistent
-@SKL: empirical-paradox-synthesis|user|P|P|user|high|high|measured|high|/workspace/empirical-paradox-synthesis|persistent
-@SKL: engineering-practices-learner|user|P|P|user|high|low|structural|low|/workspace/engineering-practices-learner|persistent
-@SKL: file-operations|user|P|P|user|medium|medium|structural|low|/workspace/file-operations|persistent
-@SKL: fusion-electronics-fetch|user|T|T|pcba|medium|medium|structural|low|/workspace/fusion-electronics-fetch|persistent
-@SKL: gql-path-patterns|user|T|T|user|medium|medium|structural|low|/workspace/gql-path-patterns|persistent
-@SKL: graph-query-language|user|T|T|user|medium|medium|structural|low|/workspace/graph-query-language|persistent
-@SKL: hardware-custom-pcba-workflow|user|P|P|pcba|high|high|structural|low|/workspace/hardware-custom-pcba-workflow|persistent
-@SKL: incentive-alignment-reviewer|user|R|R|user|high|high|conceptual|high|/workspace/incentive-alignment-reviewer|persistent
-@SKL: launch-readiness-assessor|user|R|R|user|medium|high|structural|low|/workspace/launch-readiness-assessor|persistent
-@SKL: markdown-preview-enhanced|user|T|T|user|medium|medium|structural|low|/workspace/markdown-preview-enhanced|persistent
-@SKL: markdown-viewer-user-pack|user|T|T|user|medium|medium|structural|low|/workspace/markdown-viewer-user-pack|persistent
-@SKL: mcdm-decider|user|P|P|user|high|high|measured|medium|/workspace/mcdm-decider|persistent
-@SKL: mcp-chrome-devtools|user|T|T|meta|medium|medium|structural|low|/workspace/mcp-chrome-devtools|persistent
-@SKL: mcp-digikey|user|T|T|meta|medium|medium|structural|low|/workspace/mcp-digikey|persistent
-@SKL: mcp-inventree|user|T|T|meta|medium|medium|structural|low|/workspace/mcp-inventree|persistent
-@SKL: mcp-latex|user|T|T|meta|medium|medium|structural|low|/workspace/mcp-latex|persistent
-@SKL: mcp-markitdown|user|T|T|meta|medium|medium|structural|low|/workspace/mcp-markitdown|persistent
-@SKL: mcp-memnet|user|T|T|meta|medium|medium|structural|low|/workspace/mcp-memnet|persistent
-@SKL: mcp-sysml-v2|user|T|T|sysml-tool|medium|low|structural|low|/workspace/mcp-sysml-v2|persistent
-@SKL: mcp-sysmledgraph|user|T|T|sysml-tool|high|low|structural|low|/workspace/mcp-sysmledgraph|persistent
-@SKL: md-to-tex|user|P|P|doc|medium|low|structural|low|/workspace/md-to-tex|persistent
-@SKL: mdtohtml|user|T|T|doc|low|low|structural|low|/workspace/mdtohtml|persistent
-@SKL: meeting-notes-generator|user|G|G|doc|low|low|structural|low|/workspace/meeting-notes-generator|persistent
-@SKL: memnet-codebase-snap|user|P|P|user|medium|medium|structural|low|/workspace/memnet-codebase-snap|persistent
-@SKL: memnet-format|user|T|T|meta|medium|medium|structural|low|/workspace/memnet-format|persistent
-@SKL: memnet-multitask|user|P|P|user|medium|medium|structural|low|/workspace/memnet-multitask|persistent
-@SKL: mermaid|user|G|G|doc|medium|low|structural|low|/workspace/mermaid|persistent
-@SKL: mermaid-doc-readability|user|P|P|user|medium|medium|structural|low|/workspace/mermaid-doc-readability|persistent
-@SKL: mmdc|user|T|T|doc|low|low|structural|low|/workspace/mmdc|persistent
-@SKL: optimization-planner|user|P|P|user|high|high|measured|low|/workspace/optimization-planner|persistent
-@SKL: pandas-expert|user|T|T|user|medium|low|structural|low|/workspace/pandas-expert|persistent
-@SKL: pcba-design-reviewer|user|R|R|pcba|high|high|structural|low|/workspace/pcba-design-reviewer|persistent
-@SKL: pcba-netlist-reader|user|T|T|pcba|medium|low|structural|low|/workspace/pcba-netlist-reader|persistent
-@SKL: polarfire-soc-setup|user|T|T|user|medium|medium|structural|low|/workspace/polarfire-soc-setup|persistent
-@SKL: pr-reviewer|user|R|R|user|medium|medium|structural|low|/workspace/pr-reviewer|persistent
-@SKL: pretty-mermaid|user|T|T|user|medium|medium|structural|low|/workspace/pretty-mermaid|persistent
-@SKL: project-output-article|user|P|P|user|medium|medium|structural|low|/workspace/project-output-article|persistent
-@SKL: project-planner|user|G|G|user|medium|high|structural|low|/workspace/project-planner|persistent
-@SKL: prompt-writing-discipline|user|P|P|doc|medium|medium|structural|low|/workspace/prompt-writing-discipline|persistent
-@SKL: rfc-generator|user|G|G|doc|medium|low|structural|low|/workspace/rfc-generator|persistent
-@SKL: risk-assessor|user|R|R|user|medium|high|measured|low|/workspace/risk-assessor|persistent
-@SKL: rule-writer|user|G|G|meta|medium|medium|structural|low|/workspace/rule-writer|persistent
-@SKL: scientific-method-first-principles|user|P|P|user|high|high|measured|medium|/workspace/scientific-method-first-principles|persistent
-@SKL: security-reviewer|user|R|R|user|high|high|structural|low|/workspace/security-reviewer|persistent
-@SKL: skill-creator|user|G|G|meta|high|low|structural|low|/workspace/skill-creator|persistent
-@SKL: skill-reviewer|user|R|R|meta|high|low|structural|low|/workspace/skill-reviewer|persistent
-@SKL: skillfish|user|T|T|meta|low|low|structural|low|/workspace/skillfish|persistent
-@SKL: sysml-allocate-generator|user|G|G|sysml|medium|medium|structural|low|/workspace/sysml-allocate-generator|persistent
-@SKL: sysml-behaviour-generator|user|G|G|sysml|medium|medium|structural|low|/workspace/sysml-behaviour-generator|persistent
-@SKL: sysml-common-file-scale|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-common-file-scale|persistent
-@SKL: sysml-common-lib-contribution|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-common-lib-contribution|persistent
-@SKL: sysml-connections|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-connections|persistent
-@SKL: sysml-eagle-netlist-parser-tool|user|T|T|sysml|medium|medium|structural|low|/workspace/sysml-eagle-netlist-parser-tool|persistent
-@SKL: sysml-gql|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-gql|persistent
-@SKL: sysml-hardware-part-generator|user|G|G|sysml|medium|medium|structural|low|/workspace/sysml-hardware-part-generator|persistent
-@SKL: sysml-import-order-helper|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-import-order-helper|persistent
-@SKL: sysml-interconnection-mermaid|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-interconnection-mermaid|persistent
-@SKL: sysml-item-generator|user|G|G|sysml|medium|medium|structural|low|/workspace/sysml-item-generator|persistent
-@SKL: sysml-memnet-cache|user|T|T|sysml|medium|medium|structural|low|/workspace/sysml-memnet-cache|persistent
-@SKL: sysml-memnet-documentation|user|P|P|sysml|high|medium|structural|low|/workspace/sysml-memnet-documentation|persistent
-@SKL: sysml-modeling-session-checklist|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-modeling-session-checklist|persistent
-@SKL: sysml-modeling-workflow|user|P|P|sysml|high|medium|structural|low|/workspace/sysml-modeling-workflow|persistent
-@SKL: sysml-nested-structure-modeling|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-nested-structure-modeling|persistent
-@SKL: sysml-new-project|user|G|G|sysml|medium|medium|structural|low|/workspace/sysml-new-project|persistent
-@SKL: sysml-part-reviewer|user|R|R|sysml|medium|medium|structural|low|/workspace/sysml-part-reviewer|persistent
-@SKL: sysml-pcba-de-facto-alignment|user|R|R|sysml|medium|medium|structural|low|/workspace/sysml-pcba-de-facto-alignment|persistent
-@SKL: sysml-physical-port-generator|user|G|G|sysml|medium|medium|structural|low|/workspace/sysml-physical-port-generator|persistent
-@SKL: sysml-refactorer|user|P|P|sysml|high|high|structural|low|/workspace/sysml-refactorer|persistent
-@SKL: sysml-requirements-audit|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-requirements-audit|persistent
-@SKL: sysml-requirements-generator|user|G|G|sysml|medium|medium|structural|low|/workspace/sysml-requirements-generator|persistent
-@SKL: sysml-root-config|user|G|G|sysml|medium|medium|structural|low|/workspace/sysml-root-config|persistent
-@SKL: sysml-signal-processing-pipeline|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-signal-processing-pipeline|persistent
-@SKL: sysml-software-part-generator|user|G|G|sysml|medium|medium|structural|low|/workspace/sysml-software-part-generator|persistent
-@SKL: sysml-software-port-generator|user|G|G|sysml|medium|medium|structural|low|/workspace/sysml-software-port-generator|persistent
-@SKL: sysml-stakeholder-use-case|user|G|G|sysml|medium|medium|structural|low|/workspace/sysml-stakeholder-use-case|persistent
-@SKL: sysml-traceability|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-traceability|persistent
-@SKL: sysml-v2-release-how-to-use|user|P|P|sysml|medium|medium|structural|low|/workspace/sysml-v2-release-how-to-use|persistent
-@SKL: sysml-v2-syntax-reference|user|T|T|sysml|medium|medium|structural|low|/workspace/sysml-v2-syntax-reference|persistent
-@SKL: sysml-view-doc-sync|user|R|R|sysml|medium|medium|structural|low|/workspace/sysml-view-doc-sync|persistent
-@SKL: system-design-report-generator|user|P|P|doc|medium|medium|structural|low|/workspace/system-design-report-generator|persistent
-@SKL: system-nesting|user|P|P|user|medium|medium|structural|low|/workspace/system-nesting|persistent
-@SKL: tech-report-generator|user|G|G|doc|medium|low|structural|low|/workspace/tech-report-generator|persistent
-@SKL: tech-report-reviewer|user|R|R|doc|medium|low|structural|low|/workspace/tech-report-reviewer|persistent
-@SKL: traceability-footprint-to-sysml|user|P|P|user|medium|medium|structural|low|/workspace/traceability-footprint-to-sysml|persistent
-@SKL: vibe-repo-init|user|P|P|user|medium|medium|structural|low|/workspace/vibe-repo-init|persistent
-@TRG: TRG_academic-report-generator_0|academic report generator|persistent
-@TRG: TRG_academic-report-generator_1|academic|persistent
-@TRG: TRG_adr-generator_0|adr generator|persistent
-@TRG: TRG_adr-generator_1|adr|persistent
-@TRG: TRG_antlr4-grammar_0|antlr4 grammar|persistent
-@TRG: TRG_antlr4-grammar_1|antlr4|persistent
-@TRG: TRG_api-client-pattern_0|api client pattern|persistent
-@TRG: TRG_api-client-pattern_1|api|persistent
-@TRG: TRG_architecture-reviewer_0|architecture reviewer|persistent
-@TRG: TRG_architecture-reviewer_1|architecture|persistent
-@TRG: TRG_code-reviewer_0|code reviewer|persistent
-@TRG: TRG_code-reviewer_1|code|persistent
-@TRG: TRG_commit-message-generator_0|commit message generator|persistent
-@TRG: TRG_commit-message-generator_1|commit|persistent
-@TRG: TRG_control-theory-planner_0|control theory planner|persistent
-@TRG: TRG_control-theory-planner_1|control|persistent
-@TRG: TRG_decision-inverter_0|decision inverter|persistent
-@TRG: TRG_decision-inverter_1|decision|persistent
-@TRG: TRG_empirical-paradox-synthesis_0|empirical paradox synthesis|persistent
-@TRG: TRG_empirical-paradox-synthesis_1|empirical|persistent
-@TRG: TRG_engineering-practices-learner_0|engineering practices learner|persistent
-@TRG: TRG_engineering-practices-learner_1|engineering|persistent
-@TRG: TRG_file-operations_0|file operations|persistent
-@TRG: TRG_file-operations_1|file|persistent
-@TRG: TRG_fusion-electronics-fetch_0|fusion electronics fetch|persistent
-@TRG: TRG_fusion-electronics-fetch_1|fusion|persistent
-@TRG: TRG_gql-path-patterns_0|gql path patterns|persistent
-@TRG: TRG_gql-path-patterns_1|gql|persistent
-@TRG: TRG_graph-query-language_0|graph query language|persistent
-@TRG: TRG_graph-query-language_1|graph|persistent
-@TRG: TRG_hardware-custom-pcba-workflow_0|hardware custom pcba workflow|persistent
-@TRG: TRG_hardware-custom-pcba-workflow_1|hardware|persistent
-@TRG: TRG_incentive-alignment-reviewer_0|incentive alignment reviewer|persistent
-@TRG: TRG_incentive-alignment-reviewer_1|incentive|persistent
-@TRG: TRG_launch-readiness-assessor_0|launch readiness assessor|persistent
-@TRG: TRG_launch-readiness-assessor_1|launch|persistent
-@TRG: TRG_markdown-preview-enhanced_0|markdown preview enhanced|persistent
-@TRG: TRG_markdown-preview-enhanced_1|markdown|persistent
-@TRG: TRG_markdown-viewer-user-pack_0|markdown viewer user pack|persistent
-@TRG: TRG_markdown-viewer-user-pack_1|markdown|persistent
-@TRG: TRG_mcdm-decider_0|mcdm decider|persistent
-@TRG: TRG_mcdm-decider_1|mcdm|persistent
-@TRG: TRG_mcp-chrome-devtools_0|mcp chrome devtools|persistent
-@TRG: TRG_mcp-chrome-devtools_1|mcp|persistent
-@TRG: TRG_mcp-digikey_0|mcp digikey|persistent
-@TRG: TRG_mcp-digikey_1|mcp|persistent
-@TRG: TRG_mcp-inventree_0|mcp inventree|persistent
-@TRG: TRG_mcp-inventree_1|mcp|persistent
-@TRG: TRG_mcp-latex_0|mcp latex|persistent
-@TRG: TRG_mcp-latex_1|mcp|persistent
-@TRG: TRG_mcp-markitdown_0|mcp markitdown|persistent
-@TRG: TRG_mcp-markitdown_1|mcp|persistent
-@TRG: TRG_mcp-memnet_0|mcp memnet|persistent
-@TRG: TRG_mcp-memnet_1|mcp|persistent
-@TRG: TRG_mcp-sysml-v2_0|mcp sysml v2|persistent
-@TRG: TRG_mcp-sysml-v2_1|mcp|persistent
-@TRG: TRG_mcp-sysmledgraph_0|mcp sysmledgraph|persistent
-@TRG: TRG_mcp-sysmledgraph_1|mcp|persistent
-@TRG: TRG_md-to-tex_0|md to tex|persistent
-@TRG: TRG_md-to-tex_1|md|persistent
-@TRG: TRG_mdtohtml_0|mdtohtml|persistent
-@TRG: TRG_mdtohtml_pad1|mdtohtml skill|persistent
-@TRG: TRG_meeting-notes-generator_0|meeting notes generator|persistent
-@TRG: TRG_meeting-notes-generator_1|meeting|persistent
-@TRG: TRG_memnet-codebase-snap_0|memnet codebase snap|persistent
-@TRG: TRG_memnet-codebase-snap_1|memnet|persistent
-@TRG: TRG_memnet-format_0|memnet format|persistent
-@TRG: TRG_memnet-format_1|memnet|persistent
-@TRG: TRG_memnet-multitask_0|memnet multitask|persistent
-@TRG: TRG_memnet-multitask_1|memnet|persistent
-@TRG: TRG_mermaid-doc-readability_0|mermaid doc readability|persistent
-@TRG: TRG_mermaid-doc-readability_1|mermaid|persistent
-@TRG: TRG_mermaid_0|mermaid|persistent
-@TRG: TRG_mermaid_pad1|mermaid skill|persistent
-@TRG: TRG_mmdc_0|mmdc|persistent
-@TRG: TRG_mmdc_pad1|mmdc skill|persistent
-@TRG: TRG_optimization-planner_0|optimization planner|persistent
-@TRG: TRG_optimization-planner_1|optimization|persistent
-@TRG: TRG_pandas-expert_0|pandas expert|persistent
-@TRG: TRG_pandas-expert_1|pandas|persistent
-@TRG: TRG_pcba-design-reviewer_0|pcba design reviewer|persistent
-@TRG: TRG_pcba-design-reviewer_1|pcba|persistent
-@TRG: TRG_pcba-netlist-reader_0|pcba netlist reader|persistent
-@TRG: TRG_pcba-netlist-reader_1|pcba|persistent
-@TRG: TRG_polarfire-soc-setup_0|polarfire soc setup|persistent
-@TRG: TRG_polarfire-soc-setup_1|polarfire|persistent
-@TRG: TRG_pr-reviewer_0|pr reviewer|persistent
-@TRG: TRG_pr-reviewer_1|pr|persistent
-@TRG: TRG_pretty-mermaid_0|pretty mermaid|persistent
-@TRG: TRG_pretty-mermaid_1|pretty|persistent
-@TRG: TRG_project-output-article_0|project output article|persistent
-@TRG: TRG_project-output-article_1|project|persistent
-@TRG: TRG_project-planner_0|project planner|persistent
-@TRG: TRG_project-planner_1|project|persistent
-@TRG: TRG_prompt-writing-discipline_0|prompt writing discipline|persistent
-@TRG: TRG_prompt-writing-discipline_1|prompt|persistent
-@TRG: TRG_rfc-generator_0|rfc generator|persistent
-@TRG: TRG_rfc-generator_1|rfc|persistent
-@TRG: TRG_risk-assessor_0|risk assessor|persistent
-@TRG: TRG_risk-assessor_1|risk|persistent
-@TRG: TRG_rule-writer_0|rule writer|persistent
-@TRG: TRG_rule-writer_1|rule|persistent
-@TRG: TRG_scientific-method-first-principles_0|scientific method first principles|persistent
-@TRG: TRG_scientific-method-first-principles_1|scientific|persistent
-@TRG: TRG_security-reviewer_0|security reviewer|persistent
-@TRG: TRG_security-reviewer_1|security|persistent
-@TRG: TRG_skill-creator_0|skill creator|persistent
-@TRG: TRG_skill-creator_1|skill|persistent
-@TRG: TRG_skill-reviewer_0|skill reviewer|persistent
-@TRG: TRG_skill-reviewer_1|skill|persistent
-@TRG: TRG_skillfish_0|skillfish|persistent
-@TRG: TRG_skillfish_pad1|skillfish skill|persistent
-@TRG: TRG_sysml-allocate-generator_0|sysml allocate generator|persistent
-@TRG: TRG_sysml-allocate-generator_1|sysml|persistent
-@TRG: TRG_sysml-behaviour-generator_0|sysml behaviour generator|persistent
-@TRG: TRG_sysml-behaviour-generator_1|sysml|persistent
-@TRG: TRG_sysml-common-file-scale_0|sysml common file scale|persistent
-@TRG: TRG_sysml-common-file-scale_1|sysml|persistent
-@TRG: TRG_sysml-common-lib-contribution_0|sysml common lib contribution|persistent
-@TRG: TRG_sysml-common-lib-contribution_1|sysml|persistent
-@TRG: TRG_sysml-connections_0|sysml connections|persistent
-@TRG: TRG_sysml-connections_1|sysml|persistent
-@TRG: TRG_sysml-eagle-netlist-parser-tool_0|sysml eagle netlist parser tool|persistent
-@TRG: TRG_sysml-eagle-netlist-parser-tool_1|sysml|persistent
-@TRG: TRG_sysml-gql_0|sysml gql|persistent
-@TRG: TRG_sysml-gql_1|sysml|persistent
-@TRG: TRG_sysml-hardware-part-generator_0|sysml hardware part generator|persistent
-@TRG: TRG_sysml-hardware-part-generator_1|sysml|persistent
-@TRG: TRG_sysml-import-order-helper_0|sysml import order helper|persistent
-@TRG: TRG_sysml-import-order-helper_1|sysml|persistent
-@TRG: TRG_sysml-interconnection-mermaid_0|sysml interconnection mermaid|persistent
-@TRG: TRG_sysml-interconnection-mermaid_1|sysml|persistent
-@TRG: TRG_sysml-item-generator_0|sysml item generator|persistent
-@TRG: TRG_sysml-item-generator_1|sysml|persistent
-@TRG: TRG_sysml-memnet-cache_0|sysml memnet cache|persistent
-@TRG: TRG_sysml-memnet-cache_1|sysml|persistent
-@TRG: TRG_sysml-memnet-documentation_0|sysml memnet documentation|persistent
-@TRG: TRG_sysml-memnet-documentation_1|sysml|persistent
-@TRG: TRG_sysml-modeling-session-checklist_0|sysml modeling session checklist|persistent
-@TRG: TRG_sysml-modeling-session-checklist_1|sysml|persistent
-@TRG: TRG_sysml-modeling-workflow_0|sysml modeling workflow|persistent
-@TRG: TRG_sysml-modeling-workflow_1|sysml|persistent
-@TRG: TRG_sysml-nested-structure-modeling_0|sysml nested structure modeling|persistent
-@TRG: TRG_sysml-nested-structure-modeling_1|sysml|persistent
-@TRG: TRG_sysml-new-project_0|sysml new project|persistent
-@TRG: TRG_sysml-new-project_1|sysml|persistent
-@TRG: TRG_sysml-part-reviewer_0|sysml part reviewer|persistent
-@TRG: TRG_sysml-part-reviewer_1|sysml|persistent
-@TRG: TRG_sysml-pcba-de-facto-alignment_0|sysml pcba de facto alignment|persistent
-@TRG: TRG_sysml-pcba-de-facto-alignment_1|sysml|persistent
-@TRG: TRG_sysml-physical-port-generator_0|sysml physical port generator|persistent
-@TRG: TRG_sysml-physical-port-generator_1|sysml|persistent
-@TRG: TRG_sysml-refactorer_0|sysml refactorer|persistent
-@TRG: TRG_sysml-refactorer_1|sysml|persistent
-@TRG: TRG_sysml-requirements-audit_0|sysml requirements audit|persistent
-@TRG: TRG_sysml-requirements-audit_1|sysml|persistent
-@TRG: TRG_sysml-requirements-generator_0|sysml requirements generator|persistent
-@TRG: TRG_sysml-requirements-generator_1|sysml|persistent
-@TRG: TRG_sysml-root-config_0|sysml root config|persistent
-@TRG: TRG_sysml-root-config_1|sysml|persistent
-@TRG: TRG_sysml-signal-processing-pipeline_0|sysml signal processing pipeline|persistent
-@TRG: TRG_sysml-signal-processing-pipeline_1|sysml|persistent
-@TRG: TRG_sysml-software-part-generator_0|sysml software part generator|persistent
-@TRG: TRG_sysml-software-part-generator_1|sysml|persistent
-@TRG: TRG_sysml-software-port-generator_0|sysml software port generator|persistent
-@TRG: TRG_sysml-software-port-generator_1|sysml|persistent
-@TRG: TRG_sysml-stakeholder-use-case_0|sysml stakeholder use case|persistent
-@TRG: TRG_sysml-stakeholder-use-case_1|sysml|persistent
-@TRG: TRG_sysml-traceability_0|sysml traceability|persistent
-@TRG: TRG_sysml-traceability_1|sysml|persistent
-@TRG: TRG_sysml-v2-release-how-to-use_0|sysml v2 release how to use|persistent
-@TRG: TRG_sysml-v2-release-how-to-use_1|sysml|persistent
-@TRG: TRG_sysml-v2-syntax-reference_0|sysml v2 syntax reference|persistent
-@TRG: TRG_sysml-v2-syntax-reference_1|sysml|persistent
-@TRG: TRG_sysml-view-doc-sync_0|sysml view doc sync|persistent
-@TRG: TRG_sysml-view-doc-sync_1|sysml|persistent
-@TRG: TRG_system-design-report-generator_0|system design report generator|persistent
-@TRG: TRG_system-design-report-generator_1|system|persistent
-@TRG: TRG_system-nesting_0|system nesting|persistent
-@TRG: TRG_system-nesting_1|system|persistent
-@TRG: TRG_tech-report-generator_0|tech report generator|persistent
-@TRG: TRG_tech-report-generator_1|tech|persistent
-@TRG: TRG_tech-report-reviewer_0|tech report reviewer|persistent
-@TRG: TRG_tech-report-reviewer_1|tech|persistent
-@TRG: TRG_traceability-footprint-to-sysml_0|traceability footprint to sysml|persistent
-@TRG: TRG_traceability-footprint-to-sysml_1|traceability|persistent
-@TRG: TRG_vibe-repo-init_0|vibe repo init|persistent
-@TRG: TRG_vibe-repo-init_1|vibe|persistent
-@EDG: E0001|TRG_academic-report-generator_0|triggers|academic-report-generator|academic report generator|persistent
-@EDG: E0002|TRG_academic-report-generator_1|triggers|academic-report-generator|academic|persistent
-@EDG: E0003|TRG_adr-generator_0|triggers|adr-generator|adr generator|persistent
-@EDG: E0004|TRG_adr-generator_1|triggers|adr-generator|adr|persistent
-@EDG: E0005|TRG_antlr4-grammar_0|triggers|antlr4-grammar|antlr4 grammar|persistent
-@EDG: E0006|TRG_antlr4-grammar_1|triggers|antlr4-grammar|antlr4|persistent
-@EDG: E0007|TRG_api-client-pattern_0|triggers|api-client-pattern|api client pattern|persistent
-@EDG: E0008|TRG_api-client-pattern_1|triggers|api-client-pattern|api|persistent
-@EDG: E0009|TRG_architecture-reviewer_0|triggers|architecture-reviewer|architecture reviewer|persistent
-@EDG: E0010|TRG_architecture-reviewer_1|triggers|architecture-reviewer|architecture|persistent
-@EDG: E0011|TRG_code-reviewer_0|triggers|code-reviewer|code reviewer|persistent
-@EDG: E0012|TRG_code-reviewer_1|triggers|code-reviewer|code|persistent
-@EDG: E0013|TRG_commit-message-generator_0|triggers|commit-message-generator|commit message generator|persistent
-@EDG: E0014|TRG_commit-message-generator_1|triggers|commit-message-generator|commit|persistent
-@EDG: E0015|TRG_control-theory-planner_0|triggers|control-theory-planner|control theory planner|persistent
-@EDG: E0016|TRG_control-theory-planner_1|triggers|control-theory-planner|control|persistent
-@EDG: E0017|TRG_decision-inverter_0|triggers|decision-inverter|decision inverter|persistent
-@EDG: E0018|TRG_decision-inverter_1|triggers|decision-inverter|decision|persistent
-@EDG: E0019|TRG_empirical-paradox-synthesis_0|triggers|empirical-paradox-synthesis|empirical paradox synthesis|persistent
-@EDG: E0020|TRG_empirical-paradox-synthesis_1|triggers|empirical-paradox-synthesis|empirical|persistent
-@EDG: E0021|TRG_engineering-practices-learner_0|triggers|engineering-practices-learner|engineering practices learner|persistent
-@EDG: E0022|TRG_engineering-practices-learner_1|triggers|engineering-practices-learner|engineering|persistent
-@EDG: E0023|TRG_file-operations_0|triggers|file-operations|file operations|persistent
-@EDG: E0024|TRG_file-operations_1|triggers|file-operations|file|persistent
-@EDG: E0025|TRG_fusion-electronics-fetch_0|triggers|fusion-electronics-fetch|fusion electronics fetch|persistent
-@EDG: E0026|TRG_fusion-electronics-fetch_1|triggers|fusion-electronics-fetch|fusion|persistent
-@EDG: E0027|TRG_gql-path-patterns_0|triggers|gql-path-patterns|gql path patterns|persistent
-@EDG: E0028|TRG_gql-path-patterns_1|triggers|gql-path-patterns|gql|persistent
-@EDG: E0029|TRG_graph-query-language_0|triggers|graph-query-language|graph query language|persistent
-@EDG: E0030|TRG_graph-query-language_1|triggers|graph-query-language|graph|persistent
-@EDG: E0031|TRG_hardware-custom-pcba-workflow_0|triggers|hardware-custom-pcba-workflow|hardware custom pcba workflow|persistent
-@EDG: E0032|TRG_hardware-custom-pcba-workflow_1|triggers|hardware-custom-pcba-workflow|hardware|persistent
-@EDG: E0033|TRG_incentive-alignment-reviewer_0|triggers|incentive-alignment-reviewer|incentive alignment reviewer|persistent
-@EDG: E0034|TRG_incentive-alignment-reviewer_1|triggers|incentive-alignment-reviewer|incentive|persistent
-@EDG: E0035|TRG_launch-readiness-assessor_0|triggers|launch-readiness-assessor|launch readiness assessor|persistent
-@EDG: E0036|TRG_launch-readiness-assessor_1|triggers|launch-readiness-assessor|launch|persistent
-@EDG: E0037|TRG_markdown-preview-enhanced_0|triggers|markdown-preview-enhanced|markdown preview enhanced|persistent
-@EDG: E0038|TRG_markdown-preview-enhanced_1|triggers|markdown-preview-enhanced|markdown|persistent
-@EDG: E0039|TRG_markdown-viewer-user-pack_0|triggers|markdown-viewer-user-pack|markdown viewer user pack|persistent
-@EDG: E0040|TRG_markdown-viewer-user-pack_1|triggers|markdown-viewer-user-pack|markdown|persistent
-@EDG: E0041|TRG_mcdm-decider_0|triggers|mcdm-decider|mcdm decider|persistent
-@EDG: E0042|TRG_mcdm-decider_1|triggers|mcdm-decider|mcdm|persistent
-@EDG: E0043|TRG_mcp-chrome-devtools_0|triggers|mcp-chrome-devtools|mcp chrome devtools|persistent
-@EDG: E0044|TRG_mcp-chrome-devtools_1|triggers|mcp-chrome-devtools|mcp|persistent
-@EDG: E0045|TRG_mcp-digikey_0|triggers|mcp-digikey|mcp digikey|persistent
-@EDG: E0046|TRG_mcp-digikey_1|triggers|mcp-digikey|mcp|persistent
-@EDG: E0047|TRG_mcp-inventree_0|triggers|mcp-inventree|mcp inventree|persistent
-@EDG: E0048|TRG_mcp-inventree_1|triggers|mcp-inventree|mcp|persistent
-@EDG: E0049|TRG_mcp-latex_0|triggers|mcp-latex|mcp latex|persistent
-@EDG: E0050|TRG_mcp-latex_1|triggers|mcp-latex|mcp|persistent
-@EDG: E0051|TRG_mcp-markitdown_0|triggers|mcp-markitdown|mcp markitdown|persistent
-@EDG: E0052|TRG_mcp-markitdown_1|triggers|mcp-markitdown|mcp|persistent
-@EDG: E0053|TRG_mcp-memnet_0|triggers|mcp-memnet|mcp memnet|persistent
-@EDG: E0054|TRG_mcp-memnet_1|triggers|mcp-memnet|mcp|persistent
-@EDG: E0055|TRG_mcp-sysml-v2_0|triggers|mcp-sysml-v2|mcp sysml v2|persistent
-@EDG: E0056|TRG_mcp-sysml-v2_1|triggers|mcp-sysml-v2|mcp|persistent
-@EDG: E0057|TRG_mcp-sysmledgraph_0|triggers|mcp-sysmledgraph|mcp sysmledgraph|persistent
-@EDG: E0058|TRG_mcp-sysmledgraph_1|triggers|mcp-sysmledgraph|mcp|persistent
-@EDG: E0059|TRG_md-to-tex_0|triggers|md-to-tex|md to tex|persistent
-@EDG: E0060|TRG_md-to-tex_1|triggers|md-to-tex|md|persistent
-@EDG: E0061|TRG_mdtohtml_0|triggers|mdtohtml|mdtohtml|persistent
-@EDG: E0062|TRG_mdtohtml_pad1|triggers|mdtohtml|pad|persistent
-@EDG: E0063|TRG_meeting-notes-generator_0|triggers|meeting-notes-generator|meeting notes generator|persistent
-@EDG: E0064|TRG_meeting-notes-generator_1|triggers|meeting-notes-generator|meeting|persistent
-@EDG: E0065|TRG_memnet-codebase-snap_0|triggers|memnet-codebase-snap|memnet codebase snap|persistent
-@EDG: E0066|TRG_memnet-codebase-snap_1|triggers|memnet-codebase-snap|memnet|persistent
-@EDG: E0067|TRG_memnet-format_0|triggers|memnet-format|memnet format|persistent
-@EDG: E0068|TRG_memnet-format_1|triggers|memnet-format|memnet|persistent
-@EDG: E0069|TRG_memnet-multitask_0|triggers|memnet-multitask|memnet multitask|persistent
-@EDG: E0070|TRG_memnet-multitask_1|triggers|memnet-multitask|memnet|persistent
-@EDG: E0071|TRG_mermaid_0|triggers|mermaid|mermaid|persistent
-@EDG: E0072|TRG_mermaid_pad1|triggers|mermaid|pad|persistent
-@EDG: E0073|TRG_mermaid-doc-readability_0|triggers|mermaid-doc-readability|mermaid doc readability|persistent
-@EDG: E0074|TRG_mermaid-doc-readability_1|triggers|mermaid-doc-readability|mermaid|persistent
-@EDG: E0075|TRG_mmdc_0|triggers|mmdc|mmdc|persistent
-@EDG: E0076|TRG_mmdc_pad1|triggers|mmdc|pad|persistent
-@EDG: E0077|TRG_optimization-planner_0|triggers|optimization-planner|optimization planner|persistent
-@EDG: E0078|TRG_optimization-planner_1|triggers|optimization-planner|optimization|persistent
-@EDG: E0079|TRG_pandas-expert_0|triggers|pandas-expert|pandas expert|persistent
-@EDG: E0080|TRG_pandas-expert_1|triggers|pandas-expert|pandas|persistent
-@EDG: E0081|TRG_pcba-design-reviewer_0|triggers|pcba-design-reviewer|pcba design reviewer|persistent
-@EDG: E0082|TRG_pcba-design-reviewer_1|triggers|pcba-design-reviewer|pcba|persistent
-@EDG: E0083|TRG_pcba-netlist-reader_0|triggers|pcba-netlist-reader|pcba netlist reader|persistent
-@EDG: E0084|TRG_pcba-netlist-reader_1|triggers|pcba-netlist-reader|pcba|persistent
-@EDG: E0085|TRG_polarfire-soc-setup_0|triggers|polarfire-soc-setup|polarfire soc setup|persistent
-@EDG: E0086|TRG_polarfire-soc-setup_1|triggers|polarfire-soc-setup|polarfire|persistent
-@EDG: E0087|TRG_pr-reviewer_0|triggers|pr-reviewer|pr reviewer|persistent
-@EDG: E0088|TRG_pr-reviewer_1|triggers|pr-reviewer|pr|persistent
-@EDG: E0089|TRG_pretty-mermaid_0|triggers|pretty-mermaid|pretty mermaid|persistent
-@EDG: E0090|TRG_pretty-mermaid_1|triggers|pretty-mermaid|pretty|persistent
-@EDG: E0091|TRG_project-output-article_0|triggers|project-output-article|project output article|persistent
-@EDG: E0092|TRG_project-output-article_1|triggers|project-output-article|project|persistent
-@EDG: E0093|TRG_project-planner_0|triggers|project-planner|project planner|persistent
-@EDG: E0094|TRG_project-planner_1|triggers|project-planner|project|persistent
-@EDG: E0095|TRG_prompt-writing-discipline_0|triggers|prompt-writing-discipline|prompt writing discipline|persistent
-@EDG: E0096|TRG_prompt-writing-discipline_1|triggers|prompt-writing-discipline|prompt|persistent
-@EDG: E0097|TRG_rfc-generator_0|triggers|rfc-generator|rfc generator|persistent
-@EDG: E0098|TRG_rfc-generator_1|triggers|rfc-generator|rfc|persistent
-@EDG: E0099|TRG_risk-assessor_0|triggers|risk-assessor|risk assessor|persistent
-@EDG: E0100|TRG_risk-assessor_1|triggers|risk-assessor|risk|persistent
-@EDG: E0101|TRG_rule-writer_0|triggers|rule-writer|rule writer|persistent
-@EDG: E0102|TRG_rule-writer_1|triggers|rule-writer|rule|persistent
-@EDG: E0103|TRG_scientific-method-first-principles_0|triggers|scientific-method-first-principles|scientific method first principles|persistent
-@EDG: E0104|TRG_scientific-method-first-principles_1|triggers|scientific-method-first-principles|scientific|persistent
-@EDG: E0105|TRG_security-reviewer_0|triggers|security-reviewer|security reviewer|persistent
-@EDG: E0106|TRG_security-reviewer_1|triggers|security-reviewer|security|persistent
-@EDG: E0107|TRG_skill-creator_0|triggers|skill-creator|skill creator|persistent
-@EDG: E0108|TRG_skill-creator_1|triggers|skill-creator|skill|persistent
-@EDG: E0109|TRG_skill-reviewer_0|triggers|skill-reviewer|skill reviewer|persistent
-@EDG: E0110|TRG_skill-reviewer_1|triggers|skill-reviewer|skill|persistent
-@EDG: E0111|TRG_skillfish_0|triggers|skillfish|skillfish|persistent
-@EDG: E0112|TRG_skillfish_pad1|triggers|skillfish|pad|persistent
-@EDG: E0113|TRG_sysml-allocate-generator_0|triggers|sysml-allocate-generator|sysml allocate generator|persistent
-@EDG: E0114|TRG_sysml-allocate-generator_1|triggers|sysml-allocate-generator|sysml|persistent
-@EDG: E0115|TRG_sysml-behaviour-generator_0|triggers|sysml-behaviour-generator|sysml behaviour generator|persistent
-@EDG: E0116|TRG_sysml-behaviour-generator_1|triggers|sysml-behaviour-generator|sysml|persistent
-@EDG: E0117|TRG_sysml-common-file-scale_0|triggers|sysml-common-file-scale|sysml common file scale|persistent
-@EDG: E0118|TRG_sysml-common-file-scale_1|triggers|sysml-common-file-scale|sysml|persistent
-@EDG: E0119|TRG_sysml-common-lib-contribution_0|triggers|sysml-common-lib-contribution|sysml common lib contribution|persistent
-@EDG: E0120|TRG_sysml-common-lib-contribution_1|triggers|sysml-common-lib-contribution|sysml|persistent
-@EDG: E0121|TRG_sysml-connections_0|triggers|sysml-connections|sysml connections|persistent
-@EDG: E0122|TRG_sysml-connections_1|triggers|sysml-connections|sysml|persistent
-@EDG: E0123|TRG_sysml-eagle-netlist-parser-tool_0|triggers|sysml-eagle-netlist-parser-tool|sysml eagle netlist parser tool|persistent
-@EDG: E0124|TRG_sysml-eagle-netlist-parser-tool_1|triggers|sysml-eagle-netlist-parser-tool|sysml|persistent
-@EDG: E0125|TRG_sysml-gql_0|triggers|sysml-gql|sysml gql|persistent
-@EDG: E0126|TRG_sysml-gql_1|triggers|sysml-gql|sysml|persistent
-@EDG: E0127|TRG_sysml-hardware-part-generator_0|triggers|sysml-hardware-part-generator|sysml hardware part generator|persistent
-@EDG: E0128|TRG_sysml-hardware-part-generator_1|triggers|sysml-hardware-part-generator|sysml|persistent
-@EDG: E0129|TRG_sysml-import-order-helper_0|triggers|sysml-import-order-helper|sysml import order helper|persistent
-@EDG: E0130|TRG_sysml-import-order-helper_1|triggers|sysml-import-order-helper|sysml|persistent
-@EDG: E0131|TRG_sysml-interconnection-mermaid_0|triggers|sysml-interconnection-mermaid|sysml interconnection mermaid|persistent
-@EDG: E0132|TRG_sysml-interconnection-mermaid_1|triggers|sysml-interconnection-mermaid|sysml|persistent
-@EDG: E0133|TRG_sysml-item-generator_0|triggers|sysml-item-generator|sysml item generator|persistent
-@EDG: E0134|TRG_sysml-item-generator_1|triggers|sysml-item-generator|sysml|persistent
-@EDG: E0135|TRG_sysml-memnet-cache_0|triggers|sysml-memnet-cache|sysml memnet cache|persistent
-@EDG: E0136|TRG_sysml-memnet-cache_1|triggers|sysml-memnet-cache|sysml|persistent
-@EDG: E0137|TRG_sysml-memnet-documentation_0|triggers|sysml-memnet-documentation|sysml memnet documentation|persistent
-@EDG: E0138|TRG_sysml-memnet-documentation_1|triggers|sysml-memnet-documentation|sysml|persistent
-@EDG: E0139|TRG_sysml-modeling-session-checklist_0|triggers|sysml-modeling-session-checklist|sysml modeling session checklist|persistent
-@EDG: E0140|TRG_sysml-modeling-session-checklist_1|triggers|sysml-modeling-session-checklist|sysml|persistent
-@EDG: E0141|TRG_sysml-modeling-workflow_0|triggers|sysml-modeling-workflow|sysml modeling workflow|persistent
-@EDG: E0142|TRG_sysml-modeling-workflow_1|triggers|sysml-modeling-workflow|sysml|persistent
-@EDG: E0143|TRG_sysml-nested-structure-modeling_0|triggers|sysml-nested-structure-modeling|sysml nested structure modeling|persistent
-@EDG: E0144|TRG_sysml-nested-structure-modeling_1|triggers|sysml-nested-structure-modeling|sysml|persistent
-@EDG: E0145|TRG_sysml-new-project_0|triggers|sysml-new-project|sysml new project|persistent
-@EDG: E0146|TRG_sysml-new-project_1|triggers|sysml-new-project|sysml|persistent
-@EDG: E0147|TRG_sysml-part-reviewer_0|triggers|sysml-part-reviewer|sysml part reviewer|persistent
-@EDG: E0148|TRG_sysml-part-reviewer_1|triggers|sysml-part-reviewer|sysml|persistent
-@EDG: E0149|TRG_sysml-pcba-de-facto-alignment_0|triggers|sysml-pcba-de-facto-alignment|sysml pcba de facto alignment|persistent
-@EDG: E0150|TRG_sysml-pcba-de-facto-alignment_1|triggers|sysml-pcba-de-facto-alignment|sysml|persistent
-@EDG: E0151|TRG_sysml-physical-port-generator_0|triggers|sysml-physical-port-generator|sysml physical port generator|persistent
-@EDG: E0152|TRG_sysml-physical-port-generator_1|triggers|sysml-physical-port-generator|sysml|persistent
-@EDG: E0153|TRG_sysml-refactorer_0|triggers|sysml-refactorer|sysml refactorer|persistent
-@EDG: E0154|TRG_sysml-refactorer_1|triggers|sysml-refactorer|sysml|persistent
-@EDG: E0155|TRG_sysml-requirements-audit_0|triggers|sysml-requirements-audit|sysml requirements audit|persistent
-@EDG: E0156|TRG_sysml-requirements-audit_1|triggers|sysml-requirements-audit|sysml|persistent
-@EDG: E0157|TRG_sysml-requirements-generator_0|triggers|sysml-requirements-generator|sysml requirements generator|persistent
-@EDG: E0158|TRG_sysml-requirements-generator_1|triggers|sysml-requirements-generator|sysml|persistent
-@EDG: E0159|TRG_sysml-root-config_0|triggers|sysml-root-config|sysml root config|persistent
-@EDG: E0160|TRG_sysml-root-config_1|triggers|sysml-root-config|sysml|persistent
-@EDG: E0161|TRG_sysml-signal-processing-pipeline_0|triggers|sysml-signal-processing-pipeline|sysml signal processing pipeline|persistent
-@EDG: E0162|TRG_sysml-signal-processing-pipeline_1|triggers|sysml-signal-processing-pipeline|sysml|persistent
-@EDG: E0163|TRG_sysml-software-part-generator_0|triggers|sysml-software-part-generator|sysml software part generator|persistent
-@EDG: E0164|TRG_sysml-software-part-generator_1|triggers|sysml-software-part-generator|sysml|persistent
-@EDG: E0165|TRG_sysml-software-port-generator_0|triggers|sysml-software-port-generator|sysml software port generator|persistent
-@EDG: E0166|TRG_sysml-software-port-generator_1|triggers|sysml-software-port-generator|sysml|persistent
-@EDG: E0167|TRG_sysml-stakeholder-use-case_0|triggers|sysml-stakeholder-use-case|sysml stakeholder use case|persistent
-@EDG: E0168|TRG_sysml-stakeholder-use-case_1|triggers|sysml-stakeholder-use-case|sysml|persistent
-@EDG: E0169|TRG_sysml-traceability_0|triggers|sysml-traceability|sysml traceability|persistent
-@EDG: E0170|TRG_sysml-traceability_1|triggers|sysml-traceability|sysml|persistent
-@EDG: E0171|TRG_sysml-v2-release-how-to-use_0|triggers|sysml-v2-release-how-to-use|sysml v2 release how to use|persistent
-@EDG: E0172|TRG_sysml-v2-release-how-to-use_1|triggers|sysml-v2-release-how-to-use|sysml|persistent
-@EDG: E0173|TRG_sysml-v2-syntax-reference_0|triggers|sysml-v2-syntax-reference|sysml v2 syntax reference|persistent
-@EDG: E0174|TRG_sysml-v2-syntax-reference_1|triggers|sysml-v2-syntax-reference|sysml|persistent
-@EDG: E0175|TRG_sysml-view-doc-sync_0|triggers|sysml-view-doc-sync|sysml view doc sync|persistent
-@EDG: E0176|TRG_sysml-view-doc-sync_1|triggers|sysml-view-doc-sync|sysml|persistent
-@EDG: E0177|TRG_system-design-report-generator_0|triggers|system-design-report-generator|system design report generator|persistent
-@EDG: E0178|TRG_system-design-report-generator_1|triggers|system-design-report-generator|system|persistent
-@EDG: E0179|TRG_system-nesting_0|triggers|system-nesting|system nesting|persistent
-@EDG: E0180|TRG_system-nesting_1|triggers|system-nesting|system|persistent
-@EDG: E0181|TRG_tech-report-generator_0|triggers|tech-report-generator|tech report generator|persistent
-@EDG: E0182|TRG_tech-report-generator_1|triggers|tech-report-generator|tech|persistent
-@EDG: E0183|TRG_tech-report-reviewer_0|triggers|tech-report-reviewer|tech report reviewer|persistent
-@EDG: E0184|TRG_tech-report-reviewer_1|triggers|tech-report-reviewer|tech|persistent
-@EDG: E0185|TRG_traceability-footprint-to-sysml_0|triggers|traceability-footprint-to-sysml|traceability footprint to sysml|persistent
-@EDG: E0186|TRG_traceability-footprint-to-sysml_1|triggers|traceability-footprint-to-sysml|traceability|persistent
-@EDG: E0187|TRG_vibe-repo-init_0|triggers|vibe-repo-init|vibe repo init|persistent
-@EDG: E0188|TRG_vibe-repo-init_1|triggers|vibe-repo-init|vibe|persistent
-@EDG: E0189|SKG_global|default_stack|sysml-modeling-workflow|domain hub|persistent
-@EDG: E0190|SKG_global|default_stack|scientific-method-first-principles|domain hub|persistent
-@EDG: E0191|SKG_global|default_stack|skill-creator|domain hub|persistent
-@EDG: E0192|SKG_global|default_stack|pcba-design-reviewer|domain hub|persistent
-@EDG: E0193|SKG_global|default_stack|mermaid|domain hub|persistent
-@EDG: E0194|SKG_global|default_stack|mcp-sysml-v2|domain hub|persistent
-@EDG: E0195|SKG_global|default_stack|sysml-memnet-documentation|domain hub|persistent
-@EDG: E0196|SKG_global|default_stack|tech-report-generator|domain hub|persistent
-@EDG: E0197|SKG_global|default_stack|mcdm-decider|domain hub|persistent
-@EDG: E0198|sysml-modeling-session-checklist|precedes|sysml-modeling-workflow|manual|persistent
-@EDG: E0199|sysml-modeling-workflow|precedes|sysml-memnet-documentation|manual|persistent
-@EDG: E0200|sysml-memnet-documentation|precedes|sysml-view-doc-sync|manual|persistent
-@EDG: E0201|sysml-memnet-documentation|precedes|mermaid|manual|persistent
-@EDG: E0202|sysml-new-project|precedes|sysml-modeling-workflow|manual|persistent
-@EDG: E0203|decision-inverter|precedes|risk-assessor|manual|persistent
-@EDG: E0204|scientific-method-first-principles|precedes|empirical-paradox-synthesis|manual|persistent
-@EDG: E0205|tech-report-generator|precedes|tech-report-reviewer|manual|persistent
-@EDG: E0206|rfc-generator|precedes|adr-generator|manual|persistent
-@EDG: E0207|decision-inverter|complements|risk-assessor|manual|persistent
-@EDG: E0208|decision-inverter|complements|launch-readiness-assessor|manual|persistent
-@EDG: E0209|mcdm-decider|complements|optimization-planner|manual|persistent
-@EDG: E0210|scientific-method-first-principles|complements|empirical-paradox-synthesis|manual|persistent
-@EDG: E0211|pcba-netlist-reader|complements|pcba-design-reviewer|manual|persistent
-@EDG: E0212|code-reviewer|complements|pr-reviewer|manual|persistent
-@EDG: E0213|sysml-refactorer|complements|sysml-modeling-workflow|manual|persistent
-@EDG: E0214|skill-creator|complements|skill-reviewer|manual|persistent
-@EDG: E0215|mermaid|complements|sysml-memnet-documentation|manual|persistent
-@EDG: E0216|mermaid|complements|sysml-view-doc-sync|manual|persistent
-@EDG: E0217|sysml-view-doc-sync|complements|mermaid|manual|persistent
-@EDG: E0218|sysml-view-doc-sync|requires|sysml-modeling-workflow|manual|persistent
-@EDG: E0219|sysml-refactorer|requires|sysml-modeling-workflow|manual|persistent
-@EDG: E0220|tech-report-generator|specializes|academic-report-generator|doc|persistent
-@EDG: E0221|tech-report-generator|specializes|adr-generator|doc|persistent
-@EDG: E0222|scientific-method-first-principles|specializes|antlr4-grammar|user|persistent
-@EDG: E0223|scientific-method-first-principles|specializes|api-client-pattern|user|persistent
-@EDG: E0224|scientific-method-first-principles|specializes|architecture-reviewer|user|persistent
-@EDG: E0225|scientific-method-first-principles|specializes|code-reviewer|user|persistent
-@EDG: E0226|tech-report-generator|specializes|commit-message-generator|doc|persistent
-@EDG: E0227|scientific-method-first-principles|specializes|control-theory-planner|user|persistent
-@EDG: E0228|scientific-method-first-principles|specializes|decision-inverter|user|persistent
-@EDG: E0229|scientific-method-first-principles|specializes|empirical-paradox-synthesis|user|persistent
-@EDG: E0230|scientific-method-first-principles|specializes|engineering-practices-learner|user|persistent
-@EDG: E0231|scientific-method-first-principles|specializes|file-operations|user|persistent
-@EDG: E0232|pcba-design-reviewer|specializes|fusion-electronics-fetch|pcba|persistent
-@EDG: E0233|scientific-method-first-principles|specializes|gql-path-patterns|user|persistent
-@EDG: E0234|scientific-method-first-principles|specializes|graph-query-language|user|persistent
-@EDG: E0235|pcba-design-reviewer|specializes|hardware-custom-pcba-workflow|pcba|persistent
-@EDG: E0236|scientific-method-first-principles|specializes|incentive-alignment-reviewer|user|persistent
-@EDG: E0237|scientific-method-first-principles|specializes|launch-readiness-assessor|user|persistent
-@EDG: E0238|scientific-method-first-principles|specializes|markdown-preview-enhanced|user|persistent
-@EDG: E0239|scientific-method-first-principles|specializes|markdown-viewer-user-pack|user|persistent
-@EDG: E0240|scientific-method-first-principles|specializes|mcdm-decider|user|persistent
-@EDG: E0241|skill-creator|specializes|mcp-chrome-devtools|meta|persistent
-@EDG: E0242|skill-creator|specializes|mcp-digikey|meta|persistent
-@EDG: E0243|skill-creator|specializes|mcp-inventree|meta|persistent
-@EDG: E0244|skill-creator|specializes|mcp-latex|meta|persistent
-@EDG: E0245|skill-creator|specializes|mcp-markitdown|meta|persistent
-@EDG: E0246|skill-creator|specializes|mcp-memnet|meta|persistent
-@EDG: E0247|mcp-sysml-v2|specializes|mcp-sysmledgraph|sysml-tool|persistent
-@EDG: E0248|tech-report-generator|specializes|md-to-tex|doc|persistent
-@EDG: E0249|tech-report-generator|specializes|mdtohtml|doc|persistent
-@EDG: E0250|tech-report-generator|specializes|meeting-notes-generator|doc|persistent
-@EDG: E0251|scientific-method-first-principles|specializes|memnet-codebase-snap|user|persistent
-@EDG: E0252|skill-creator|specializes|memnet-format|meta|persistent
-@EDG: E0253|scientific-method-first-principles|specializes|memnet-multitask|user|persistent
-@EDG: E0254|tech-report-generator|specializes|mermaid|doc|persistent
-@EDG: E0255|scientific-method-first-principles|specializes|mermaid-doc-readability|user|persistent
-@EDG: E0256|tech-report-generator|specializes|mmdc|doc|persistent
-@EDG: E0257|scientific-method-first-principles|specializes|optimization-planner|user|persistent
-@EDG: E0258|scientific-method-first-principles|specializes|pandas-expert|user|persistent
-@EDG: E0259|pcba-design-reviewer|specializes|pcba-netlist-reader|pcba|persistent
-@EDG: E0260|scientific-method-first-principles|specializes|polarfire-soc-setup|user|persistent
-@EDG: E0261|scientific-method-first-principles|specializes|pr-reviewer|user|persistent
-@EDG: E0262|scientific-method-first-principles|specializes|pretty-mermaid|user|persistent
-@EDG: E0263|scientific-method-first-principles|specializes|project-output-article|user|persistent
-@EDG: E0264|scientific-method-first-principles|specializes|project-planner|user|persistent
-@EDG: E0265|tech-report-generator|specializes|prompt-writing-discipline|doc|persistent
-@EDG: E0266|tech-report-generator|specializes|rfc-generator|doc|persistent
-@EDG: E0267|scientific-method-first-principles|specializes|risk-assessor|user|persistent
-@EDG: E0268|skill-creator|specializes|rule-writer|meta|persistent
-@EDG: E0269|scientific-method-first-principles|specializes|security-reviewer|user|persistent
-@EDG: E0270|skill-creator|specializes|skill-reviewer|meta|persistent
-@EDG: E0271|skill-creator|specializes|skillfish|meta|persistent
-@EDG: E0272|sysml-modeling-workflow|specializes|sysml-allocate-generator|sysml|persistent
-@EDG: E0273|sysml-modeling-workflow|specializes|sysml-behaviour-generator|sysml|persistent
-@EDG: E0274|sysml-modeling-workflow|specializes|sysml-common-file-scale|sysml|persistent
-@EDG: E0275|sysml-modeling-workflow|specializes|sysml-common-lib-contribution|sysml|persistent
-@EDG: E0276|sysml-modeling-workflow|specializes|sysml-connections|sysml|persistent
-@EDG: E0277|sysml-modeling-workflow|specializes|sysml-eagle-netlist-parser-tool|sysml|persistent
-@EDG: E0278|sysml-modeling-workflow|specializes|sysml-gql|sysml|persistent
-@EDG: E0279|sysml-modeling-workflow|specializes|sysml-hardware-part-generator|sysml|persistent
-@EDG: E0280|sysml-modeling-workflow|specializes|sysml-import-order-helper|sysml|persistent
-@EDG: E0281|sysml-modeling-workflow|specializes|sysml-interconnection-mermaid|sysml|persistent
-@EDG: E0282|sysml-modeling-workflow|specializes|sysml-item-generator|sysml|persistent
-@EDG: E0283|sysml-modeling-workflow|specializes|sysml-memnet-cache|sysml|persistent
-@EDG: E0284|sysml-modeling-workflow|specializes|sysml-memnet-documentation|sysml|persistent
-@EDG: E0285|sysml-modeling-workflow|specializes|sysml-modeling-session-checklist|sysml|persistent
-@EDG: E0286|sysml-modeling-workflow|specializes|sysml-nested-structure-modeling|sysml|persistent
-@EDG: E0287|sysml-modeling-workflow|specializes|sysml-new-project|sysml|persistent
-@EDG: E0288|sysml-modeling-workflow|specializes|sysml-part-reviewer|sysml|persistent
-@EDG: E0289|sysml-modeling-workflow|specializes|sysml-pcba-de-facto-alignment|sysml|persistent
-@EDG: E0290|sysml-modeling-workflow|specializes|sysml-physical-port-generator|sysml|persistent
-@EDG: E0291|sysml-modeling-workflow|specializes|sysml-refactorer|sysml|persistent
-@EDG: E0292|sysml-modeling-workflow|specializes|sysml-requirements-audit|sysml|persistent
-@EDG: E0293|sysml-modeling-workflow|specializes|sysml-requirements-generator|sysml|persistent
-@EDG: E0294|sysml-modeling-workflow|specializes|sysml-root-config|sysml|persistent
-@EDG: E0295|sysml-modeling-workflow|specializes|sysml-signal-processing-pipeline|sysml|persistent
-@EDG: E0296|sysml-modeling-workflow|specializes|sysml-software-part-generator|sysml|persistent
-@EDG: E0297|sysml-modeling-workflow|specializes|sysml-software-port-generator|sysml|persistent
-@EDG: E0298|sysml-modeling-workflow|specializes|sysml-stakeholder-use-case|sysml|persistent
-@EDG: E0299|sysml-modeling-workflow|specializes|sysml-traceability|sysml|persistent
-@EDG: E0300|sysml-modeling-workflow|specializes|sysml-v2-release-how-to-use|sysml|persistent
-@EDG: E0301|sysml-modeling-workflow|specializes|sysml-v2-syntax-reference|sysml|persistent
-@EDG: E0302|sysml-modeling-workflow|specializes|sysml-view-doc-sync|sysml|persistent
-@EDG: E0303|tech-report-generator|specializes|system-design-report-generator|doc|persistent
-@EDG: E0304|scientific-method-first-principles|specializes|system-nesting|user|persistent
-@EDG: E0305|tech-report-generator|specializes|tech-report-reviewer|doc|persistent
-@EDG: E0306|scientific-method-first-principles|specializes|traceability-footprint-to-sysml|user|persistent
-@EDG: E0307|scientific-method-first-principles|specializes|vibe-repo-init|user|persistent
+# skill-graph-seed.wire -- single source (D2). GQL CREATE present (memnet-llm 0.9).
+# Ranker uses lowercase relation names; this file emits UPPER GQL types.
+# Regenerate: python tools/scan_skills_to_wire.py --write
+CREATE (:SKG {id: 'SKG_global', version: '1', pack: 'user_pack', recycle: 'persistent'})
+CREATE (:SKL {id: 'academic-report-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'doc', cx: 'medium', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/academic-report-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'adr-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'doc', cx: 'low', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/adr-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'antlr4-grammar', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/antlr4-grammar', recycle: 'persistent'})
+CREATE (:SKL {id: 'api-client-pattern', pack: 'user', pattern: 'G', dir: 'G', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/api-client-pattern', recycle: 'persistent'})
+CREATE (:SKL {id: 'architecture-reviewer', pack: 'user', pattern: 'R', dir: 'R', domain: 'user', cx: 'high', stakes: 'high', ev: 'structural', tension: 'medium', path: '/workspace/architecture-reviewer', recycle: 'persistent'})
+CREATE (:SKL {id: 'code-reviewer', pack: 'user', pattern: 'R', dir: 'R', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/code-reviewer', recycle: 'persistent'})
+CREATE (:SKL {id: 'commit-message-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'doc', cx: 'low', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/commit-message-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'control-theory-planner', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'high', stakes: 'high', ev: 'conceptual', tension: 'low', path: '/workspace/control-theory-planner', recycle: 'persistent'})
+CREATE (:SKL {id: 'decision-inverter', pack: 'user', pattern: 'R', dir: 'R', domain: 'user', cx: 'high', stakes: 'high', ev: 'conceptual', tension: 'high', path: '/workspace/decision-inverter', recycle: 'persistent'})
+CREATE (:SKL {id: 'empirical-paradox-synthesis', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'high', stakes: 'high', ev: 'measured', tension: 'high', path: '/workspace/empirical-paradox-synthesis', recycle: 'persistent'})
+CREATE (:SKL {id: 'engineering-practices-learner', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'high', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/engineering-practices-learner', recycle: 'persistent'})
+CREATE (:SKL {id: 'file-operations', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/file-operations', recycle: 'persistent'})
+CREATE (:SKL {id: 'fusion-electronics-fetch', pack: 'user', pattern: 'T', dir: 'T', domain: 'pcba', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/fusion-electronics-fetch', recycle: 'persistent'})
+CREATE (:SKL {id: 'gql-path-patterns', pack: 'user', pattern: 'T', dir: 'T', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/gql-path-patterns', recycle: 'persistent'})
+CREATE (:SKL {id: 'graph-query-language', pack: 'user', pattern: 'T', dir: 'T', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/graph-query-language', recycle: 'persistent'})
+CREATE (:SKL {id: 'hardware-custom-pcba-workflow', pack: 'user', pattern: 'P', dir: 'P', domain: 'pcba', cx: 'high', stakes: 'high', ev: 'structural', tension: 'low', path: '/workspace/hardware-custom-pcba-workflow', recycle: 'persistent'})
+CREATE (:SKL {id: 'incentive-alignment-reviewer', pack: 'user', pattern: 'R', dir: 'R', domain: 'user', cx: 'high', stakes: 'high', ev: 'conceptual', tension: 'high', path: '/workspace/incentive-alignment-reviewer', recycle: 'persistent'})
+CREATE (:SKL {id: 'launch-readiness-assessor', pack: 'user', pattern: 'R', dir: 'R', domain: 'user', cx: 'medium', stakes: 'high', ev: 'structural', tension: 'low', path: '/workspace/launch-readiness-assessor', recycle: 'persistent'})
+CREATE (:SKL {id: 'markdown-preview-enhanced', pack: 'user', pattern: 'T', dir: 'T', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/markdown-preview-enhanced', recycle: 'persistent'})
+CREATE (:SKL {id: 'markdown-viewer-user-pack', pack: 'user', pattern: 'T', dir: 'T', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/markdown-viewer-user-pack', recycle: 'persistent'})
+CREATE (:SKL {id: 'mcdm-decider', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'high', stakes: 'high', ev: 'measured', tension: 'medium', path: '/workspace/mcdm-decider', recycle: 'persistent'})
+CREATE (:SKL {id: 'mcp-chrome-devtools', pack: 'user', pattern: 'T', dir: 'T', domain: 'meta', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/mcp-chrome-devtools', recycle: 'persistent'})
+CREATE (:SKL {id: 'mcp-digikey', pack: 'user', pattern: 'T', dir: 'T', domain: 'meta', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/mcp-digikey', recycle: 'persistent'})
+CREATE (:SKL {id: 'mcp-inventree', pack: 'user', pattern: 'T', dir: 'T', domain: 'meta', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/mcp-inventree', recycle: 'persistent'})
+CREATE (:SKL {id: 'mcp-latex', pack: 'user', pattern: 'T', dir: 'T', domain: 'meta', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/mcp-latex', recycle: 'persistent'})
+CREATE (:SKL {id: 'mcp-markitdown', pack: 'user', pattern: 'T', dir: 'T', domain: 'meta', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/mcp-markitdown', recycle: 'persistent'})
+CREATE (:SKL {id: 'mcp-memnet', pack: 'user', pattern: 'T', dir: 'T', domain: 'meta', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/mcp-memnet', recycle: 'persistent'})
+CREATE (:SKL {id: 'mcp-sysml-v2', pack: 'user', pattern: 'T', dir: 'T', domain: 'sysml-tool', cx: 'medium', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/mcp-sysml-v2', recycle: 'persistent'})
+CREATE (:SKL {id: 'mcp-sysmledgraph', pack: 'user', pattern: 'T', dir: 'T', domain: 'sysml-tool', cx: 'high', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/mcp-sysmledgraph', recycle: 'persistent'})
+CREATE (:SKL {id: 'md-to-tex', pack: 'user', pattern: 'P', dir: 'P', domain: 'doc', cx: 'medium', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/md-to-tex', recycle: 'persistent'})
+CREATE (:SKL {id: 'mdtohtml', pack: 'user', pattern: 'T', dir: 'T', domain: 'doc', cx: 'low', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/mdtohtml', recycle: 'persistent'})
+CREATE (:SKL {id: 'meeting-notes-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'doc', cx: 'low', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/meeting-notes-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'memnet-codebase-snap', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/memnet-codebase-snap', recycle: 'persistent'})
+CREATE (:SKL {id: 'memnet-format', pack: 'user', pattern: 'T', dir: 'T', domain: 'meta', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/memnet-format', recycle: 'persistent'})
+CREATE (:SKL {id: 'memnet-multitask', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/memnet-multitask', recycle: 'persistent'})
+CREATE (:SKL {id: 'mermaid', pack: 'user', pattern: 'G', dir: 'G', domain: 'doc', cx: 'medium', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/mermaid', recycle: 'persistent'})
+CREATE (:SKL {id: 'mermaid-doc-readability', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/mermaid-doc-readability', recycle: 'persistent'})
+CREATE (:SKL {id: 'mmdc', pack: 'user', pattern: 'T', dir: 'T', domain: 'doc', cx: 'low', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/mmdc', recycle: 'persistent'})
+CREATE (:SKL {id: 'optimization-planner', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'high', stakes: 'high', ev: 'measured', tension: 'low', path: '/workspace/optimization-planner', recycle: 'persistent'})
+CREATE (:SKL {id: 'pandas-expert', pack: 'user', pattern: 'T', dir: 'T', domain: 'user', cx: 'medium', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/pandas-expert', recycle: 'persistent'})
+CREATE (:SKL {id: 'pcba-design-reviewer', pack: 'user', pattern: 'R', dir: 'R', domain: 'pcba', cx: 'high', stakes: 'high', ev: 'structural', tension: 'low', path: '/workspace/pcba-design-reviewer', recycle: 'persistent'})
+CREATE (:SKL {id: 'pcba-netlist-reader', pack: 'user', pattern: 'T', dir: 'T', domain: 'pcba', cx: 'medium', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/pcba-netlist-reader', recycle: 'persistent'})
+CREATE (:SKL {id: 'polarfire-soc-setup', pack: 'user', pattern: 'T', dir: 'T', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/polarfire-soc-setup', recycle: 'persistent'})
+CREATE (:SKL {id: 'pr-reviewer', pack: 'user', pattern: 'R', dir: 'R', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/pr-reviewer', recycle: 'persistent'})
+CREATE (:SKL {id: 'pretty-mermaid', pack: 'user', pattern: 'T', dir: 'T', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/pretty-mermaid', recycle: 'persistent'})
+CREATE (:SKL {id: 'project-output-article', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/project-output-article', recycle: 'persistent'})
+CREATE (:SKL {id: 'project-planner', pack: 'user', pattern: 'G', dir: 'G', domain: 'user', cx: 'medium', stakes: 'high', ev: 'structural', tension: 'low', path: '/workspace/project-planner', recycle: 'persistent'})
+CREATE (:SKL {id: 'prompt-writing-discipline', pack: 'user', pattern: 'P', dir: 'P', domain: 'doc', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/prompt-writing-discipline', recycle: 'persistent'})
+CREATE (:SKL {id: 'rfc-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'doc', cx: 'medium', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/rfc-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'risk-assessor', pack: 'user', pattern: 'R', dir: 'R', domain: 'user', cx: 'medium', stakes: 'high', ev: 'measured', tension: 'low', path: '/workspace/risk-assessor', recycle: 'persistent'})
+CREATE (:SKL {id: 'rule-writer', pack: 'user', pattern: 'G', dir: 'G', domain: 'meta', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/rule-writer', recycle: 'persistent'})
+CREATE (:SKL {id: 'scientific-method-first-principles', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'high', stakes: 'high', ev: 'measured', tension: 'medium', path: '/workspace/scientific-method-first-principles', recycle: 'persistent'})
+CREATE (:SKL {id: 'security-reviewer', pack: 'user', pattern: 'R', dir: 'R', domain: 'user', cx: 'high', stakes: 'high', ev: 'structural', tension: 'low', path: '/workspace/security-reviewer', recycle: 'persistent'})
+CREATE (:SKL {id: 'skill-creator', pack: 'user', pattern: 'G', dir: 'G', domain: 'meta', cx: 'high', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/skill-creator', recycle: 'persistent'})
+CREATE (:SKL {id: 'skill-reviewer', pack: 'user', pattern: 'R', dir: 'R', domain: 'meta', cx: 'high', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/skill-reviewer', recycle: 'persistent'})
+CREATE (:SKL {id: 'skillfish', pack: 'user', pattern: 'T', dir: 'T', domain: 'meta', cx: 'low', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/skillfish', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-allocate-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-allocate-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-behaviour-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-behaviour-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-common-file-scale', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-common-file-scale', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-common-lib-contribution', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-common-lib-contribution', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-connections', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-connections', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-eagle-netlist-parser-tool', pack: 'user', pattern: 'T', dir: 'T', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-eagle-netlist-parser-tool', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-gql', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-gql', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-hardware-part-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-hardware-part-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-import-order-helper', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-import-order-helper', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-interconnection-mermaid', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-interconnection-mermaid', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-item-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-item-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-memnet-cache', pack: 'user', pattern: 'T', dir: 'T', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-memnet-cache', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-memnet-documentation', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'high', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-memnet-documentation', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-modeling-session-checklist', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-modeling-session-checklist', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-modeling-workflow', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'high', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-modeling-workflow', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-nested-structure-modeling', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-nested-structure-modeling', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-new-project', pack: 'user', pattern: 'G', dir: 'G', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-new-project', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-part-reviewer', pack: 'user', pattern: 'R', dir: 'R', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-part-reviewer', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-pcba-de-facto-alignment', pack: 'user', pattern: 'R', dir: 'R', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-pcba-de-facto-alignment', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-physical-port-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-physical-port-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-refactorer', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'high', stakes: 'high', ev: 'structural', tension: 'low', path: '/workspace/sysml-refactorer', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-requirements-audit', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-requirements-audit', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-requirements-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-requirements-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-root-config', pack: 'user', pattern: 'G', dir: 'G', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-root-config', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-signal-processing-pipeline', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-signal-processing-pipeline', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-software-part-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-software-part-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-software-port-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-software-port-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-stakeholder-use-case', pack: 'user', pattern: 'G', dir: 'G', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-stakeholder-use-case', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-traceability', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-traceability', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-v2-release-how-to-use', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-v2-release-how-to-use', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-v2-syntax-reference', pack: 'user', pattern: 'T', dir: 'T', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-v2-syntax-reference', recycle: 'persistent'})
+CREATE (:SKL {id: 'sysml-view-doc-sync', pack: 'user', pattern: 'R', dir: 'R', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysml-view-doc-sync', recycle: 'persistent'})
+CREATE (:SKL {id: 'system-design-report-generator', pack: 'user', pattern: 'P', dir: 'P', domain: 'doc', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/system-design-report-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'system-nesting', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/system-nesting', recycle: 'persistent'})
+CREATE (:SKL {id: 'tech-report-generator', pack: 'user', pattern: 'G', dir: 'G', domain: 'doc', cx: 'medium', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/tech-report-generator', recycle: 'persistent'})
+CREATE (:SKL {id: 'tech-report-reviewer', pack: 'user', pattern: 'R', dir: 'R', domain: 'doc', cx: 'medium', stakes: 'low', ev: 'structural', tension: 'low', path: '/workspace/tech-report-reviewer', recycle: 'persistent'})
+CREATE (:SKL {id: 'traceability-footprint-to-sysml', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/traceability-footprint-to-sysml', recycle: 'persistent'})
+CREATE (:SKL {id: 'vibe-repo-init', pack: 'user', pattern: 'P', dir: 'P', domain: 'user', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/vibe-repo-init', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_academic-report-generator_0', phrase: 'academic report generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_academic-report-generator_1', phrase: 'academic', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_adr-generator_0', phrase: 'adr generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_adr-generator_1', phrase: 'adr', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_antlr4-grammar_0', phrase: 'antlr4 grammar', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_antlr4-grammar_1', phrase: 'antlr4', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_api-client-pattern_0', phrase: 'api client pattern', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_api-client-pattern_1', phrase: 'api', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_architecture-reviewer_0', phrase: 'architecture reviewer', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_architecture-reviewer_1', phrase: 'architecture', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_code-reviewer_0', phrase: 'code reviewer', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_code-reviewer_1', phrase: 'code', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_commit-message-generator_0', phrase: 'commit message generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_commit-message-generator_1', phrase: 'commit', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_control-theory-planner_0', phrase: 'control theory planner', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_control-theory-planner_1', phrase: 'control', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_decision-inverter_0', phrase: 'decision inverter', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_decision-inverter_1', phrase: 'decision', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_empirical-paradox-synthesis_0', phrase: 'empirical paradox synthesis', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_empirical-paradox-synthesis_1', phrase: 'empirical', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_engineering-practices-learner_0', phrase: 'engineering practices learner', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_engineering-practices-learner_1', phrase: 'engineering', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_file-operations_0', phrase: 'file operations', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_file-operations_1', phrase: 'file', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_fusion-electronics-fetch_0', phrase: 'fusion electronics fetch', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_fusion-electronics-fetch_1', phrase: 'fusion', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_gql-path-patterns_0', phrase: 'gql path patterns', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_gql-path-patterns_1', phrase: 'gql', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_graph-query-language_0', phrase: 'graph query language', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_graph-query-language_1', phrase: 'graph', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_hardware-custom-pcba-workflow_0', phrase: 'hardware custom pcba workflow', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_hardware-custom-pcba-workflow_1', phrase: 'hardware', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_incentive-alignment-reviewer_0', phrase: 'incentive alignment reviewer', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_incentive-alignment-reviewer_1', phrase: 'incentive', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_launch-readiness-assessor_0', phrase: 'launch readiness assessor', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_launch-readiness-assessor_1', phrase: 'launch', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_markdown-preview-enhanced_0', phrase: 'markdown preview enhanced', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_markdown-preview-enhanced_1', phrase: 'markdown', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_markdown-viewer-user-pack_0', phrase: 'markdown viewer user pack', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_markdown-viewer-user-pack_1', phrase: 'markdown', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcdm-decider_0', phrase: 'mcdm decider', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcdm-decider_1', phrase: 'mcdm', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-chrome-devtools_0', phrase: 'mcp chrome devtools', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-chrome-devtools_1', phrase: 'mcp', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-digikey_0', phrase: 'mcp digikey', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-digikey_1', phrase: 'mcp', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-inventree_0', phrase: 'mcp inventree', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-inventree_1', phrase: 'mcp', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-latex_0', phrase: 'mcp latex', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-latex_1', phrase: 'mcp', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-markitdown_0', phrase: 'mcp markitdown', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-markitdown_1', phrase: 'mcp', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-memnet_0', phrase: 'mcp memnet', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-memnet_1', phrase: 'mcp', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-sysml-v2_0', phrase: 'mcp sysml v2', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-sysml-v2_1', phrase: 'mcp', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-sysmledgraph_0', phrase: 'mcp sysmledgraph', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-sysmledgraph_1', phrase: 'mcp', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_md-to-tex_0', phrase: 'md to tex', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_md-to-tex_1', phrase: 'md', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mdtohtml_0', phrase: 'mdtohtml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mdtohtml_pad1', phrase: 'mdtohtml skill', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_meeting-notes-generator_0', phrase: 'meeting notes generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_meeting-notes-generator_1', phrase: 'meeting', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_memnet-codebase-snap_0', phrase: 'memnet codebase snap', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_memnet-codebase-snap_1', phrase: 'memnet', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_memnet-format_0', phrase: 'memnet format', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_memnet-format_1', phrase: 'memnet', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_memnet-multitask_0', phrase: 'memnet multitask', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_memnet-multitask_1', phrase: 'memnet', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mermaid-doc-readability_0', phrase: 'mermaid doc readability', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mermaid-doc-readability_1', phrase: 'mermaid', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mermaid_0', phrase: 'mermaid', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mermaid_pad1', phrase: 'mermaid skill', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mmdc_0', phrase: 'mmdc', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mmdc_pad1', phrase: 'mmdc skill', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_optimization-planner_0', phrase: 'optimization planner', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_optimization-planner_1', phrase: 'optimization', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_pandas-expert_0', phrase: 'pandas expert', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_pandas-expert_1', phrase: 'pandas', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_pcba-design-reviewer_0', phrase: 'pcba design reviewer', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_pcba-design-reviewer_1', phrase: 'pcba', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_pcba-netlist-reader_0', phrase: 'pcba netlist reader', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_pcba-netlist-reader_1', phrase: 'pcba', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_polarfire-soc-setup_0', phrase: 'polarfire soc setup', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_polarfire-soc-setup_1', phrase: 'polarfire', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_pr-reviewer_0', phrase: 'pr reviewer', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_pr-reviewer_1', phrase: 'pr', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_pretty-mermaid_0', phrase: 'pretty mermaid', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_pretty-mermaid_1', phrase: 'pretty', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_project-output-article_0', phrase: 'project output article', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_project-output-article_1', phrase: 'project', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_project-planner_0', phrase: 'project planner', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_project-planner_1', phrase: 'project', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_prompt-writing-discipline_0', phrase: 'prompt writing discipline', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_prompt-writing-discipline_1', phrase: 'prompt', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_rfc-generator_0', phrase: 'rfc generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_rfc-generator_1', phrase: 'rfc', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_risk-assessor_0', phrase: 'risk assessor', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_risk-assessor_1', phrase: 'risk', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_rule-writer_0', phrase: 'rule writer', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_rule-writer_1', phrase: 'rule', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_scientific-method-first-principles_0', phrase: 'scientific method first principles', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_scientific-method-first-principles_1', phrase: 'scientific', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_security-reviewer_0', phrase: 'security reviewer', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_security-reviewer_1', phrase: 'security', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_skill-creator_0', phrase: 'skill creator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_skill-creator_1', phrase: 'skill', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_skill-reviewer_0', phrase: 'skill reviewer', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_skill-reviewer_1', phrase: 'skill', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_skillfish_0', phrase: 'skillfish', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_skillfish_pad1', phrase: 'skillfish skill', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-allocate-generator_0', phrase: 'sysml allocate generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-allocate-generator_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-behaviour-generator_0', phrase: 'sysml behaviour generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-behaviour-generator_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-common-file-scale_0', phrase: 'sysml common file scale', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-common-file-scale_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-common-lib-contribution_0', phrase: 'sysml common lib contribution', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-common-lib-contribution_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-connections_0', phrase: 'sysml connections', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-connections_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-eagle-netlist-parser-tool_0', phrase: 'sysml eagle netlist parser tool', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-eagle-netlist-parser-tool_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-gql_0', phrase: 'sysml gql', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-gql_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-hardware-part-generator_0', phrase: 'sysml hardware part generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-hardware-part-generator_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-import-order-helper_0', phrase: 'sysml import order helper', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-import-order-helper_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-interconnection-mermaid_0', phrase: 'sysml interconnection mermaid', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-interconnection-mermaid_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-item-generator_0', phrase: 'sysml item generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-item-generator_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-memnet-cache_0', phrase: 'sysml memnet cache', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-memnet-cache_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-memnet-documentation_0', phrase: 'sysml memnet documentation', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-memnet-documentation_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-modeling-session-checklist_0', phrase: 'sysml modeling session checklist', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-modeling-session-checklist_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-modeling-workflow_0', phrase: 'sysml modeling workflow', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-modeling-workflow_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-nested-structure-modeling_0', phrase: 'sysml nested structure modeling', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-nested-structure-modeling_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-new-project_0', phrase: 'sysml new project', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-new-project_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-part-reviewer_0', phrase: 'sysml part reviewer', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-part-reviewer_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-pcba-de-facto-alignment_0', phrase: 'sysml pcba de facto alignment', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-pcba-de-facto-alignment_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-physical-port-generator_0', phrase: 'sysml physical port generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-physical-port-generator_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-refactorer_0', phrase: 'sysml refactorer', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-refactorer_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-requirements-audit_0', phrase: 'sysml requirements audit', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-requirements-audit_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-requirements-generator_0', phrase: 'sysml requirements generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-requirements-generator_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-root-config_0', phrase: 'sysml root config', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-root-config_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-signal-processing-pipeline_0', phrase: 'sysml signal processing pipeline', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-signal-processing-pipeline_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-software-part-generator_0', phrase: 'sysml software part generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-software-part-generator_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-software-port-generator_0', phrase: 'sysml software port generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-software-port-generator_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-stakeholder-use-case_0', phrase: 'sysml stakeholder use case', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-stakeholder-use-case_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-traceability_0', phrase: 'sysml traceability', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-traceability_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-v2-release-how-to-use_0', phrase: 'sysml v2 release how to use', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-v2-release-how-to-use_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-v2-syntax-reference_0', phrase: 'sysml v2 syntax reference', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-v2-syntax-reference_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-view-doc-sync_0', phrase: 'sysml view doc sync', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysml-view-doc-sync_1', phrase: 'sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_system-design-report-generator_0', phrase: 'system design report generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_system-design-report-generator_1', phrase: 'system', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_system-nesting_0', phrase: 'system nesting', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_system-nesting_1', phrase: 'system', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_tech-report-generator_0', phrase: 'tech report generator', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_tech-report-generator_1', phrase: 'tech', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_tech-report-reviewer_0', phrase: 'tech report reviewer', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_tech-report-reviewer_1', phrase: 'tech', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_traceability-footprint-to-sysml_0', phrase: 'traceability footprint to sysml', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_traceability-footprint-to-sysml_1', phrase: 'traceability', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_vibe-repo-init_0', phrase: 'vibe repo init', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_vibe-repo-init_1', phrase: 'vibe', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_academic-report-generator_0'})-[:TRIGGERS {id: 'E0001', note: 'academic report generator', recycle: 'persistent'}]->(:SKL {id: 'academic-report-generator'})
+CREATE (:TRG {id: 'TRG_academic-report-generator_1'})-[:TRIGGERS {id: 'E0002', note: 'academic', recycle: 'persistent'}]->(:SKL {id: 'academic-report-generator'})
+CREATE (:TRG {id: 'TRG_adr-generator_0'})-[:TRIGGERS {id: 'E0003', note: 'adr generator', recycle: 'persistent'}]->(:SKL {id: 'adr-generator'})
+CREATE (:TRG {id: 'TRG_adr-generator_1'})-[:TRIGGERS {id: 'E0004', note: 'adr', recycle: 'persistent'}]->(:SKL {id: 'adr-generator'})
+CREATE (:TRG {id: 'TRG_antlr4-grammar_0'})-[:TRIGGERS {id: 'E0005', note: 'antlr4 grammar', recycle: 'persistent'}]->(:SKL {id: 'antlr4-grammar'})
+CREATE (:TRG {id: 'TRG_antlr4-grammar_1'})-[:TRIGGERS {id: 'E0006', note: 'antlr4', recycle: 'persistent'}]->(:SKL {id: 'antlr4-grammar'})
+CREATE (:TRG {id: 'TRG_api-client-pattern_0'})-[:TRIGGERS {id: 'E0007', note: 'api client pattern', recycle: 'persistent'}]->(:SKL {id: 'api-client-pattern'})
+CREATE (:TRG {id: 'TRG_api-client-pattern_1'})-[:TRIGGERS {id: 'E0008', note: 'api', recycle: 'persistent'}]->(:SKL {id: 'api-client-pattern'})
+CREATE (:TRG {id: 'TRG_architecture-reviewer_0'})-[:TRIGGERS {id: 'E0009', note: 'architecture reviewer', recycle: 'persistent'}]->(:SKL {id: 'architecture-reviewer'})
+CREATE (:TRG {id: 'TRG_architecture-reviewer_1'})-[:TRIGGERS {id: 'E0010', note: 'architecture', recycle: 'persistent'}]->(:SKL {id: 'architecture-reviewer'})
+CREATE (:TRG {id: 'TRG_code-reviewer_0'})-[:TRIGGERS {id: 'E0011', note: 'code reviewer', recycle: 'persistent'}]->(:SKL {id: 'code-reviewer'})
+CREATE (:TRG {id: 'TRG_code-reviewer_1'})-[:TRIGGERS {id: 'E0012', note: 'code', recycle: 'persistent'}]->(:SKL {id: 'code-reviewer'})
+CREATE (:TRG {id: 'TRG_commit-message-generator_0'})-[:TRIGGERS {id: 'E0013', note: 'commit message generator', recycle: 'persistent'}]->(:SKL {id: 'commit-message-generator'})
+CREATE (:TRG {id: 'TRG_commit-message-generator_1'})-[:TRIGGERS {id: 'E0014', note: 'commit', recycle: 'persistent'}]->(:SKL {id: 'commit-message-generator'})
+CREATE (:TRG {id: 'TRG_control-theory-planner_0'})-[:TRIGGERS {id: 'E0015', note: 'control theory planner', recycle: 'persistent'}]->(:SKL {id: 'control-theory-planner'})
+CREATE (:TRG {id: 'TRG_control-theory-planner_1'})-[:TRIGGERS {id: 'E0016', note: 'control', recycle: 'persistent'}]->(:SKL {id: 'control-theory-planner'})
+CREATE (:TRG {id: 'TRG_decision-inverter_0'})-[:TRIGGERS {id: 'E0017', note: 'decision inverter', recycle: 'persistent'}]->(:SKL {id: 'decision-inverter'})
+CREATE (:TRG {id: 'TRG_decision-inverter_1'})-[:TRIGGERS {id: 'E0018', note: 'decision', recycle: 'persistent'}]->(:SKL {id: 'decision-inverter'})
+CREATE (:TRG {id: 'TRG_empirical-paradox-synthesis_0'})-[:TRIGGERS {id: 'E0019', note: 'empirical paradox synthesis', recycle: 'persistent'}]->(:SKL {id: 'empirical-paradox-synthesis'})
+CREATE (:TRG {id: 'TRG_empirical-paradox-synthesis_1'})-[:TRIGGERS {id: 'E0020', note: 'empirical', recycle: 'persistent'}]->(:SKL {id: 'empirical-paradox-synthesis'})
+CREATE (:TRG {id: 'TRG_engineering-practices-learner_0'})-[:TRIGGERS {id: 'E0021', note: 'engineering practices learner', recycle: 'persistent'}]->(:SKL {id: 'engineering-practices-learner'})
+CREATE (:TRG {id: 'TRG_engineering-practices-learner_1'})-[:TRIGGERS {id: 'E0022', note: 'engineering', recycle: 'persistent'}]->(:SKL {id: 'engineering-practices-learner'})
+CREATE (:TRG {id: 'TRG_file-operations_0'})-[:TRIGGERS {id: 'E0023', note: 'file operations', recycle: 'persistent'}]->(:SKL {id: 'file-operations'})
+CREATE (:TRG {id: 'TRG_file-operations_1'})-[:TRIGGERS {id: 'E0024', note: 'file', recycle: 'persistent'}]->(:SKL {id: 'file-operations'})
+CREATE (:TRG {id: 'TRG_fusion-electronics-fetch_0'})-[:TRIGGERS {id: 'E0025', note: 'fusion electronics fetch', recycle: 'persistent'}]->(:SKL {id: 'fusion-electronics-fetch'})
+CREATE (:TRG {id: 'TRG_fusion-electronics-fetch_1'})-[:TRIGGERS {id: 'E0026', note: 'fusion', recycle: 'persistent'}]->(:SKL {id: 'fusion-electronics-fetch'})
+CREATE (:TRG {id: 'TRG_gql-path-patterns_0'})-[:TRIGGERS {id: 'E0027', note: 'gql path patterns', recycle: 'persistent'}]->(:SKL {id: 'gql-path-patterns'})
+CREATE (:TRG {id: 'TRG_gql-path-patterns_1'})-[:TRIGGERS {id: 'E0028', note: 'gql', recycle: 'persistent'}]->(:SKL {id: 'gql-path-patterns'})
+CREATE (:TRG {id: 'TRG_graph-query-language_0'})-[:TRIGGERS {id: 'E0029', note: 'graph query language', recycle: 'persistent'}]->(:SKL {id: 'graph-query-language'})
+CREATE (:TRG {id: 'TRG_graph-query-language_1'})-[:TRIGGERS {id: 'E0030', note: 'graph', recycle: 'persistent'}]->(:SKL {id: 'graph-query-language'})
+CREATE (:TRG {id: 'TRG_hardware-custom-pcba-workflow_0'})-[:TRIGGERS {id: 'E0031', note: 'hardware custom pcba workflow', recycle: 'persistent'}]->(:SKL {id: 'hardware-custom-pcba-workflow'})
+CREATE (:TRG {id: 'TRG_hardware-custom-pcba-workflow_1'})-[:TRIGGERS {id: 'E0032', note: 'hardware', recycle: 'persistent'}]->(:SKL {id: 'hardware-custom-pcba-workflow'})
+CREATE (:TRG {id: 'TRG_incentive-alignment-reviewer_0'})-[:TRIGGERS {id: 'E0033', note: 'incentive alignment reviewer', recycle: 'persistent'}]->(:SKL {id: 'incentive-alignment-reviewer'})
+CREATE (:TRG {id: 'TRG_incentive-alignment-reviewer_1'})-[:TRIGGERS {id: 'E0034', note: 'incentive', recycle: 'persistent'}]->(:SKL {id: 'incentive-alignment-reviewer'})
+CREATE (:TRG {id: 'TRG_launch-readiness-assessor_0'})-[:TRIGGERS {id: 'E0035', note: 'launch readiness assessor', recycle: 'persistent'}]->(:SKL {id: 'launch-readiness-assessor'})
+CREATE (:TRG {id: 'TRG_launch-readiness-assessor_1'})-[:TRIGGERS {id: 'E0036', note: 'launch', recycle: 'persistent'}]->(:SKL {id: 'launch-readiness-assessor'})
+CREATE (:TRG {id: 'TRG_markdown-preview-enhanced_0'})-[:TRIGGERS {id: 'E0037', note: 'markdown preview enhanced', recycle: 'persistent'}]->(:SKL {id: 'markdown-preview-enhanced'})
+CREATE (:TRG {id: 'TRG_markdown-preview-enhanced_1'})-[:TRIGGERS {id: 'E0038', note: 'markdown', recycle: 'persistent'}]->(:SKL {id: 'markdown-preview-enhanced'})
+CREATE (:TRG {id: 'TRG_markdown-viewer-user-pack_0'})-[:TRIGGERS {id: 'E0039', note: 'markdown viewer user pack', recycle: 'persistent'}]->(:SKL {id: 'markdown-viewer-user-pack'})
+CREATE (:TRG {id: 'TRG_markdown-viewer-user-pack_1'})-[:TRIGGERS {id: 'E0040', note: 'markdown', recycle: 'persistent'}]->(:SKL {id: 'markdown-viewer-user-pack'})
+CREATE (:TRG {id: 'TRG_mcdm-decider_0'})-[:TRIGGERS {id: 'E0041', note: 'mcdm decider', recycle: 'persistent'}]->(:SKL {id: 'mcdm-decider'})
+CREATE (:TRG {id: 'TRG_mcdm-decider_1'})-[:TRIGGERS {id: 'E0042', note: 'mcdm', recycle: 'persistent'}]->(:SKL {id: 'mcdm-decider'})
+CREATE (:TRG {id: 'TRG_mcp-chrome-devtools_0'})-[:TRIGGERS {id: 'E0043', note: 'mcp chrome devtools', recycle: 'persistent'}]->(:SKL {id: 'mcp-chrome-devtools'})
+CREATE (:TRG {id: 'TRG_mcp-chrome-devtools_1'})-[:TRIGGERS {id: 'E0044', note: 'mcp', recycle: 'persistent'}]->(:SKL {id: 'mcp-chrome-devtools'})
+CREATE (:TRG {id: 'TRG_mcp-digikey_0'})-[:TRIGGERS {id: 'E0045', note: 'mcp digikey', recycle: 'persistent'}]->(:SKL {id: 'mcp-digikey'})
+CREATE (:TRG {id: 'TRG_mcp-digikey_1'})-[:TRIGGERS {id: 'E0046', note: 'mcp', recycle: 'persistent'}]->(:SKL {id: 'mcp-digikey'})
+CREATE (:TRG {id: 'TRG_mcp-inventree_0'})-[:TRIGGERS {id: 'E0047', note: 'mcp inventree', recycle: 'persistent'}]->(:SKL {id: 'mcp-inventree'})
+CREATE (:TRG {id: 'TRG_mcp-inventree_1'})-[:TRIGGERS {id: 'E0048', note: 'mcp', recycle: 'persistent'}]->(:SKL {id: 'mcp-inventree'})
+CREATE (:TRG {id: 'TRG_mcp-latex_0'})-[:TRIGGERS {id: 'E0049', note: 'mcp latex', recycle: 'persistent'}]->(:SKL {id: 'mcp-latex'})
+CREATE (:TRG {id: 'TRG_mcp-latex_1'})-[:TRIGGERS {id: 'E0050', note: 'mcp', recycle: 'persistent'}]->(:SKL {id: 'mcp-latex'})
+CREATE (:TRG {id: 'TRG_mcp-markitdown_0'})-[:TRIGGERS {id: 'E0051', note: 'mcp markitdown', recycle: 'persistent'}]->(:SKL {id: 'mcp-markitdown'})
+CREATE (:TRG {id: 'TRG_mcp-markitdown_1'})-[:TRIGGERS {id: 'E0052', note: 'mcp', recycle: 'persistent'}]->(:SKL {id: 'mcp-markitdown'})
+CREATE (:TRG {id: 'TRG_mcp-memnet_0'})-[:TRIGGERS {id: 'E0053', note: 'mcp memnet', recycle: 'persistent'}]->(:SKL {id: 'mcp-memnet'})
+CREATE (:TRG {id: 'TRG_mcp-memnet_1'})-[:TRIGGERS {id: 'E0054', note: 'mcp', recycle: 'persistent'}]->(:SKL {id: 'mcp-memnet'})
+CREATE (:TRG {id: 'TRG_mcp-sysml-v2_0'})-[:TRIGGERS {id: 'E0055', note: 'mcp sysml v2', recycle: 'persistent'}]->(:SKL {id: 'mcp-sysml-v2'})
+CREATE (:TRG {id: 'TRG_mcp-sysml-v2_1'})-[:TRIGGERS {id: 'E0056', note: 'mcp', recycle: 'persistent'}]->(:SKL {id: 'mcp-sysml-v2'})
+CREATE (:TRG {id: 'TRG_mcp-sysmledgraph_0'})-[:TRIGGERS {id: 'E0057', note: 'mcp sysmledgraph', recycle: 'persistent'}]->(:SKL {id: 'mcp-sysmledgraph'})
+CREATE (:TRG {id: 'TRG_mcp-sysmledgraph_1'})-[:TRIGGERS {id: 'E0058', note: 'mcp', recycle: 'persistent'}]->(:SKL {id: 'mcp-sysmledgraph'})
+CREATE (:TRG {id: 'TRG_md-to-tex_0'})-[:TRIGGERS {id: 'E0059', note: 'md to tex', recycle: 'persistent'}]->(:SKL {id: 'md-to-tex'})
+CREATE (:TRG {id: 'TRG_md-to-tex_1'})-[:TRIGGERS {id: 'E0060', note: 'md', recycle: 'persistent'}]->(:SKL {id: 'md-to-tex'})
+CREATE (:TRG {id: 'TRG_mdtohtml_0'})-[:TRIGGERS {id: 'E0061', note: 'mdtohtml', recycle: 'persistent'}]->(:SKL {id: 'mdtohtml'})
+CREATE (:TRG {id: 'TRG_mdtohtml_pad1'})-[:TRIGGERS {id: 'E0062', note: 'pad', recycle: 'persistent'}]->(:SKL {id: 'mdtohtml'})
+CREATE (:TRG {id: 'TRG_meeting-notes-generator_0'})-[:TRIGGERS {id: 'E0063', note: 'meeting notes generator', recycle: 'persistent'}]->(:SKL {id: 'meeting-notes-generator'})
+CREATE (:TRG {id: 'TRG_meeting-notes-generator_1'})-[:TRIGGERS {id: 'E0064', note: 'meeting', recycle: 'persistent'}]->(:SKL {id: 'meeting-notes-generator'})
+CREATE (:TRG {id: 'TRG_memnet-codebase-snap_0'})-[:TRIGGERS {id: 'E0065', note: 'memnet codebase snap', recycle: 'persistent'}]->(:SKL {id: 'memnet-codebase-snap'})
+CREATE (:TRG {id: 'TRG_memnet-codebase-snap_1'})-[:TRIGGERS {id: 'E0066', note: 'memnet', recycle: 'persistent'}]->(:SKL {id: 'memnet-codebase-snap'})
+CREATE (:TRG {id: 'TRG_memnet-format_0'})-[:TRIGGERS {id: 'E0067', note: 'memnet format', recycle: 'persistent'}]->(:SKL {id: 'memnet-format'})
+CREATE (:TRG {id: 'TRG_memnet-format_1'})-[:TRIGGERS {id: 'E0068', note: 'memnet', recycle: 'persistent'}]->(:SKL {id: 'memnet-format'})
+CREATE (:TRG {id: 'TRG_memnet-multitask_0'})-[:TRIGGERS {id: 'E0069', note: 'memnet multitask', recycle: 'persistent'}]->(:SKL {id: 'memnet-multitask'})
+CREATE (:TRG {id: 'TRG_memnet-multitask_1'})-[:TRIGGERS {id: 'E0070', note: 'memnet', recycle: 'persistent'}]->(:SKL {id: 'memnet-multitask'})
+CREATE (:TRG {id: 'TRG_mermaid_0'})-[:TRIGGERS {id: 'E0071', note: 'mermaid', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
+CREATE (:TRG {id: 'TRG_mermaid_pad1'})-[:TRIGGERS {id: 'E0072', note: 'pad', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
+CREATE (:TRG {id: 'TRG_mermaid-doc-readability_0'})-[:TRIGGERS {id: 'E0073', note: 'mermaid doc readability', recycle: 'persistent'}]->(:SKL {id: 'mermaid-doc-readability'})
+CREATE (:TRG {id: 'TRG_mermaid-doc-readability_1'})-[:TRIGGERS {id: 'E0074', note: 'mermaid', recycle: 'persistent'}]->(:SKL {id: 'mermaid-doc-readability'})
+CREATE (:TRG {id: 'TRG_mmdc_0'})-[:TRIGGERS {id: 'E0075', note: 'mmdc', recycle: 'persistent'}]->(:SKL {id: 'mmdc'})
+CREATE (:TRG {id: 'TRG_mmdc_pad1'})-[:TRIGGERS {id: 'E0076', note: 'pad', recycle: 'persistent'}]->(:SKL {id: 'mmdc'})
+CREATE (:TRG {id: 'TRG_optimization-planner_0'})-[:TRIGGERS {id: 'E0077', note: 'optimization planner', recycle: 'persistent'}]->(:SKL {id: 'optimization-planner'})
+CREATE (:TRG {id: 'TRG_optimization-planner_1'})-[:TRIGGERS {id: 'E0078', note: 'optimization', recycle: 'persistent'}]->(:SKL {id: 'optimization-planner'})
+CREATE (:TRG {id: 'TRG_pandas-expert_0'})-[:TRIGGERS {id: 'E0079', note: 'pandas expert', recycle: 'persistent'}]->(:SKL {id: 'pandas-expert'})
+CREATE (:TRG {id: 'TRG_pandas-expert_1'})-[:TRIGGERS {id: 'E0080', note: 'pandas', recycle: 'persistent'}]->(:SKL {id: 'pandas-expert'})
+CREATE (:TRG {id: 'TRG_pcba-design-reviewer_0'})-[:TRIGGERS {id: 'E0081', note: 'pcba design reviewer', recycle: 'persistent'}]->(:SKL {id: 'pcba-design-reviewer'})
+CREATE (:TRG {id: 'TRG_pcba-design-reviewer_1'})-[:TRIGGERS {id: 'E0082', note: 'pcba', recycle: 'persistent'}]->(:SKL {id: 'pcba-design-reviewer'})
+CREATE (:TRG {id: 'TRG_pcba-netlist-reader_0'})-[:TRIGGERS {id: 'E0083', note: 'pcba netlist reader', recycle: 'persistent'}]->(:SKL {id: 'pcba-netlist-reader'})
+CREATE (:TRG {id: 'TRG_pcba-netlist-reader_1'})-[:TRIGGERS {id: 'E0084', note: 'pcba', recycle: 'persistent'}]->(:SKL {id: 'pcba-netlist-reader'})
+CREATE (:TRG {id: 'TRG_polarfire-soc-setup_0'})-[:TRIGGERS {id: 'E0085', note: 'polarfire soc setup', recycle: 'persistent'}]->(:SKL {id: 'polarfire-soc-setup'})
+CREATE (:TRG {id: 'TRG_polarfire-soc-setup_1'})-[:TRIGGERS {id: 'E0086', note: 'polarfire', recycle: 'persistent'}]->(:SKL {id: 'polarfire-soc-setup'})
+CREATE (:TRG {id: 'TRG_pr-reviewer_0'})-[:TRIGGERS {id: 'E0087', note: 'pr reviewer', recycle: 'persistent'}]->(:SKL {id: 'pr-reviewer'})
+CREATE (:TRG {id: 'TRG_pr-reviewer_1'})-[:TRIGGERS {id: 'E0088', note: 'pr', recycle: 'persistent'}]->(:SKL {id: 'pr-reviewer'})
+CREATE (:TRG {id: 'TRG_pretty-mermaid_0'})-[:TRIGGERS {id: 'E0089', note: 'pretty mermaid', recycle: 'persistent'}]->(:SKL {id: 'pretty-mermaid'})
+CREATE (:TRG {id: 'TRG_pretty-mermaid_1'})-[:TRIGGERS {id: 'E0090', note: 'pretty', recycle: 'persistent'}]->(:SKL {id: 'pretty-mermaid'})
+CREATE (:TRG {id: 'TRG_project-output-article_0'})-[:TRIGGERS {id: 'E0091', note: 'project output article', recycle: 'persistent'}]->(:SKL {id: 'project-output-article'})
+CREATE (:TRG {id: 'TRG_project-output-article_1'})-[:TRIGGERS {id: 'E0092', note: 'project', recycle: 'persistent'}]->(:SKL {id: 'project-output-article'})
+CREATE (:TRG {id: 'TRG_project-planner_0'})-[:TRIGGERS {id: 'E0093', note: 'project planner', recycle: 'persistent'}]->(:SKL {id: 'project-planner'})
+CREATE (:TRG {id: 'TRG_project-planner_1'})-[:TRIGGERS {id: 'E0094', note: 'project', recycle: 'persistent'}]->(:SKL {id: 'project-planner'})
+CREATE (:TRG {id: 'TRG_prompt-writing-discipline_0'})-[:TRIGGERS {id: 'E0095', note: 'prompt writing discipline', recycle: 'persistent'}]->(:SKL {id: 'prompt-writing-discipline'})
+CREATE (:TRG {id: 'TRG_prompt-writing-discipline_1'})-[:TRIGGERS {id: 'E0096', note: 'prompt', recycle: 'persistent'}]->(:SKL {id: 'prompt-writing-discipline'})
+CREATE (:TRG {id: 'TRG_rfc-generator_0'})-[:TRIGGERS {id: 'E0097', note: 'rfc generator', recycle: 'persistent'}]->(:SKL {id: 'rfc-generator'})
+CREATE (:TRG {id: 'TRG_rfc-generator_1'})-[:TRIGGERS {id: 'E0098', note: 'rfc', recycle: 'persistent'}]->(:SKL {id: 'rfc-generator'})
+CREATE (:TRG {id: 'TRG_risk-assessor_0'})-[:TRIGGERS {id: 'E0099', note: 'risk assessor', recycle: 'persistent'}]->(:SKL {id: 'risk-assessor'})
+CREATE (:TRG {id: 'TRG_risk-assessor_1'})-[:TRIGGERS {id: 'E0100', note: 'risk', recycle: 'persistent'}]->(:SKL {id: 'risk-assessor'})
+CREATE (:TRG {id: 'TRG_rule-writer_0'})-[:TRIGGERS {id: 'E0101', note: 'rule writer', recycle: 'persistent'}]->(:SKL {id: 'rule-writer'})
+CREATE (:TRG {id: 'TRG_rule-writer_1'})-[:TRIGGERS {id: 'E0102', note: 'rule', recycle: 'persistent'}]->(:SKL {id: 'rule-writer'})
+CREATE (:TRG {id: 'TRG_scientific-method-first-principles_0'})-[:TRIGGERS {id: 'E0103', note: 'scientific method first principles', recycle: 'persistent'}]->(:SKL {id: 'scientific-method-first-principles'})
+CREATE (:TRG {id: 'TRG_scientific-method-first-principles_1'})-[:TRIGGERS {id: 'E0104', note: 'scientific', recycle: 'persistent'}]->(:SKL {id: 'scientific-method-first-principles'})
+CREATE (:TRG {id: 'TRG_security-reviewer_0'})-[:TRIGGERS {id: 'E0105', note: 'security reviewer', recycle: 'persistent'}]->(:SKL {id: 'security-reviewer'})
+CREATE (:TRG {id: 'TRG_security-reviewer_1'})-[:TRIGGERS {id: 'E0106', note: 'security', recycle: 'persistent'}]->(:SKL {id: 'security-reviewer'})
+CREATE (:TRG {id: 'TRG_skill-creator_0'})-[:TRIGGERS {id: 'E0107', note: 'skill creator', recycle: 'persistent'}]->(:SKL {id: 'skill-creator'})
+CREATE (:TRG {id: 'TRG_skill-creator_1'})-[:TRIGGERS {id: 'E0108', note: 'skill', recycle: 'persistent'}]->(:SKL {id: 'skill-creator'})
+CREATE (:TRG {id: 'TRG_skill-reviewer_0'})-[:TRIGGERS {id: 'E0109', note: 'skill reviewer', recycle: 'persistent'}]->(:SKL {id: 'skill-reviewer'})
+CREATE (:TRG {id: 'TRG_skill-reviewer_1'})-[:TRIGGERS {id: 'E0110', note: 'skill', recycle: 'persistent'}]->(:SKL {id: 'skill-reviewer'})
+CREATE (:TRG {id: 'TRG_skillfish_0'})-[:TRIGGERS {id: 'E0111', note: 'skillfish', recycle: 'persistent'}]->(:SKL {id: 'skillfish'})
+CREATE (:TRG {id: 'TRG_skillfish_pad1'})-[:TRIGGERS {id: 'E0112', note: 'pad', recycle: 'persistent'}]->(:SKL {id: 'skillfish'})
+CREATE (:TRG {id: 'TRG_sysml-allocate-generator_0'})-[:TRIGGERS {id: 'E0113', note: 'sysml allocate generator', recycle: 'persistent'}]->(:SKL {id: 'sysml-allocate-generator'})
+CREATE (:TRG {id: 'TRG_sysml-allocate-generator_1'})-[:TRIGGERS {id: 'E0114', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-allocate-generator'})
+CREATE (:TRG {id: 'TRG_sysml-behaviour-generator_0'})-[:TRIGGERS {id: 'E0115', note: 'sysml behaviour generator', recycle: 'persistent'}]->(:SKL {id: 'sysml-behaviour-generator'})
+CREATE (:TRG {id: 'TRG_sysml-behaviour-generator_1'})-[:TRIGGERS {id: 'E0116', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-behaviour-generator'})
+CREATE (:TRG {id: 'TRG_sysml-common-file-scale_0'})-[:TRIGGERS {id: 'E0117', note: 'sysml common file scale', recycle: 'persistent'}]->(:SKL {id: 'sysml-common-file-scale'})
+CREATE (:TRG {id: 'TRG_sysml-common-file-scale_1'})-[:TRIGGERS {id: 'E0118', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-common-file-scale'})
+CREATE (:TRG {id: 'TRG_sysml-common-lib-contribution_0'})-[:TRIGGERS {id: 'E0119', note: 'sysml common lib contribution', recycle: 'persistent'}]->(:SKL {id: 'sysml-common-lib-contribution'})
+CREATE (:TRG {id: 'TRG_sysml-common-lib-contribution_1'})-[:TRIGGERS {id: 'E0120', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-common-lib-contribution'})
+CREATE (:TRG {id: 'TRG_sysml-connections_0'})-[:TRIGGERS {id: 'E0121', note: 'sysml connections', recycle: 'persistent'}]->(:SKL {id: 'sysml-connections'})
+CREATE (:TRG {id: 'TRG_sysml-connections_1'})-[:TRIGGERS {id: 'E0122', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-connections'})
+CREATE (:TRG {id: 'TRG_sysml-eagle-netlist-parser-tool_0'})-[:TRIGGERS {id: 'E0123', note: 'sysml eagle netlist parser tool', recycle: 'persistent'}]->(:SKL {id: 'sysml-eagle-netlist-parser-tool'})
+CREATE (:TRG {id: 'TRG_sysml-eagle-netlist-parser-tool_1'})-[:TRIGGERS {id: 'E0124', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-eagle-netlist-parser-tool'})
+CREATE (:TRG {id: 'TRG_sysml-gql_0'})-[:TRIGGERS {id: 'E0125', note: 'sysml gql', recycle: 'persistent'}]->(:SKL {id: 'sysml-gql'})
+CREATE (:TRG {id: 'TRG_sysml-gql_1'})-[:TRIGGERS {id: 'E0126', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-gql'})
+CREATE (:TRG {id: 'TRG_sysml-hardware-part-generator_0'})-[:TRIGGERS {id: 'E0127', note: 'sysml hardware part generator', recycle: 'persistent'}]->(:SKL {id: 'sysml-hardware-part-generator'})
+CREATE (:TRG {id: 'TRG_sysml-hardware-part-generator_1'})-[:TRIGGERS {id: 'E0128', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-hardware-part-generator'})
+CREATE (:TRG {id: 'TRG_sysml-import-order-helper_0'})-[:TRIGGERS {id: 'E0129', note: 'sysml import order helper', recycle: 'persistent'}]->(:SKL {id: 'sysml-import-order-helper'})
+CREATE (:TRG {id: 'TRG_sysml-import-order-helper_1'})-[:TRIGGERS {id: 'E0130', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-import-order-helper'})
+CREATE (:TRG {id: 'TRG_sysml-interconnection-mermaid_0'})-[:TRIGGERS {id: 'E0131', note: 'sysml interconnection mermaid', recycle: 'persistent'}]->(:SKL {id: 'sysml-interconnection-mermaid'})
+CREATE (:TRG {id: 'TRG_sysml-interconnection-mermaid_1'})-[:TRIGGERS {id: 'E0132', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-interconnection-mermaid'})
+CREATE (:TRG {id: 'TRG_sysml-item-generator_0'})-[:TRIGGERS {id: 'E0133', note: 'sysml item generator', recycle: 'persistent'}]->(:SKL {id: 'sysml-item-generator'})
+CREATE (:TRG {id: 'TRG_sysml-item-generator_1'})-[:TRIGGERS {id: 'E0134', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-item-generator'})
+CREATE (:TRG {id: 'TRG_sysml-memnet-cache_0'})-[:TRIGGERS {id: 'E0135', note: 'sysml memnet cache', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-cache'})
+CREATE (:TRG {id: 'TRG_sysml-memnet-cache_1'})-[:TRIGGERS {id: 'E0136', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-cache'})
+CREATE (:TRG {id: 'TRG_sysml-memnet-documentation_0'})-[:TRIGGERS {id: 'E0137', note: 'sysml memnet documentation', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
+CREATE (:TRG {id: 'TRG_sysml-memnet-documentation_1'})-[:TRIGGERS {id: 'E0138', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
+CREATE (:TRG {id: 'TRG_sysml-modeling-session-checklist_0'})-[:TRIGGERS {id: 'E0139', note: 'sysml modeling session checklist', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-session-checklist'})
+CREATE (:TRG {id: 'TRG_sysml-modeling-session-checklist_1'})-[:TRIGGERS {id: 'E0140', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-session-checklist'})
+CREATE (:TRG {id: 'TRG_sysml-modeling-workflow_0'})-[:TRIGGERS {id: 'E0141', note: 'sysml modeling workflow', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
+CREATE (:TRG {id: 'TRG_sysml-modeling-workflow_1'})-[:TRIGGERS {id: 'E0142', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
+CREATE (:TRG {id: 'TRG_sysml-nested-structure-modeling_0'})-[:TRIGGERS {id: 'E0143', note: 'sysml nested structure modeling', recycle: 'persistent'}]->(:SKL {id: 'sysml-nested-structure-modeling'})
+CREATE (:TRG {id: 'TRG_sysml-nested-structure-modeling_1'})-[:TRIGGERS {id: 'E0144', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-nested-structure-modeling'})
+CREATE (:TRG {id: 'TRG_sysml-new-project_0'})-[:TRIGGERS {id: 'E0145', note: 'sysml new project', recycle: 'persistent'}]->(:SKL {id: 'sysml-new-project'})
+CREATE (:TRG {id: 'TRG_sysml-new-project_1'})-[:TRIGGERS {id: 'E0146', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-new-project'})
+CREATE (:TRG {id: 'TRG_sysml-part-reviewer_0'})-[:TRIGGERS {id: 'E0147', note: 'sysml part reviewer', recycle: 'persistent'}]->(:SKL {id: 'sysml-part-reviewer'})
+CREATE (:TRG {id: 'TRG_sysml-part-reviewer_1'})-[:TRIGGERS {id: 'E0148', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-part-reviewer'})
+CREATE (:TRG {id: 'TRG_sysml-pcba-de-facto-alignment_0'})-[:TRIGGERS {id: 'E0149', note: 'sysml pcba de facto alignment', recycle: 'persistent'}]->(:SKL {id: 'sysml-pcba-de-facto-alignment'})
+CREATE (:TRG {id: 'TRG_sysml-pcba-de-facto-alignment_1'})-[:TRIGGERS {id: 'E0150', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-pcba-de-facto-alignment'})
+CREATE (:TRG {id: 'TRG_sysml-physical-port-generator_0'})-[:TRIGGERS {id: 'E0151', note: 'sysml physical port generator', recycle: 'persistent'}]->(:SKL {id: 'sysml-physical-port-generator'})
+CREATE (:TRG {id: 'TRG_sysml-physical-port-generator_1'})-[:TRIGGERS {id: 'E0152', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-physical-port-generator'})
+CREATE (:TRG {id: 'TRG_sysml-refactorer_0'})-[:TRIGGERS {id: 'E0153', note: 'sysml refactorer', recycle: 'persistent'}]->(:SKL {id: 'sysml-refactorer'})
+CREATE (:TRG {id: 'TRG_sysml-refactorer_1'})-[:TRIGGERS {id: 'E0154', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-refactorer'})
+CREATE (:TRG {id: 'TRG_sysml-requirements-audit_0'})-[:TRIGGERS {id: 'E0155', note: 'sysml requirements audit', recycle: 'persistent'}]->(:SKL {id: 'sysml-requirements-audit'})
+CREATE (:TRG {id: 'TRG_sysml-requirements-audit_1'})-[:TRIGGERS {id: 'E0156', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-requirements-audit'})
+CREATE (:TRG {id: 'TRG_sysml-requirements-generator_0'})-[:TRIGGERS {id: 'E0157', note: 'sysml requirements generator', recycle: 'persistent'}]->(:SKL {id: 'sysml-requirements-generator'})
+CREATE (:TRG {id: 'TRG_sysml-requirements-generator_1'})-[:TRIGGERS {id: 'E0158', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-requirements-generator'})
+CREATE (:TRG {id: 'TRG_sysml-root-config_0'})-[:TRIGGERS {id: 'E0159', note: 'sysml root config', recycle: 'persistent'}]->(:SKL {id: 'sysml-root-config'})
+CREATE (:TRG {id: 'TRG_sysml-root-config_1'})-[:TRIGGERS {id: 'E0160', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-root-config'})
+CREATE (:TRG {id: 'TRG_sysml-signal-processing-pipeline_0'})-[:TRIGGERS {id: 'E0161', note: 'sysml signal processing pipeline', recycle: 'persistent'}]->(:SKL {id: 'sysml-signal-processing-pipeline'})
+CREATE (:TRG {id: 'TRG_sysml-signal-processing-pipeline_1'})-[:TRIGGERS {id: 'E0162', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-signal-processing-pipeline'})
+CREATE (:TRG {id: 'TRG_sysml-software-part-generator_0'})-[:TRIGGERS {id: 'E0163', note: 'sysml software part generator', recycle: 'persistent'}]->(:SKL {id: 'sysml-software-part-generator'})
+CREATE (:TRG {id: 'TRG_sysml-software-part-generator_1'})-[:TRIGGERS {id: 'E0164', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-software-part-generator'})
+CREATE (:TRG {id: 'TRG_sysml-software-port-generator_0'})-[:TRIGGERS {id: 'E0165', note: 'sysml software port generator', recycle: 'persistent'}]->(:SKL {id: 'sysml-software-port-generator'})
+CREATE (:TRG {id: 'TRG_sysml-software-port-generator_1'})-[:TRIGGERS {id: 'E0166', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-software-port-generator'})
+CREATE (:TRG {id: 'TRG_sysml-stakeholder-use-case_0'})-[:TRIGGERS {id: 'E0167', note: 'sysml stakeholder use case', recycle: 'persistent'}]->(:SKL {id: 'sysml-stakeholder-use-case'})
+CREATE (:TRG {id: 'TRG_sysml-stakeholder-use-case_1'})-[:TRIGGERS {id: 'E0168', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-stakeholder-use-case'})
+CREATE (:TRG {id: 'TRG_sysml-traceability_0'})-[:TRIGGERS {id: 'E0169', note: 'sysml traceability', recycle: 'persistent'}]->(:SKL {id: 'sysml-traceability'})
+CREATE (:TRG {id: 'TRG_sysml-traceability_1'})-[:TRIGGERS {id: 'E0170', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-traceability'})
+CREATE (:TRG {id: 'TRG_sysml-v2-release-how-to-use_0'})-[:TRIGGERS {id: 'E0171', note: 'sysml v2 release how to use', recycle: 'persistent'}]->(:SKL {id: 'sysml-v2-release-how-to-use'})
+CREATE (:TRG {id: 'TRG_sysml-v2-release-how-to-use_1'})-[:TRIGGERS {id: 'E0172', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-v2-release-how-to-use'})
+CREATE (:TRG {id: 'TRG_sysml-v2-syntax-reference_0'})-[:TRIGGERS {id: 'E0173', note: 'sysml v2 syntax reference', recycle: 'persistent'}]->(:SKL {id: 'sysml-v2-syntax-reference'})
+CREATE (:TRG {id: 'TRG_sysml-v2-syntax-reference_1'})-[:TRIGGERS {id: 'E0174', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-v2-syntax-reference'})
+CREATE (:TRG {id: 'TRG_sysml-view-doc-sync_0'})-[:TRIGGERS {id: 'E0175', note: 'sysml view doc sync', recycle: 'persistent'}]->(:SKL {id: 'sysml-view-doc-sync'})
+CREATE (:TRG {id: 'TRG_sysml-view-doc-sync_1'})-[:TRIGGERS {id: 'E0176', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-view-doc-sync'})
+CREATE (:TRG {id: 'TRG_system-design-report-generator_0'})-[:TRIGGERS {id: 'E0177', note: 'system design report generator', recycle: 'persistent'}]->(:SKL {id: 'system-design-report-generator'})
+CREATE (:TRG {id: 'TRG_system-design-report-generator_1'})-[:TRIGGERS {id: 'E0178', note: 'system', recycle: 'persistent'}]->(:SKL {id: 'system-design-report-generator'})
+CREATE (:TRG {id: 'TRG_system-nesting_0'})-[:TRIGGERS {id: 'E0179', note: 'system nesting', recycle: 'persistent'}]->(:SKL {id: 'system-nesting'})
+CREATE (:TRG {id: 'TRG_system-nesting_1'})-[:TRIGGERS {id: 'E0180', note: 'system', recycle: 'persistent'}]->(:SKL {id: 'system-nesting'})
+CREATE (:TRG {id: 'TRG_tech-report-generator_0'})-[:TRIGGERS {id: 'E0181', note: 'tech report generator', recycle: 'persistent'}]->(:SKL {id: 'tech-report-generator'})
+CREATE (:TRG {id: 'TRG_tech-report-generator_1'})-[:TRIGGERS {id: 'E0182', note: 'tech', recycle: 'persistent'}]->(:SKL {id: 'tech-report-generator'})
+CREATE (:TRG {id: 'TRG_tech-report-reviewer_0'})-[:TRIGGERS {id: 'E0183', note: 'tech report reviewer', recycle: 'persistent'}]->(:SKL {id: 'tech-report-reviewer'})
+CREATE (:TRG {id: 'TRG_tech-report-reviewer_1'})-[:TRIGGERS {id: 'E0184', note: 'tech', recycle: 'persistent'}]->(:SKL {id: 'tech-report-reviewer'})
+CREATE (:TRG {id: 'TRG_traceability-footprint-to-sysml_0'})-[:TRIGGERS {id: 'E0185', note: 'traceability footprint to sysml', recycle: 'persistent'}]->(:SKL {id: 'traceability-footprint-to-sysml'})
+CREATE (:TRG {id: 'TRG_traceability-footprint-to-sysml_1'})-[:TRIGGERS {id: 'E0186', note: 'traceability', recycle: 'persistent'}]->(:SKL {id: 'traceability-footprint-to-sysml'})
+CREATE (:TRG {id: 'TRG_vibe-repo-init_0'})-[:TRIGGERS {id: 'E0187', note: 'vibe repo init', recycle: 'persistent'}]->(:SKL {id: 'vibe-repo-init'})
+CREATE (:TRG {id: 'TRG_vibe-repo-init_1'})-[:TRIGGERS {id: 'E0188', note: 'vibe', recycle: 'persistent'}]->(:SKL {id: 'vibe-repo-init'})
+CREATE (:SKL {id: 'SKG_global'})-[:DEFAULT_STACK {id: 'E0189', note: 'domain hub', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
+CREATE (:SKL {id: 'SKG_global'})-[:DEFAULT_STACK {id: 'E0190', note: 'domain hub', recycle: 'persistent'}]->(:SKL {id: 'scientific-method-first-principles'})
+CREATE (:SKL {id: 'SKG_global'})-[:DEFAULT_STACK {id: 'E0191', note: 'domain hub', recycle: 'persistent'}]->(:SKL {id: 'skill-creator'})
+CREATE (:SKL {id: 'SKG_global'})-[:DEFAULT_STACK {id: 'E0192', note: 'domain hub', recycle: 'persistent'}]->(:SKL {id: 'pcba-design-reviewer'})
+CREATE (:SKL {id: 'SKG_global'})-[:DEFAULT_STACK {id: 'E0193', note: 'domain hub', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
+CREATE (:SKL {id: 'SKG_global'})-[:DEFAULT_STACK {id: 'E0194', note: 'domain hub', recycle: 'persistent'}]->(:SKL {id: 'mcp-sysml-v2'})
+CREATE (:SKL {id: 'SKG_global'})-[:DEFAULT_STACK {id: 'E0195', note: 'domain hub', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
+CREATE (:SKL {id: 'SKG_global'})-[:DEFAULT_STACK {id: 'E0196', note: 'domain hub', recycle: 'persistent'}]->(:SKL {id: 'tech-report-generator'})
+CREATE (:SKL {id: 'SKG_global'})-[:DEFAULT_STACK {id: 'E0197', note: 'domain hub', recycle: 'persistent'}]->(:SKL {id: 'mcdm-decider'})
+CREATE (:SKL {id: 'sysml-modeling-session-checklist'})-[:PRECEDES {id: 'E0198', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:PRECEDES {id: 'E0199', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
+CREATE (:SKL {id: 'sysml-memnet-documentation'})-[:PRECEDES {id: 'E0200', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'sysml-view-doc-sync'})
+CREATE (:SKL {id: 'sysml-memnet-documentation'})-[:PRECEDES {id: 'E0201', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
+CREATE (:SKL {id: 'sysml-new-project'})-[:PRECEDES {id: 'E0202', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
+CREATE (:SKL {id: 'decision-inverter'})-[:PRECEDES {id: 'E0203', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'risk-assessor'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:PRECEDES {id: 'E0204', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'empirical-paradox-synthesis'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:PRECEDES {id: 'E0205', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'tech-report-reviewer'})
+CREATE (:SKL {id: 'rfc-generator'})-[:PRECEDES {id: 'E0206', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'adr-generator'})
+CREATE (:SKL {id: 'decision-inverter'})-[:COMPLEMENTS {id: 'E0207', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'risk-assessor'})
+CREATE (:SKL {id: 'decision-inverter'})-[:COMPLEMENTS {id: 'E0208', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'launch-readiness-assessor'})
+CREATE (:SKL {id: 'mcdm-decider'})-[:COMPLEMENTS {id: 'E0209', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'optimization-planner'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:COMPLEMENTS {id: 'E0210', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'empirical-paradox-synthesis'})
+CREATE (:SKL {id: 'pcba-netlist-reader'})-[:COMPLEMENTS {id: 'E0211', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'pcba-design-reviewer'})
+CREATE (:SKL {id: 'code-reviewer'})-[:COMPLEMENTS {id: 'E0212', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'pr-reviewer'})
+CREATE (:SKL {id: 'sysml-refactorer'})-[:COMPLEMENTS {id: 'E0213', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
+CREATE (:SKL {id: 'skill-creator'})-[:COMPLEMENTS {id: 'E0214', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'skill-reviewer'})
+CREATE (:SKL {id: 'mermaid'})-[:COMPLEMENTS {id: 'E0215', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
+CREATE (:SKL {id: 'mermaid'})-[:COMPLEMENTS {id: 'E0216', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'sysml-view-doc-sync'})
+CREATE (:SKL {id: 'sysml-view-doc-sync'})-[:COMPLEMENTS {id: 'E0217', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
+CREATE (:SKL {id: 'sysml-view-doc-sync'})-[:REQUIRES {id: 'E0218', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
+CREATE (:SKL {id: 'sysml-refactorer'})-[:REQUIRES {id: 'E0219', note: 'manual', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0220', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'academic-report-generator'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0221', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'adr-generator'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0222', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'antlr4-grammar'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0223', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'api-client-pattern'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0224', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'architecture-reviewer'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0225', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'code-reviewer'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0226', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'commit-message-generator'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0227', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'control-theory-planner'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0228', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'decision-inverter'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0229', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'empirical-paradox-synthesis'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0230', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'engineering-practices-learner'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0231', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'file-operations'})
+CREATE (:SKL {id: 'pcba-design-reviewer'})-[:SPECIALIZES {id: 'E0232', note: 'pcba', recycle: 'persistent'}]->(:SKL {id: 'fusion-electronics-fetch'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0233', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'gql-path-patterns'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0234', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'graph-query-language'})
+CREATE (:SKL {id: 'pcba-design-reviewer'})-[:SPECIALIZES {id: 'E0235', note: 'pcba', recycle: 'persistent'}]->(:SKL {id: 'hardware-custom-pcba-workflow'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0236', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'incentive-alignment-reviewer'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0237', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'launch-readiness-assessor'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0238', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'markdown-preview-enhanced'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0239', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'markdown-viewer-user-pack'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0240', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'mcdm-decider'})
+CREATE (:SKL {id: 'skill-creator'})-[:SPECIALIZES {id: 'E0241', note: 'meta', recycle: 'persistent'}]->(:SKL {id: 'mcp-chrome-devtools'})
+CREATE (:SKL {id: 'skill-creator'})-[:SPECIALIZES {id: 'E0242', note: 'meta', recycle: 'persistent'}]->(:SKL {id: 'mcp-digikey'})
+CREATE (:SKL {id: 'skill-creator'})-[:SPECIALIZES {id: 'E0243', note: 'meta', recycle: 'persistent'}]->(:SKL {id: 'mcp-inventree'})
+CREATE (:SKL {id: 'skill-creator'})-[:SPECIALIZES {id: 'E0244', note: 'meta', recycle: 'persistent'}]->(:SKL {id: 'mcp-latex'})
+CREATE (:SKL {id: 'skill-creator'})-[:SPECIALIZES {id: 'E0245', note: 'meta', recycle: 'persistent'}]->(:SKL {id: 'mcp-markitdown'})
+CREATE (:SKL {id: 'skill-creator'})-[:SPECIALIZES {id: 'E0246', note: 'meta', recycle: 'persistent'}]->(:SKL {id: 'mcp-memnet'})
+CREATE (:SKL {id: 'mcp-sysml-v2'})-[:SPECIALIZES {id: 'E0247', note: 'sysml-tool', recycle: 'persistent'}]->(:SKL {id: 'mcp-sysmledgraph'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0248', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'md-to-tex'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0249', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'mdtohtml'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0250', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'meeting-notes-generator'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0251', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'memnet-codebase-snap'})
+CREATE (:SKL {id: 'skill-creator'})-[:SPECIALIZES {id: 'E0252', note: 'meta', recycle: 'persistent'}]->(:SKL {id: 'memnet-format'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0253', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'memnet-multitask'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0254', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0255', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'mermaid-doc-readability'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0256', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'mmdc'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0257', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'optimization-planner'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0258', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'pandas-expert'})
+CREATE (:SKL {id: 'pcba-design-reviewer'})-[:SPECIALIZES {id: 'E0259', note: 'pcba', recycle: 'persistent'}]->(:SKL {id: 'pcba-netlist-reader'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0260', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'polarfire-soc-setup'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0261', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'pr-reviewer'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0262', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'pretty-mermaid'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0263', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'project-output-article'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0264', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'project-planner'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0265', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'prompt-writing-discipline'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0266', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'rfc-generator'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0267', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'risk-assessor'})
+CREATE (:SKL {id: 'skill-creator'})-[:SPECIALIZES {id: 'E0268', note: 'meta', recycle: 'persistent'}]->(:SKL {id: 'rule-writer'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0269', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'security-reviewer'})
+CREATE (:SKL {id: 'skill-creator'})-[:SPECIALIZES {id: 'E0270', note: 'meta', recycle: 'persistent'}]->(:SKL {id: 'skill-reviewer'})
+CREATE (:SKL {id: 'skill-creator'})-[:SPECIALIZES {id: 'E0271', note: 'meta', recycle: 'persistent'}]->(:SKL {id: 'skillfish'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0272', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-allocate-generator'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0273', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-behaviour-generator'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0274', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-common-file-scale'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0275', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-common-lib-contribution'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0276', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-connections'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0277', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-eagle-netlist-parser-tool'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0278', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-gql'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0279', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-hardware-part-generator'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0280', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-import-order-helper'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0281', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-interconnection-mermaid'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0282', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-item-generator'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0283', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-cache'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0284', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0285', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-session-checklist'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0286', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-nested-structure-modeling'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0287', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-new-project'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0288', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-part-reviewer'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0289', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-pcba-de-facto-alignment'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0290', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-physical-port-generator'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0291', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-refactorer'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0292', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-requirements-audit'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0293', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-requirements-generator'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0294', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-root-config'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0295', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-signal-processing-pipeline'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0296', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-software-part-generator'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0297', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-software-port-generator'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0298', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-stakeholder-use-case'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0299', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-traceability'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0300', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-v2-release-how-to-use'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0301', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-v2-syntax-reference'})
+CREATE (:SKL {id: 'sysml-modeling-workflow'})-[:SPECIALIZES {id: 'E0302', note: 'sysml', recycle: 'persistent'}]->(:SKL {id: 'sysml-view-doc-sync'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0303', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'system-design-report-generator'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0304', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'system-nesting'})
+CREATE (:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E0305', note: 'doc', recycle: 'persistent'}]->(:SKL {id: 'tech-report-reviewer'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0306', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'traceability-footprint-to-sysml'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0307', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'vibe-repo-init'})

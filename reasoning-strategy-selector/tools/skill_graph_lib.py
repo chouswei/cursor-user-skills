@@ -34,6 +34,29 @@ EDGE_WEIGHTS = {
     "requires": 0.6,
 }
 
+# Engine ranks on lowercase relation names; seed file emits UPPER GQL types.
+REL_TO_GQL = {
+    "triggers": "TRIGGERS",
+    "precedes": "PRECEDES",
+    "default_stack": "DEFAULT_STACK",
+    "complements": "COMPLEMENTS",
+    "specializes": "SPECIALIZES",
+    "requires": "REQUIRES",
+    "conflicts_with": "CONFLICTS_WITH",
+    "led_to_success": "LED_TO_SUCCESS",
+    "shares_domain": "SHARES_DOMAIN",
+}
+GQL_TO_REL = {v: k for k, v in REL_TO_GQL.items()}
+
+_GQL_PROP_RE = re.compile(r"(\w+)\s*:\s*'((?:\\'|[^'])*)'")
+_GQL_NODE_RE = re.compile(r"^CREATE\s+\(:(\w+)\s*\{(.*)\}\s*\)\s*$", re.I)
+_GQL_EDGE_RE = re.compile(
+    r"^CREATE\s+\(:(\w+)\s*\{id:\s*'((?:\\'|[^'])*)'\}\s*\)"
+    r"-\[:(\w+)\s*\{(.*)\}\]->"
+    r"\(:(\w+)\s*\{id:\s*'((?:\\'|[^'])*)'\}\s*\)\s*$",
+    re.I,
+)
+
 FEATURE_MAP: Dict[str, Tuple[str, str, str, str, str, str]] = {
     "scientific-method-first-principles": ("P", "user", "high", "high", "measured", "medium"),
     "empirical-paradox-synthesis": ("P", "user", "high", "high", "measured", "high"),
@@ -391,29 +414,104 @@ def build_seed_wire(discovered: Dict[str, Tuple[SkillNode, List[str]]]) -> Skill
     return g
 
 
+def _gql_esc(value: str) -> str:
+    return value.replace("\\", "\\\\").replace("'", "\\'")
+
+
+def _gql_unesc(value: str) -> str:
+    return value.replace("\\'", "'").replace("\\\\", "\\")
+
+
+def _gql_props(body: str) -> Dict[str, str]:
+    return {k: _gql_unesc(v) for k, v in _GQL_PROP_RE.findall(body)}
+
+
+def _gql_src_label(relation: str) -> str:
+    if relation == "triggers":
+        return "TRG"
+    if relation == "led_to_success":
+        return "TSK"
+    return "SKL"
+
+
 def graph_to_wire_lines(g: SkillGraph) -> List[str]:
     out = [
-        "# skill-graph-seed.wire — single source (D2). Regenerate via scan_skills_to_wire.py",
-        f"@SKG: SKG_global|{g.version}|user_pack|persistent",
+        "# skill-graph-seed.wire -- single source (D2). GQL CREATE present (memnet-llm 0.9).",
+        "# Ranker uses lowercase relation names; this file emits UPPER GQL types.",
+        "# Regenerate: python tools/scan_skills_to_wire.py --write",
+        (
+            "CREATE (:SKG {id: 'SKG_global', version: '"
+            + _gql_esc(g.version)
+            + "', pack: 'user_pack', recycle: 'persistent'})"
+        ),
     ]
     for sid in sorted(g.skills):
         n = g.skills[sid]
         out.append(
-            f"@SKL: {n.id}|{n.pack}|{n.pattern}|{n.dir}|{n.domain}|{n.cx}|{n.stakes}|{n.ev}|{n.tension}|{n.path}|{n.recycle}"
+            "CREATE (:SKL {id: '"
+            + _gql_esc(n.id)
+            + "', pack: '"
+            + _gql_esc(n.pack)
+            + "', pattern: '"
+            + _gql_esc(n.pattern)
+            + "', dir: '"
+            + _gql_esc(n.dir)
+            + "', domain: '"
+            + _gql_esc(n.domain)
+            + "', cx: '"
+            + _gql_esc(n.cx)
+            + "', stakes: '"
+            + _gql_esc(n.stakes)
+            + "', ev: '"
+            + _gql_esc(n.ev)
+            + "', tension: '"
+            + _gql_esc(n.tension)
+            + "', path: '"
+            + _gql_esc(n.path)
+            + "', recycle: '"
+            + _gql_esc(n.recycle)
+            + "'})"
         )
     for tid in sorted(g.triggers):
         t = g.triggers[tid]
-        out.append(f"@TRG: {t.id}|{t.phrase}|{t.recycle}")
+        out.append(
+            "CREATE (:TRG {id: '"
+            + _gql_esc(t.id)
+            + "', phrase: '"
+            + _gql_esc(t.phrase)
+            + "', recycle: '"
+            + _gql_esc(t.recycle)
+            + "'})"
+        )
     for e in g.edges:
-        out.append(f"@EDG: {e.id}|{e.src}|{e.relation}|{e.dst}|{e.note}|{e.recycle}")
+        rel = REL_TO_GQL.get(e.relation, e.relation.upper())
+        src_l = _gql_src_label(e.relation)
+        dst_l = "SKL"
+        out.append(
+            "CREATE (:"
+            + src_l
+            + " {id: '"
+            + _gql_esc(e.src)
+            + "'})-[:"
+            + rel
+            + " {id: '"
+            + _gql_esc(e.id)
+            + "', note: '"
+            + _gql_esc(e.note)
+            + "', recycle: '"
+            + _gql_esc(e.recycle)
+            + "'}]->(:"
+            + dst_l
+            + " {id: '"
+            + _gql_esc(e.dst)
+            + "'})"
+        )
     return out
 
 
-def parse_wire_file(path: Path) -> SkillGraph:
+def _parse_pipe_wire_text(text: str) -> SkillGraph:
     g = SkillGraph()
-    if not path.is_file():
-        return g
-    for raw in path.read_text(encoding="utf-8").splitlines():
+    for raw in text.splitlines():
         line = raw.strip()
         if not line or line.startswith("#"):
             continue
@@ -438,6 +536,81 @@ def parse_wire_file(path: Path) -> SkillGraph:
                     g.trigger_to_skill[e.src] = e.dst
     g.rebuild_adjacency()
     return g
+
+
+def _parse_gql_wire_text(text: str) -> SkillGraph:
+    g = SkillGraph()
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        em = _GQL_EDGE_RE.match(line)
+        if em:
+            rel_raw = em.group(3)
+            rel = GQL_TO_REL.get(rel_raw.upper(), rel_raw.lower())
+            props = _gql_props(em.group(4))
+            src = _gql_unesc(em.group(2))
+            dst = _gql_unesc(em.group(6))
+            e = Edge(
+                props.get("id", ""),
+                src,
+                rel,
+                dst,
+                props.get("note", ""),
+                props.get("recycle", "persistent"),
+            )
+            g.edges.append(e)
+            if e.relation == "triggers":
+                g.trigger_to_skill[e.src] = e.dst
+            continue
+        nm = _GQL_NODE_RE.match(line)
+        if not nm:
+            continue
+        label = nm.group(1).upper()
+        props = _gql_props(nm.group(2))
+        if label == "SKG":
+            g.version = props.get("version", g.version)
+        elif label == "SKL":
+            sid = props.get("id", "")
+            if sid:
+                g.skills[sid] = SkillNode(
+                    sid,
+                    props.get("pack", ""),
+                    props.get("pattern", ""),
+                    props.get("dir", ""),
+                    props.get("domain", ""),
+                    props.get("cx", ""),
+                    props.get("stakes", ""),
+                    props.get("ev", ""),
+                    props.get("tension", ""),
+                    props.get("path", ""),
+                    props.get("recycle", "persistent"),
+                )
+        elif label == "TRG":
+            tid = props.get("id", "")
+            if tid:
+                g.triggers[tid] = TriggerNode(
+                    tid,
+                    props.get("phrase", ""),
+                    props.get("recycle", "persistent"),
+                )
+    g.rebuild_adjacency()
+    return g
+
+
+def parse_wire_file(path: Path) -> SkillGraph:
+    if not path.is_file():
+        return SkillGraph()
+    text = path.read_text(encoding="utf-8")
+    payload = ""
+    for raw in text.splitlines():
+        line = raw.strip()
+        if line and not line.startswith("#"):
+            payload = line
+            break
+    if payload.startswith("@"):
+        return _parse_pipe_wire_text(text)
+    return _parse_gql_wire_text(text)
 
 
 def extract_query_features(intent: str) -> dict:

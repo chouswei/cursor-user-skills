@@ -31,7 +31,7 @@ def regenerate_core_strategy_principles(g) -> str:
 
 **Source:** [`skill-graph-seed.wire`](skill-graph-seed.wire). Regenerate: `python tools/bootstrap_skill_graph.py --regenerate-views`.
 
-**Purpose:** Human audit view of `@SKL` node metadata from the skill graph. **Not used for routing.**
+**Purpose:** Human audit view of SKL node metadata from the skill graph. **Not used for routing.**
 
 | Skill | Direction | Domain | Complexity | Stakes | Evidence | Tension |
 |-------|-----------|--------|------------|--------|----------|---------|
@@ -73,7 +73,8 @@ def patch_skill_graph_md(trigger_rows: str) -> None:
     if not skill_graph_path.is_file():
         print(f"WARN: {skill_graph_path} not found", file=sys.stderr)
         return
-    if "canonical_graph|skill-graph-seed.wire" not in skill_graph_path.read_text(encoding="utf-8"):
+    hub = skill_graph_path.read_text(encoding="utf-8")
+    if "CANONICAL_GRAPH" not in hub or "skill-graph-seed.wire" not in hub:
         print(
             "WARN: SKILL-GRAPH.md is not wire-hub format; skip trigger table patch",
             file=sys.stderr,
@@ -114,7 +115,7 @@ def main() -> None:
             if line.startswith("#"):
                 continue
             print(line)
-        print("# Paste above @ rows into memnet.add with allow_new_relation=true", file=sys.stderr)
+        print("# Paste above CREATE rows into memnet.add with allow_new_relation=true", file=sys.stderr)
         print("# MERGE only — do not delete existing led_to_success edges", file=sys.stderr)
 
     if args.dry_run:

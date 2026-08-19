@@ -2,7 +2,7 @@
 
 **Audience:** model. Agent I/O is MemNet **GQL wire** (shaped `pin_map` + openCypher-shaped mutate). Wire SSOT: [memnet-format](memnet-format/SKILL.md). **Do not** treat this file as the graph -- it routes you to the graph.
 
-**Engine seed only:** [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) is machine input for selector/bootstrap tools (may still be compact store form). Skills and docs teach **GQL / shaped pin_map**; do **not** copy seed pipe / `KIND [id] ; k=v` syntax into agent I/O.
+**Engine seed:** [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) is GQL `CREATE` present for selector/bootstrap tools. Skills and docs teach the same **GQL / shaped pin_map**; do **not** emit pipe `@SKL:` / `KIND [id] ; k=v` as agent I/O.
 
 Product **memnet-llm 0.9.0** (PyPI still 0.4.6). Cue then `pin_map`; `find` if ego unknown.
 

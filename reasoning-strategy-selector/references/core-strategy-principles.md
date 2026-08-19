@@ -4,7 +4,7 @@
 
 **Source:** [`skill-graph-seed.wire`](skill-graph-seed.wire). Regenerate: `python tools/bootstrap_skill_graph.py --regenerate-views`.
 
-**Purpose:** Human audit view of `@SKL` node metadata from the skill graph. **Not used for routing.**
+**Purpose:** Human audit view of SKL node metadata from the skill graph. **Not used for routing.**
 
 | Skill | Direction | Domain | Complexity | Stakes | Evidence | Tension |
 |-------|-----------|--------|------------|--------|----------|---------|
