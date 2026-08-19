@@ -1,6 +1,6 @@
 # MCP tools <-> MemNet GQL wire
 
-**Audience:** model. Package SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py` (13 tools). Wire shapes: [memnet-format](../../memnet-format/SKILL.md); general GQL: [graph-query-language](../../graph-query-language/SKILL.md).
+**Audience:** model. Package SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py` (0.9 tool set). Wire shapes: [memnet-format](../../memnet-format/SKILL.md); general GQL: [graph-query-language](../../graph-query-language/SKILL.md). Product **`memnet-llm` 0.9.0**.
 
 MCP does **not** replace the grammar. Tools open a session and move **GQL / openCypher-shaped text** (or engine-rendered shaped subgraph) through a JSON envelope.
 
@@ -23,16 +23,21 @@ MCP does **not** replace the grammar. Tools open a session and move **GQL / open
 | `session_current` | Session id / TTL | Lifecycle | None |
 | `session_save` | Write snapshot file | Snapshot | None (file holds graph) |
 | `session_load` | Restore snapshot | Snapshot | None |
-| `pin_map` | **Live shaped subgraph** | Primary **read** | `stdout`: neighbourhood; optional tool arg `view` |
-| `query_warm` | Deprecated alias for `pin_map` | Same as `pin_map` | Same (incl. `view`) |
+| `pin_map` | **Live shaped subgraph** | Primary **read** | `stdout`: neighbourhood; optional `view`, `anchors` |
+| `query_warm` | Deprecated alias for `pin_map` | Same as `pin_map` | Same (incl. `view` / `anchors`) |
+| `find` | Bounded seed lookup | Cue when ego unknown | Required `limit`; then pin_map. Not RAG. |
 | `query_walk` | Hop listing | Debug read | Walk lines — not the pin-map agent loop |
-| `add` | Create atoms | Mutate **create** | `wire_lines`: CREATE / NEW mint |
+| `add` | Create atoms | Mutate **create** | `wire_lines`: CREATE / NEW mint; `llm_id` under RSV |
 | `update` | Replace / drop | Mutate **patch/drop** | `wire_lines`: MATCH/SET/DELETE on known ids |
+| `ingest_sysml` / `ingest_codebase` / `ingest_pcba` / `ingest_skills` | Path-B artefact ingest | **Shipped** | Locator ids; no client NEW |
+| `import_slice` | Session-slice absorb | Path-B import | Optional CheapLlmImportGuard |
+| `reserve` / `extend` / `release` | Neighbourhood RSV | **Shipped** | `llm_id` + TTL; pin_map may show `:RSV` |
+| `session_acl_grant` / `session_acl_bind` / `session_acl_enable` | CapsPolicy ACL | Opt-in | Full ACL modes still design |
 | `read_get` | One row by id | Lookup | One rendered row |
 | `read_list` | Enumerate by label / where | Lookup | Many rows |
 | `housekeep_stats` | Counts vs caps | Housekeeping | Stats text / envelope |
 
-**Design (not yet shipped):** `reserve` / `extend` / `release` — session control plane; pin_map may show `:RSV` present forms. See MemNet `docs/grammar/memnet-neighbourhood-reserve.md`.
+**Still design:** full session ACL modes / roles / `session_token`. RSV + Path-B ingest are **shipped**. See MemNet `docs/grammar/memnet-neighbourhood-reserve.md`.
 
 ## Shapes agents must recognise
 
@@ -58,6 +63,6 @@ MCP does **not** replace the grammar. Tools open a session and move **GQL / open
 
 ## Config note (user pack)
 
-This pack registers **`memnet`** in `~/.cursor/mcp.json` as a **stdio client** with `MEMNET_MCP_TRANSPORT=tcp` -> **`10.0.0.10:18765`**. Do not also enable a second MemNet MCP in a project mcp.json (doubles the tool list). Engine version = remote serve, not the local stdio wrapper.
+This pack's **Cursor** entry is HTTP **`memnet-pi`** -> `http://10.0.0.10:18766/mcp`. Do not also enable a stdio `memnet` server in the same mcp.json (doubles the tool list). Engine version = Pi serve / HTTP MCP process, not a local wrapper.
 
 Cross-ref: [tool-parameters.md](tool-parameters.md) · [mcp-policy.md](mcp-policy.md) · MemNet `docs/grammar/`

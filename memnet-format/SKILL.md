@@ -6,9 +6,9 @@ description: >-
   openCypher mutate, view budget, bind vs relation.
 metadata:
   pattern: tool-wrapper
-  version: "4.1"
+  version: "4.2"
   domain: data-formats,memnet
-  product: memnet-llm
+  product: memnet-llm==0.9.0
 token_guardrails: |
   - General GQL / paths: use graph-query-language and gql-path-patterns; keep this skill MemNet-specific.
   - Prefer pin_map with a tight anchor + view/max_rows budget; do not dump the whole graph.
@@ -20,11 +20,11 @@ token_guardrails: |
 
 **Audience:** model. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) for tools.
 
-**GQL wire only.** Agents read a bounded **shaped subgraph** from `pin_map` and write with **openCypher-shaped** mutate statements carried in the MCP envelope (`wire_lines` / parse `stdout`). Do **not** use TOON/TRON. Prefer GQL/shaped MemNet rows or plain Markdown for handoffs. Do **not** teach pipe `@TAG:…` as agent I/O (legacy store/import only).
+**GQL wire only.** ISO/IEC 39075 elements: **node** (vertex), **edge** (relationship), **property**. Labels name kinds; ports / law / `id` / locators are property values. Agents read a bounded **shaped subgraph** from `pin_map` and write with **openCypher-shaped** mutate in the MCP envelope (`wire_lines` / parse `stdout`). Do **not** use TOON/TRON. Prefer GQL/shaped MemNet rows or plain Markdown for handoffs. Do **not** teach pipe `@TAG:…` as agent I/O (legacy store/import only). Do **not** teach Layer / Tier A.
 
 General GQL / path patterns: [graph-query-language](../graph-query-language/SKILL.md), [gql-path-patterns](../gql-path-patterns/SKILL.md). This skill keeps **MemNet-specific** conventions only.
 
-Product notes: MemNet `README.md`, `docs/grammar/`. Field notes: [references/memnet-wire-format.md](references/memnet-wire-format.md).
+Product notes: MemNet `README.md`, `docs/grammar/`, `docs/SHAPE.md`. Package **0.9.0** (PyPI still 0.4.6). Field notes: [references/memnet-wire-format.md](references/memnet-wire-format.md).
 
 ---
 
@@ -34,13 +34,16 @@ MCP `pin_map` / CLI `query pin-map` returns a **shaped subgraph** (nodes + relat
 
 | Control | Use |
 |---------|-----|
-| `anchor` | Required ego id (`TSK_*`, `SYM_*`, `PRT_*`, …) |
+| `anchor` | Ego id (`TSK_*`, `SYM_*`, `PRT_*`, …) — required unless `anchors` is set |
+| `anchors` | Optional extra egos (0.5); one `max_rows`, one LAW prepend — prefer one live `TSK` |
 | `depth` / `max_rows` | Bound fan-out; raise depth only when the slice is too thin |
 | `view` | Optional budget: `shell` (tight) or `interior` (richer); omit for depth/max_rows only |
 
 (`query_warm` is a deprecated alias for `pin_map`.)
 
-Agent loop: `pin_map` -> reason -> mutate -> `pin_map`.
+**Cue then pin_map:** if the ego is unknown, MCP `find` / CLI `query find` (`limit` required) returns seed nodes only — copy an id, then `pin_map`. Do not treat `find` as goldfish read. Do not dump `MATCH … RETURN`.
+
+Agent loop: cue -> `pin_map` -> reason -> mutate -> `pin_map`.
 
 ---
 
@@ -99,7 +102,7 @@ Copy exact type spellings from the live pin_map. Do not invent a second spelling
 
 **`rel` style (engine):** English verb / snake or upper type token per MemNet `docs/grammar/` and the live pin_map.
 
-User-pack engine: TCP serve **`10.0.0.10:18765`** — see [mcp-memnet](../mcp-memnet/SKILL.md).
+User-pack engine: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:18765`** — see [mcp-memnet](../mcp-memnet/SKILL.md). Optional Neo4j extra is not live-claimed.
 
 ---
 
@@ -148,7 +151,7 @@ Full discipline: [mcp-memnet/references/atomisation.md](../mcp-memnet/references
 
 ## Pre-write checklist
 
-- [ ] pin_map on a tight anchor (view / max_rows budgeted)
+- [ ] pin_map on a tight anchor (view / max_rows budgeted); `find` first if ego unknown
 - [ ] Values short and structured
 - [ ] Relations are relationships (BIND for port-port)
 - [ ] Recycle matches lifetime

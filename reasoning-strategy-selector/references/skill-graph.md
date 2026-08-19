@@ -9,7 +9,7 @@
 | D1 | Selector lives **only** in user-pack (`~/.cursor/skills/reasoning-strategy-selector/`). Repo copy is a thin pointer. |
 | D2 | `skill-graph-seed.wire` is **single source**. `SKILL-GRAPH.md` is a **hub** (routing rules + GQL wire pointers). `core-strategy-principles.md` is a **generated audit view** (`bootstrap --regenerate-views`). |
 | D3 | **Graph-only routing.** No 6D convolution fallback. MemNet down -> parse seed wire locally. |
-| D4 | **Phase 4 active:** parent agent writes `led_to_success` on settle; selector reads +0.6 boost per edge. |
+| D4 | **Phase 4 active:** parent agent writes `LED_TO_SUCCESS` on settle; selector reads +0.6 boost per edge. |
 
 ## Prior art
 
@@ -30,24 +30,23 @@
 - **pattern / dir:** G | R | P | T
 - **domain:** user | sysml | sysml-tool | pcba | doc | meta | coding
 
-Agent-facing edge shape:
+Agent-facing edge shape (GQL present; not seed pipe):
 
-```text
-## Edges
-E01 [from] --(relation)--> [to] ; note=... ; recycle=persistent
+```cypher
+(:TRG {id: 'trg-id'})-[:TRIGGERS {id: 'E01', note: '...', recycle: 'persistent'}]->(:SKL {id: 'skill-id'})
 ```
 
 | Relation | Meaning |
 |----------|---------|
-| `triggers` | TRG -> SKL |
-| `precedes` | Ordered workflow step |
-| `default_stack` | Hub -> mandatory entry skill |
-| `complements` | Often paired in one turn |
-| `specializes` | Narrower under broader / domain member |
-| `requires` | Hard prerequisite |
-| `shares_domain` | Weak same-domain signal |
-| `conflicts_with` | Mutually exclusive (rare) |
-| `led_to_success` | Phase 4 empirical edge |
+| `TRIGGERS` | TRG -> SKL |
+| `PRECEDES` | Ordered workflow step |
+| `DEFAULT_STACK` | Hub -> mandatory entry skill |
+| `COMPLEMENTS` | Often paired in one turn |
+| `SPECIALIZES` | Narrower under broader / domain member |
+| `REQUIRES` | Hard prerequisite |
+| `SHARES_DOMAIN` | Weak same-domain signal |
+| `CONFLICTS_WITH` | Mutually exclusive (rare) |
+| `LED_TO_SUCCESS` | Phase 4 empirical edge |
 
 **Engine seed:** `skill-graph-seed.wire` may still use compact pipe rows for tooling; do not copy that syntax into agent mutate I/O.
 
@@ -55,8 +54,8 @@ E01 [from] --(relation)--> [to] ; note=... ; recycle=persistent
 
 Every SKL before seed acceptance:
 
-- >= **2** TRG rows (via `triggers` edges)
-- >= **1** of: `precedes`, `complements`, `default_stack`, `specializes`, `requires`
+- >= **2** TRG rows (via `TRIGGERS` edges)
+- >= **1** of: `PRECEDES`, `COMPLEMENTS`, `DEFAULT_STACK`, `SPECIALIZES`, `REQUIRES`
 
 ## Maintenance
 

@@ -11,7 +11,7 @@ description: >-
   functions and call structure". Primary example: weftTree Pico 2 + SIM7600 + IIS2ICLX.
 metadata:
   pattern: pipeline
-  version: "0.4"
+  version: "0.5"
   domain: memnet,codebase
 token_guardrails: |
   - Verify on disk (Grep/Read) before mutate; never invent paths, symbols, or call edges.
@@ -38,7 +38,7 @@ This gives fast, low-token navigation ("where is this fn/variable defined?", "wh
 2. Ensure the MemNet MCP is usable: `serve_status`; start `memnet serve` only if using TCP.
 3. Read the tool schema for every MemNet tool before first `CallMcpTool` in a session.
 4. Read once per significant snap session: `mcp-memnet` (coding-memory, atomisation) and `memnet-format`.
-5. Open (or reuse) a session via `session_open`.
+5. Open (or reuse) a session via `session_open`. For a bulk first pass, `ingest_codebase` (shipped Path-B) then `pin_map` — still **verify on disk** before trusting call/use edges.
 6. Never invent ids -- copy from prior pin_map or the first `add` response.
 
 ## Core labels (coding memory)

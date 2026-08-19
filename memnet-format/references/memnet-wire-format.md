@@ -18,7 +18,7 @@ Patch nodes by id only — do not invent a second id for the same ground atom. R
 
 ## Pin_map (shaped subgraph)
 
-Primary read returns a bounded neighbourhood (laws + nodes + relationships). Copy shapes into the next mutate; prefer `$param` binds for known ids.
+Primary read returns a bounded neighbourhood (laws + nodes + relationships). Copy shapes into the next mutate; prefer `$param` binds for known ids. Optional `view=shell|interior`. Multi-ego: `anchors` (one budget). No ego: `find` (`limit` required) then pin_map a copied id — `find` is not goldfish read.
 
 Session schema (`session_open` map — not graph rows):
 

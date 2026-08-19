@@ -12,29 +12,31 @@ Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>
 
 **Preferred format** (shaped present -- as on a pin_map):
 
-```text
-## Nodes
-RUL [R01] ; kind=MUSTNOT ; code=load every skill; one user request -> <=1 specialist active ; priority=high ; recycle=persistent
-RUL [R02] ; kind=MUSTNOT ; code=treat "list every skill" as a workflow ; priority=high ; recycle=persistent
-RUL [R03] ; kind=MUST ; code=if selector order=[] -> answer without opening another SKILL.md ; priority=high ; recycle=persistent
-RUL [R04] ; kind=MUST ; code=model-choice / Task model -> user rule sub-agent-policy Model by role table (not reasoning-strategy-selector) ; priority=high ; recycle=persistent
-RUL [R05] ; kind=MUST ; code=model above $6/1M tokens requires explicit user approval ; priority=high ; recycle=persistent
-RUL [R06] ; kind=SHOULD ; code=obvious single-skill task -> apply that skill directly ; priority=med ; recycle=persistent
-RUL [R07] ; kind=SHOULD ; code=general reasoning/planning, no domain -> user-domain skills ; priority=med ; recycle=persistent
-RUL [R08] ; kind=SHOULD ; code=multi-step/broad task -> sub-agent; same routing inside; see user rule sub-agent-policy ; priority=med ; recycle=persistent
-RUL [R09] ; kind=MUST ; code=no summary/review docs unless user asks ; priority=med ; recycle=persistent
-RUL [R10] ; kind=MUST ; code=skill-creator only when user wants to create/scaffold a skill ; priority=med ; recycle=persistent
-RUL [R11] ; kind=MUST ; code=bump metadata.version before pushing a user-pack skill to GitHub ; priority=med ; recycle=persistent
-RUL [R12] ; kind=MUST ; code=obey active skill token_guardrails; prefer tools/* over dumping references/* ; priority=high ; recycle=persistent
-RUL [R13] ; kind=MUST ; code=pipeline handoffs: MemNet up -> GQL wire (shaped pin_map + openCypher mutate); MemNet down -> plain Markdown; tool boundary -> JSON ; priority=high ; recycle=persistent
-RUL [R14] ; kind=SHOULD ; code=large uniform tabular data in answers -> Markdown table over JSON when clearer ; priority=med ; recycle=persistent
-RUL [R15] ; kind=MUSTNOT ; code=invent skill-ids absent from skill-graph-seed.wire / SKILL-GRAPH.md ; priority=high ; recycle=persistent
-RUL [R16] ; kind=MUST ; code=ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes) ; priority=high ; recycle=persistent
-RUL [R17] ; kind=MUST ; code=Task models per user rule sub-agent-policy: thinking/unclear->cursor-grok-4.5-low (never FAST); web->gemini-3-flash; visual items review->kimi-k3-max; MemNet snapshot->gpt-5.6-luna-medium; routines with clear steps/guide->composer-2.5; never *-fast ; priority=high ; recycle=persistent
+```cypher
+(:RUL {id: 'R01', kind: 'MUSTNOT', code: 'load every skill; one user request -> <=1 specialist active', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R02', kind: 'MUSTNOT', code: 'treat "list every skill" as a workflow', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R03', kind: 'MUST', code: 'if selector order=[] -> answer without opening another SKILL.md', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R04', kind: 'MUST', code: 'model-choice / Task model -> user rule sub-agent-policy Model by role table (not reasoning-strategy-selector)', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R05', kind: 'MUST', code: 'model above $6/1M tokens requires explicit user approval', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R06', kind: 'SHOULD', code: 'obvious single-skill task -> apply that skill directly', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'R07', kind: 'SHOULD', code: 'general reasoning/planning, no domain -> user-domain skills', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'R08', kind: 'SHOULD', code: 'multi-step/broad task -> sub-agent; same routing inside; see user rule sub-agent-policy', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'R09', kind: 'MUST', code: 'no summary/review docs unless user asks', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'R10', kind: 'MUST', code: 'skill-creator only when user wants to create/scaffold a skill', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'R11', kind: 'MUST', code: 'bump metadata.version before pushing a user-pack skill to GitHub', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'R12', kind: 'MUST', code: 'obey active skill token_guardrails; prefer tools/* over dumping references/*', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R13', kind: 'MUST', code: 'pipeline handoffs: MemNet up -> GQL wire (shaped pin_map + openCypher mutate); MemNet down -> plain Markdown; tool boundary -> JSON', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R14', kind: 'SHOULD', code: 'large uniform tabular data in answers -> Markdown table over JSON when clearer', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'R15', kind: 'MUSTNOT', code: 'invent skill-ids absent from skill-graph-seed.wire / SKILL-GRAPH.md', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R16', kind: 'MUST', code: 'ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes)', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R17', kind: 'MUST', code: 'Task models per user rule sub-agent-policy: thinking/unclear->cursor-grok-4.5-low (never FAST); web->gemini-3-flash; visual items review->kimi-k3-max; MemNet snapshot->gpt-5.6-luna-medium; routines with clear steps/guide->composer-2.5; never *-fast', priority: 'high', recycle: 'persistent'})
 ```
 
+Mutate sketch (when writing rules into a live session):
 
-Mutate sketch (when writing rules into a live session): `+ RUL [NEW] ; kind=MUST ; code=... ; priority=high ; recycle=persistent`.
+```cypher
+CREATE (r:RUL {id: 'NEW', kind: 'MUST', code: '...', priority: 'high', recycle: 'persistent'})
+```
 
 Cross-refs: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc), [sysml-memnet-pipeline.md](sysml-memnet-documentation/references/sysml-memnet-pipeline.md). Do not use TOON/TRON.
 
@@ -80,12 +82,11 @@ CREATE (c)-[:ROUTES_TO {id: 'NEW', note: 'model_choice', recycle: 'persistent'}]
 
 ## Path rules
 
-```text
-## Nodes
-RUL [P01] ; kind=MUST ; code=skill-id = immediate child dir under <pack-root> ; priority=high ; recycle=persistent
-RUL [P02] ; kind=MUST ; code=entry file = <pack-root>/<skill-id>/SKILL.md (no alternates) ; priority=high ; recycle=persistent
-RUL [P03] ; kind=MUST ; code=discover ids via glob <pack-root>/*/SKILL.md; do not invent ; priority=high ; recycle=persistent
-RUL [P04] ; kind=MAY ; code=aliases -> ids via SKILL-GRAPH.md Map section ; priority=low ; recycle=persistent
+```cypher
+(:RUL {id: 'P01', kind: 'MUST', code: 'skill-id = immediate child dir under <pack-root>', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'P02', kind: 'MUST', code: 'entry file = <pack-root>/<skill-id>/SKILL.md (no alternates)', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'P03', kind: 'MUST', code: 'discover ids via glob <pack-root>/*/SKILL.md; do not invent', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'P04', kind: 'MAY', code: 'aliases -> ids via SKILL-GRAPH.md Map section', priority: 'low', recycle: 'persistent'})
 ```
 
 Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Structure.md`.
@@ -104,30 +105,28 @@ Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Stru
 
 Project: `sysml-v2-models/projects/leo-cubesat-laser-comm/`. Scenario: multi-stage DSP firmware (acquisition -> demod -> position -> aggregation) with thread states, inter-stage ports, latency budget.
 
-Skill chain (GQL wire -- mutate sketch):
+Skill chain (GQL wire -- mutate sketch; mint only on the relationship):
 
-```text
-## Edges
-+ E1 [NEW] --(next)--> [sysml-modeling-workflow] ; note=preflight ; recycle=persistent
-+ E2 [NEW] --(next)--> [sysml-nested-structure-modeling] ; note=decompose ; recycle=persistent
-+ E3 [NEW] --(next)--> [sysml-signal-processing-pipeline] ; note=stage_ports ; recycle=persistent
-+ E4 [NEW] --(next)--> [sysml-behaviour-generator] ; note=thread_states ; recycle=persistent
-+ E5 [NEW] --(next)--> [sysml-connections] ; note=verify_dataflow ; recycle=persistent
-+ E6 [NEW] --(next)--> [sysml-view-doc-sync] ; note=sync_outputs ; recycle=persistent
+```cypher
+MATCH (a:SKL {id: 'sysml-modeling-session-checklist'}), (b:SKL {id: 'sysml-modeling-workflow'})
+CREATE (a)-[:NEXT {id: 'NEW', note: 'preflight', recycle: 'persistent'}]->(b)
+MATCH (b:SKL {id: 'sysml-modeling-workflow'}), (c:SKL {id: 'sysml-nested-structure-modeling'})
+CREATE (b)-[:NEXT {id: 'NEW', note: 'decompose', recycle: 'persistent'}]->(c)
+MATCH (c:SKL {id: 'sysml-nested-structure-modeling'}), (d:SKL {id: 'sysml-signal-processing-pipeline'})
+CREATE (c)-[:NEXT {id: 'NEW', note: 'stage_ports', recycle: 'persistent'}]->(d)
 ```
 
-(From: `sysml-modeling-session-checklist` -> ... as listed; copy assigned ids from the pin map after mint.)
+(Copy assigned ids from the pin map after mint.)
 
 Outcome facts (shaped present after settle):
 
-```text
-## Nodes
-CLM [leo_q1] ; type=fact ; code=thread_sm:idle->armed->sampling<->paused->error ; status=settled ; recycle=persistent
-CLM [leo_q2] ; type=fact ; code=ports:RawSamplePort,DemodulatedDataPort,PositionDataPort ; status=settled ; recycle=persistent
-CLM [leo_q3] ; type=fact ; code=stages:SpiAcquisition,LockInDemod,PositionCalc,DataAggregation ; status=settled ; recycle=persistent
-CLM [leo_q4] ; type=metric ; code=latency_end_to_end<500us ; status=settled ; recycle=persistent
-SYM [SYM_leo_dsp] ; name=deploy-leo-cubesat-laser-comm.sysml ; kind=composite ; note=190-858 ; recycle=persistent
-MOD [MOD_leo_doc] ; path=outputs/system-design-report/02b-interconnection.md ; recycle=persistent
+```cypher
+(:CLM {id: 'leo_q1', type: 'fact', code: 'thread_sm:idle->armed->sampling<->paused->error', status: 'settled', recycle: 'persistent'})
+(:CLM {id: 'leo_q2', type: 'fact', code: 'ports:RawSamplePort,DemodulatedDataPort,PositionDataPort', status: 'settled', recycle: 'persistent'})
+(:CLM {id: 'leo_q3', type: 'fact', code: 'stages:SpiAcquisition,LockInDemod,PositionCalc,DataAggregation', status: 'settled', recycle: 'persistent'})
+(:CLM {id: 'leo_q4', type: 'metric', code: 'latency_end_to_end<500us', status: 'settled', recycle: 'persistent'})
+(:SYM {id: 'SYM_leo_dsp', name: 'deploy-leo-cubesat-laser-comm.sysml', kind: 'composite', note: '190-858', recycle: 'persistent'})
+(:MOD {id: 'MOD_leo_doc', path: 'outputs/system-design-report/02b-interconnection.md', recycle: 'persistent'})
 ```
 
 ---

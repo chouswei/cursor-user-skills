@@ -9,7 +9,7 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.0"
+  version: "1.1"
   pairs_with: [graph-query-language, gql-path-patterns, mcp-memnet, memnet-format, sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-workflow]
 token_guardrails: |
   - GQL wire only: shaped pin_map read + openCypher-shaped mutate. No Layer / NODE|EDGE line dialect; no pipe @TAG agent I/O.
@@ -30,7 +30,7 @@ token_guardrails: |
 
 | Step | Action |
 |------|--------|
-| 1 | Anchor on `TSK_model_<short>` (mint if warm miss) |
+| 1 | Anchor on `TSK_model_<short>` (mint if warm miss; `find` then pin_map if id unknown) |
 | 2 | `pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)` -- shaped subgraph |
 | 3 | Narrow `Read` at `SYM.line`; edit project `models/*.sysml` |
 | 4 | Validate (`mcp-sysml-v2`) until pass |
