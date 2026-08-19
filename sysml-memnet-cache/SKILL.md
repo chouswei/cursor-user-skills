@@ -9,7 +9,7 @@ description: >-
 metadata:
   pattern: tool-wrapper
   domain: sysml-v2,memnet
-  version: "1.3"
+  version: "1.4"
   pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format, sysml-gql]
 token_guardrails: |
   - MemNet is the cache; .sysml is source of truth for structure; AGENT-CONTEXT is session+anchor only.
@@ -70,7 +70,8 @@ Thin bridge: [sysml-gql](../sysml-gql/SKILL.md).
 ```text
 0. MemNet MCP in catalog? If no → skip 1–2 and 6–7; plain Markdown only (no TOON/TRON)
 1. serve_status (TCP / unsure only; skip under in-process default)
-2. pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)   # READ cache
+2. pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)   # READ cache; find then pin_map if ego unknown
+   # first snap: ingest_sysml(path=models/) then pin_map — locator ids, no client NEW
 3. … specialist skill edits project models/*.sysml …
 4. mcp-sysml-v2 validate
 5. sysml-view-doc-sync (iff outputs + structure changed)

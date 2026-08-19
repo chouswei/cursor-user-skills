@@ -10,9 +10,9 @@ description: >-
   TSK_* settle, TCP serve, streamable-http MCP, GQL wire, shaped pin_map.
 metadata:
   pattern: pipeline
-  version: "1.1"
+  version: "2.0"
   domain: memnet
-  product: memnet-llm==0.4.2
+  product: memnet-llm==0.9.0
 ---
 
 # MemNet + Multitask Mode
@@ -21,6 +21,7 @@ User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Tas
 
 **Product ops SSOT (MemNet repo, developers):** `docs/multi-agent-sessions.md`.
 **System-repo adoption (applications):** MemNet `docs/application-notes/llm-system-dev-multitask.md`.
+**Product shape / 0.8 teach:** MemNet `docs/SHAPE.md`. **Version map:** MemNet `docs/ROADMAP-0.5.md` (package **0.9.0**; **1.0** = 0.5–0.8 claimed).
 **Docs index:** MemNet `docs/README.md`. Chat is **never** mission SSOT.
 
 ## When to load
@@ -38,35 +39,37 @@ User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Tas
 |-----------|-----------|
 | **MCP in-process** (default) | **MUST NOT** -- isolated graph per process |
 | **CLI + `memnet serve`** (TCP `:18765`) | **MUST** when workers share one session id |
-| **MCP streamable-http** (`:18766/mcp`) | Same as TCP when all agents hit the same server |
+| **MCP streamable-http** (`:18766/mcp`) | Same as TCP when all agents hit the **same** HTTP process **bridged to that serve** |
 
-Set `MEMNET_MCP_TRANSPORT=tcp` (or streamable-http). Probe with `serve_status` before delegating if uncertain. User-pack transport detail: [mcp-memnet](../mcp-memnet/SKILL.md).
+Set `MEMNET_MCP_TRANSPORT=tcp` on the shared HTTP MCP (or use TCP CLI). Probe with `serve_status` before delegating if uncertain. User-pack: Cursor **`memnet-pi`** HTTP `http://10.0.0.10:18766/mcp`. Detail: [mcp-memnet](../mcp-memnet/SKILL.md).
 
 ## Parent coordinator
 
 ### MUST
 
 - `session_open` / `session_load` **one** mission `session` id; pass it in every worker prompt.
-- Mint and own **`TSK_*`** / **`USR_*`**: `status=active` -> `status=settled`; optional `led_to_success` edges.
-- Self-contained worker prompts: session id, anchor ids, write scope (subgraph or relation types), return shape.
+- Mint and own **`TSK_*`** / **`USR_*`**: `status=active` -> `status=settled`; optional `led_to_success` edges. Prefer **one live `TSK`** (0.5 V5).
+- Self-contained worker prompts: session id, anchor ids, write scope (subgraph or relation types), return shape, **`llm_id`**.
+- **`reserve`** overlapping neighbourhoods before parallel mutate (shipped RSV); pass matching `llm_id` on worker `add`/`update`.
 - **End the turn** after background spawn -- no poll, no await.
-- Next coordinator turn: **`pin_map` first**; act from refreshed slice -- do not redo worker investigation from chat.
-- Prefer **one worker** per coherent workstream; parallel only with **disjoint** anchors or **separate** session ids.
+- Next coordinator turn: **`pin_map` first** (cue / `find` if ego lost); act from refreshed slice -- do not redo worker investigation from chat.
+- Prefer **one worker** per coherent workstream; parallel only with **disjoint** anchors (or RSV) or **separate** session ids.
 
 ### MUST NOT
 
 - Treat chat, tool transcripts, or sub-agent prose as durable mission state.
 - Settle `TSK_*` / `USR_*` from worker chat -- only from shared-session pin-map facts.
 - Use in-process MCP for a shared mission.
-- Run parallel workers on the **same** anchor slice without serialisation (0.4.x last-write-wins).
+- Run parallel writers on the **same** reserved slice with different `llm_id`s.
 
 ## Worker agent
 
 ### MUST
 
-- Use the parent's **session id**; **`pin_map` first** every turn.
+- Use the parent's **session id**; **`pin_map` first** every turn (or `find` then pin_map).
 - Copy assigned ids from pin map -- **MUST NOT** invent ids the parent already minted.
 - Mutate only under the **assigned subgraph** (anchors + relations in the prompt).
+- Pass the assigned **`llm_id`** on mutate when RSV is held.
 - Return a concise result; durable facts live in MemNet rows.
 
 ### MUST NOT
@@ -97,16 +100,20 @@ In downstream **`modelbasedPrj-*`** repos: adopt via doc pointer or thin local m
 
 Recommended order when both SysML and code change: **SysML worker first** (disjoint `MOD_*` under `sysml-models/`), then **code worker** (`parts/`, tests). Full pattern: MemNet `docs/application-notes/llm-system-dev-multitask.md`.
 
-Path-B external pins: seed via `session_open` `seed_lines` or `add` with deterministic locator ids -- **not** `PinMapIngest_*` (roadmap only).
+Path-B external pins: **`ingest_sysml` / `ingest_codebase` / `ingest_pcba` / `ingest_skills`** (shipped) with deterministic locator ids -- **no** client NEW. Fallback: `session_open` `seed_lines` or explicit-id `add`. Ingest is **not** pin-map export.
 
-## Deferred -- MUST NOT assume (0.4.x)
+## Shipped vs still design (0.9)
 
 | Capability | Status |
 |------------|--------|
-| Session ACL (`private` / `shared` / `open`), roles, `session_token` | Design -- MemNet `docs/grammar/memnet-security-multi-agent.md` |
-| Neighbourhood reserve (`RSV`, `llm_id` + TTL) | Design -- MemNet `docs/grammar/memnet-neighbourhood-reserve.md` |
-| `PinMapIngest_*` engines (SysML, codebase, PCBA, skills) | Roadmap stubs -- MN-REQ-12.7 / MN-VER-12-S09 |
-| Engine **WorkerWriteScope** enforcement | Doctrine only -- last-write-wins in 0.4.x |
+| Neighbourhood RSV (`reserve` / `extend` / `release`, `llm_id` + TTL) | **Shipped** -- MutateGate enforces holder |
+| Path-B ingest (SysML, codebase, PCBA, skills) | **Shipped** -- locator ids |
+| CapsPolicy ACL (grant / bind / enable) | **Shipped opt-in** -- off until `session_acl_enable` |
+| Live AgensGraph cabinet | **Claimed 0.7** when URL set -- not a hosted service |
+| Neo4j durable client (`memnet-llm[neo4j]`) | **0.9 client shipped**; live round-trip **unclaimed** |
+| Session ACL modes (`private` / `shared` / `open`), roles, `session_token` | **Design** -- MemNet `docs/grammar/memnet-security-multi-agent.md` |
+| HostSearch / `rag_query` / Peak_L / N-server / pin-map export | **Later** -- not 0.9 / 1.0 gates |
+| Engine write-scope without RSV | Still last-write-wins if nobody reserved |
 
 ## Anti-patterns
 
@@ -116,7 +123,8 @@ Path-B external pins: seed via `session_open` `seed_lines` or `add` with determi
 | In-process MCP under Multitask | Each process gets its own graph |
 | Parent polls or re-runs worker work | Token waste; violates turn boundary |
 | Worker mints duplicate `TSK_*` | Parent owns task lifecycle |
-| Teaching ACL / `RSV` / ingest as available | Not enforced in 0.4.x |
+| Teaching full ACL modes / HostSearch / live Neo4j as available | Not claimed in 0.9 |
+| Skipping RSV on overlapping parallel mutate | Last-write-wins |
 
 ## Related (user pack)
 

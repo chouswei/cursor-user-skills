@@ -4,12 +4,12 @@ description: >-
   MemNet MCP — in-memory graph via shaped pin_map, session tools, and
   openCypher-shaped mutate (add/update). Triggers: memnet mcp, pin_map,
   query_warm, pin map, session_open, GQL wire, shaped subgraph, MutateGate,
-  sysml memnet tools.
+  sysml memnet tools, find, ingest_sysml, reserve, RSV.
 metadata:
   pattern: tool-wrapper
-  version: "5.0"
+  version: "6.0"
   domain: memnet
-  product: memnet-llm
+  product: memnet-llm==0.9.0
 token_guardrails: |
   - Primary read is pin_map (shaped subgraph); parse envelope stdout — not JSON keys as grammar.
   - Mutate with openCypher-shaped wire_lines; mint creates with NEW; copy ids from pin_map.
@@ -18,9 +18,9 @@ token_guardrails: |
 
 # MemNet MCP (generic)
 
-Product **`memnet-llm`** (CLI `memnet`). Engine + generic MCP only — **novel-writer is out of scope**.
+Product **`memnet-llm` 0.9.0** (CLI `memnet`). Engine + generic MCP only — **novel-writer is out of scope**. PyPI `memnet-llm` is still **0.4.6**; install from the MemNet repo for 0.9. **1.0** = claim of 0.5–0.8 (not live Neo4j). Version map: MemNet `docs/ROADMAP-0.5.md`. Shape: MemNet `docs/SHAPE.md`.
 
-MemNet is working memory between LLM call pipelines and data search. Agents read a bounded **shaped subgraph** each turn via **`pin_map`** and write with **openCypher-shaped** mutate statements — the **GQL wire**. Detail: [memnet-format](../memnet-format/SKILL.md).
+MemNet is mission working memory between LLM call pipelines and data search — not RAG. Agents **cue** (known id / `find`), then read a bounded **shaped subgraph** via **`pin_map`**, and write with **openCypher-shaped** mutate — the **GQL wire**. Detail: [memnet-format](../memnet-format/SKILL.md).
 
 ## User-pack transport (this machine)
 
@@ -53,10 +53,11 @@ After editing mcp.json: **Cursor -> MCP / Tools -> restart `memnet-pi`** (or rel
 | NEW vs locators | LLM creates: mint with NEW; ingest pins use stable locators (`path`, `qname`, …) |
 | BIND vs relation | Port-port -> `BIND`; node-node -> typed rel labels |
 | Transport (user pack) | **HTTP `:18766/mcp` -> Pi**; bridge HTTP MCP to TCP serve `:18765` when sharing one graph |
+| Durable cabinet | Live AgensGraph hydrate/flush **claimed (0.7)** when `MEMNET_AGENSGRAPH_URL` is set. Optional Neo4j client **`memnet-llm[neo4j]` (0.9)** — **not** live-claimed (`liveNeo4jClaimed=false`). Agents MUST NOT talk Bolt. |
 
-Always pass the same `session` id (or set `MEMNET_SESSION`).
+Always pass the same `session` id (or set `MEMNET_SESSION`). Cue then pin_map: if the ego is unknown, **`find`** (required `limit`) then `pin_map` a copied id. Prefer **one live `TSK`**.
 
-**Tool gloss:** Primary pin-map read is MCP `pin_map` / CLI `query pin-map`. Optional **`view=`** (`shell` | `interior`; soft-accept `flowchart` | `parts` | `statechart`). Omit `view` for depth/`max_rows` only. `query_warm` / `query warm` are **deprecated aliases**. Formal shapes: [memnet-format](../memnet-format/SKILL.md) + MemNet `docs/grammar/`.
+**Tool gloss:** Primary pin-map read is MCP `pin_map` / CLI `query pin-map`. Optional **`view=`** (`shell` | `interior`; soft-accept `flowchart` | `parts` | `statechart`). Optional **`anchors`** (multi-ego, one `max_rows`, one LAW prepend). Omit `view` for depth/`max_rows` only. `query_warm` / `query warm` are **deprecated aliases**. Formal shapes: [memnet-format](../memnet-format/SKILL.md) + MemNet `docs/grammar/`.
 
 ## How MCP tools fit the wire
 
@@ -67,12 +68,17 @@ MCP is a **thin CLI adapter**. Tools do **not** invent a second dialect: pin-map
 | `session_open` | Session lifecycle + schema map | `map_lines` = `SCHEMA Kind ; fields=id …` (registry). Optional `seed_lines` = openCypher-shaped seed (LAW auto-seeded). |
 | `session_current` | Session lifecycle | Metadata only |
 | `session_save` / `session_load` | Snapshot persist / resume | File path; next pin_map is still a shaped subgraph |
-| `pin_map` | **Live shaped-subgraph read** | `stdout` = neighbourhood (+ LAW). Optional arg `view`. |
-| `query_warm` | Deprecated alias for `pin_map` | Same as `pin_map` (including `view`) |
+| `pin_map` | **Live shaped-subgraph read** | `stdout` = neighbourhood (+ LAW). Optional `view`, `anchors`. |
+| `query_warm` | Deprecated alias for `pin_map` | Same as `pin_map` (including `view` / `anchors`) |
+| `find` | Bounded seed lookup (0.5) | Required `limit`; `--kind` / locators / `keyword`; then `pin_map` a copied id. Not RAG. |
 | `query_walk` | Hop debug (not primary pin map) | Walk lines for topology debug |
-| `add` | Mutate **create** | `wire_lines` = openCypher-shaped creates with NEW as needed |
-| `update` | Mutate **patch / drop** | `wire_lines` = MATCH/SET/DELETE on known ids |
+| `add` | Mutate **create** | `wire_lines` = openCypher-shaped creates with NEW as needed; pass `llm_id` under RSV |
+| `update` | Mutate **patch / drop** | `wire_lines` = MATCH/SET/DELETE on known ids; pass `llm_id` under RSV |
 | `read_get` / `read_list` | Lookup / enumerate | Single-row or label list — use to avoid inventing ids |
+| `ingest_sysml` / `ingest_codebase` / `ingest_pcba` / `ingest_skills` | Path-B pin ingest (shipped) | Deterministic locator ids; **no** client NEW for source pins |
+| `import_slice` | Path-B session import | `keep` / `reject` / `remint`; optional CheapLlmImportGuard |
+| `reserve` / `extend` / `release` | Neighbourhood RSV (shipped) | Holder `llm_id` + TTL; MutateGate rejects foreign holder |
+| `session_acl_grant` / `session_acl_bind` / `session_acl_enable` | CapsPolicy ACL (opt-in) | Off until `session_acl_enable`; not full ACL modes |
 | `housekeep_stats` | Caps / counts | Envelope stats |
 | `serve_status` | Transport probe | `{running,host,port}` — TCP-oriented |
 
@@ -96,10 +102,11 @@ MCP is a **thin CLI adapter**. Tools do **not** invent a second dialect: pin-map
 pin_map -> reason -> mutate -> pin_map
 ```
 
-1. Pin map — `pin_map(anchor=…, depth<=2)` — shaped subgraph; optional `view=shell` (tight) or `view=interior`.
-2. Reason; copy assigned ids from the map.
-3. `add` / `update` with **openCypher-shaped** statements.
-4. `session_save` when durability is needed.
+1. Cue — known ego, or `find(limit=…, kind=…)` then copy an id. Prefer one live `TSK`.
+2. Pin map — `pin_map(anchor=…, depth<=2)` — shaped subgraph; optional `view=shell` (tight) or `view=interior`; optional `anchors` for multi-ego under one `max_rows`.
+3. Reason; copy assigned ids from the map.
+4. `add` / `update` with **openCypher-shaped** statements (sparse Δ only).
+5. `session_save` when durability is needed (offered file durable; live cabinet is optional 0.7+).
 
 **MCP missing:** if MemNet tools are not in the session catalog, skip this loop — plain Markdown scratch only (no TOON/TRON). Do not invent tool calls. Wire shapes: [memnet-format](../memnet-format/SKILL.md).
 
@@ -140,7 +147,7 @@ MATCH (c {id: 'ATO_R1'}) SET c.value = '10k', c.recycle = 'persistent'
 CREATE (clm:CLM {id: 'NEW', type: 'decision', code: 'keep R1 10k', recycle: 'persistent'})
 ```
 
-**Forbidden:** client NEW for R1/U2/nets/SysML qnames/paths; inventing `C_rand_99`; NEW on patch. **Pitfall:** `add` fails if id exists — look up first. PinMapIngest_* may be stubs; seed via `seed_lines` / explicit-id `add` until ingest lands.
+**Forbidden:** client NEW for R1/U2/nets/SysML qnames/paths; inventing `C_rand_99`; NEW on patch. **Pitfall:** `add` fails if id exists — look up first. Path-B ingest is **shipped** (`ingest_sysml` / `ingest_codebase` / `ingest_pcba` / `ingest_skills`) — use it for artefact pins; seed via `seed_lines` / explicit-id `add` only when ingest does not cover the artefact. Ingest is **not** pin-map export / round-trip.
 
 **Re-id (wrong ground id):** `update` with MATCH old id SET `id=NewId` (optional merge when NewId exists; nodes only; retarget rels; drop OldId). Self id=OldId is a no-op.
 
@@ -148,14 +155,14 @@ CREATE (clm:CLM {id: 'NEW', type: 'decision', code: 'keep R1 10k', recycle: 'per
 MATCH (n {id: 'C_rand_99'}) SET n.id = 'ATO_R1', n.recycle = 'persistent' /* merge=true when engine supports fold */
 ```
 
-## Multi-agent reserve (design — not yet shipped)
+## Neighbourhood reserve (shipped)
 
-Neighbourhood **reserve** with holder **`llm_id`** + **TTL** prevents same-session write races. MCP sketch (next minor):
+Neighbourhood **reserve** with holder **`llm_id`** + **TTL** prevents same-session write races. MCP:
 
 ```text
-reserve(session, anchor, depth=2, llm_id, ttl_s=120) -> rid, until
-extend(session, rid|anchor, llm_id, ttl_s=120) -> until
-release(session, rid|anchor, llm_id) -> ok
+reserve(anchor, llm_id, depth=2, ttl_s=120, session=…) -> rid, until
+extend(llm_id, rid|anchor, ttl_s=120, session=…) -> until
+release(llm_id, rid|anchor, session=…) -> ok
 ```
 
 Pin map may show intersecting leases as shaped present:
@@ -164,7 +171,7 @@ Pin map may show intersecting leases as shaped present:
 (:RSV {id: 'R7', llm_id: 'coder_a', anchor: 'ATO_R1', depth: 2, until: '2026-07-24T08:15:00Z', left_s: 87})
 ```
 
-**Never** `@RSV:` pipe. SSOT: MemNet `docs/grammar/memnet-neighbourhood-reserve.md`. Mutate on reserved ids requires matching `llm_id`.
+**Never** `@RSV:` pipe. SSOT: MemNet `docs/grammar/memnet-neighbourhood-reserve.md`. Mutate on reserved ids requires matching `llm_id` on `add` / `update`. Full session ACL modes / roles / `session_token` remain **design**; CapsPolicy ACL is opt-in (`session_acl_enable`).
 
 ## Essential tools (quick)
 
@@ -174,10 +181,14 @@ Pin map may show intersecting leases as shaped present:
 | `session_open` | New session | `map_lines` (or `map_file`) + optional `seed_lines`; `allow_new_relation=true` for custom rel types |
 | `session_save` / `session_load` | Persist / resume | Snapshot file path |
 | `session_current` | Session metadata | |
-| `pin_map` | **Primary read** = shaped subgraph | `anchor` required; `depth`/`max_rows`; optional `view` |
+| `pin_map` | **Primary read** = shaped subgraph | `anchor` and/or `anchors`; `depth`/`max_rows`; optional `view` |
+| `find` | Seed ids when ego unknown | `limit` required; then pin_map |
 | `query_warm` | Legacy alias for `pin_map` | Same params |
 | `query_walk` | Hop debug | |
-| `add` / `update` | Mutate | `wire_lines`: openCypher-shaped |
+| `add` / `update` | Mutate | `wire_lines`: openCypher-shaped; `llm_id` under RSV |
+| `ingest_sysml` / `ingest_codebase` / `ingest_pcba` / `ingest_skills` | Path-B artefact pins | Locator ids; no client NEW |
+| `import_slice` | Import a bounded slice | Optional ImportGuard |
+| `reserve` / `extend` / `release` | RSV leases | `llm_id` + TTL |
 | `read_get` / `read_list` | Single id / enumerate | Prefer over inventing ids |
 | `housekeep_stats` | Caps / counts | |
 
@@ -195,8 +206,8 @@ Line shapes, mutate ops, BIND vs relation, and examples: [memnet-format](../memn
 |------------|------|
 | Preflight | MemNet MCP in catalog? Then optional `serve_status` (TCP only) |
 | Read cache | pin_map — `pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)` |
-| Bootstrap | `session_open` + `map_file` / `map_lines` + `seed_lines`; `allow_new_relation=true` for `owns` |
-| Write delta | `add` / `update` (openCypher-shaped) |
+| Bootstrap | `session_open` + `map_file` / `map_lines` + `seed_lines`; `allow_new_relation=true` for `owns`. Prefer `ingest_sysml` for `.sysml` pins. |
+| Write delta | `add` / `update` (openCypher-shaped); `llm_id` if RSV held |
 | Persist | `session_save` -> project `.memnet/` snap |
 | Resume | `session_load` or `MEMNET_SESSION` |
 

@@ -9,7 +9,7 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.9"
+  version: "1.10"
   pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, mcp-sysmledgraph, memnet-format, sysml-gql]
 token_guardrails: |
   - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; pin_map before substantive edits.
@@ -56,7 +56,7 @@ Pair with [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) and [me
 
 ## Prerequisites
 
-1. `pip install memnet-llm[mcp]`
+1. Repo install for **0.9**: `pip install -e ".[mcp]"` from MemNet (PyPI `memnet-llm` is still **0.4.6**). Extra cabinet client: `.[mcp,neo4j]` (live Neo4j unclaimed).
 2. MemNet entry in `~/.cursor/mcp.json` (in-process preferred; see [mcp-policy.md](../mcp-memnet/references/mcp-policy.md)).
 3. MemNet MCP tools visible in the session catalog. If absent: treat as serve down — no `pin_map` / mutate.
 4. Under TCP only: `memnet serve` + optional `serve_status`. Skip that probe under in-process default.

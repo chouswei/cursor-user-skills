@@ -11,7 +11,7 @@ Goldfish = short working memory: re-read the live pin map each turn. Chat is not
 House id prefixes (first use): `TSK_*` = task; `MOD_*` = file or package; `SYM_*` = symbol; `USR_*` = user constraint.
 
 0. If MemNet MCP tools are absent from the session catalog: skip MemNet; plain Markdown scratch only (no TOON/TRON). Else if TCP / unsure serve is up: `serve_status`. If down: skip MemNet; plain Markdown scratch only (no TOON/TRON). Under in-process default, skip this probe.
-1. `pin_map(anchor=<id>)` -- live ego slice (shaped subgraph).
+1. `pin_map(anchor=<id>)` -- live ego slice (shaped subgraph). If ego unknown: `find` (required `limit`) then pin_map. Optional `view=shell`.
 2. `add` / `update` -- openCypher-shaped mutate (no prose blobs).
 3. Act from a rendered pin-map slice plus the current request; MUST NOT reason on raw dumps.
 4. Settle finished tasks (`TSK_*`): `status=settled`; set `recycle=delete_on_settle` when done.

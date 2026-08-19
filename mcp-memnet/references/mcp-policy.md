@@ -8,10 +8,12 @@ Cursor (stdio) → memnet-mcp
                  └─ TCP → memnet serve (MEMNET_MCP_TRANSPORT=tcp)
 ```
 
-- MCP is a thin adapter. Default transport is **in-process** (no separate `memnet serve` required).
-- Set `MEMNET_MCP_TRANSPORT=tcp` only when bridging to an external serve.
-- Agent wire is **GQL / openCypher-shaped** (shaped pin_map read).
+- MCP is a thin adapter. Product default transport is **in-process** (no separate `memnet serve` required) for a **single** agent.
+- User pack **shared / remote** path: Cursor HTTP `url` -> **`http://10.0.0.10:18766/mcp`**; Pi HTTP MCP MUST set `MEMNET_MCP_TRANSPORT=tcp` so it shares `memnet serve` **`:18765`**.
+- Multitask / Task workers **MUST NOT** use in-process MCP for a shared session.
+- Agent wire is **GQL / openCypher-shaped** (shaped pin_map read). Cue then pin_map (`find` if no ego).
 - Primary read is the live **pin map** (`pin_map` tool; `query_warm` is legacy alias).
+- Product **0.9.0**: live AgensGraph cabinet claimed (0.7); Neo4j client extra not live-claimed; RSV + Path-B ingest shipped.
 
 ## mcp.json (user pack)
 
@@ -52,10 +54,14 @@ See [tool-parameters.md](tool-parameters.md).
 |------|---------|
 | `serve_status` | Probe (mainly TCP) |
 | `session_open` / `save` / `load` / `current` | Session lifecycle |
-| `pin_map` | Live pin map |
+| `pin_map` | Live pin map (`anchors` / `view` optional) |
+| `find` | Bounded seed lookup then pin_map |
 | `query_warm` | Deprecated alias for `pin_map` |
 | `query_walk` | Hop debug |
 | `add` / `update` | Mutate (openCypher-shaped) |
+| `ingest_*` | Path-B artefact pins (shipped) |
+| `import_slice` | Path-B absorb |
+| `reserve` / `extend` / `release` | RSV (shipped) |
 | `read_get` / `read_list` | Lookup / enumerate |
 | `housekeep_stats` | Counts vs caps |
 

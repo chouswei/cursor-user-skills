@@ -16,8 +16,9 @@ Tools / dialect: `mcp-memnet`, `memnet-format` -- do not re-copy here.
 
 ## Transport
 
-- MUST use shared MemNet: TCP `:18765` (`memnet serve`) or streamable-http (`:18766/mcp`).
+- MUST use shared MemNet: TCP `:18765` (`memnet serve`) or streamable-http (`:18766/mcp`) **bridged to that serve**.
 - MUST NOT use in-process MCP under Multitask (isolated graph per process).
+- Overlapping parallel mutate: MUST `reserve` with a holder `llm_id` (shipped RSV).
 - If serve is down or MemNet tools are absent: skip MemNet; plain Markdown only (no TOON/TRON).
 
 ## Parent coordinator

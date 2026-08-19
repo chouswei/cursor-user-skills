@@ -27,6 +27,8 @@ MemNet is **not** a chat log. Store **distilled atoms**, not messages.
 
 ## MCP examples
 
+**Teach GQL** (pipe `+ TAG` samples below are legacy import only — do not emit as agent I/O):
+
 ### Capture user constraint at start of task
 
 ```text

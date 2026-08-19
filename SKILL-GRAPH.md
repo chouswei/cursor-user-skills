@@ -93,7 +93,7 @@ E_mn_05 [sysml-gql] --(complements)--> [graph-query-language] ; note=gql_core ; 
 E_mn_06 [sysml-gql] --(complements)--> [sysml-memnet-documentation] ; note=snap_ssot ; recycle=persistent
 ```
 
-Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play. Load `sysml-gql` when SysML modeling uses MemNet GQL working memory. Product ops doc: MemNet `docs/multi-agent-sessions.md` (developers). System-repo pattern: MemNet `docs/application-notes/llm-system-dev-multitask.md` (applications).
+Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play. Load `sysml-gql` when SysML modeling uses MemNet GQL working memory. Product **memnet-llm 0.9.0** (PyPI still 0.4.6). Ops: MemNet `docs/multi-agent-sessions.md`. Shape: `docs/SHAPE.md`. Version map: `docs/ROADMAP-0.5.md`. System-repo pattern: MemNet `docs/application-notes/llm-system-dev-multitask.md`.
 
 ---
 
