@@ -16,7 +16,7 @@ MemNet is **agent-maintained index + task graph**, not a substitute for `grep`, 
 | User-stated API/style constraints | **Yes** — `USR` + `constrained_by` from `TSK` |
 | Open design fork (default value, naming) | **Yes** — `DEC`; settle with `chosen` |
 | One-shot symbol lookup, never referenced again | **No** — grep / Go to definition |
-| Authoritative “what calls X?” | **No** — ripgrep / LSP first; optionally **add** edge after verify |
+| Authoritative “what calls X?” | **No** — ripgrep / LSP first; optionally **mutate** an edge after verify |
 
 **Open a coding session** at the start of a non-trivial task. One session per repo/task; reuse ids. Use `session_save` / `session_load` for multi-day work.
 
@@ -49,7 +49,7 @@ Copy ids from the pin map — never retype from memory.
 
 ## Goldfish loop (coding)
 
-1. Pin map (`query_warm`) on current `TSK` (or `MOD` / `SYM` if task unset).
+1. `pin_map` on the current `TSK` (or `MOD` / `SYM` if the task is unset).
 2. **grep/LSP** if you need fresh truth on disk.
 3. **`add`** / **`update`** shared-dialect lines when path/line/signature or task status changes.
 4. **`session_save`** after substantive turns.
@@ -86,7 +86,8 @@ Copy assigned ids from the mutate / pin-map response (replace `NEW` placeholders
 ### Next turn — where is that function?
 
 ```text
-pin_map(anchor="TSK_mcp_session_load", depth=2)
+pin_map(kind='TSK', locators=['id=TSK_mcp_session_load'], depth=2)
+# leftover pin_map(anchor=...) named leftover
 ```
 
 Returns LAW + connected task/module/symbol/user/decision/edge atoms — small slice, not the whole repo.

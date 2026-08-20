@@ -8,4 +8,4 @@ alwaysApply: false
 
 **Route:** MUST NOT browse skill lists. Match triggers in `~/.cursor/skills/SKILL-GRAPH.md` (at most 2 passes); `~/.cursor/skills/LLM.md` is secondary. Open one `SKILL.md` and follow it. Default one skill per turn (SysML: checklist + workflow + at most one `sysml-*` specialist; honour selector `order[]`). After two ambiguous scans: ask the user or open the repo `AGENTS.md`.
 
-**Execute / verify:** follow the MemNet goldfish loop; dialect detail in `~/.cursor/skills/memnet-format/SKILL.md`. Prefer MCP before bulk file reads; lazy-load `references/` only when a step needs them. Proof = commands run with sane output. Write corrections to `tasks/lessons.md` (or the repo equivalent).
+**Execute / verify:** follow the MemNet goldfish loop; dialect detail in `~/.cursor/skills/memnet-format/SKILL.md`. Product write is `mutate`. Prefer MCP before bulk file reads; lazy-load `references/` only when a step needs them. Proof = commands run with sane output. Write corrections to `tasks/lessons.md` (or the repo equivalent).

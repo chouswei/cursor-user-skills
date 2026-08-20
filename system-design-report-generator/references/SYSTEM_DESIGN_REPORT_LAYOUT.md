@@ -45,7 +45,7 @@ memnet:
       note: de-facto valve manual
 ```
 
-Agents **`pin_map(anchor)`** or **`pin_map(art_id)`** before opening section files. Full procedure: [memnet-report-pipeline.md](memnet-report-pipeline.md).
+Agents cue **`pin_map`** on the hub `TSK_*` / `ART_*` before opening section files. leftover `anchor=` named leftover. Full procedure: [memnet-report-pipeline.md](memnet-report-pipeline.md).
 
 **Optional:** Short Markdown bullet TOC linking `[title](./file.md#id)`.
 
