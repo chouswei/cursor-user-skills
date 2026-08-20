@@ -4,7 +4,7 @@
 
 **Engine seed only:** [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) is machine input for selector/bootstrap tools (may still be compact store form). Skills and docs teach **GQL / shaped pin_map**; do **not** copy seed pipe / `KIND [id] ; k=v` syntax into agent I/O.
 
-**Package 0.19.2** (Hatch; tag `v0.19.2`; extras 0.10-0.19 unchanged). **PyPI wheel** still **`memnet-llm==0.19.0`** until twine. `session_open` needs a SCHEMA map. Cue then `pin_map`; `find` if ego unknown. Empty q is 0.11 outline. Product write is **`mutate`**. leftover `--anchor` / `id:'NEW'` / leftover `add` named leftover. **1.0** unclaimed.
+**Package and PyPI 0.19.2** (Hatch; tag `v0.19.2`; extras 0.10-0.19 unchanged). `session_open` needs a SCHEMA map. Cue then `pin_map`; `find` if ego unknown. Empty q is 0.11 outline. Product write is **`mutate`**. leftover `--anchor` / `id:'NEW'` / leftover `add` named leftover. **1.0** unclaimed.
 
 ---
 
@@ -92,7 +92,7 @@ Then at most one specialist SKL from `TRIGGERS` match. Repo `AGENTS.md` may add 
 (:SKL {id: 'sysml-gql'})-[:COMPLEMENTS {id: 'E_mn_06', note: 'snap_ssot', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
 ```
 
-Load `memnet-use` when the job is **using** MemNet. Load `memnet-nested-sessions` when a nest is cut across sessions. Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play. Load `sysml-gql` when SysML modeling uses MemNet GQL working memory. Ops: MemNet `docs/operations/multi-agent-sessions.md`. Shape: `docs/SHAPE.md`. Version map: `docs/ROADMAP.md` (**package 0.19.2**; PyPI wheel **0.19.0** until twine). System-repo pattern: MemNet `docs/application-notes/system/llm-system-dev-multitask.md`.
+Load `memnet-use` when the job is **using** MemNet. Load `memnet-nested-sessions` when a nest is cut across sessions. Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play. Load `sysml-gql` when SysML modeling uses MemNet GQL working memory. Ops: MemNet `docs/operations/multi-agent-sessions.md`. Shape: `docs/SHAPE.md`. Version map: `docs/ROADMAP.md` (**package and PyPI 0.19.2**). System-repo pattern: MemNet `docs/application-notes/system/llm-system-dev-multitask.md`.
 
 Build-the-engine hub **`memnet-reference`** lives in the MemNet checkout (`.cursor/skills/memnet-reference/`); this pack does not copy it.
 

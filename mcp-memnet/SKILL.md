@@ -6,9 +6,9 @@ description: >-
   session_open, find, ingest_sysml, snap_model, export_pin_map, reserve, RSV.
 metadata:
   pattern: tool-wrapper
-  version: "7.2"
+  version: "7.3"
   domain: memnet
-  product: "package 0.19.2; PyPI wheel 0.19.0"
+  product: "memnet-llm==0.19.2"
 token_guardrails: |
   - Product read is pin_map from a cue (kind / locators / keyword / session). leftover anchor= is leftover.
   - Product write is mutate (CREATE/MERGE/SET/DELETE). leftover add/update / id:'NEW' are leftover facades.
@@ -19,7 +19,7 @@ token_guardrails: |
 
 **Use** MemNet via MCP. Doctrine SSOT: MemNet `docs/SHAPE.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Wire: [memnet-format](../memnet-format/SKILL.md). Nested interiors: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md). Hub: [memnet-use](../memnet-use/SKILL.md).
 
-**Package 0.19.2** (Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.2`; extras **0.10-0.19** unchanged). **PyPI wheel** is still **`memnet-llm==0.19.0`** (no 0.19.2 wheel until twine). **Install:** `pip install memnet-llm==0.19.0` **or** git / tag `v0.19.2`. Do **not** `pip install memnet-llm==0.19.1` or `==0.19.2` as the current wheel. Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only.
+**Package and PyPI 0.19.2** (Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.2`; extras **0.10-0.19** unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.2`. Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only.
 
 ## User-pack transport (this machine)
 

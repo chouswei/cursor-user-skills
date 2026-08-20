@@ -1,6 +1,6 @@
 # MCP tools <-> MemNet GQL wire
 
-SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py`. **Package 0.19.2** (PyPI wheel still **0.19.0** until twine). Wire: [memnet-format](../../memnet-format/SKILL.md); MemNet `docs/grammar/gql-wire-profile.md`.
+SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py`. **Package and PyPI 0.19.2**. Wire: [memnet-format](../../memnet-format/SKILL.md); MemNet `docs/grammar/gql-wire-profile.md`.
 
 Envelope JSON is transport. **`stdout` / `wire_lines`** carry GQL. `serve_status` is the only non-envelope JSON.
 

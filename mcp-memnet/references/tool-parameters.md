@@ -1,6 +1,6 @@
 # MemNet MCP -- tool parameters
 
-**Package 0.19.2**; **PyPI wheel** still **`memnet-llm==0.19.0`** until twine. Tools return JSON text. Arg **`session`** (not `session_id`). SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py`.
+**Package and PyPI 0.19.2**. Tools return JSON text. Arg **`session`** (not `session_id`). SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py`.
 
 User-pack store: TCP **`10.0.0.10:18765`**; Cursor HTTP **`http://10.0.0.10:18766/mcp`**. InvenTree MCP is not MemNet.
 
