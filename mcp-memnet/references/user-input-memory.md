@@ -45,7 +45,8 @@ MemNet is **not** a chat log. Store **distilled atoms**, not messages.
 ### Next turn — recall before acting
 
 ```text
-pin_map(anchor="TSK_current", depth=2)
+pin_map(kind='TSK', locators=['id=TSK_current'], depth=2)
+# leftover pin_map(anchor=...) named leftover
 ```
 
 Pin map includes `USR` rows linked to the task.
@@ -76,6 +77,6 @@ Same id — **update**, not add.
 
 ## Pair with goldfish loop
 
-Each turn: **pin map** first (includes user constraints) → act → **`add`/`update`** if the user said something new that must persist.
+Each turn: **pin_map** first → act → **`mutate`** if the user said something that must persist.
 
 Cross-ref: [atomisation.md](atomisation.md) · [coding-memory.md](coding-memory.md) · [mcp-policy.md](mcp-policy.md)

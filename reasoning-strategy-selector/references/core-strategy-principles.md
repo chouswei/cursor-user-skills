@@ -43,6 +43,8 @@
 | memnet-codebase-snap | P | user | medium | medium | structural | low |
 | memnet-format | T | meta | medium | medium | structural | low |
 | memnet-multitask | P | user | medium | medium | structural | low |
+| memnet-nested-sessions | P | user | medium | medium | structural | low |
+| memnet-use | P | user | medium | medium | structural | low |
 | mermaid | G | doc | medium | low | structural | low |
 | mermaid-doc-readability | P | user | medium | medium | structural | low |
 | mmdc | T | doc | low | low | structural | low |

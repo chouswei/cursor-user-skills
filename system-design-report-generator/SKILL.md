@@ -61,7 +61,7 @@ These packs are for human readers too, so keep each section tight and purposeful
 
 ### B — Maintain one section (incremental)
 
-1. `query_warm` on touched model ids.
+1. Cue `pin_map` on touched model ids (leftover `query_warm` alias).
 2. Hub → pick **one** `llm_toc.file`.
 3. Patch section from model; **sysml-view-doc-sync** for that file's diagrams.
 4. MemNet: update/add `@CLM` + EDGs for changed claims only.

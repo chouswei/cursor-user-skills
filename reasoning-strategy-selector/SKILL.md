@@ -33,7 +33,7 @@ system_instruction: |
 
   **No convolution.** Do not score all skills against a 6D feature table.
 
-  **MemNet optional:** `pin_map(anchor=SKL_<id>, depth=2, max_rows=30)`; if unavailable, parse seed wire locally.
+  **MemNet optional:** cue `pin_map` on `SKL_<id>` (`depth=2`, `max_rows=30`); leftover `anchor=` named leftover; if unavailable, parse seed wire locally.
 
   **Output (Markdown bullets or short table):**
   ```

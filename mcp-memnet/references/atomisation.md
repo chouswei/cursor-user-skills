@@ -10,7 +10,7 @@ MemNet is an **in-memory knowledge graph**: **nodes** + **relationships**. Agent
 2. **Relations are edges** -- `calls`, `owns`, `constrained_by`, `defines`, ...
 3. **Short fields only** -- ids, paths, line numbers, codes; **no prose blobs**
 4. **Split compound state** -- if a field needs "and also ...", add another row + edge
-5. **Stable ids** -- reuse forever; `update` when the atom changes
+5. **Stable nicknames** -- reuse forever; `mutate` MATCH…SET when the atom changes (leftover `update` named leftover)
 
 Bad: one `MOD` whose summary is a paragraph of architecture.
 Good: `MOD` + several `SYM` + edges linking task -> modules -> symbols.
@@ -18,7 +18,7 @@ Good: `MOD` + several `SYM` + edges linking task -> modules -> symbols.
 ## Why it matters
 
 ```text
-pin_map(anchor=TSK_x, depth=2)
+pin_map(kind='TSK', locators=['id=TSK_x'], depth=2)
   -> LAW rows
   -> anchor node
   -> edge-linked neighbours up to depth
