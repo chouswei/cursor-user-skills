@@ -38,7 +38,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (sub-agent policy; MemNet gol
 3. Open matched `<id>/SKILL.md` and follow steps
 4. If still unclear -> ask the user, or open-repo `AGENTS.md` / domain checklist
 
-### Trigger examples (membership = `skill-graph-seed.wire` `@SKL`)
+### Trigger examples (membership = SKL rows in `skill-graph-seed.wire`)
 
 | Task | Triggers | Skill |
 |------|----------|-------|

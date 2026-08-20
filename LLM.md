@@ -95,7 +95,7 @@ Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Stru
 
 ## Cross-references
 
-- **Routing aid:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -- hub -> [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) (engine seed; docs use GQL wire).
+- **Routing aid:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -- hub -> [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) (GQL CREATE seed; same dialect as memnet-format).
 - **Handoff aid:** `memnet-goldfish-loop.mdc` + `memnet-format/SKILL.md` + `mcp-memnet` + `memnet-multitask` (Multitask / Task sub-agents) + `sysml-gql` + `sysml-memnet-pipeline.md`; plain Markdown when MemNet down.
 - **Model choice SSOT:** user rule sub-agent-policy **Model by role** table (paste-3 / `~/.cursor/rules/sub-agent-policy.mdc`).
 

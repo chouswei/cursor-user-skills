@@ -1,5 +1,5 @@
 """
-Graph trigger retriever — ranks skills from skill-graph-seed.wire @TRG rows.
+Graph trigger retriever -- ranks skills from skill-graph-seed.wire TRG phrases.
 
 Use instead of convolution or full corpus paste:
   python tools/strategy-retriever.py "cross-file refactor" -n 3

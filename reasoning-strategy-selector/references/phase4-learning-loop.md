@@ -41,11 +41,11 @@ When `reasoning-strategy-selector` `order[]` succeeds, **parent** writes openCyp
 CREATE (:TSK {id: $tid})-[:LED_TO_SUCCESS {id: 'NEW', note: 'pass', recycle: 'persistent'}]->(:SKL {id: $skillId})
 ```
 
-(Engine seed / import may still use compact store rows; do not teach pipe `@EDG:` as agent I/O.)
+(Engine seed is the same GQL CREATE form; tools may still import legacy pipe `@SKL:`.)
 
 ## Validation
 
-- `led_to_success` dst must be existing `@SKL` id (`record_routing_success.py` checks seed)
+- `led_to_success` dst must be an existing SKL id (`record_routing_success.py` checks seed)
 - Bootstrap `--sync` emits seed rows only — **merge** into MemNet; never delete empirical edges
 
 ## Activation checklist

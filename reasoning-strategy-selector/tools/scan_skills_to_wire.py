@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Scan user-pack (+ optional repo) skills and write skill-graph-seed.wire."""
+"""Scan user-pack (+ optional repo) skills and write skill-graph-seed.wire as GQL CREATE."""
 from __future__ import annotations
 
 import argparse

@@ -11,23 +11,23 @@ description: >-
 metadata:
   pattern: pipeline
   secondary: router
-  version: 3.5-method-pack
+  version: 3.7-method-pack
   related_skills: [academic-report-generator, adr-generator, architecture-reviewer, code-reviewer, commit-message-generator, control-theory-planner, decision-inverter, scientific-method-first-principles, empirical-paradox-synthesis, engineering-practices-learner, incentive-alignment-reviewer, launch-readiness-assessor, mcdm-decider, meeting-notes-generator, optimization-planner, pandas-expert, pr-reviewer, project-planner, risk-assessor, rfc-generator, security-reviewer, tech-report-generator, tech-report-reviewer, skill-creator, skillfish, skill-reviewer, sysml-new-project, sysml-refactorer]
 
 pipeline_steps:
   1. Frame — objective, hidden_assumptions, polarities. Abort with `order: []` if a single domain skill already fits.
-  2. Graph load — parse [`skill-graph-seed.wire`](references/skill-graph-seed.wire) locally, or `pin_map(SKL_<hit>|SKG_global)` when MemNet live. Match `@TRG` phrases; anchor per [skill-graph.md](references/skill-graph.md).
-  3. Rank — graph traversal only: trigger hit → typed `@EDG` neighbours (`precedes`, `default_stack`, `complements`, `specializes`); score by edge weights + hop penalty. No 6D convolution over the skill table.
-  4. Output — Markdown handoff (≤400 tokens): objective, hidden_assumptions, polarities, feature_scores{top skills}, order[], graph_path[], rationale[≤4], pass. `order` ⊆ graph `@SKL` ids; never `reasoning-strategy-selector`.
+  2. Graph load -- parse [`skill-graph-seed.wire`](references/skill-graph-seed.wire) locally, or `pin_map(SKL_<hit>|SKG_global)` when MemNet live. Match TRG phrases; anchor per [skill-graph.md](references/skill-graph.md).
+  3. Rank -- graph traversal only: trigger hit -> typed neighbours (`precedes`, `default_stack`, `complements`, `specializes`); score by edge weights + hop penalty. No 6D convolution over the skill table.
+  4. Output -- Markdown handoff (≤400 tokens): objective, hidden_assumptions, polarities, feature_scores{top skills}, order[], graph_path[], rationale[≤4], pass. `order` ⊆ graph SKL ids; never `reasoning-strategy-selector`.
   5. Revise — if ambiguous: re-anchor `pin_map(SKL_<top>, depth=1)` or widen trigger match; max once.
-  6. Settle (parent agent, not selector) — on downstream `pass: true`, emit `led_to_success` `@EDG` rows per [phase4-learning-loop.md](references/phase4-learning-loop.md); `python tools/record_routing_success.py TSK_route_<slug> <skill-id> [...]`
+  6. Settle (parent agent, not selector) -- on downstream `pass: true`, emit `LED_TO_SUCCESS` CREATE rows per [phase4-learning-loop.md](references/phase4-learning-loop.md); `python tools/record_routing_success.py TSK_route_<slug> <skill-id> [...]`
 
 system_instruction: |
   You route via skill graph traversal only; you do not solve the task.
   Prefer `order: []` + SKILL-GRAPH / repo AGENTS when domain intent is clear.
 
-  1. Match intent to `@TRG` rows (skill-graph-seed.wire or MemNet warm slice).
-  2. Traverse typed `@EDG` neighbours; rank per edge weights in skill-graph.md.
+  1. Match intent to TRG phrases (skill-graph-seed.wire or `pin_map`).
+  2. Traverse typed neighbours; rank per edge weights in skill-graph.md.
   3. Cold start (no trigger): anchor `SKG_global` or domain hub via graph `default_stack` edges.
   4. Return top-3 with score ≥ 0.55, or `[]` → SKILL-GRAPH fast-path.
 
@@ -69,7 +69,7 @@ Not a default fallback for unclear project work; use repo `AGENTS.md` / ask the 
 - `python tools/validate_selector_pack.py` — pack + graph density checks
 - `python tools/strategy-retriever.py "<q>"` — graph trigger match helper (not convolution)
 
-- `python tools/record_routing_success.py TSK_route_<slug> <id> [...]` — format `led_to_success` `@EDG` rows for MemNet
+- `python tools/record_routing_success.py TSK_route_<slug> <id> [...]` -- format `LED_TO_SUCCESS` CREATE rows for MemNet
 
 **Phase 4:** [phase4-learning-loop.md](references/phase4-learning-loop.md) — parent agent records empirical routing edges on settle.
 
