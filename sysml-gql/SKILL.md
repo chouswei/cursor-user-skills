@@ -9,10 +9,12 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.1"
-  pairs_with: [graph-query-language, gql-path-patterns, mcp-memnet, memnet-format, sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-workflow]
+  version: "1.5"
+  product: "package 0.19.2; PyPI wheel 0.19.0"
+  pairs_with: [graph-query-language, gql-path-patterns, mcp-memnet, memnet-format, sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-workflow, memnet-nested-sessions]
 token_guardrails: |
   - GQL wire only: shaped pin_map read + openCypher-shaped mutate. No Layer / NODE|EDGE line dialect; no pipe @TAG agent I/O.
+  - leftover NEW / leftover anchor= named leftover. Cue by labels+properties.
   - .sysml is structural SSOT; MemNet holds atomised modeling relatives between turns.
   - Construct map SSOT: sysml-memnet-patterns.md -- do not invent labels or rel spellings.
   - Keep this skill thin: link siblings for tools, wire, and full snap procedure.
@@ -30,13 +32,13 @@ token_guardrails: |
 
 | Step | Action |
 |------|--------|
-| 1 | Anchor on `TSK_model_<short>` (mint if warm miss; `find` then pin_map if id unknown) |
-| 2 | `pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)` -- shaped subgraph |
+| 1 | `session_open` if no map. Cue `TSK_model_<short>` (`find` if unknown). Warm miss -> mint via `mutate` |
+| 2 | `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)` |
 | 3 | Narrow `Read` at `SYM.line`; edit project `models/*.sysml` |
 | 4 | Validate (`mcp-sysml-v2`) until pass |
-| 5 | Mutate deltas only (new/changed atoms + refresh `SYM.line`) |
+| 5 | `mutate` deltas only (new/changed atoms + refresh `SYM.line`) |
 
-Full six-step snap (serve probe, outputs sync, settle): [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md). Cache defer: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md). Hub sequence: [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md).
+Full six-step snap (serve probe, outputs sync, settle): [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md). Cache defer: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md). Hub sequence: [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md). Nest cuts: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md).
 
 ## Construct map (abbrev)
 
@@ -55,12 +57,12 @@ Full six-step snap (serve probe, outputs sync, settle): [sysml-memnet-snap.md](.
 Closed kind enums and batch rules: [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md).
 
 ```cypher
-MATCH (t:TSK {id: $tid})
-CREATE (p:PRT {id: 'NEW', name: 'Pdu', kind: 'partUsage', recycle: 'persistent'})-[:HASPORT {id: 'NEW', recycle: 'persistent'}]->(por:POR {id: 'NEW', name: 'pwr_in', kind: 'portUsage', dir: 'in', recycle: 'persistent'})
-CREATE (p)-[:SATISFIES {id: 'NEW', recycle: 'persistent'}]->(:REQ {id: $req})
+MATCH (t:TSK {goal: $goal})
+CREATE (p:PRT {name: 'Pdu', kind: 'partUsage'})-[:hasPort]->(por:POR {name: 'pwr_in', kind: 'portUsage', dir: 'in'})
+CREATE (p)-[:satisfies]->(:REQ {requirementId: $req})
 ```
 
-Copy assigned ids from the pin_map / mutate response. Bound paths: [gql-path-patterns](../gql-path-patterns/SKILL.md).
+Cue and MATCH by labels+properties (`goal`, `name`, `qname`, `path`, `requirementId`). leftover nickname `id` / `locators=['id=...']` / `id:'NEW'` are leftover. Bound paths: [gql-path-patterns](../gql-path-patterns/SKILL.md).
 
 ## Related
 
@@ -71,4 +73,5 @@ Copy assigned ids from the pin_map / mutate response. Bound paths: [gql-path-pat
 | [mcp-memnet](../mcp-memnet/SKILL.md) | MCP tools and session loop |
 | [memnet-format](../memnet-format/SKILL.md) | MemNet GQL wire conventions |
 | [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) | Snap, read policy, pattern SSOT |
+| [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) | Catalog / look loop |
 | [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) | Specialist read/write defer |

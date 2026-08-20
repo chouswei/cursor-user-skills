@@ -9,11 +9,12 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.10"
+  version: "1.13"
+  product: "package 0.19.2; PyPI wheel 0.19.0"
   pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, mcp-sysmledgraph, memnet-format, sysml-gql]
 token_guardrails: |
   - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; pin_map before substantive edits.
-  - MUST follow references/sysml-memnet-read-policy.md: topology from warm; ≤2 narrow Read windows per turn; no full deploy re-read.
+  - MUST follow references/sysml-memnet-read-policy.md: topology from warm; <=2 narrow Read windows per turn; no full deploy re-read.
   - MUST follow references/sysml-memnet-pipeline.md: pipeline step atoms via GQL/openCypher-shaped mutate when MemNet is up; plain Markdown when down (not TOON/TRON).
   - Use unified labels PRT/POR/BEH with kind prop; MUST NOT write PARTD/PORTD/BEHD/TASK aliases.
   - Atomise first: one fact per node/rel; short props; never store full .sysml or paragraph prose.
@@ -27,7 +28,7 @@ token_guardrails: |
 
 **Layout:** `SKILL.md` + references (load order below).
 
-**Entry point for “use MemNet as cache”:** [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) — specialist `sysml-*` skills defer read/write there.
+**Entry point for "use MemNet as cache":** [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) -- specialist `sysml-*` skills defer read/write there.
 
 **Durable graph memory** for SysML v2 projects: symbol index with file/line locators, ports, connections, behaviour, design rationale, and documentation atoms. Complements `mcp-sysmledgraph` (structural impact) and `mcp-sysml-v2` (validate/parse).
 
@@ -35,7 +36,7 @@ MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `d
 
 ## Read policy (mandatory)
 
-**Discovery:** `pin_map` -> PRT / CON / SYM / REQ. (`query_warm` is legacy alias.)  
+**Discovery:** `pin_map` from a cue -> PRT / CON / SYM / REQ. leftover `query_warm` / `anchor=` named leftover.  
 **Edit:** `Read(path, offset=line-12, limit=35)` at SYM.line only.  
 **Forbidden per turn:** full deploy read; re-grep names already in warm; multi-file read without warm miss.
 
@@ -43,22 +44,22 @@ Full rules: [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md
 
 ## Reference load order
 
-1. [references/sysml-memnet-snap.md](references/sysml-memnet-snap.md) — **mandatory** 6-step sequence, grep, delta, `.snap`
-2. [references/sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md) — **when to read `.sysml`** vs warm (anti-patterns, read budget)
+1. [references/sysml-memnet-snap.md](references/sysml-memnet-snap.md) -- **mandatory** 6-step sequence, grep, delta, `.snap`
+2. [references/sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md) -- **when to read `.sysml`** vs warm (anti-patterns, read budget)
 3. [references/sysml-memnet-pipeline.md](references/sysml-memnet-pipeline.md) -- **pipeline handoffs** (GQL/shaped step atoms)
 4. [references/sysml-memnet-patterns.md](references/sysml-memnet-patterns.md) -- canonical 19-kind map, construct table, closed rel list
 5. [references/relatives-cache-map.md](references/relatives-cache-map.md) -- **which specialist skill writes which kinds**
 6. [references/sysml-memnet-cookbook-bridge.md](references/sysml-memnet-cookbook-bridge.md) -- upstream cookbook pointer, unified-kind policy
 7. [sysml-gql](../sysml-gql/SKILL.md) -- thin turn loop + construct abbrev
-8. Upstream cookbook -- MemNet `docs/application-notes/llm-sysml-v2-modeling.md` (worked turns)
+8. Upstream cookbook -- MemNet `docs/application-notes/system/llm-sysml-v2-modeling.md` (worked turns)
 
 Pair with [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) and [memnet-codebase-snap](../memnet-codebase-snap/SKILL.md).
 
 ## Prerequisites
 
-1. Repo install for **0.9**: `pip install -e ".[mcp]"` from MemNet (PyPI `memnet-llm` is still **0.4.6**). Extra cabinet client: `.[mcp,neo4j]` (live Neo4j unclaimed).
+1. **Package 0.19.2** (tag `v0.19.2`; extras 0.10-0.19 unchanged). **PyPI wheel** still **`memnet-llm==0.19.0`**. **Install:** `pip install 'memnet-llm[mcp]==0.19.0'` **or** git / `v0.19.2` then `pip install -e ".[mcp]"`. Do **not** `pip install memnet-llm==0.19.1` or `==0.19.2` as the current wheel. Optional `[neo4j]` (live claimed 0.14; drivers only). **1.0** unclaimed.
 2. MemNet entry in `~/.cursor/mcp.json` (in-process preferred; see [mcp-policy.md](../mcp-memnet/references/mcp-policy.md)).
-3. MemNet MCP tools visible in the session catalog. If absent: treat as serve down — no `pin_map` / mutate.
+3. MemNet MCP tools visible in the session catalog. If absent: treat as serve down -- no `pin_map` / mutate.
 4. Under TCP only: `memnet serve` + optional `serve_status`. Skip that probe under in-process default.
 
 ## When to use
@@ -80,13 +81,13 @@ ITM is a **node** only (item definition / flow item); see [the ITM pattern](refe
 
 ## Pairing
 
-- **sysml-modeling-workflow** — encodes the 6-step sequence
-- **system-design-report-generator** — full pack generate/maintain: pin_map before prose, ART/SEC/CLM after sync ([memnet-report-pipeline.md](../system-design-report-generator/references/memnet-report-pipeline.md))
-- **sysml-view-doc-sync** — sync outputs, then atomise key claims as CLM
-- **sysml-refactorer**, **sysml-traceability**, **sysml-requirements-audit** — persist findings after work
-- **memnet-format** — MemNet GQL wire; thin SysML x MemNet kind/id pointer only
-- **mcp-sysmledgraph** — impact/rename; record intent in MemNet
-- **mcp-memnet** — base MCP mechanics
+- **sysml-modeling-workflow** -- encodes the 6-step sequence
+- **system-design-report-generator** -- full pack generate/maintain: pin_map before prose, ART/SEC/CLM after sync ([memnet-report-pipeline.md](../system-design-report-generator/references/memnet-report-pipeline.md))
+- **sysml-view-doc-sync** -- sync outputs, then atomise key claims as CLM
+- **sysml-refactorer**, **sysml-traceability**, **sysml-requirements-audit** -- persist findings after work
+- **memnet-format** -- MemNet GQL wire; thin SysML x MemNet kind/id pointer only
+- **mcp-sysmledgraph** -- impact/rename; record intent in MemNet
+- **mcp-memnet** -- base MCP mechanics
 
 ## Quick anchors
 

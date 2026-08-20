@@ -16,7 +16,7 @@ Use when **generating**, **scaffolding**, or **maintaining** a `system-design-re
 
 1. `serve_status`. If `running: false`, generate report from warm miss grep only; pipeline steps use plain Markdown in-prompt; skip MemNet write.
 2. Read **`AGENT-CONTEXT.md`** — session id, anchor (`TSK_model_<short>`), cross-artifact `ART_*` (manuals).
-3. **`pin_map(anchor=TSK_model_<short>, depth=2, max_rows=80)`** — prefer warm rows over memory for part/link/req names.
+3. **`pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=80)`** -- prefer warm rows over memory for part/link/req names. leftover `anchor=` named leftover.
 
 **Remote serve:** when `MEMNET_SERVE_HOST` is not localhost, local `memnet session load --file` may fail (path on dev machine only). Push wire via repo `tools/memnet_push_wire.py` with `MEMNET_SERVE_HOST` set (see project `AGENT-CONTEXT.md`).
 
@@ -41,7 +41,7 @@ Follow [sysml-modeling-workflow](../../sysml-modeling-workflow/SKILL.md) steps 1
 
 | Step | Action | MemNet |
 |------|--------|--------|
-| **M1** | `query_warm` on touched `@PRT`/`@CON`/`@REQ`/`@BEH` | READ + `@CLM` `M1:warm` |
+| **M1** | `pin_map` on touched PRT/CON/REQ/BEH cues | READ + `:CLM` `M1:warm` |
 | **M2** | Open hub → **one** section `file` from `llm_toc` for the changed topic only | `@CLM` `M2:sec_*` |
 | **M3** | Patch section from warm `@CON`/`@PRT`/`@REQ` + narrow deploy grep at `@SYM.line`; sync Mermaid in owning section | `@CLM` `M3:patch` |
 | **M4** | Model delta already written in modeling step 6 | `@CLM` `M4:model_delta` |
@@ -62,15 +62,16 @@ memnet:
       note: de-facto valve manual
 ```
 
-Agents: **`pin_map(art_id)`** or **`pin_map(anchor)`** before opening section files when serve is up.
+Agents: **`pin_map` from a cue** (leftover `anchor=` named leftover) before opening section files when serve is up.
 
 ## `:ART` / `:SEC` / `:CLM` mapping
 
 **One report pack -> one `:ART`:**
 
 ```cypher
-CREATE (a:ART {id: 'ART_vfdl2-design', title: 'VFDL2 system design', source: 'outputs/system-design-report/index.md', kind: 'report', status: 'active', recycle: 'persistent'})
-CREATE (:TSK {id: 'TSK_model_vfdl2'})-[:OWNS {id: 'NEW', note: 'scope', recycle: 'persistent'}]->(a)
+CREATE (a:ART {title: 'VFDL2 system design', source: 'outputs/system-design-report/index.md', kind: 'report', status: 'active', recycle: 'persistent'})
+MATCH (t:TSK {goal: 'TSK_model_vfdl2'})
+CREATE (t)-[:OWNS {note: 'scope', recycle: 'persistent'}]->(a)
 ```
 
 **Each `llm_toc` entry -> one `:SEC`:**
@@ -83,9 +84,10 @@ CREATE (:TSK {id: 'TSK_model_vfdl2'})-[:OWNS {id: 'NEW', note: 'scope', recycle:
 | `llm_toc[].file` | `:CLM` / prose lives in that path -- store path on `:ART.source` only |
 
 ```cypher
-CREATE (s1:SEC {id: 'S01', heading: 'Scope and sources', order: 1, status: 'active', recycle: 'persistent'})
-CREATE (s4:SEC {id: 'S04', heading: 'Interconnection view', order: 4, status: 'active', recycle: 'persistent'})
-CREATE (:ART {id: 'ART_vfdl2-design'})-[:CONTAINS {id: 'NEW', recycle: 'persistent'}]->(s4)
+CREATE (s1:SEC {heading: 'Scope and sources', order: 1, status: 'active', recycle: 'persistent'})
+CREATE (s4:SEC {heading: 'Interconnection view', order: 4, status: 'active', recycle: 'persistent'})
+MATCH (a:ART {title: 'VFDL2 system design'}), (s4:SEC {heading: 'Interconnection view'})
+CREATE (a)-[:CONTAINS {recycle: 'persistent'}]->(s4)
 ```
 
 **Section content -> `:CLM` (one fact per row, <=15 words in `code`):**
@@ -99,9 +101,11 @@ CREATE (:ART {id: 'ART_vfdl2-design'})-[:CONTAINS {id: 'NEW', recycle: 'persiste
 | Design choice in prose | `:DEC` if still open; `:CLM` type=`decision` when settled |
 
 ```cypher
-CREATE (c:CLM {id: 'C81', type: 'fact', code: 'ValveController switched via relay4p2t twoPoleB', status: 'active', recycle: 'persistent'})
-CREATE (c)-[:MENTIONS {id: 'NEW', note: 'subject', recycle: 'persistent'}]->(:CON {id: 'CON_linkRelay4p2tTwoPoleBToValveController'})
-CREATE (c)-[:MENTIONS {id: 'NEW', note: 'subject', recycle: 'persistent'}]->(:PRT {id: 'PRT_valveController_vfdl2'})
+CREATE (c:CLM {type: 'fact', code: 'ValveController switched via relay4p2t twoPoleB', status: 'active', recycle: 'persistent'})
+MATCH (c:CLM {code: 'ValveController switched via relay4p2t twoPoleB'})
+CREATE (c)-[:MENTIONS {note: 'subject', recycle: 'persistent'}]->(:CON {name: 'linkRelay4p2tTwoPoleBToValveController'})
+CREATE (c)-[:MENTIONS {note: 'subject', recycle: 'persistent'}]->(:PRT {name: 'valveController_vfdl2'})
+```
 ```
 
 **Do not** store Mermaid source or full markdown tables in `CLM.code`.

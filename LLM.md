@@ -4,7 +4,7 @@
 
 Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>/SKILL.md`.
 
-**Wire reminder:** pin_map = **shaped subgraph**. Mutate = openCypher-shaped CREATE / MATCH-SET / DELETE; mint creates with `NEW`.
+**Wire reminder:** pin_map = **shaped subgraph** from a cue. Mutate = openCypher-shaped CREATE / MATCH-SET / DELETE. leftover `id:'NEW'` mint named leftover.
 
 ---
 
@@ -35,7 +35,7 @@ Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>
 Mutate sketch (when writing rules into a live session):
 
 ```cypher
-CREATE (r:RUL {id: 'NEW', kind: 'MUST', code: '...', priority: 'high', recycle: 'persistent'})
+CREATE (r:RUL {kind: 'MUST', code: '...', priority: 'high', recycle: 'persistent'})
 ```
 
 Cross-refs: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc), [sysml-memnet-pipeline.md](sysml-memnet-documentation/references/sysml-memnet-pipeline.md). Do not use TOON/TRON.
@@ -74,8 +74,8 @@ Cross-refs: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
 openCypher-shaped mutate sketch:
 
 ```cypher
-CREATE (c:CLM {id: 'NEW', type: 'decision', code: 'route_model->sub-agent-policy_Model_by_role', recycle: 'persistent'})
-CREATE (c)-[:ROUTES_TO {id: 'NEW', note: 'model_choice', recycle: 'persistent'}]->(:SKL {id: 'sub-agent-policy'})
+CREATE (c:CLM {type: 'decision', code: 'route_model->sub-agent-policy_Model_by_role', recycle: 'persistent'})
+CREATE (c)-[:ROUTES_TO {note: 'model_choice', recycle: 'persistent'}]->(:SKL {id: 'sub-agent-policy'})
 ```
 
 ---
@@ -109,14 +109,14 @@ Skill chain (GQL wire -- mutate sketch; mint only on the relationship):
 
 ```cypher
 MATCH (a:SKL {id: 'sysml-modeling-session-checklist'}), (b:SKL {id: 'sysml-modeling-workflow'})
-CREATE (a)-[:NEXT {id: 'NEW', note: 'preflight', recycle: 'persistent'}]->(b)
+CREATE (a)-[:NEXT {note: 'preflight', recycle: 'persistent'}]->(b)
 MATCH (b:SKL {id: 'sysml-modeling-workflow'}), (c:SKL {id: 'sysml-nested-structure-modeling'})
-CREATE (b)-[:NEXT {id: 'NEW', note: 'decompose', recycle: 'persistent'}]->(c)
+CREATE (b)-[:NEXT {note: 'decompose', recycle: 'persistent'}]->(c)
 MATCH (c:SKL {id: 'sysml-nested-structure-modeling'}), (d:SKL {id: 'sysml-signal-processing-pipeline'})
-CREATE (c)-[:NEXT {id: 'NEW', note: 'stage_ports', recycle: 'persistent'}]->(d)
+CREATE (c)-[:NEXT {note: 'stage_ports', recycle: 'persistent'}]->(d)
 ```
 
-(Copy assigned ids from the pin map after mint.)
+(leftover `id:'NEW'` mint named leftover. Cue next turn by labels+properties.)
 
 Outcome facts (shaped present after settle):
 

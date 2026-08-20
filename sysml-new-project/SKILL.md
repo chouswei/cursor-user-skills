@@ -7,6 +7,8 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
+  version: "1.2"
+  product: "package 0.19.2; PyPI wheel 0.19.0"
   pairs_with: [sysml-root-config, sysml-requirements-generator, sysml-modeling-session-checklist, sysml-memnet-cache, sysml-memnet-documentation, mcp-memnet, sysml-v2-lsp-mcp, project-planner]
 token_guardrails: |
   - Ask for project slug, one-line purpose, and requirement ID prefix before bulk generation unless user gave them.
@@ -141,13 +143,14 @@ Derive `<short>` from slug (e.g. `vedan-foam-detection-lite-ver2` → `vfdl2`). 
 
 1. `serve_status` -- if false, skip; complete step 11 with placeholder session.
 2. `session_open` with coding/SysML kinds enabled (see [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md) for field notes).
-3. `add` skeleton (openCypher-shaped):
+3. `mutate` skeleton (openCypher-shaped; leftover `add` / `id:'NEW'` named leftover):
 
 ```cypher
-CREATE (t:TSK {id: 'NEW', goal: $purpose, phase: 'model', status: 'in_progress', recycle: 'persistent'})
-CREATE (m1:MOD {id: 'NEW', path: 'models/deploy-<slug>.sysml', role: 'deploy', status: 'active', recycle: 'persistent'})
-CREATE (m2:MOD {id: 'NEW', path: 'models/root-<slug>.sysml', role: 'root', status: 'active', recycle: 'persistent'})
-CREATE (t)-[:OWNS {id: 'NEW', note: 'scope', recycle: 'persistent'}]->(m1)
+CREATE (t:TSK {goal: $purpose, phase: 'model', status: 'in_progress', recycle: 'persistent'})
+CREATE (m1:MOD {path: 'models/deploy-<slug>.sysml', role: 'deploy', status: 'active', recycle: 'persistent'})
+CREATE (m2:MOD {path: 'models/root-<slug>.sysml', role: 'root', status: 'active', recycle: 'persistent'})
+MATCH (t:TSK {goal: $purpose}), (m1:MOD {path: 'models/deploy-<slug>.sysml'})
+CREATE (t)-[:OWNS {note: 'scope', recycle: 'persistent'}]->(m1)
 ```
 
 Add MOD for each other `models/*.sysml` created. Store returned `session_id` in `AGENT-CONTEXT.md` and optionally `MEMNET_SESSION` in mcp.json.

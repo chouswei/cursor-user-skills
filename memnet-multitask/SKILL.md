@@ -10,28 +10,28 @@ description: >-
   TSK_* settle, TCP serve, streamable-http MCP, GQL wire, shaped pin_map.
 metadata:
   pattern: pipeline
-  version: "2.0"
+  version: "2.4"
   domain: memnet
-  product: memnet-llm==0.9.0
+  product: "package 0.19.2; PyPI wheel 0.19.0"
 ---
 
 # MemNet + Multitask Mode
 
 User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Task** sub-agents. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) (tools) and [memnet-format](../memnet-format/SKILL.md) (GQL wire / shaped pin_map).
 
-**Product ops SSOT (MemNet repo, developers):** `docs/multi-agent-sessions.md`.
-**System-repo adoption (applications):** MemNet `docs/application-notes/llm-system-dev-multitask.md`.
-**Product shape / 0.8 teach:** MemNet `docs/SHAPE.md`. **Version map:** MemNet `docs/ROADMAP-0.5.md` (package **0.9.0**; **1.0** = 0.5–0.8 claimed).
-**Docs index:** MemNet `docs/README.md`. Chat is **never** mission SSOT.
+**Product ops SSOT:** MemNet `docs/operations/multi-agent-sessions.md`.
+**System-repo adoption:** MemNet `docs/application-notes/system/llm-system-dev-multitask.md`.
+**Shape / version map:** MemNet `docs/SHAPE.md`, `docs/ROADMAP.md`.
+**Package 0.19.2** (extras 0.10-0.19 unchanged). **PyPI wheel** still **0.19.0** until twine. **1.0** unclaimed (claim of 0.5-0.8). Chat is **never** mission SSOT.
 
 ## When to load
 
 | Signal | Action |
 |--------|--------|
-| Multitask Mode on | Follow this skill + MemNet `docs/multi-agent-sessions.md` |
+| Multitask Mode on | Follow this skill + MemNet `docs/operations/multi-agent-sessions.md` |
 | Spawning Task / background workers | Parent checklist below; pass session id in every worker prompt |
-| `modelbasedPrj-*` system repo + Multitask | Also read MemNet `docs/application-notes/llm-system-dev-multitask.md` |
-| Single-agent goldfish loop | [mcp-memnet](../mcp-memnet/SKILL.md) only -- default in-process MCP is fine |
+| `modelbasedPrj-*` system repo + Multitask | Also read MemNet `docs/application-notes/system/llm-system-dev-multitask.md` |
+| Single-agent goldfish loop | [memnet-use](../memnet-use/SKILL.md) -- default in-process MCP |
 
 ## Transport (shared store)
 
@@ -41,19 +41,19 @@ User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Tas
 | **CLI + `memnet serve`** (TCP `:18765`) | **MUST** when workers share one session id |
 | **MCP streamable-http** (`:18766/mcp`) | Same as TCP when all agents hit the **same** HTTP process **bridged to that serve** |
 
-Set `MEMNET_MCP_TRANSPORT=tcp` on the shared HTTP MCP (or use TCP CLI). Probe with `serve_status` before delegating if uncertain. User-pack: Cursor **`memnet-pi`** HTTP `http://10.0.0.10:18766/mcp`. Detail: [mcp-memnet](../mcp-memnet/SKILL.md).
+Set `MEMNET_MCP_TRANSPORT=tcp` on the shared HTTP MCP (or use TCP CLI). Probe with `serve_status` before delegating if uncertain. User-pack: Cursor **`memnet-pi`** HTTP `http://10.0.0.10:18766/mcp`. InvenTree MCP is not MemNet. Detail: [mcp-memnet](../mcp-memnet/SKILL.md).
 
 ## Parent coordinator
 
 ### MUST
 
 - `session_open` / `session_load` **one** mission `session` id; pass it in every worker prompt.
-- Mint and own **`TSK_*`** / **`USR_*`**: `status=active` -> `status=settled`; optional `led_to_success` edges. Prefer **one live `TSK`** (0.5 V5).
-- Self-contained worker prompts: session id, anchor ids, write scope (subgraph or relation types), return shape, **`llm_id`**.
-- **`reserve`** overlapping neighbourhoods before parallel mutate (shipped RSV); pass matching `llm_id` on worker `add`/`update`.
+- Mint and own **`TSK_*`** / **`USR_*`**: `status=active` -> `status=settled`; optional `led_to_success` edges. Prefer **one live `TSK`** (0.5 V5). leftover NEW mint is leftover.
+- Self-contained worker prompts: session id, cue locators (`kind` / `goal=` / `path=` / `qname=`), write scope (subgraph or relation types), return shape, **`llm_id`**. leftover nickname `id` is leftover.
+- **`reserve`** overlapping neighbourhoods before parallel mutate (shipped RSV); pass matching `llm_id` on worker **`mutate`**.
 - **End the turn** after background spawn -- no poll, no await.
 - Next coordinator turn: **`pin_map` first** (cue / `find` if ego lost); act from refreshed slice -- do not redo worker investigation from chat.
-- Prefer **one worker** per coherent workstream; parallel only with **disjoint** anchors (or RSV) or **separate** session ids.
+- Prefer **one worker** per coherent workstream; parallel only when the **parent shell is already clear** and interiors are **disjoint** (or RSV) -- [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md).
 
 ### MUST NOT
 
@@ -67,8 +67,8 @@ Set `MEMNET_MCP_TRANSPORT=tcp` on the shared HTTP MCP (or use TCP CLI). Probe wi
 ### MUST
 
 - Use the parent's **session id**; **`pin_map` first** every turn (or `find` then pin_map).
-- Copy assigned ids from pin map -- **MUST NOT** invent ids the parent already minted.
-- Mutate only under the **assigned subgraph** (anchors + relations in the prompt).
+- Cue locators from the pin map -- **MUST NOT** invent a store key. leftover nickname `id` is leftover.
+- Mutate only under the **assigned subgraph**.
 - Pass the assigned **`llm_id`** on mutate when RSV is held.
 - Return a concise result; durable facts live in MemNet rows.
 
@@ -85,10 +85,10 @@ When working **in** the MemNet engine repository:
 | Step | Path |
 |------|------|
 | Requirements group | `sysml-models/models/requirements.sysml` -- **MN-REQ-12** leaves 12.1-12.8 |
-| Verify package | `sysml-models/models/verify.sysml` -- **MN-VER-12-G00** + **S01...S09** |
+| Verify package | `sysml-models/models/verify.sysml` -- **MN-VER-12-G00** + **S01...S14** |
 | Worked scenario | `sysml-models/outputs/multitask-case-study.md` |
 
-In downstream **`modelbasedPrj-*`** repos: adopt via doc pointer or thin local mirror -- **do not** import `MemNetRequirements` into the product load tree unless the project owns a merged model. Detail: MemNet `docs/application-notes/llm-system-dev-multitask.md` section 6.
+In downstream **`modelbasedPrj-*`** repos: adopt via doc pointer or thin local mirror -- **do not** import `MemNetRequirements` into the product load tree unless the project owns a merged model.
 
 ## System-dev two-store pattern (`modelbasedPrj-*`)
 
@@ -98,22 +98,23 @@ In downstream **`modelbasedPrj-*`** repos: adopt via doc pointer or thin local m
 | **Product `sysml-models/`** (git) | Structural model: requirements, deploy, behaviour |
 | **Source tree** | Code and artefacts on disk |
 
-Recommended order when both SysML and code change: **SysML worker first** (disjoint `MOD_*` under `sysml-models/`), then **code worker** (`parts/`, tests). Full pattern: MemNet `docs/application-notes/llm-system-dev-multitask.md`.
+Path-B: **`ingest_*`** into the current session (locator ids; **no** leftover NEW). Catalog Snap: **`snap_model`**. Export: **`export_pin_map`**. Ingest is **not** export.
 
-Path-B external pins: **`ingest_sysml` / `ingest_codebase` / `ingest_pcba` / `ingest_skills`** (shipped) with deterministic locator ids -- **no** client NEW. Fallback: `session_open` `seed_lines` or explicit-id `add`. Ingest is **not** pin-map export.
-
-## Shipped vs still design (0.9)
+## Shipped vs still design (package 0.19.2)
 
 | Capability | Status |
 |------------|--------|
-| Neighbourhood RSV (`reserve` / `extend` / `release`, `llm_id` + TTL) | **Shipped** -- MutateGate enforces holder |
-| Path-B ingest (SysML, codebase, PCBA, skills) | **Shipped** -- locator ids |
-| CapsPolicy ACL (grant / bind / enable) | **Shipped opt-in** -- off until `session_acl_enable` |
-| Live AgensGraph cabinet | **Claimed 0.7** when URL set -- not a hosted service |
-| Neo4j durable client (`memnet-llm[neo4j]`) | **0.9 client shipped**; live round-trip **unclaimed** |
-| Session ACL modes (`private` / `shared` / `open`), roles, `session_token` | **Design** -- MemNet `docs/grammar/memnet-security-multi-agent.md` |
-| HostSearch / `rag_query` / Peak_L / N-server / pin-map export | **Later** -- not 0.9 / 1.0 gates |
-| Engine write-scope without RSV | Still last-write-wins if nobody reserved |
+| Neighbourhood RSV | **Shipped** |
+| Path-B ingest | **Shipped** |
+| CapsPolicy ACL | **Shipped opt-in** (`session_acl_enable`) |
+| Live AgensGraph | **Claimed 0.7** when URL set |
+| Neo4j live | **Claimed 0.14** (`liveNeo4jClaimed=true`). Do not write hydrate-by-hid proven. Do not vendor a server. |
+| HostSearch locators | Extra **0.17** (`RagHostHook`; no `rag_query`) |
+| Peak_L | Extra **0.18** (last-resort; not default goldfish) |
+| Pin-map export / catalog Snap | Extra **0.19** / **0.15** |
+| Session ACL modes / `session_token` | **Design** -- MemNet `docs/extras/memnet-security-multi-agent.md` |
+| N-server | **Research** #47 |
+| Write without RSV | Last-write-wins |
 
 ## Anti-patterns
 
@@ -123,8 +124,9 @@ Path-B external pins: **`ingest_sysml` / `ingest_codebase` / `ingest_pcba` / `in
 | In-process MCP under Multitask | Each process gets its own graph |
 | Parent polls or re-runs worker work | Token waste; violates turn boundary |
 | Worker mints duplicate `TSK_*` | Parent owns task lifecycle |
-| Teaching full ACL modes / HostSearch / live Neo4j as available | Not claimed in 0.9 |
+| Teaching full ACL modes / `rag_query` as available | Full ACL modes still design; HostSearch is locators only (**0.17**) |
 | Skipping RSV on overlapping parallel mutate | Last-write-wins |
+| Teaching live Neo4j unclaimed / HostSearch as Later | leftover 0.9 law |
 
 ## Related (user pack)
 
@@ -132,4 +134,6 @@ Path-B external pins: **`ingest_sysml` / `ingest_codebase` / `ingest_pcba` / `in
 |-------|------|
 | [mcp-memnet](../mcp-memnet/SKILL.md) | MCP tools, transport, session lifecycle |
 | [memnet-format](../memnet-format/SKILL.md) | MemNet GQL wire / shaped pin_map |
-| [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) | SysML design memory (single-agent; pair when SysML + Multitask) |
+| [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) | Look loop / nested `session=` |
+| [memnet-use](../memnet-use/SKILL.md) | How-to hub |
+| [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) | SysML relatives (pair when SysML + Multitask) |

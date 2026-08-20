@@ -1,9 +1,9 @@
-# sysml-memnet-documentation — folder layout
+# sysml-memnet-documentation -- folder layout
 
 ```
 sysml-memnet-documentation/
 ├── SKILL.md
-├── Folder_Structure.md   ← this file
+├── Folder_Structure.md   <- this file
 └── references/
     └── sysml-memnet-patterns.md
 ```

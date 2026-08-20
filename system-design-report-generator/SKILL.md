@@ -8,7 +8,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: mbse-outputs
-  version: "2.4"
+  version: "2.5"
   pairs_with:
     - project-output-article
     - sysml-view-doc-sync
@@ -61,7 +61,7 @@ These packs are for human readers too, so keep each section tight and purposeful
 
 ### B — Maintain one section (incremental)
 
-1. `query_warm` on touched model ids.
+1. `pin_map` on touched model cues (`kind` / `name` / `requirementId`). leftover `query_warm` named leftover.
 2. Hub → pick **one** `llm_toc.file`.
 3. Patch section from model; **sysml-view-doc-sync** for that file's diagrams.
 4. MemNet: update/add `@CLM` + EDGs for changed claims only.

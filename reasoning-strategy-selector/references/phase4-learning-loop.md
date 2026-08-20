@@ -31,14 +31,14 @@ Downstream skill output includes `pass: true`, or task completed without error.
 python tools/record_routing_success.py TSK_route_<slug> <skill-id> [more-ids...]
 ```
 
-Paste output into `memnet.add` with `allow_new_relation=true`.
+Paste output into `mutate` with `allow_new_relation=true`. leftover `memnet.add` named leftover.
 
 ### Settle example (store write; not always-on rule body)
 
 When `reasoning-strategy-selector` `order[]` succeeds, **parent** writes openCypher-shaped mutate (GQL wire):
 
 ```cypher
-CREATE (:TSK {id: $tid})-[:LED_TO_SUCCESS {id: 'NEW', note: 'pass', recycle: 'persistent'}]->(:SKL {id: $skillId})
+CREATE (:TSK {goal: $tid})-[:LED_TO_SUCCESS {note: 'pass', recycle: 'persistent'}]->(:SKL {id: $skillId})
 ```
 
 (Engine seed / import may still use compact store rows; do not teach pipe `@EDG:` as agent I/O.)

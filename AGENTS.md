@@ -55,6 +55,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (sub-agent policy; MemNet gol
 | File to Markdown | markitdown, pdf to md, docx to markdown | `mcp-markitdown` |
 | Cursor rules | create rule, .mdc, alwaysApply, AGENTS.md, user/team rules | `rule-writer` |
 | SysML + MemNet GQL | sysml gql, modeling pin_map, TSK_model GQL | `sysml-gql` |
+| Use MemNet | use memnet, how to use memnet, memnet goldfish | `memnet-use` |
 
 **See:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -> `skill-graph-seed.wire`. Route steps: User Rules **Workflow**.
 
@@ -69,10 +70,10 @@ Normative loop and tiers: **User Rules** (Workflow + MemNet goldfish loop). Stor
 ### Example: Router output (openCypher-shaped mutate -- MemNet up)
 
 ```cypher
-CREATE (t:TSK {id: 'NEW', goal: 'Relay harness edit', phase: 'route', status: 'settled', recycle: 'delete_on_settle'})
-CREATE (c1:CLM {id: 'NEW', type: 'decision', code: 'pick:sysml-modeling-workflow', recycle: 'delete_on_settle'})
-CREATE (c2:CLM {id: 'NEW', type: 'decision', code: 'pick:sysml-memnet-documentation', recycle: 'delete_on_settle'})
-CREATE (t)-[:LED_TO_SUCCESS {id: 'NEW', note: 'pass', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
+CREATE (t:TSK {goal: 'Relay harness edit', phase: 'route', status: 'settled', recycle: 'delete_on_settle'})
+CREATE (c1:CLM {type: 'decision', code: 'pick:sysml-modeling-workflow', recycle: 'delete_on_settle'})
+CREATE (c2:CLM {type: 'decision', code: 'pick:sysml-memnet-documentation', recycle: 'delete_on_settle'})
+CREATE (t)-[:LED_TO_SUCCESS {note: 'pass', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
 ```
 
 ### Example: Router output (Markdown -- MemNet down)

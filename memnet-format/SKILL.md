@@ -1,91 +1,66 @@
 ---
 name: memnet-format
 description: >-
-  MemNet GQL wire for shaped pin_map reads and openCypher-shaped mutate.
-  Triggers: memnet format, GQL wire, pin map, pin_map, mutate NEW, shaped subgraph,
-  openCypher mutate, view budget, bind vs relation.
+  MemNet GQL wire: GraphElement node/edge/property, shaped subgraph emit,
+  BIND vs relation, openCypher-shaped Commit. Triggers: memnet format, GQL
+  wire, GraphElement, shaped subgraph, BIND vs relation, openCypher mutate.
 metadata:
   pattern: tool-wrapper
-  version: "4.2"
+  version: "5.4"
   domain: data-formats,memnet
-  product: memnet-llm==0.9.0
+  product: "package 0.19.2; PyPI wheel 0.19.0"
 token_guardrails: |
-  - General GQL / paths: use graph-query-language and gql-path-patterns; keep this skill MemNet-specific.
-  - Prefer pin_map with a tight anchor + view/max_rows budget; do not dump the whole graph.
-  - Mint creates with NEW; copy assigned ids from pin_map / mutate response — never invent colliding ids.
-  - Port-port links use BIND; node-node links use typed relation labels.
+  - Wire SSOT: MemNet docs/grammar/gql-wire-profile.md. This skill is MemNet-specific only.
+  - pin_map from a cue; leftover anchor= is leftover. Do not dump S.
+  - Product Commit is GraphElement CREATE / MATCH SET DELETE -- not leftover id:'NEW'.
 ---
 
-# MemNet formats (LLM-facing)
+# MemNet formats
 
-**Audience:** model. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) for tools.
+Pair with [mcp-memnet](../mcp-memnet/SKILL.md). Formal SSOT: MemNet `docs/grammar/gql-wire-profile.md`. Version map: MemNet `docs/ROADMAP.md`.
 
-**GQL wire only.** ISO/IEC 39075 elements: **node** (vertex), **edge** (relationship), **property**. Labels name kinds; ports / law / `id` / locators are property values. Agents read a bounded **shaped subgraph** from `pin_map` and write with **openCypher-shaped** mutate in the MCP envelope (`wire_lines` / parse `stdout`). Do **not** use TOON/TRON. Prefer GQL/shaped MemNet rows or plain Markdown for handoffs. Do **not** teach pipe `@TAG:…` as agent I/O (legacy store/import only). Do **not** teach Layer / Tier A.
+**Package 0.19.2** (tag `v0.19.2`; extras 0.10-0.19 unchanged). **PyPI wheel** still **`memnet-llm==0.19.0`** until twine. **Install:** `pip install memnet-llm==0.19.0` **or** git / `v0.19.2`. Do **not** `pip install memnet-llm==0.19.1` or `==0.19.2` as the current wheel. **1.0** unclaimed.
 
-General GQL / path patterns: [graph-query-language](../graph-query-language/SKILL.md), [gql-path-patterns](../gql-path-patterns/SKILL.md). This skill keeps **MemNet-specific** conventions only.
+**GQL only.** Node / edge / property. Do not teach Layer, Tier A, pipe `@TAG`, or TOON/TRON. leftover `id:'NEW'` / leftover `anchor=` are leftover.
 
-Product notes: MemNet `README.md`, `docs/grammar/`, `docs/SHAPE.md`. Package **0.9.0** (PyPI still 0.4.6). Field notes: [references/memnet-wire-format.md](references/memnet-wire-format.md).
+User-pack engine: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:18765`**.
 
----
+## Shaped pin_map
 
-## Shaped pin_map (primary read)
+MCP `pin_map` / CLI `query pin-map` emits a bounded neighbourhood. Parse envelope **`stdout`**.
 
-MCP `pin_map` / CLI `query pin-map` returns a **shaped subgraph** (nodes + relationships around an anchor), not a session dump. Parse the tool envelope **`stdout`**.
+| Control | Product use |
+|---------|-------------|
+| `kind` / `locators` / `keyword` / `cue` / `session` | Cue q. Empty q = 0.11 outline |
+| `depth` / `max_rows` | Hard bound. Raise depth only if the slice is too thin. Over M: cut a nested session -- do not clip and call it Shape |
+| `view` | Grain on a **seed** (`shell` / `interior`). Not the outline |
+| leftover `anchor` / `anchors` | leftover nicknames |
 
-| Control | Use |
-|---------|-----|
-| `anchor` | Ego id (`TSK_*`, `SYM_*`, `PRT_*`, …) — required unless `anchors` is set |
-| `anchors` | Optional extra egos (0.5); one `max_rows`, one LAW prepend — prefer one live `TSK` |
-| `depth` / `max_rows` | Bound fan-out; raise depth only when the slice is too thin |
-| `view` | Optional budget: `shell` (tight) or `interior` (richer); omit for depth/max_rows only |
+If ego unknown: `find(limit=...)` then `pin_map` from labels+props. CueConflict when |Q|>1. `query_warm` is a leftover alias.
 
-(`query_warm` is a deprecated alias for `pin_map`.)
+Loop: `session_open(map)` -> cue -> `pin_map` -> reason -> `mutate` -> `pin_map`. Drop the prior map next turn.
 
-**Cue then pin_map:** if the ego is unknown, MCP `find` / CLI `query find` (`limit` required) returns seed nodes only — copy an id, then `pin_map`. Do not treat `find` as goldfish read. Do not dump `MATCH … RETURN`.
+## Mutate
 
-Agent loop: cue -> `pin_map` -> reason -> mutate -> `pin_map`.
-
----
-
-## openCypher-shaped mutate
-
-Mutate via MCP `add` / `update` with **openCypher-shaped** statements in `wire_lines`. Sketch:
+Product tool: MCP/CLI **`mutate`**. leftover `add`/`update` wrap the same envelope -- do not teach them as TARGET.
 
 ```cypher
-CREATE (c:CLM {id: 'NEW', type: 'decision', code: 'bitrate cap 2000 bps', recycle: 'persistent'})
-MATCH (t {id: $tid}) SET t.status = 'in_progress', t.phase = coalesce(t.phase, 0) + 1, t.recycle = 'persistent'
-CREATE (n03)-[:HELPS {id: 'NEW', note: 'labour', recycle: 'persistent'}]->(t42)
-MATCH ()-[e {id: $eid}]->() SET e.recycle = 'delete_on_settle'
-MATCH ()-[e {id: $eid}]->() DELETE e
+CREATE (t:TSK {goal:'Clear warehouse', status:'in_progress'})
+MATCH (n:NPC {role:'helper'}), (t:TSK {goal:'Clear warehouse'})
+CREATE (n)-[:helps {note:'labour'}]->(t)
+MATCH (t:TSK {goal:'Clear warehouse'}) SET t.status = 'settled', t.recycle = 'delete_on_settle'
 ```
 
 | Intent | Shape |
 |--------|-------|
-| Create node | `CREATE (n:Kind {id: 'NEW' \| knownId, …})` |
-| Patch node | `MATCH (n {id: $id}) SET n.prop = …` — no relabel on patch |
-| Create rel | `CREATE (a)-[:TYPE {id: 'NEW' \| …, …}]->(b)` |
-| Patch rel | `MATCH ()-[r {id: $eid}]->() SET r.…` or match by endpoints + type |
-| Drop rel | `MATCH ()-[r {id: $eid}]->() DELETE r` |
-| Session schema | `SCHEMA Kind ; fields=id …` — registry only (`session_open` map) |
+| Create | `CREATE (:Kind {props})` -- GraphElement identity; no required `id` |
+| Patch / settle | `MATCH` by labels+props; `SET` / `DELETE` |
+| Rel | typed label on ends; port-port **`BIND`** (`fromPort` / `toPort` as needed) |
+| Schema | `SCHEMA Kind ; fields=...` on `session_open` only |
 
-- **Create:** `id: 'NEW'` (or engine-accepted NEW mint) — copy assigned ids afterwards.
-- **Update:** known ids only — NEW illegal on patch.
-- **Properties:** short atoms (ids, paths, codes, numbers). Membership = relationships, not comma id-lists.
-- **Quotes / params:** prefer `$param` binds; quote paths that need `\` or spaces.
-- **Ingest pins:** stable locators (`path`, `qname`, …); no client NEW for those.
+Properties: short atoms. Membership = edges, not id-lists. Ingest pins: locators (`path`, `qname`), never leftover NEW.
 
----
-
-## Bind vs relation (MemNet encoding)
-
-| Link | Encoding |
-|------|----------|
-| Port <-> port | Relationship type **`BIND`** (endpoint refs such as `Node.port`) |
-| Node <-> node | Typed relation label (`HELPS`, `OWNS`, `SATISFIES`, `DEFINES`, …) |
-
-Copy exact type spellings from the live pin_map. Do not invent a second spelling for the same link. Law / `ports` props may appear on structural nodes when the session schema carries them.
-
----
+Field notes: [references/memnet-wire-format.md](references/memnet-wire-format.md). Atomise: [../mcp-memnet/references/atomisation.md](../mcp-memnet/references/atomisation.md).
 
 ## When to use which label
 
@@ -93,39 +68,14 @@ Copy exact type spellings from the live pin_map. Do not invent a second spelling
 |------|-------|
 | Fact / claim | `:CLM` (+ relationships) |
 | Directed relation | typed relationship |
-| Flat membership | many rels (`MEMBER_OF`, `CONTAINS`, …) — not id lists in props |
+| Flat membership | many rels -- not id lists in props |
 | Work unit | `:TSK` |
 | User constraint | `:USR` |
 | File / symbol | `:MOD` / `:SYM` |
 | Rule / policy | `:RUL` |
-| SysML model atoms | see **SysML x MemNet** — do not invent kinds here |
+| SysML model atoms | [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md) -- do not invent kinds here |
 
-**`rel` style (engine):** English verb / snake or upper type token per MemNet `docs/grammar/` and the live pin_map.
-
-User-pack engine: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:18765`** — see [mcp-memnet](../mcp-memnet/SKILL.md). Optional Neo4j extra is not live-claimed.
-
----
-
-## SysML x MemNet
-
-**SysML construct map, kind enums, closed rel list, and batch rules** are SSOT in [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) -> [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md). Thin turn loop: [sysml-gql](../sysml-gql/SKILL.md). Cache loop: [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md).
-
-| SysML v2 textual (grammar) | MemNet | Stable id |
-|----------------------------|--------|-----------|
-| `package` | `:PKG` | `PKG_<suffix>` |
-| `part def` / part usage | `:PRT` (+ `:SYM` locator) | `PRT_<name>` |
-| `port def` / port usage | `:POR` (+ `:SYM`) | `POR_<name>` |
-| `connection` / `connect` / link | `:CON` (+ `:SYM`) | `CON_<name>` |
-| `requirement` def/usage | `:REQ` (+ `:SYM`) | `REQ_<requirementId>` |
-| `item def` / flow item | `:ITM` **node** (see [ITM pattern](../sysml-memnet-documentation/references/sysml-memnet-patterns.md#itm-is-a-node)) | `ITM_<name>` |
-| `state def` / action / calc | `:BEH` (+ `:SYM`) | `BEH_<name>` |
-| `assert` … `satisfy` | **rel only** `:SATISFIES` | — |
-| `allocate` / `allocation` | **rel only** `:ALLOCATES` | — |
-| `.sysml` file / edit locus | `:MOD` / `:SYM` | `MOD_<slug>` / `SYM_<name>` |
-
-House anchors (copy, do not mint colliding prefixes): `TSK_model_<short>`, `TSK_diagram_<figureId>`, `USR_*`, plus the `PRT_` / `POR_` / `REQ_` / `BEH_` / `SYM_` / `MOD_` rows above. `satisfy` / `allocate` are never structure nodes — relationships only (`:SYM` only if a line locator is needed).
-
----
+House nicknames (optional property `id`, not identity): `TSK_model_<short>`, `USR_*`, `PRT_` / `POR_` / `REQ_` / `SYM_` / `MOD_`. leftover mint `id:'NEW'` is leftover.
 
 ## Handoff tiers
 
@@ -136,35 +86,27 @@ House anchors (copy, do not mint colliding prefixes): `TSK_model_<short>`, `TSK_
 | 3 | Tool / MCP / CLI boundary | JSON envelope |
 | 4 | Human deliverable | Prose Markdown |
 
----
-
-## Atomisation (before every mutate)
-
-1. Split fat rows into multiple nodes + relationships when possible.
-2. Property values = short ids, paths, codes, numbers — no sentences.
-3. Stable id from prior pin_map or mutate response.
-4. No prose paragraphs on the wire.
-
-Full discipline: [mcp-memnet/references/atomisation.md](../mcp-memnet/references/atomisation.md).
-
----
-
 ## Pre-write checklist
 
-- [ ] pin_map on a tight anchor (view / max_rows budgeted); `find` first if ego unknown
+- [ ] pin_map from a cue (view / max_rows budgeted); `find` first if ego unknown
 - [ ] Values short and structured
 - [ ] Relations are relationships (BIND for port-port)
 - [ ] Recycle matches lifetime
-- [ ] Atom reachable from a useful anchor
+- [ ] Atom reachable from a useful cue
 
----
+## MUST NOT
+
+- Unbounded `MATCH`...`RETURN` as goldfish read.
+- leftover NEW on patch. Client NEW for artefact locators.
+- Duplicate the SysML construct table in this file.
+- Claim **1.0**. Teach `pip install memnet-llm==0.19.1` or `==0.19.2` as the current wheel.
 
 ## Further reading
 
-- [references/memnet-wire-format.md](references/memnet-wire-format.md) -- MemNet GQL field notes
-- [graph-query-language](../graph-query-language/SKILL.md) -- general GQL
-- [gql-path-patterns](../gql-path-patterns/SKILL.md) -- bounded paths
-- [mcp-memnet](../mcp-memnet/SKILL.md) -- tools and session loop
-- [sysml-gql](../sysml-gql/SKILL.md) -- thin SysML x MemNet GQL bridge
-- [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) -- SysML atomisation SSOT
+- [references/memnet-wire-format.md](references/memnet-wire-format.md)
+- [graph-query-language](../graph-query-language/SKILL.md)
+- [gql-path-patterns](../gql-path-patterns/SKILL.md)
+- [mcp-memnet](../mcp-memnet/SKILL.md)
+- [memnet-use](../memnet-use/SKILL.md)
+- [sysml-gql](../sysml-gql/SKILL.md)
 - MemNet `docs/grammar/` -- design SSOT
