@@ -426,11 +426,13 @@ def _gql_props(body: str) -> Dict[str, str]:
     return {k: _gql_unesc(v) for k, v in _GQL_PROP_RE.findall(body)}
 
 
-def _gql_src_label(relation: str) -> str:
+def _gql_src_label(relation: str, src: str = "") -> str:
     if relation == "triggers":
         return "TRG"
     if relation == "led_to_success":
         return "TSK"
+    if src == "SKG_global":
+        return "SKG"
     return "SKL"
 
 
@@ -485,7 +487,7 @@ def graph_to_wire_lines(g: SkillGraph) -> List[str]:
         )
     for e in g.edges:
         rel = REL_TO_GQL.get(e.relation, e.relation.upper())
-        src_l = _gql_src_label(e.relation)
+        src_l = _gql_src_label(e.relation, e.src)
         dst_l = "SKL"
         out.append(
             "CREATE (:"
