@@ -7,8 +7,8 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.5"
-  product: "package 0.19.2; PyPI wheel 0.19.0"
+  version: "1.6"
+  product: "memnet-llm==0.19.2"
   pairs_with: [sysml-memnet-documentation, sysml-memnet-cache, sysml-modeling-workflow, project-planner, mcp-sysml-v2, mcp-sysmledgraph, mcp-memnet, sysml-view-doc-sync]
 token_guardrails: |
   - **Thin:** run the checklist mentally or as bullets; do not paste long repo trees.

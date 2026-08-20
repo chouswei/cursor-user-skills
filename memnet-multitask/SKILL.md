@@ -10,9 +10,9 @@ description: >-
   TSK_* settle, TCP serve, streamable-http MCP, GQL wire, shaped pin_map.
 metadata:
   pattern: pipeline
-  version: "2.4"
+  version: "2.5"
   domain: memnet
-  product: "package 0.19.2; PyPI wheel 0.19.0"
+  product: "memnet-llm==0.19.2"
 ---
 
 # MemNet + Multitask Mode
@@ -22,7 +22,7 @@ User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Tas
 **Product ops SSOT:** MemNet `docs/operations/multi-agent-sessions.md`.
 **System-repo adoption:** MemNet `docs/application-notes/system/llm-system-dev-multitask.md`.
 **Shape / version map:** MemNet `docs/SHAPE.md`, `docs/ROADMAP.md`.
-**Package 0.19.2** (extras 0.10-0.19 unchanged). **PyPI wheel** still **0.19.0** until twine. **1.0** unclaimed (claim of 0.5-0.8). Chat is **never** mission SSOT.
+**Package and PyPI 0.19.2** (extras 0.10-0.19 unchanged). **1.0** unclaimed (claim of 0.5-0.8). Chat is **never** mission SSOT.
 
 ## When to load
 

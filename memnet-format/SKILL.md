@@ -6,9 +6,9 @@ description: >-
   wire, GraphElement, shaped subgraph, BIND vs relation, openCypher mutate.
 metadata:
   pattern: tool-wrapper
-  version: "5.4"
+  version: "5.5"
   domain: data-formats,memnet
-  product: "package 0.19.2; PyPI wheel 0.19.0"
+  product: "memnet-llm==0.19.2"
 token_guardrails: |
   - Wire SSOT: MemNet docs/grammar/gql-wire-profile.md. This skill is MemNet-specific only.
   - pin_map from a cue; leftover anchor= is leftover. Do not dump S.
@@ -19,7 +19,7 @@ token_guardrails: |
 
 Pair with [mcp-memnet](../mcp-memnet/SKILL.md). Formal SSOT: MemNet `docs/grammar/gql-wire-profile.md`. Version map: MemNet `docs/ROADMAP.md`.
 
-**Package 0.19.2** (tag `v0.19.2`; extras 0.10-0.19 unchanged). **PyPI wheel** still **`memnet-llm==0.19.0`** until twine. **Install:** `pip install memnet-llm==0.19.0` **or** git / `v0.19.2`. Do **not** `pip install memnet-llm==0.19.1` or `==0.19.2` as the current wheel. **1.0** unclaimed.
+**Package and PyPI 0.19.2** (tag `v0.19.2`; extras 0.10-0.19 unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.2`. **1.0** unclaimed.
 
 **GQL only.** Node / edge / property. Do not teach Layer, Tier A, pipe `@TAG`, or TOON/TRON. leftover `id:'NEW'` / leftover `anchor=` are leftover.
 
@@ -99,7 +99,7 @@ House nicknames (optional property `id`, not identity): `TSK_model_<short>`, `US
 - Unbounded `MATCH`...`RETURN` as goldfish read.
 - leftover NEW on patch. Client NEW for artefact locators.
 - Duplicate the SysML construct table in this file.
-- Claim **1.0**. Teach `pip install memnet-llm==0.19.1` or `==0.19.2` as the current wheel.
+- Claim **1.0**.
 
 ## Further reading
 

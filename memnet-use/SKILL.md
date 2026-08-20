@@ -6,16 +6,16 @@ description: >-
   goldfish, mission working memory, chat never SSOT, session graph.
 metadata:
   pattern: pipeline
-  version: "1.3"
+  version: "1.4"
   domain: memnet
-  product: "package 0.19.2; PyPI wheel 0.19.0"
+  product: "memnet-llm==0.19.2"
 ---
 
 # How to use MemNet
 
 **Using** MemNet -- not building the engine. Doctrine: MemNet `docs/SHAPE.md`, `docs/grammar/gql-wire-profile.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Open one specialist; do not paste those files here.
 
-**Package 0.19.2** (Hatch; tag `v0.19.2`; extras 0.10-0.19 unchanged). **PyPI wheel** still **`memnet-llm==0.19.0`** until twine. **Install:** `pip install memnet-llm==0.19.0` **or** git / `v0.19.2`. Do **not** `pip install memnet-llm==0.19.1` or `==0.19.2` as the current wheel. **1.0** unclaimed. Chat is never SSOT. Novel-writer is out of scope. Open one specialist; this hub does not steal specialist triggers.
+**Package and PyPI 0.19.2** (Hatch; tag `v0.19.2`; extras 0.10-0.19 unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.2`. **1.0** unclaimed. Chat is never SSOT. Novel-writer is out of scope. Open one specialist; this hub does not steal specialist triggers.
 
 User-pack store: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:18765`**. InvenTree MCP is not MemNet.
 
@@ -47,5 +47,5 @@ User-pack store: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:18
 - Stack N nested `pin_map`s in one generate -- re-anchor with MCP `session=` / locator `session=`.
 - Treat chat as ids / paths / mission state.
 - `rag_query` / ANN of the session.
-- Claim **1.0**. Collapse package 0.19.2 and PyPI 0.19.0 into one install pin.
+- Claim **1.0**.
 - Load an in-repo `memnet-reference` copy unless **building** MemNet in that checkout.

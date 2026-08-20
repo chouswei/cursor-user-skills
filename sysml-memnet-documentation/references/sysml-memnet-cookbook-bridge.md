@@ -6,7 +6,7 @@ Links user-pack MemNet skills to the upstream SysML v2 modeling cookbook. **Do n
 
 **Path:** MemNet `docs/application-notes/system/llm-sysml-v2-modeling.md` (do not use leftover root `application-notes/`).
 
-**Package 0.19.2** (tag `v0.19.2`; extras 0.10-0.19 unchanged). **PyPI wheel** still **`memnet-llm==0.19.0`** until twine. **Install:** `pip install memnet-llm==0.19.0` **or** git / `v0.19.2`. Do **not** `pip install memnet-llm==0.19.1` or `==0.19.2` as the current wheel. **1.0** unclaimed.
+**Package and PyPI 0.19.2** (tag `v0.19.2`; extras 0.10-0.19 unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.2`. **1.0** unclaimed.
 
 The cookbook defines worked multi-turn examples, relation vocabulary, and batch sizing. User-pack skills **MUST** follow the canonical tag map in [sysml-memnet-patterns.md](sysml-memnet-patterns.md) -- not legacy alias tags from older cookbook drafts.
 

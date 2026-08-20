@@ -6,7 +6,7 @@ Cursor (stdio) -> memnet-mcp
                  └─ TCP -> memnet serve (MEMNET_MCP_TRANSPORT=tcp)
 ```
 
-- **Package 0.19.2** (PyPI wheel still **0.19.0** until twine). `session_open` needs a SCHEMA map. Cue then `pin_map`. Write **`mutate`**. leftover `add`/`update` / `query_warm` / `anchor=` named leftover (Path-B seed may still call leftover `add` internally).
+- **Package and PyPI 0.19.2**. `session_open` needs a SCHEMA map. Cue then `pin_map`. Write **`mutate`**. leftover `add`/`update` / `query_warm` / `anchor=` named leftover (Path-B seed may still call leftover `add` internally).
 - Multitask **MUST NOT** use in-process MCP for a shared session.
 - Live Agens claimed (0.7); Neo4j live claimed (0.14); RSV + Path-B ingest + `snap_model` + `export_pin_map` shipped.
 - Novel-writer MCP is dropped.
