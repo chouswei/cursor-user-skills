@@ -8,16 +8,16 @@ description: >-
   catalog, session strata, already-built interior, parallel interiors.
 metadata:
   pattern: pipeline
-  version: "1.5"
+  version: "1.6"
   domain: memnet
-  product: "memnet-llm==0.19.2"
+  product: "memnet-llm==0.19.3"
 ---
 
 # Nested sessions
 
 How to **use** a session stack. Pair with [memnet-use](../memnet-use/SKILL.md). Doctrine: MemNet `docs/extras/memnet-session-strata.md`. SysML loop: MemNet `docs/application-notes/system/llm-sysml-v2-modeling.md`. Evidence (MemNet checkout): `sysml-models/outputs/sysml-session-nest-cuts-case-study.md` (Turns A-I).
 
-Chat is never SSOT. Goldfish is **one** S per generate. Do not revive Layer / `layer=`. **Package and PyPI 0.19.2**. Extra **0.15** catalog Snap is shipped.
+Chat is never SSOT. Goldfish is **one** S per generate. Do not revive Layer / `layer=`. **Package and PyPI 0.19.3**. Extra **0.15** catalog Snap is shipped.
 
 ## Two laws
 
@@ -39,7 +39,7 @@ edit SSOT of THAT cut -> re-Snap THAT interior (reuse session= if qname= already
 
 Not N maps stacked in one prompt.
 
-Mint the stack with **`snap_model`** (catalog + interiors) or Path-B **`ingest_*`** into **one** current session (1->1 -- that is not catalog Snap).
+Mint the stack with **`snap_model`** (catalog + interiors) or Path-B **`ingest_*`** into **one** current session (1->1 -- that is not catalog Snap). The stack stays live (look is one S per generate). Default cap **1024** (`MEMNET_MAX_SESSIONS`). `session_list` emits `@STAT: sessions|n/max`; `session_close` that id (does not dump S) when a stratum is finished so later Snap can mint.
 
 ## Already built
 

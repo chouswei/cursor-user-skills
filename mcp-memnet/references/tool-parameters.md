@@ -1,6 +1,6 @@
 # MemNet MCP -- tool parameters
 
-**Package and PyPI 0.19.2**. Tools return JSON text. Arg **`session`** (not `session_id`). SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py`.
+**Package and PyPI 0.19.3**. Tools return JSON text. Arg **`session`** (not `session_id`). SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py`.
 
 User-pack store: TCP **`10.0.0.10:18765`**; Cursor HTTP **`http://10.0.0.10:18766/mcp`**. InvenTree MCP is not MemNet.
 
@@ -21,7 +21,8 @@ Path-B: `ingest_*` into the current session. Catalog Snap: `snap_model`. Join a 
 |------|----------|----------|-------|
 | `serve_status` | -- | -- | `{running, host, port}` |
 | `session_open` | `map_lines` **or** `map_file` | `ttl`, `seed_lines`, `allow_new_relation` | Bundled maps: MemNet checkout `parts/common/memnet/memnet/examples/schema.*.example.txt` |
-| `session_list` | -- | -- | Live ids |
+| `session_list` | -- | -- | `@STAT: sessions|n/max` then live ids (named strata; not ANN; default max **1024**) |
+| `session_close` | `session` | -- | Close that id; does not dump S |
 | `session_save` | `file` | `session` | Snapshot |
 | `session_load` | `file` | `keep_id`, `ttl` | Resume |
 | `session_current` | -- | `session` | |

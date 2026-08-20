@@ -3,12 +3,13 @@ name: mcp-memnet
 description: >-
   MemNet MCP tools: cue then pin_map, GQL mutate, session, ingest, snap_model,
   export_pin_map. Triggers: memnet mcp, MCP pin_map, MCP mutate,
-  session_open, find, ingest_sysml, snap_model, export_pin_map, reserve, RSV.
+  session_open, session_close, session_list, find, ingest_sysml, snap_model,
+  export_pin_map, reserve, RSV.
 metadata:
   pattern: tool-wrapper
-  version: "7.3"
+  version: "7.4"
   domain: memnet
-  product: "memnet-llm==0.19.2"
+  product: "memnet-llm==0.19.3"
 token_guardrails: |
   - Product read is pin_map from a cue (kind / locators / keyword / session). leftover anchor= is leftover.
   - Product write is mutate (CREATE/MERGE/SET/DELETE). leftover add/update / id:'NEW' are leftover facades.
@@ -19,7 +20,7 @@ token_guardrails: |
 
 **Use** MemNet via MCP. Doctrine SSOT: MemNet `docs/SHAPE.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Wire: [memnet-format](../memnet-format/SKILL.md). Nested interiors: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md). Hub: [memnet-use](../memnet-use/SKILL.md).
 
-**Package and PyPI 0.19.2** (Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.2`; extras **0.10-0.19** unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.2`. Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only.
+**Package and PyPI 0.19.3** (Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.3`; extras **0.10-0.19** unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.3`. Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only. Default `max_sessions` **1024**.
 
 ## User-pack transport (this machine)
 
@@ -78,7 +79,8 @@ session_open(map) -> cue / find -> pin_map -> reason -> mutate -> pin_map
 | Tool | Role | Wire |
 |------|------|------|
 | `session_open` | Map required (`map_file` / `map_lines`) | SCHEMA registry; optional CREATE seed |
-| `session_list` | Live session ids (catalog strata) | text |
+| `session_list` | Live ids plus `@STAT: sessions|n/max` (named strata; not ANN; default max **1024**) | text |
+| `session_close` | Close that id (SessionLifecycle; does not dump S) | `@SESSION: ...|closed` |
 | `session_save` / `session_load` / `session_current` | Snapshot / resume | file / metadata |
 | `pin_map` | Primary read. Empty q = outline. `view=shell` is grain on a seed, not outline | shaped subgraph |
 | `find` | Bounded seed (`limit` required). Not RAG | seed nodes |

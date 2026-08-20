@@ -10,9 +10,9 @@ description: >-
   TSK_* settle, TCP serve, streamable-http MCP, GQL wire, shaped pin_map.
 metadata:
   pattern: pipeline
-  version: "2.5"
+  version: "2.6"
   domain: memnet
-  product: "memnet-llm==0.19.2"
+  product: "memnet-llm==0.19.3"
 ---
 
 # MemNet + Multitask Mode
@@ -22,7 +22,7 @@ User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Tas
 **Product ops SSOT:** MemNet `docs/operations/multi-agent-sessions.md`.
 **System-repo adoption:** MemNet `docs/application-notes/system/llm-system-dev-multitask.md`.
 **Shape / version map:** MemNet `docs/SHAPE.md`, `docs/ROADMAP.md`.
-**Package and PyPI 0.19.2** (extras 0.10-0.19 unchanged). **1.0** unclaimed (claim of 0.5-0.8). Chat is **never** mission SSOT.
+**Package and PyPI 0.19.3** (extras 0.10-0.19 unchanged). **1.0** unclaimed (claim of 0.5-0.8). Chat is **never** mission SSOT.
 
 ## When to load
 
@@ -100,7 +100,7 @@ In downstream **`modelbasedPrj-*`** repos: adopt via doc pointer or thin local m
 
 Path-B: **`ingest_*`** into the current session (locator ids; **no** leftover NEW). Catalog Snap: **`snap_model`**. Export: **`export_pin_map`**. Ingest is **not** export.
 
-## Shipped vs still design (package 0.19.2)
+## Shipped vs still design (package 0.19.3)
 
 | Capability | Status |
 |------------|--------|
