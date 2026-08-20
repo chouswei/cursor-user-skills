@@ -9,8 +9,8 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.6"
-  product: "memnet-llm==0.19.2"
+  version: "1.7"
+  product: "memnet-llm==0.19.3"
   pairs_with: [graph-query-language, gql-path-patterns, mcp-memnet, memnet-format, sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-workflow, memnet-nested-sessions]
 token_guardrails: |
   - GQL wire only: shaped pin_map read + openCypher-shaped mutate. No Layer / NODE|EDGE line dialect; no pipe @TAG agent I/O.

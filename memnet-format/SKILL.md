@@ -6,9 +6,9 @@ description: >-
   wire, GraphElement, shaped subgraph, BIND vs relation, openCypher mutate.
 metadata:
   pattern: tool-wrapper
-  version: "5.5"
+  version: "5.6"
   domain: data-formats,memnet
-  product: "memnet-llm==0.19.2"
+  product: "memnet-llm==0.19.3"
 token_guardrails: |
   - Wire SSOT: MemNet docs/grammar/gql-wire-profile.md. This skill is MemNet-specific only.
   - pin_map from a cue; leftover anchor= is leftover. Do not dump S.
@@ -19,7 +19,7 @@ token_guardrails: |
 
 Pair with [mcp-memnet](../mcp-memnet/SKILL.md). Formal SSOT: MemNet `docs/grammar/gql-wire-profile.md`. Version map: MemNet `docs/ROADMAP.md`.
 
-**Package and PyPI 0.19.2** (tag `v0.19.2`; extras 0.10-0.19 unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.2`. **1.0** unclaimed.
+**Package and PyPI 0.19.3** (tag `v0.19.3`; extras 0.10-0.19 unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.3`. **1.0** unclaimed.
 
 **GQL only.** Node / edge / property. Do not teach Layer, Tier A, pipe `@TAG`, or TOON/TRON. leftover `id:'NEW'` / leftover `anchor=` are leftover.
 
