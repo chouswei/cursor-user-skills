@@ -20,24 +20,26 @@ Path-B: `ingest_*` into the current session. Catalog Snap: `snap_model`. Join a 
 | Tool | Required | Optional | Notes |
 |------|----------|----------|-------|
 | `serve_status` | -- | -- | `{running, host, port}` |
-| `session_open` | `map_lines` **or** `map_file` | `ttl`, `seed_lines`, `allow_new_relation` | SysML map: `schema.sysml.example.txt` |
+| `session_open` | `map_lines` **or** `map_file` | `ttl`, `seed_lines`, `allow_new_relation` | Bundled maps: MemNet checkout `parts/common/memnet/memnet/examples/schema.*.example.txt` |
 | `session_list` | -- | -- | Live ids |
 | `session_save` | `file` | `session` | Snapshot |
 | `session_load` | `file` | `keep_id`, `ttl` | Resume |
 | `session_current` | -- | `session` | |
-| `pin_map` | cue: `kind` / `locators` / `keyword` / `cue` / empty outline | `depth`, `max_rows`, `view`, `session`, leftover `anchor`/`anchors` | Primary read |
+| `pin_map` | cue: `kind` / `locators` / `keyword` / `cue` / empty outline | `depth`, `max_rows`, `view`, `session`, `caller`, leftover `anchor`/`anchors` | Primary read |
 | `find` | `limit` | `kind`, `locators`, `keyword`, `session` | Seeds only |
 | `mutate` | `wire_lines` | `allow_new_relation`, `session`, `llm_id`, `caller`, `mission_id`, `lease`, `write_scope` | Product Commit |
 | `snap_model` | `root` | `map_file`, `max_nodes`, `max_files`, `ttl` | Catalog + interiors |
 | `ingest_sysml` | `path` | `max_nodes`, `max_files`, `root`, `dry_run`, `session` | 1 path -> this session |
 | `ingest_codebase` / `ingest_pcba` / `ingest_skills` | `path` | same family | Locator pins |
-| `export_pin_map` | same cue family as `pin_map` | `out`, `view`, `session` | Cue GQL write-out |
-| `import_slice` | `from_session`, `anchors` | `depth`, `max_rows`, `view`, `session` | Slice Absorb |
+| `export_pin_map` | same cue family as `pin_map` | `out`, `view`, `session`, leftover `anchor`/`anchors` | Cue GQL write-out |
+| `import_slice` | `from_session`, leftover nick `anchors` | `depth`, `max_rows`, `view`, `session`, leftover `id_policy` | Slice Absorb |
 | `reserve` | leftover nick `anchor`, `llm_id` | `depth`, `ttl_s`, `session` | RSV |
 | `extend` / `release` | `llm_id` | `rid` or leftover nick, `session` | |
 | `read_list` | -- | `tag`, `active_only`, `where`, `session` | Enumerate |
-| `housekeep_stats` | -- | `session` | |
-| `session_acl_enable` / `session_acl_grant` / `session_acl_bind` | per tool | `session` | CapsPolicy opt-in; not full `session_token` |
+| `housekeep_stats` | -- | `session` | Caps |
+| `session_acl_enable` | -- | `session` | CapsPolicy opt-in |
+| `session_acl_grant` | `caller` | `pin_map`, `mutate`, `write_scope`, `session` | |
+| `session_acl_bind` | `mission_id`, `lease` | `session` | `lease` is `read` or `write`. No `caller` on bind |
 
 leftover facades (registered, not TARGET): `add`, `update`, `query_warm`, `query_walk`. Path-B `session_open` seed may still call leftover `add` internally. **No** `read_get`. leftover `id_policy` on import is leftover.
 

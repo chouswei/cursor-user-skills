@@ -4,7 +4,7 @@
 
 **Engine seed only:** [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) is machine input for selector/bootstrap tools (may still be compact store form). Skills and docs teach **GQL / shaped pin_map**; do **not** copy seed pipe / `KIND [id] ; k=v` syntax into agent I/O.
 
-**Package 0.19.2** (Hatch; tag `v0.19.2`; extras 0.10-0.19 unchanged). **PyPI wheel** still **`memnet-llm==0.19.0`** until twine. Cue then `pin_map`; `find` if ego unknown. Empty q is 0.11 outline. Product write is **`mutate`**. leftover `--anchor` / `id:'NEW'` / leftover `add` named leftover. **1.0** unclaimed.
+**Package 0.19.2** (Hatch; tag `v0.19.2`; extras 0.10-0.19 unchanged). **PyPI wheel** still **`memnet-llm==0.19.0`** until twine. `session_open` needs a SCHEMA map. Cue then `pin_map`; `find` if ego unknown. Empty q is 0.11 outline. Product write is **`mutate`**. leftover `--anchor` / `id:'NEW'` / leftover `add` named leftover. **1.0** unclaimed.
 
 ---
 

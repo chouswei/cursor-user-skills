@@ -55,7 +55,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (sub-agent policy; MemNet gol
 | File to Markdown | markitdown, pdf to md, docx to markdown | `mcp-markitdown` |
 | Cursor rules | create rule, .mdc, alwaysApply, AGENTS.md, user/team rules | `rule-writer` |
 | SysML + MemNet GQL | sysml gql, modeling pin_map, TSK_model GQL | `sysml-gql` |
-| Use MemNet | use memnet, goldfish, pin_map, mutate | `memnet-use` |
+| Use MemNet | use memnet, how to use memnet, memnet goldfish | `memnet-use` |
 
 **See:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -> `skill-graph-seed.wire`. Route steps: User Rules **Workflow**.
 

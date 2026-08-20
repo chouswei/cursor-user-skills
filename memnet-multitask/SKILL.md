@@ -10,7 +10,7 @@ description: >-
   TSK_* settle, TCP serve, streamable-http MCP, GQL wire, shaped pin_map.
 metadata:
   pattern: pipeline
-  version: "2.3"
+  version: "2.4"
   domain: memnet
   product: "package 0.19.2; PyPI wheel 0.19.0"
 ---
@@ -31,7 +31,7 @@ User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Tas
 | Multitask Mode on | Follow this skill + MemNet `docs/operations/multi-agent-sessions.md` |
 | Spawning Task / background workers | Parent checklist below; pass session id in every worker prompt |
 | `modelbasedPrj-*` system repo + Multitask | Also read MemNet `docs/application-notes/system/llm-system-dev-multitask.md` |
-| Single-agent goldfish loop | [mcp-memnet](../mcp-memnet/SKILL.md) only -- default in-process MCP is fine |
+| Single-agent goldfish loop | [memnet-use](../memnet-use/SKILL.md) -- default in-process MCP |
 
 ## Transport (shared store)
 
@@ -48,8 +48,8 @@ Set `MEMNET_MCP_TRANSPORT=tcp` on the shared HTTP MCP (or use TCP CLI). Probe wi
 ### MUST
 
 - `session_open` / `session_load` **one** mission `session` id; pass it in every worker prompt.
-- Own **`TSK_*`** / **`USR_*`**: `status=active` -> `status=settled`; optional `led_to_success` edges. Prefer **one live `TSK`** (0.5 V5). leftover NEW mint is leftover.
-- Self-contained worker prompts: session id, cue locators, write scope, return shape, **`llm_id`**.
+- Mint and own **`TSK_*`** / **`USR_*`**: `status=active` -> `status=settled`; optional `led_to_success` edges. Prefer **one live `TSK`** (0.5 V5). leftover NEW mint is leftover.
+- Self-contained worker prompts: session id, cue locators (`kind` / `goal=` / `path=` / `qname=`), write scope (subgraph or relation types), return shape, **`llm_id`**. leftover nickname `id` is leftover.
 - **`reserve`** overlapping neighbourhoods before parallel mutate (shipped RSV); pass matching `llm_id` on worker **`mutate`**.
 - **End the turn** after background spawn -- no poll, no await.
 - Next coordinator turn: **`pin_map` first** (cue / `find` if ego lost); act from refreshed slice -- do not redo worker investigation from chat.
@@ -85,7 +85,7 @@ When working **in** the MemNet engine repository:
 | Step | Path |
 |------|------|
 | Requirements group | `sysml-models/models/requirements.sysml` -- **MN-REQ-12** leaves 12.1-12.8 |
-| Verify package | `sysml-models/models/verify.sysml` -- **MN-VER-12-G00** + **S01...S09** |
+| Verify package | `sysml-models/models/verify.sysml` -- **MN-VER-12-G00** + **S01...S14** |
 | Worked scenario | `sysml-models/outputs/multitask-case-study.md` |
 
 In downstream **`modelbasedPrj-*`** repos: adopt via doc pointer or thin local mirror -- **do not** import `MemNetRequirements` into the product load tree unless the project owns a merged model.

@@ -6,7 +6,7 @@ description: >-
   MOD SYM snap.
 metadata:
   pattern: pipeline
-  version: "0.8"
+  version: "0.9"
   domain: memnet,codebase
   product: "package 0.19.2; PyPI wheel 0.19.0"
 token_guardrails: |
@@ -25,7 +25,7 @@ Pair with [memnet-format](../memnet-format/SKILL.md) and [mcp-memnet](../mcp-mem
 
 1. Hub: repo `AGENTS.md` if present.
 2. Single agent: in-process MCP. Shared graph: TCP / HTTP ([memnet-multitask](../memnet-multitask/SKILL.md)). User-pack: HTTP `10.0.0.10:18766/mcp` bridging TCP `:18765`.
-3. `session_open` with a coding map.
+3. `session_open` with a SCHEMA map. MemNet checkout: `parts/common/memnet/memnet/examples/schema.codebase.example.txt` (ingest) or `schema.coding.example.txt` (coding memory). Do not use the game `schema.example.txt`. This pack does not vendor those files.
 4. First pass: **`ingest_codebase`** on the tree, then `pin_map` -- still **verify on disk** before trusting call/use edges.
 5. Copy locators from the map. leftover NEW is leftover.
 

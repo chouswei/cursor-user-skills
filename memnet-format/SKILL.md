@@ -1,12 +1,12 @@
 ---
 name: memnet-format
 description: >-
-  MemNet GQL wire: shaped pin_map read and openCypher-shaped mutate.
-  Triggers: memnet format, GQL wire, pin_map, mutate, shaped subgraph,
-  BIND vs relation, openCypher mutate.
+  MemNet GQL wire: GraphElement node/edge/property, shaped subgraph emit,
+  BIND vs relation, openCypher-shaped Commit. Triggers: memnet format, GQL
+  wire, GraphElement, shaped subgraph, BIND vs relation, openCypher mutate.
 metadata:
   pattern: tool-wrapper
-  version: "5.3"
+  version: "5.4"
   domain: data-formats,memnet
   product: "package 0.19.2; PyPI wheel 0.19.0"
 token_guardrails: |
@@ -32,13 +32,13 @@ MCP `pin_map` / CLI `query pin-map` emits a bounded neighbourhood. Parse envelop
 | Control | Product use |
 |---------|-------------|
 | `kind` / `locators` / `keyword` / `cue` / `session` | Cue q. Empty q = 0.11 outline |
-| `depth` / `max_rows` | Hard bound. Raise depth only if the slice is too thin |
+| `depth` / `max_rows` | Hard bound. Raise depth only if the slice is too thin. Over M: cut a nested session -- do not clip and call it Shape |
 | `view` | Grain on a **seed** (`shell` / `interior`). Not the outline |
 | leftover `anchor` / `anchors` | leftover nicknames |
 
 If ego unknown: `find(limit=...)` then `pin_map` from labels+props. CueConflict when |Q|>1. `query_warm` is a leftover alias.
 
-Loop: cue -> `pin_map` -> reason -> `mutate` -> `pin_map`. Drop the prior map next turn.
+Loop: `session_open(map)` -> cue -> `pin_map` -> reason -> `mutate` -> `pin_map`. Drop the prior map next turn.
 
 ## Mutate
 

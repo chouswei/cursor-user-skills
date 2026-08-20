@@ -2,11 +2,11 @@
 name: mcp-memnet
 description: >-
   MemNet MCP tools: cue then pin_map, GQL mutate, session, ingest, snap_model,
-  export_pin_map. Triggers: memnet mcp, pin_map, mutate, session_open, find,
-  ingest_sysml, snap_model, export_pin_map, reserve, RSV, query_warm.
+  export_pin_map. Triggers: memnet mcp, MCP pin_map, MCP mutate,
+  session_open, find, ingest_sysml, snap_model, export_pin_map, reserve, RSV.
 metadata:
   pattern: tool-wrapper
-  version: "7.1"
+  version: "7.2"
   domain: memnet
   product: "package 0.19.2; PyPI wheel 0.19.0"
 token_guardrails: |
@@ -46,7 +46,7 @@ After editing mcp.json: **Cursor -> MCP / Tools -> restart `memnet-pi`**. Do **n
 
 | Idea | Meaning |
 |------|---------|
-| Product loop | codebook **cue -> `pin_map`** + **`mutate`** (GQL Commit) |
+| Product loop | `session_open(map)` then codebook **cue -> `pin_map`** + **`mutate`** (GQL Commit) |
 | Empty q | **0.11 outline** (census of S), not a skip |
 | GQL wire | openCypher-shaped statements in `wire_lines`; parse envelope `stdout` |
 | leftover identity | leftover `--anchor` / `anchor=` / leftover id as identity -- not TARGET |

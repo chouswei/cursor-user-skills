@@ -7,7 +7,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.4"
+  version: "1.5"
   product: "package 0.19.2; PyPI wheel 0.19.0"
   pairs_with: [sysml-memnet-documentation, sysml-memnet-cache, sysml-modeling-workflow, project-planner, mcp-sysml-v2, mcp-sysmledgraph, mcp-memnet, sysml-view-doc-sync]
 token_guardrails: |
@@ -33,7 +33,7 @@ system_instruction: |
 After the checklist, state briefly:
 
 - **project** -- model root + short name (from repo `AGENTS.md` if present)
-- **anchor** -- `TSK_model_<short>`
+- **campaign** -- `TSK_model_<short>` (cue `goal=`; leftover `anchor=` is leftover)
 - **warm** -- `warm_hit` | `warm_miss` (if miss -> initial snap)
 - **read plan** -- symbols from warm only; no full deploy read unless warm_miss
 - **pipe** -- `TSK_turn_*` id if serve up; else `serve_down`

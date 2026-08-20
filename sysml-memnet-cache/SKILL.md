@@ -9,7 +9,7 @@ description: >-
 metadata:
   pattern: tool-wrapper
   domain: sysml-v2,memnet
-  version: "1.7"
+  version: "1.8"
   product: "package 0.19.2; PyPI wheel 0.19.0"
   pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format, sysml-gql]
 token_guardrails: |
@@ -40,7 +40,7 @@ Specialist **`sysml-*`** skills (generators, reviewers, refactorers) **do not** 
 |-------|-------|------------|
 | Project `models/*.sysml` | Structure, syntax, satisfy | Edit first; validate |
 | **MemNet** | Relatives (below) | cue `pin_map` then **`mutate`** |
-| `AGENT-CONTEXT.md` | Session id + anchor + short summary | Never topology/backlog |
+| `AGENT-CONTEXT.md` | Session id + campaign cue + short summary | Never topology/backlog |
 
 ## What counts as a "relative"
 
@@ -69,15 +69,16 @@ Thin bridge: [sysml-gql](../sysml-gql/SKILL.md).
 ## MCP tool loop (every modeling turn)
 
 ```text
-0. MemNet MCP in catalog? If no -> skip 1-2 and 6-7; plain Markdown only (no TOON/TRON)
+0. MemNet MCP in catalog? If no -> skip MemNet steps; plain Markdown only (no TOON/TRON)
 1. serve_status (TCP / unsure only; skip under in-process default)
-2. pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)
+2. session_open with SCHEMA map if this session has none (`no_map` / `unknown_tag`)
+3. pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)
    # leftover anchor= named leftover. first snap: ingest_sysml or snap_model -- locators, no leftover NEW
-3. ... specialist skill edits project models/*.sysml ...
-4. mcp-sysml-v2 validate
-5. sysml-view-doc-sync (iff outputs + structure changed)
-6. mutate openCypher-shaped rows + refresh SYM line + settle CLM/TSK   # WRITE cache
-7. session_save -> <model-root>/.memnet/<short>.snap
+4. ... specialist skill edits project models/*.sysml ...
+5. mcp-sysml-v2 validate
+6. sysml-view-doc-sync (iff outputs + structure changed)
+7. mutate openCypher-shaped rows + refresh SYM line + settle CLM/TSK   # WRITE cache
+8. session_save -> <model-root>/.memnet/<short>.snap
 ```
 
 Mechanics: [mcp-memnet](../mcp-memnet/SKILL.md). Procedure: [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md). Wire detail: [memnet-format](../memnet-format/SKILL.md) (GQL / shaped pin_map) -- do not invent a thinner dialect here.
