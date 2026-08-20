@@ -8,20 +8,20 @@ Authoritative MemNet-first rules for SysML project roots. Pair with [sysml-memne
 
 | Layout | Root | Snap dir |
 |--------|------|----------|
-| Multi-project pack | `sysml-v2-models/projects/<slug>/` | `…/projects/<slug>/.memnet/` |
+| Multi-project pack | `sysml-v2-models/projects/<slug>/` | `.../projects/<slug>/.memnet/` |
 | System repo (`modelbasedPrj-*`) | `sysml-models/` | `sysml-models/.memnet/` |
 
-Copy the live root from repo `AGENTS.md` / `AGENT-CONTEXT.md`. NCU-LEO: `sysml-models/` + anchor `TSK_model_leo_cubesat`.
+Copy the live root from repo `AGENTS.md`. **This MemNet repo:** `sysml-models/`.
 
 ## Three stores -- one authority each
 
 | Store | Authority for | Agent rule |
 |-------|---------------|------------|
-| `<model-root>/models/*.sysml` | Structure, syntax, satisfy links | Edit here first. Validate with `mcp-sysml-v2`. |
-| MemNet (MCP) | Symbol index, locators, rationale, backlog | `pin_map` before edit; `add`/`update` after validate. |
+| `<model-root>/models/*.sysml` | Structure, syntax, satisfy links | Edit here first. Validate the textual model. |
+| MemNet (MCP) | Symbol index, locators, rationale, backlog | cue `pin_map` before edit; **`mutate`** after validate. leftover `add`/`update` named leftover. |
 | `AGENT-CONTEXT.md` | Human stub only | Session id + anchor only. Never duplicate topology/backlog. |
 
-**Snap** = batch `add` of atomised GQL rows. Do **not** paste snap contents into chat.
+**Snap** = Path-B `ingest_sysml` and/or catalog `snap_model`, then sparse **`mutate`**. Do **not** paste snap contents into chat.
 
 ## Mandatory turn sequence (6 steps)
 
@@ -29,24 +29,24 @@ Copy the live root from repo `AGENTS.md` / `AGENT-CONTEXT.md`. NCU-LEO: `sysml-m
 |------|--------|--------|
 | **0** | MemNet MCP in catalog? If no -> edit `.sysml` only; skip 1-2 and 6. Plain Markdown (no TOON/TRON). | -- |
 | **1** | `serve_status` only if TCP / unsure. If `running: false` -> edit `.sysml` only; skip 2 and 6. Under in-process default, skip this probe. | -- |
-| **2** | `pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)`. | **READ** |
-| **3** | Locate symbol (§Locate). Edit `models/*.sysml`. | -- |
-| **4** | `mcp-sysml-v2 validate`. Fix until pass. | -- |
-| **5** | `sysml-view-doc-sync` **iff** outputs exist and structure changed. For **`system-design-report/`** packs -> also MemNet report delta per [memnet-report-pipeline.md](../../system-design-report-generator/references/memnet-report-pipeline.md) when serve up. | -- |
-| **6** | MemNet delta (§Delta write) + **pipeline settle** (§Pipeline wire). Required when step 4 changed symbols/traceability. | **WRITE** |
+| **2** | `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)`. leftover `anchor=` / `id=` named leftover. | **READ** |
+| **3** | Locate symbol (section Locate). Edit `models/*.sysml`. | -- |
+| **4** | Validate (`mcp-sysml-v2` until pass, or the project's SysML CLI). | -- |
+| **5** | Sync `outputs/` **iff** structure changed (`sysml-view-doc-sync`; interconnection figures: pack `sysml-interconnection-mermaid` before fenced Mermaid). | -- |
+| **6** | MemNet delta (section Delta write) + **pipeline settle** (section Pipeline wire). Required when step 4 changed symbols/traceability. | **WRITE** |
 
 ### Pipeline wire (steps 1-6)
 
-After each step when MemNet is up, `add`/`update` one `:CLM` with `type='pipe'` and `code='sN:payload'` under `TSK_turn_*`; settle turn when done. Full template: [sysml-memnet-pipeline.md](sysml-memnet-pipeline.md). **Do not** keep pipeline step state only in chat when MemNet is up (use wire rows; plain Markdown only when down / MCP missing).
+After each step when MemNet is up, **`mutate`** one `:CLM` with `type='pipe'` and `code='sN:payload'` under `TSK_turn_*`; settle turn when done. Full template: [sysml-memnet-pipeline.md](sysml-memnet-pipeline.md).
 
 ### Warm miss
 
 - No `:TSK` for project anchor
 - `:TSK` exists but zero `:PRT` / `:SYM` for non-greenfield project
 - Wrong session / empty graph
-- Snap/wire `path=` still cites a root that does not exist in the workspace (e.g. legacy `sysml-v2-models/…` under a `sysml-models/` system repo)
+- Snap/wire `path=` still cites a root that does not exist in the workspace (e.g. legacy `sysml-v2-models/...` under a `sysml-models/` system repo)
 
-**On warm miss:** run §Initial snap once, then continue from step 3. If graph uses legacy `PARTD` / `PORTD` / `BEHD` / `TASK` kinds -> re-snap with unified labels.
+**On warm miss:** run section Initial snap once, then continue from step 3. If graph uses legacy `PARTD` / `PORTD` / `BEHD` / `TASK` kinds -> re-snap with unified labels.
 
 ### Step 6 skip (only)
 
@@ -59,22 +59,19 @@ After each step when MemNet is up, `add`/`update` one `:CLM` with `type='pipe'` 
 
 ## Identity and locators
 
-### Stable keys
+### Cue properties (not a store key)
 
-| Label | Pattern |
-|-------|---------|
-| `:TSK` | `TSK_model_<short>` |
-| `:PRT` | `PRT_<name>` |
-| `:POR` | `POR_<name>` |
-| `:CON` | `CON_<linkName>` |
-| `:BEH` | `BEH_<name>` |
-| `:ITM` | `ITM_<name>` |
-| `:REQ` | `REQ_<requirementId>` |
-| `:MOD` | `MOD_<file_slug>` |
-| `:SYM` | `SYM_<name>` |
-| `:CONV` | `CONV_<topic>` |
-| `:DEC` | `DEC_<nn>` |
-| `:ISSUE` | `ISS_<nn>` |
+House tokens such as `TSK_model_<short>` live in **`goal`** (or `name` / `qname` / `path` / `requirementId`). GraphElement is identity. leftover nickname `id` is leftover.
+
+| Label | Cue on | Example |
+|-------|--------|---------|
+| `:TSK` | `goal` | `goal=TSK_model_vfdl2` |
+| `:PRT` / `:POR` / `:CON` / `:BEH` / `:ITM` | `name` | `name=edgePc` |
+| `:REQ` | `requirementId` | `requirementId=VFDL2-MQTT-RELAY` |
+| `:MOD` | `path` | `path=models/deploy-vfdl2.sysml` |
+| `:SYM` | `name` + `path` | `name=edgePc` |
+| `:PKG` | `qname` | `qname=...FoamLiteVer2Deploy` |
+| `:CONV` / `:DEC` / `:ISSUE` | `topic` / `code` | `DEC` by question; `ISSUE` by `code` |
 
 ### Ephemeral locator
 
@@ -88,11 +85,11 @@ Use the **full canonical map** in [sysml-memnet-patterns.md](sysml-memnet-patter
 ### Example edges
 
 ```cypher
-CREATE (:PRT {id: 'PRT_edgePc'})-[:DECLAREDIN {id: 'NEW', recycle: 'persistent'}]->(:PKG {id: 'PKG_FoamLiteVer2Deploy'})
-CREATE (:SYM {id: 'SYM_edgePc'})-[:INFILE {id: 'NEW', note: 'loc', recycle: 'persistent'}]->(:MOD {id: 'MOD_deploy_vfdl2'})
-CREATE (:PRT {id: 'PRT_edgePc'})-[:HASPORT {id: 'NEW', recycle: 'persistent'}]->(:POR {id: 'POR_ethernet'})
-CREATE (:POR {id: 'POR_ethernet'})-[:TYPEDBY {id: 'NEW', recycle: 'persistent'}]->(:POR {id: 'POR_EthernetPort'})
-CREATE (:PRT {id: 'PRT_edgePc'})-[:SATISFIES {id: 'NEW', recycle: 'persistent'}]->(:REQ {id: 'REQ_VFDL2-MQTT-RELAY'})
+CREATE (:PRT {name: 'edgePc'})-[:declaredIn]->(:PKG {qname: 'FoamLiteVer2Deploy'})
+CREATE (:SYM {name: 'edgePc'})-[:inFile {note: 'loc'}]->(:MOD {path: 'models/deploy-vfdl2.sysml'})
+CREATE (:PRT {name: 'edgePc'})-[:hasPort]->(:POR {name: 'ethernet'})
+CREATE (:POR {name: 'ethernet'})-[:typedBy]->(:POR {name: 'EthernetPort'})
+CREATE (:PRT {name: 'edgePc'})-[:satisfies]->(:REQ {requirementId: 'VFDL2-MQTT-RELAY'})
 ```
 
 ## Locate before edit (step 3)
@@ -102,8 +99,8 @@ CREATE (:PRT {id: 'PRT_edgePc'})-[:SATISFIES {id: 'NEW', recycle: 'persistent'}]
 1. `pin_map` on `PRT_*` / `POR_*` / `REQ_*` / `CON_*` / `SYM_*` -> `path`, `name`, `line`, link ends
 2. **Only if editing:** `Read(path, offset=line-12, limit=35)` -- not full file
 3. Window miss -> `Grep` exact name scoped to `path` from `:MOD`
-4. Still ambiguous -> `mcp-sysml-v2` `getDefinition` or `getSymbols` (not bulk Read)
-5. Grep/LSP line != stored line -> `update` `SYM.line` (self-heal)
+4. Still ambiguous -> Grep scoped to the `:MOD` path (not bulk Read)
+5. Grep/LSP line != stored line -> `mutate` SET `SYM.line` (self-heal)
 
 **MUST NOT** open `deploy*.sysml` without `SYM.line` or validate error when MemNet is up and warm hit.
 
@@ -112,9 +109,9 @@ CREATE (:PRT {id: 'PRT_edgePc'})-[:SATISFIES {id: 'NEW', recycle: 'persistent'}]
 | When | Action |
 |------|--------|
 | Before edit | Stored line as hint; grep if window miss |
-| After validate (step 6) | Re-grep every `SYM.name` under touched `MOD`(s) -> batch `update` lines |
+| After validate (step 6) | Re-grep every `SYM.name` under touched `MOD`(s) -> batch `mutate` SET lines |
 | Multi-file edit | Refresh locators per touched file only |
-| Large refactor in one file | Re-grep whole file -> batch `update` all `:SYM` for that `:MOD` |
+| Large refactor in one file | Re-grep whole file -> batch `mutate` all `:SYM` for that `:MOD` |
 
 ## Delta write (step 6)
 
@@ -127,12 +124,12 @@ CREATE (:PRT {id: 'PRT_edgePc'})-[:SATISFIES {id: 'NEW', recycle: 'persistent'}]
 | satisfy / allocate in root or deploy | rel only `satisfies` / `allocates` |
 | Behaviour edit | `:BEH` + `:SYM` |
 | Item / flow | `:ITM` + rel `flowOf` |
-| User chose between options | `update` `DEC.chosen`; settle `:DEC` |
+| User chose between options | `mutate` SET `DEC.chosen`; settle `:DEC` |
 | New convention | `:CONV` + `constrained_by` |
 | Open backlog | `:ISSUE` or `:CLM` assumption |
-| Any touched file | Re-grep all `SYM.name` under that `:MOD` -> batch `update` line |
+| Any touched file | Re-grep all `SYM.name` under that `:MOD` -> batch `mutate` SET line |
 
-**Batch rule:** new `:PRT` / `:POR` / `:CON` **MUST** include `declaredIn` + `inFile` in the **same** `add`/`update`.
+**Batch rule:** new `:PRT` / `:POR` / `:CON` **MUST** include `declaredIn` + `inFile` in the **same** `mutate`.
 
 Do **not** store full `.sysml` text or paragraph prose on any graph row.
 
@@ -152,8 +149,8 @@ Do **not** store full `.sysml` text or paragraph prose on any graph row.
 | any file | `item def`, `flow of`, `allocate` |
 
 4. Per file: one `:MOD` + N `:SYM` (with line) + semantic `:PRT` / `:POR` / `:CON` / `:REQ` / `:BEH` / `:ITM` + rels
-5. One `add` batch 30-80 statements
-6. `pin_map(anchor=TSK_model_<short>, depth=2)` to confirm
+5. One `mutate` batch 30-80 statements
+6. `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2)` to confirm
 7. Write thin `AGENT-CONTEXT.md` if missing
 
 ## Session `.snap` file
@@ -175,7 +172,7 @@ Max 40 lines:
 
 ```markdown
 # Agent context -- <slug>
-**MemNet session:** `<mn_…>` · **Anchor:** `TSK_model_<short>`
+**MemNet session:** `<mn_...>` * **Anchor:** `TSK_model_<short>`
 ## Summary
 <5-10 lines human overview>
 ## MemNet
@@ -190,4 +187,4 @@ Query `TSK_model_<short>` -- do not duplicate topology/backlog here.
 
 ## Incremental re-snap (after edits)
 
-Same pattern as [memnet-codebase-snap](../../memnet-codebase-snap/SKILL.md): `update` affected `:SYM` rows; never duplicate ids.
+Same pattern as [memnet-codebase-snap](../../memnet-codebase-snap/SKILL.md): `mutate` affected `:SYM` rows; MATCH by `name`+`path`, do not mint leftover `id`.

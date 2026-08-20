@@ -42,7 +42,7 @@ On **p5** failure: rewind to **p2** or **p3** on graph only — never hand-patch
 
 Current project snaps may have `@CON` + `ends` but **no `typedBy` EDG**. Before any placement task:
 
-1. `query_warm` `@CON_*`; for each missing `typedBy`:
+1. `pin_map` on `:CON` (cue `kind='CON'`); leftover `query_warm` / `anchor=` named leftover. For each missing `typedBy`:
 2. Grep `connection link<Name>\s*:\s*<DefName>` in `deploy-*.sysml`.
 3. Add `:typedBy` -> `CONDEF_<DefName>` in the **same batch** as snap delta.
 4. Fallback (grep miss only): name-prefix heuristic (`linkEdgePanelAc*` → power, `link*ToGs305epPort*` → L2) as `:CLM` type=`assumption`.
@@ -186,16 +186,19 @@ See [sysml-memnet-pipeline.md](~/.cursor/skills/sysml-memnet-documentation/refer
 **Task:**
 
 ```cypher
-CREATE (t:TSK {id: 'TSK_diagram_vfdl2-edgeside-panel-eth', goal: 'panel L2 graph', phase: 'pipe', status: 'in_progress', recycle: 'delete_on_settle'})
-CREATE (t)-[:CHILDOF {id: 'NEW', note: 'diagram', recycle: 'delete_on_settle'}]->(:TSK {id: 'TSK_model_vfdl2'})
-CREATE (t)-[:DOCUMENTS {id: 'NEW', note: '04-interconnection.md', recycle: 'delete_on_settle'}]->(:SEC {id: 'SEC_S04'})
+CREATE (t:TSK {goal: 'panel L2 graph', phase: 'pipe', status: 'in_progress', recycle: 'delete_on_settle'})
+MATCH (t:TSK {goal: 'panel L2 graph'}), (m:TSK {goal: 'TSK_model_vfdl2'})
+CREATE (t)-[:CHILDOF {note: 'diagram', recycle: 'delete_on_settle'}]->(m)
+MATCH (t:TSK {goal: 'panel L2 graph'}), (s:SEC {heading: '04-interconnection'})
+CREATE (t)-[:DOCUMENTS {note: '04-interconnection.md', recycle: 'delete_on_settle'}]->(s)
 ```
 
 **Placement stat per node:**
 
 ```cypher
-CREATE (c:CLM {id: 'C_place_gs305EP', type: 'stat', code: 'PRT_gs305EP deg4 rank1 lane1 declare1', status: 'active', recycle: 'delete_on_settle'})
-CREATE (:TSK {id: 'TSK_diagram_vfdl2-edgeside-panel-eth'})-[:OWNS {id: 'NEW', recycle: 'delete_on_settle'}]->(c)
+CREATE (c:CLM {type: 'stat', code: 'PRT_gs305EP deg4 rank1 lane1 declare1', status: 'active', recycle: 'delete_on_settle'})
+MATCH (t:TSK {goal: 'panel L2 graph'})
+CREATE (t)-[:OWNS {recycle: 'delete_on_settle'}]->(c)
 ```
 
 **Pipe codes:** `p0:types` · `p1:scope` · `p2:place` · `p2b:bary` · `p2c:spans` · `p3:edges` · `p4:materialise` · `p5:review` · `p6:settle`

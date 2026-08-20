@@ -7,13 +7,14 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.5"
+  version: "1.6"
+  product: "package 0.19.1; PyPI wheel 0.19.0"
   pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator]
 token_guardrails: |
   - MUST follow the 6-step MemNet turn sequence below on every substantive modeling turn.
   - Model SSOT: edit `.sysml` first; then outputs; then programs under parts/**. Never invent architecture only in Markdown or code.
   - Commissioning / plant-setup / power-cycle policy: capture in behaviour + requirements (prefer refine/derive children), then sync `outputs/diagrams/` and report sections.
-  - pin_map before edit; MemNet delta + line refresh after validate (see sysml-memnet-snap.md).
+  - pin_map from a cue before edit; mutate delta + line refresh after validate (see sysml-memnet-snap.md). leftover add/update / anchor= named leftover.
   - Pipeline handoffs: GQL / openCypher-shaped mutate when MemNet is up (sysml-memnet-pipeline.md); plain Markdown when down (not TOON/TRON).
   - MUST follow sysml-memnet-read-policy.md: no full deploy read for topology; <=2 narrow Read windows per turn.
   - After .sysml edits, validate with mcp-sysml-v2; route to specialist sysml-* skills for depth.
@@ -34,11 +35,11 @@ Every substantive turn on the project model tree **MUST** follow this order. Def
 | Step | Action | MemNet |
 |------|--------|--------|
 | **1** | `serve_status`. If `running: false` -> edit `.sysml` only; skip 2 and 6; note stale graph. | -- |
-| **2** | Pin map: `pin_map(anchor=TSK_model_<short>, depth=2, max_rows=50)` | **READ** |
+| **2** | `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)`. leftover `anchor=` named leftover. | **READ** |
 | **3** | Locate symbol -> edit `models/*.sysml` ([read policy](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md): pin map first; Read +/-15 lines at SYM.line only) | -- |
 | **4** | `mcp-sysml-v2 validate` until pass | -- |
 | **5** | `sysml-view-doc-sync` **iff** outputs exist and structure changed. Interconnection figures: **[sysml-interconnection-mermaid](../sysml-interconnection-mermaid/SKILL.md)** before fenced Mermaid. | -- |
-| **6** | MemNet delta + SYM.line refresh; step atoms + settle turn ([pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md)) | **WRITE** |
+| **6** | **`mutate`** delta + SYM.line refresh; step atoms + settle turn ([pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md)) | **WRITE** |
 
 **Warm miss** -> initial snap per [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md), then step 3.
 
@@ -66,15 +67,15 @@ Commissioning, ordered plant setup, sticky DHCP, and power-down/up recovery belo
 
 ## SysML usage questions (forum, FAQ)
 
-When stuck on **SysML usage** — how to express a construct, satisfy/allocate patterns, diagram vs model element, or language/MBSE concepts:
+When stuck on **SysML usage** -- how to express a construct, satisfy/allocate patterns, diagram vs model element, or language/MBSE concepts:
 
 - **MUST** search the [SysML Forum](https://groups.google.com/g/sysmlforum) for usage discussions before inventing syntax or process.
 - **MUST** check the [SysML FAQ](https://sysmlforum.com/sysml-faq/) for language / MBSE FAQ (diagram types, Block vs Class, MBSE concepts).
 - Prefer forum / FAQ + OMG spec over chat invention.
 - **MUST** cite the URL(s) used when an answer from these references is used.
-- **MUST NOT** use these for project-specific architecture already in `deploy.sysml` or MemNet — follow model SSOT instead.
+- **MUST NOT** use these for project-specific architecture already in `deploy.sysml` or MemNet -- follow model SSOT instead.
 
-**Stack:** textual SysML v2 in Cursor (`voidaliot.vscode-sysml-v2` / `sysml-v2` LSP MCP) + system repos — not commercial modeling GUIs (Cameo, MagicDraw, Sparx EA, Papyrus GUI, etc.). **MAY** consult [sysmltools.com](https://sysmltools.com/) / [sysmltools.com/faq](https://sysmltools.com/faq/) only when the user **explicitly** asks about SysML *tool selection*; otherwise ignore.
+**Stack:** textual SysML v2 in Cursor (`voidaliot.vscode-sysml-v2` / `sysml-v2` LSP MCP) + system repos -- not commercial modeling GUIs (Cameo, MagicDraw, Sparx EA, Papyrus GUI, etc.). **MAY** consult [sysmltools.com](https://sysmltools.com/) / [sysmltools.com/faq](https://sysmltools.com/faq/) only when the user **explicitly** asks about SysML *tool selection*; otherwise ignore.
 
 Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sysml-faq`.
 
@@ -106,7 +107,7 @@ Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sy
 
 ## Pipeline atoms (between steps)
 
-When MemNet is up, each step writes MemNet atoms via **GQL / openCypher-shaped** mutate -- not chat scratch encodings.
+When MemNet is up, each step writes MemNet atoms via **`mutate`** (openCypher-shaped) -- not leftover `add`/`update` / `id:'NEW'`.
 
 Template: [sysml-memnet-pipeline.md](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md).
 

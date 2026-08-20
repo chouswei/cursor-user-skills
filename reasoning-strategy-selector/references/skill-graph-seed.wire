@@ -35,6 +35,8 @@
 @SKL: memnet-codebase-snap|user|P|P|user|medium|medium|structural|low|/workspace/memnet-codebase-snap|persistent
 @SKL: memnet-format|user|T|T|meta|medium|medium|structural|low|/workspace/memnet-format|persistent
 @SKL: memnet-multitask|user|P|P|user|medium|medium|structural|low|/workspace/memnet-multitask|persistent
+@SKL: memnet-nested-sessions|user|P|P|user|medium|medium|structural|low|/workspace/memnet-nested-sessions|persistent
+@SKL: memnet-use|user|P|P|user|medium|medium|structural|low|/workspace/memnet-use|persistent
 @SKL: mermaid|user|G|G|doc|medium|low|structural|low|/workspace/mermaid|persistent
 @SKL: mermaid-doc-readability|user|P|P|user|medium|medium|structural|low|/workspace/mermaid-doc-readability|persistent
 @SKL: mmdc|user|T|T|doc|low|low|structural|low|/workspace/mmdc|persistent
@@ -164,6 +166,10 @@
 @TRG: TRG_memnet-format_1|memnet|persistent
 @TRG: TRG_memnet-multitask_0|memnet multitask|persistent
 @TRG: TRG_memnet-multitask_1|memnet|persistent
+@TRG: TRG_memnet-nested-sessions_0|nested session|persistent
+@TRG: TRG_memnet-nested-sessions_1|look loop|persistent
+@TRG: TRG_memnet-use_0|use memnet|persistent
+@TRG: TRG_memnet-use_1|memnet goldfish|persistent
 @TRG: TRG_mermaid-doc-readability_0|mermaid doc readability|persistent
 @TRG: TRG_mermaid-doc-readability_1|mermaid|persistent
 @TRG: TRG_mermaid_0|mermaid|persistent
@@ -352,6 +358,12 @@
 @EDG: E0068|TRG_memnet-format_1|triggers|memnet-format|memnet|persistent
 @EDG: E0069|TRG_memnet-multitask_0|triggers|memnet-multitask|memnet multitask|persistent
 @EDG: E0070|TRG_memnet-multitask_1|triggers|memnet-multitask|memnet|persistent
+@EDG: E0308|TRG_memnet-nested-sessions_0|triggers|memnet-nested-sessions|nested session|persistent
+@EDG: E0309|TRG_memnet-nested-sessions_1|triggers|memnet-nested-sessions|look loop|persistent
+@EDG: E0310|TRG_memnet-use_0|triggers|memnet-use|use memnet|persistent
+@EDG: E0311|TRG_memnet-use_1|triggers|memnet-use|memnet goldfish|persistent
+@EDG: E0312|memnet-use|default_stack|mcp-memnet|hub|persistent
+@EDG: E0313|memnet-use|complements|memnet-nested-sessions|nested|persistent
 @EDG: E0071|TRG_mermaid_0|triggers|mermaid|mermaid|persistent
 @EDG: E0072|TRG_mermaid_pad1|triggers|mermaid|pad|persistent
 @EDG: E0073|TRG_mermaid-doc-readability_0|triggers|mermaid-doc-readability|mermaid doc readability|persistent

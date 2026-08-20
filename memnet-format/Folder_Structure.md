@@ -1,9 +1,9 @@
-# memnet-format — folder layout
+# memnet-format -- folder layout
 
 ```
 memnet-format/
 ├── SKILL.md
-├── Folder_Structure.md   ← this file
+├── Folder_Structure.md   <- this file
 └── references/
     └── memnet-wire-format.md
 ```

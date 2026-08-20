@@ -8,16 +8,18 @@ alwaysApply: false
 
 Goldfish = short working memory: re-read the live pin map each turn. Chat is not durable state. The durable store is atomised MemNet rows.
 
-House id prefixes (first use): `TSK_*` = task; `MOD_*` = file or package; `SYM_*` = symbol; `USR_*` = user constraint.
+House prefixes (first use): `TSK_*` = task; `MOD_*` = file or package; `SYM_*` = symbol; `USR_*` = user constraint. Optional nickname `id` is leftover identity, not GraphElement.
+
+**Package 0.19.1**; PyPI wheel still **memnet-llm==0.19.0** until twine. **1.0** unclaimed.
 
 0. If MemNet MCP tools are absent from the session catalog: skip MemNet; plain Markdown scratch only (no TOON/TRON). Else if TCP / unsure serve is up: `serve_status`. If down: skip MemNet; plain Markdown scratch only (no TOON/TRON). Under in-process default, skip this probe.
-1. `pin_map(anchor=<id>)` -- live ego slice (shaped subgraph). If ego unknown: `find` (required `limit`) then pin_map. Optional `view=shell`.
-2. `add` / `update` -- openCypher-shaped mutate (no prose blobs).
+1. `pin_map` from a **cue** (`kind` / locators / keyword / empty outline). leftover `anchor=` is leftover. If ego unknown: `find` (required `limit`) then pin_map from labels+props. Optional `view=shell` is grain on a seed, not outline.
+2. `mutate` -- openCypher-shaped Commit (no prose blobs). leftover `add`/`update` / `id:'NEW'` named leftover.
 3. Act from a rendered pin-map slice plus the current request; MUST NOT reason on raw dumps.
 4. Settle finished tasks (`TSK_*`): `status=settled`; set `recycle=delete_on_settle` when done.
-5. Next turn -> step 0.
+5. Next turn -> step 0. Drop the prior map from the prompt.
 
 MUST NOT treat chat as SSOT for ids, paths, or mission state. On route-success settle, the parent may write `led_to_success` edges.
 
 **When:** multi-turn, 3+ step pipelines, SysML, or user constraints. **Skip:** one-shot, trivial edit, or serve down.
-Skills on need under `~/.cursor/skills/`: `mcp-memnet`, `memnet-format`, `sysml-gql`, `sysml-memnet-cache`, `sysml-memnet-documentation`.
+Skills on need under `~/.cursor/skills/`: `memnet-use`, `mcp-memnet`, `memnet-format`, `memnet-nested-sessions`, `sysml-gql`, `sysml-memnet-cache`, `sysml-memnet-documentation`.
