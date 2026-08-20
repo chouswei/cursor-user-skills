@@ -6,9 +6,9 @@ description: >-
   ingest_sysml, snap_model, export_pin_map, reserve, RSV, query_warm.
 metadata:
   pattern: tool-wrapper
-  version: "7.0"
+  version: "7.1"
   domain: memnet
-  product: "package 0.19.1; PyPI wheel 0.19.0"
+  product: "package 0.19.2; PyPI wheel 0.19.0"
 token_guardrails: |
   - Product read is pin_map from a cue (kind / locators / keyword / session). leftover anchor= is leftover.
   - Product write is mutate (CREATE/MERGE/SET/DELETE). leftover add/update / id:'NEW' are leftover facades.
@@ -19,7 +19,7 @@ token_guardrails: |
 
 **Use** MemNet via MCP. Doctrine SSOT: MemNet `docs/SHAPE.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Wire: [memnet-format](../memnet-format/SKILL.md). Nested interiors: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md). Hub: [memnet-use](../memnet-use/SKILL.md).
 
-**Package 0.19.1** (Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.1`; extras **0.10-0.19** unchanged). **PyPI wheel** is still **`memnet-llm==0.19.0`** (no 0.19.1 wheel until twine). **Install:** `pip install memnet-llm==0.19.0` **or** git / tag `v0.19.1`. Do **not** `pip install memnet-llm==0.19.1` (404 until upload). Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only.
+**Package 0.19.2** (Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.2`; extras **0.10-0.19** unchanged). **PyPI wheel** is still **`memnet-llm==0.19.0`** (no 0.19.2 wheel until twine). **Install:** `pip install memnet-llm==0.19.0` **or** git / tag `v0.19.2`. Do **not** `pip install memnet-llm==0.19.1` or `==0.19.2` as the current wheel. Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only.
 
 ## User-pack transport (this machine)
 
@@ -62,13 +62,14 @@ Formal shapes: [memnet-format](../memnet-format/SKILL.md) + MemNet `docs/grammar
 ## Agent loop
 
 ```text
-cue / find -> pin_map -> reason -> mutate -> pin_map
+session_open(map) -> cue / find -> pin_map -> reason -> mutate -> pin_map
 ```
 
-1. **Cue** -- `kind` / locators (`qname=`, `path=`, ...) / `keyword` / nickname `cue`. Empty cue = outline. Prefer one live `TSK_*`.
-2. **`pin_map`** -- one S per generate. Drop the prior map next turn. leftover `anchor=` / `anchors=` are leftover nicknames.
-3. **`mutate`** -- sparse GraphElement `CREATE` / `MATCH`...`SET`/`DELETE`. No leftover `id:'NEW'` mint.
-4. Persist if needed: `session_save` (file) or live cabinet (0.7 Agens / 0.14 Neo4j).
+1. **Map** -- `session_open` needs `map_file` or `map_lines` else `no_map`. Missing kind -> `unknown_tag`. Bundled SCHEMA maps live in the MemNet checkout (`parts/common/memnet/memnet/examples/schema.*.example.txt`). This pack does not vendor those files.
+2. **Cue** -- `kind` / locators (`qname=`, `path=`, ...) / `keyword` / nickname `cue`. Empty cue = outline. Prefer one live `TSK_*`.
+3. **`pin_map`** -- one S per generate. MCP `session=` selects the stratum. Drop the prior map next turn. leftover `anchor=` / `anchors=` are leftover nicknames.
+4. **`mutate`** -- sparse GraphElement `CREATE` / `MATCH`...`SET`/`DELETE`. No leftover `id:'NEW'` mint.
+5. Persist if needed: `session_save` (file) or live cabinet (0.7 Agens / 0.14 Neo4j).
 
 **MCP missing:** skip MemNet; plain Markdown only (no TOON/TRON).
 
@@ -89,6 +90,7 @@ cue / find -> pin_map -> reason -> mutate -> pin_map
 | `reserve` / `extend` / `release` | RSV; pass `llm_id` on mutate | `:RSV` present |
 | `read_list` | Enumerate by kind / where | rows |
 | `housekeep_stats` | Caps | stats |
+| `session_acl_enable` / `session_acl_grant` / `session_acl_bind` | CapsPolicy **opt-in** (off by default). Not full `session_token` modes | ACL |
 | `serve_status` | TCP probe | `{running,host,port}` |
 
 **Not weird dialect -- transport envelope:** every tool except `serve_status` returns JSON `{exit_code, stdout, stderr, session_id, errors}`. Parse **`stdout`**. Do not treat JSON keys as the MemNet grammar.
@@ -97,7 +99,7 @@ cue / find -> pin_map -> reason -> mutate -> pin_map
 
 | Name | Status |
 |------|--------|
-| `add` / `update` | leftover facades; still registered. Prefer **`mutate`** |
+| `add` / `update` | leftover facades; still registered. Prefer **`mutate`**. Path-B `session_open` seed may still call leftover `add` internally -- not TARGET |
 | `query_warm` | leftover alias of `pin_map` |
 | `query_walk` | leftover hop debug |
 | `anchor=` / `--anchor` | leftover nickname |

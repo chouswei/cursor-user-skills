@@ -8,16 +8,16 @@ description: >-
   catalog, session strata, already-built interior, parallel interiors.
 metadata:
   pattern: pipeline
-  version: "1.2"
+  version: "1.3"
   domain: memnet
-  product: "package 0.19.1; PyPI wheel 0.19.0"
+  product: "package 0.19.2; PyPI wheel 0.19.0"
 ---
 
 # Nested sessions
 
 How to **use** a session stack. Pair with [memnet-use](../memnet-use/SKILL.md). Doctrine: MemNet `docs/extras/memnet-session-strata.md`. SysML loop: MemNet `docs/application-notes/system/llm-sysml-v2-modeling.md`. Evidence (MemNet checkout): `sysml-models/outputs/sysml-session-nest-cuts-case-study.md` (Turns A-I).
 
-Chat is never SSOT. Goldfish is **one** S per generate. Do not revive Layer / `layer=`. **Package 0.19.1**; PyPI wheel still **0.19.0** until twine. Extra **0.15** catalog Snap is shipped.
+Chat is never SSOT. Goldfish is **one** S per generate. Do not revive Layer / `layer=`. **Package 0.19.2**; PyPI wheel still **0.19.0** until twine. Extra **0.15** catalog Snap is shipped.
 
 ## Two laws
 

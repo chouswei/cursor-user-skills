@@ -7,8 +7,8 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.6"
-  product: "package 0.19.1; PyPI wheel 0.19.0"
+  version: "1.7"
+  product: "package 0.19.2; PyPI wheel 0.19.0"
   pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator]
 token_guardrails: |
   - MUST follow the 6-step MemNet turn sequence below on every substantive modeling turn.

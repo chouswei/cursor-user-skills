@@ -1,13 +1,13 @@
 # MemNet MCP -- tool parameters
 
-**Package 0.19.1**; **PyPI wheel** still **`memnet-llm==0.19.0`** until twine. Tools return JSON text. Arg **`session`** (not `session_id`). SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py`.
+**Package 0.19.2**; **PyPI wheel** still **`memnet-llm==0.19.0`** until twine. Tools return JSON text. Arg **`session`** (not `session_id`). SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py`.
 
 User-pack store: TCP **`10.0.0.10:18765`**; Cursor HTTP **`http://10.0.0.10:18766/mcp`**. InvenTree MCP is not MemNet.
 
 ## Invoke order
 
 1. `serve_status` -- TCP only; skip under in-process
-2. `session_open` -- `map_file` or `map_lines`
+2. `session_open` -- `map_file` or `map_lines` else `no_map`
 3. `find` if ego unknown (`limit` required)
 4. `pin_map` every turn from a **cue**
 5. `mutate` (`wire_lines`; `llm_id` under RSV)
@@ -37,8 +37,9 @@ Path-B: `ingest_*` into the current session. Catalog Snap: `snap_model`. Join a 
 | `extend` / `release` | `llm_id` | `rid` or leftover nick, `session` | |
 | `read_list` | -- | `tag`, `active_only`, `where`, `session` | Enumerate |
 | `housekeep_stats` | -- | `session` | |
+| `session_acl_enable` / `session_acl_grant` / `session_acl_bind` | per tool | `session` | CapsPolicy opt-in; not full `session_token` |
 
-leftover facades (registered, not TARGET): `add`, `update`, `query_warm`, `query_walk`. **No** `read_get`. leftover `id_policy` on import is leftover.
+leftover facades (registered, not TARGET): `add`, `update`, `query_warm`, `query_walk`. Path-B `session_open` seed may still call leftover `add` internally. **No** `read_get`. leftover `id_policy` on import is leftover.
 
 ## Envelope (all except `serve_status`)
 

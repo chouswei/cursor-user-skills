@@ -9,8 +9,8 @@ description: >-
 metadata:
   pattern: tool-wrapper
   domain: sysml-v2,memnet
-  version: "1.6"
-  product: "package 0.19.1; PyPI wheel 0.19.0"
+  version: "1.7"
+  product: "package 0.19.2; PyPI wheel 0.19.0"
   pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format, sysml-gql]
 token_guardrails: |
   - MemNet is the cache; .sysml is source of truth for structure; AGENT-CONTEXT is session+anchor only.

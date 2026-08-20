@@ -7,8 +7,8 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.1"
-  product: "package 0.19.1; PyPI wheel 0.19.0"
+  version: "1.2"
+  product: "package 0.19.2; PyPI wheel 0.19.0"
   pairs_with: [sysml-root-config, sysml-requirements-generator, sysml-modeling-session-checklist, sysml-memnet-cache, sysml-memnet-documentation, mcp-memnet, sysml-v2-lsp-mcp, project-planner]
 token_guardrails: |
   - Ask for project slug, one-line purpose, and requirement ID prefix before bulk generation unless user gave them.
