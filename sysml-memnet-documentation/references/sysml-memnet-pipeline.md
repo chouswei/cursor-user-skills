@@ -54,7 +54,7 @@ MATCH (t:TSK {goal: $goal}) SET t.status = 'settled'
 
 **Step 6 skip** (comment-only): `s6:skip` + settle turn.
 
-**Resume next turn:** pin map `kind='TSK', locators=['goal=TSK_model_<short>']` -- latest in-progress turn or last step atoms; **do not** re-derive from chat.
+**Resume next turn:** pin map `kind='TSK', locators=['goal=TSK_model_<short>']` on the catalog, then `session=` for this cut -- latest in-progress turn or last step atoms; **do not** re-derive from chat.
 
 ### Six-step template
 

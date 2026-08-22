@@ -7,7 +7,7 @@ description: >-
   export_pin_map, reserve, RSV.
 metadata:
   pattern: tool-wrapper
-  version: "7.4"
+  version: "7.5"
   domain: memnet
   product: "memnet-llm==0.19.3"
 token_guardrails: |
@@ -159,9 +159,9 @@ RSV may still take a leftover nick `anchor` on the tool -- that parameter name i
 
 | Turn phase | Tool |
 |------------|------|
-| Preflight | MemNet MCP in catalog? Then optional `serve_status` (TCP only) |
-| Read cache | `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)` |
-| Bootstrap | `session_open` + map + optional `ingest_sysml` / `snap_model` |
+| Preflight | MemNet MCP in catalog? `serve_status` when TCP / unsure. Multitask MUST NOT in-process |
+| Read cache | `pin_map` campaign `goal=TSK_model_<short>`; then `session=` for the interior ([memnet-nested-sessions](../memnet-nested-sessions/SKILL.md)) |
+| Bootstrap | `session_open` + map; catalog `snap_model` or Path-B `ingest_sysml` (1->1). Cap: `housekeep_stats` -- MUST NOT ignore |
 | Write delta | **`mutate`**; `llm_id` if RSV held |
 | Persist | `session_save` -> project `.memnet/` snap |
 

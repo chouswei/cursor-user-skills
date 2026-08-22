@@ -51,7 +51,7 @@ When cookbook and user pack disagree:
 
 ## Session persistence
 
-Cookbook section Snapshot -> [sysml-memnet-snap.md](sysml-memnet-snap.md) section Session `.snap` file. Never paste snap file contents into chat.
+Cookbook section Snapshot -> [sysml-memnet-snap.md](sysml-memnet-snap.md) (catalog / Path-B / session cap). Nested look loop: [memnet-nested-sessions](../../memnet-nested-sessions/SKILL.md). Never paste snap file contents into chat.
 
 ## Related skills
 

@@ -7,14 +7,15 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.10"
+  version: "1.11"
   product: "memnet-llm==0.19.3"
-  pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator]
+  pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
   - MUST follow the 6-step MemNet turn sequence below on every substantive modeling turn.
   - Model SSOT: edit `.sysml` first; then outputs; then programs under parts/**. Never invent architecture only in Markdown or code.
   - Commissioning / plant-setup / power-cycle policy: capture in behaviour + requirements (prefer refine/derive children), then sync `outputs/diagrams/` and report sections.
-  - pin_map from a cue before edit; mutate delta + line refresh after validate (see sysml-memnet-snap.md). leftover add/update / anchor= named leftover.
+  - pin_map this cut before edit (catalog then session=); mutate delta + line refresh after validate (see sysml-memnet-snap.md). leftover add/update / anchor= named leftover.
+  - Nested organisation: memnet-nested-sessions. Multitask: MUST NOT in-process MCP.
   - Pipeline handoffs: GQL / openCypher-shaped mutate when MemNet is up (sysml-memnet-pipeline.md); plain Markdown when down (not TOON/TRON).
   - MUST follow sysml-memnet-read-policy.md: no full deploy read for topology; <=2 narrow Read windows per turn.
   - After .sysml edits, validate with mcp-sysml-v2; route to specialist sysml-* skills for depth.
@@ -30,12 +31,12 @@ Use this skill when the user asks how to structure SysML work, which skill to us
 
 ## Mandatory turn sequence (6 steps)
 
-Every substantive turn on the project model tree **MUST** follow this order. Default pack path is `sysml-v2-models/projects/<slug>/`; if the open repo's root **`AGENTS.md`** names another tree (e.g. `sysml-models/`), use that. Full rules: [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md).
+Every substantive turn on the project model tree **MUST** follow this order. Default pack path is `sysml-v2-models/projects/<slug>/`; if the open repo's root **`AGENTS.md`** names another tree (e.g. `sysml-models/`), use that. Full rules including nested catalog/interiors: [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md). Nest protocol: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) -- do not copy it here.
 
 | Step | Action | MemNet |
 |------|--------|--------|
-| **1** | In-process: skip serve probe. TCP / unsure: `serve_status`; if down -> `.sysml` only; skip 2 and 6; note stale graph. | -- |
-| **2** | `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)`. leftover `anchor=` named leftover. | **READ** |
+| **1** | TCP/HTTP (`memnet-pi`) / unsure: `serve_status`; if down -> `.sysml` only; skip 2 and 6; note stale graph. Single-agent in-process: skip probe. Multitask **MUST NOT** in-process ([memnet-multitask](../memnet-multitask/SKILL.md)). | -- |
+| **2** | `pin_map` campaign `goal=TSK_model_<short>` on the catalog. If the cut has `session=`: next generate `pin_map(..., session=<interior>)`. leftover `anchor=` named leftover. | **READ** |
 | **3** | Locate symbol -> edit `models/*.sysml` ([read policy](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md): pin map first; Read +/-15 lines at SYM.line only) | -- |
 | **4** | `mcp-sysml-v2 validate` until pass | -- |
 | **5** | `sysml-view-doc-sync` **iff** outputs exist and structure changed. Interconnection figures: **[sysml-interconnection-mermaid](../sysml-interconnection-mermaid/SKILL.md)** before fenced Mermaid. | -- |
@@ -82,6 +83,8 @@ Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sy
 ## Routing
 
 - MemNet cache (relatives read/write): `sysml-memnet-cache` -> `mcp-memnet` tools
+- Nested catalog / interiors: `memnet-nested-sessions` (SysML delta in snap.md)
+- Multitask / Task workers: `memnet-multitask` (shared TCP/HTTP)
 - MemNet GQL thin bridge: `sysml-gql`
 - MemNet policy / snap procedure: `sysml-memnet-documentation`
 - Session preflight: `sysml-modeling-session-checklist`
@@ -103,7 +106,7 @@ Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sy
 - Load order: Kernel -> optional ISQ/SI -> libs -> requirements -> optional connections -> deploy -> optional behaviour -> root last.
 - Root file: `root-<project>.sysml` imports all project packages and stays last in `config.yaml`.
 - Common protocol ports use nested pins; physical pin maps stay in `.md`.
-- `AGENT-CONTEXT.md`: thin human stub (session, anchor, summary); agents use MemNet for topology/backlog.
+- `AGENT-CONTEXT.md`: thin human stub (catalog session, campaign cue, summary); agents use MemNet for topology/backlog.
 
 ## Pipeline atoms (between steps)
 

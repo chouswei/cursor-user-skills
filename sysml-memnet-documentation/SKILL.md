@@ -9,9 +9,9 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.15"
+  version: "1.16"
   product: "memnet-llm==0.19.3"
-  pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, mcp-sysmledgraph, memnet-format, sysml-gql]
+  pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, mcp-sysmledgraph, memnet-format, sysml-gql, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
   - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; pin_map before substantive edits.
   - MUST follow references/sysml-memnet-read-policy.md: topology from warm; <=2 narrow Read windows per turn; no full deploy re-read.
@@ -20,8 +20,10 @@ token_guardrails: |
   - Atomise first: one fact per node/rel; short props; never store full .sysml or paragraph prose.
   - Copy stable ids from pin_map; refresh SYM.line after every validated edit.
   - satisfy/allocate -> relationships only (SATISFIES, ALLOCATES); SYM only for line locators.
-  - AGENT-CONTEXT.md: agents read session+anchor only; topology/backlog live in MemNet.
+  - AGENT-CONTEXT.md: catalog session + campaign cue only; topology/backlog live in MemNet.
+  - Nested organisation: memnet-nested-sessions (catalog then one interior per generate). Campaign cue TSK_model_<short> stays the mission anchor.
   - If MemNet MCP is missing from the catalog, or serve_status false (TCP): skip MemNet read/write; plain Markdown only.
+  - Multitask: MUST NOT in-process MCP (memnet-multitask + memnet-pi).
 ---
 
 # SysML MemNet (design memory + model snap)
@@ -32,7 +34,7 @@ token_guardrails: |
 
 **Durable graph memory** for SysML v2 projects: symbol index with file/line locators, ports, connections, behaviour, design rationale, and documentation atoms. Complements `mcp-sysmledgraph` (structural impact) and `mcp-sysml-v2` (validate/parse).
 
-MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `deploy*.sysml` for topology** when pin_map has PRT/CON -- see [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md). Tools: [mcp-memnet](../mcp-memnet/SKILL.md); GQL wire: [memnet-format](../memnet-format/SKILL.md). Thin SysML bridge: [sysml-gql](../sysml-gql/SKILL.md).
+MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `deploy*.sysml` for topology** when pin_map has PRT/CON -- see [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md). Tools: [mcp-memnet](../mcp-memnet/SKILL.md); GQL wire: [memnet-format](../memnet-format/SKILL.md). Thin SysML bridge: [sysml-gql](../sysml-gql/SKILL.md). Nest cuts: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md).
 
 ## Read policy (mandatory)
 
@@ -58,9 +60,9 @@ Pair with [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) and [me
 ## Prerequisites
 
 1. **Package and PyPI 0.19.3** (tag `v0.19.3`; extras 0.10-0.19 unchanged). **Install:** `pip install 'memnet-llm[mcp]'` or `pip install 'memnet-llm[mcp]==0.19.3'`. Optional `[neo4j]` (live claimed 0.14; drivers only). **1.0** unclaimed.
-2. MemNet entry in `~/.cursor/mcp.json` (in-process preferred; see [mcp-policy.md](../mcp-memnet/references/mcp-policy.md)).
+2. Cursor MCP **`memnet-pi`** (HTTP `:18766` / TCP `:18765`) -- [mcp-memnet](../mcp-memnet/SKILL.md). Multitask **MUST NOT** in-process ([memnet-multitask](../memnet-multitask/SKILL.md)).
 3. MemNet MCP tools visible in the session catalog. If absent: treat as serve down -- no `pin_map` / mutate.
-4. Under TCP only: `memnet serve` + optional `serve_status`. Skip that probe under in-process default.
+4. `serve_status` when TCP / unsure. Skip that probe only under single-agent in-process.
 
 ## When to use
 
@@ -88,12 +90,14 @@ ITM is a **node** only (item definition / flow item); see [the ITM pattern](refe
 - **memnet-format** -- MemNet GQL wire; thin SysML x MemNet kind/id pointer only
 - **mcp-sysmledgraph** -- impact/rename; record intent in MemNet
 - **mcp-memnet** -- base MCP mechanics
+- **memnet-nested-sessions** -- catalog / look loop (do not copy here)
+- **memnet-multitask** -- shared TCP/HTTP when Task workers run
 
 ## Quick anchors
 
 | Anchor | Use when |
 |--------|----------|
-| `TSK_model_<short>` | Start/resume project session (NCU-LEO: `TSK_model_leo_cubesat`) |
+| `TSK_model_<short>` | Campaign cue (catalog). Interiors: MCP `session=` per [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) |
 | `TSK_diagram_<figureId>` | Mermaid placement graph ([mermaid-placement-by-degree.md](../mermaid/references/mermaid-placement-by-degree.md)) |
 | `SYM_<name>` | Jump to edit location (path + line) |
 | `PRT_<name>` / `POR_<name>` | Part or port + linked claims/reqs |
@@ -110,5 +114,5 @@ ITM is a **node** only (item definition / flow item); see [the ITM pattern](refe
 - [sysml-memnet-pipeline.md](references/sysml-memnet-pipeline.md)
 - [sysml-memnet-patterns.md](references/sysml-memnet-patterns.md)
 - [sysml-memnet-cookbook-bridge.md](references/sysml-memnet-cookbook-bridge.md)
-- [mcp-memnet](../mcp-memnet/SKILL.md), [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
+- [mcp-memnet](../mcp-memnet/SKILL.md), [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md), [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
 - [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md)

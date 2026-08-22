@@ -1,6 +1,6 @@
 # SysML modeling relatives -- MemNet cache map
 
-**Authority:** [sysml-memnet-cache](../../sysml-memnet-cache/SKILL.md). Specialist skills **write** these tags after `mcp-sysml-v2` validate; **read** via `pin_map(TSK_model_<short>)`.
+**Authority:** [sysml-memnet-cache](../../sysml-memnet-cache/SKILL.md). Specialist skills **write** these tags after `mcp-sysml-v2` validate; **read** via campaign `pin_map` then interior `session=` ([memnet-nested-sessions](../../memnet-nested-sessions/SKILL.md)).
 
 ## Read (before edit)
 

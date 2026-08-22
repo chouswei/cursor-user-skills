@@ -9,7 +9,7 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.7"
+  version: "1.8"
   product: "memnet-llm==0.19.3"
   pairs_with: [graph-query-language, gql-path-patterns, mcp-memnet, memnet-format, sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-workflow, memnet-nested-sessions]
 token_guardrails: |
@@ -32,8 +32,8 @@ token_guardrails: |
 
 | Step | Action |
 |------|--------|
-| 1 | `session_open` if no map. Cue `TSK_model_<short>` (`find` if unknown). Warm miss -> mint via `mutate` |
-| 2 | `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)` |
+| 1 | `session_open` if no map. Cue `TSK_model_<short>` (`find` if unknown). Warm miss -> [initial snap](../sysml-memnet-documentation/references/sysml-memnet-snap.md#initial-snap-warm-miss-only) (`snap_model` / `ingest_sysml`) |
+| 2 | `pin_map` campaign cue; if this cut has `session=`, that map **next generate** ([memnet-nested-sessions](../memnet-nested-sessions/SKILL.md)). `depth=2`, `max_rows=50` |
 | 3 | Narrow `Read` at `SYM.line`; edit project `models/*.sysml` |
 | 4 | Validate (`mcp-sysml-v2`) until pass |
 | 5 | `mutate` deltas only (new/changed atoms + refresh `SYM.line`) |

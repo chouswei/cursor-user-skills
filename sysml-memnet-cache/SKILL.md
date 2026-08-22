@@ -9,14 +9,16 @@ description: >-
 metadata:
   pattern: tool-wrapper
   domain: sysml-v2,memnet
-  version: "1.10"
+  version: "2.1"
   product: "memnet-llm==0.19.3"
-  pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format, sysml-gql]
+  pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format, sysml-gql, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
-  - MemNet is the cache; .sysml is source of truth for structure; AGENT-CONTEXT is session+anchor only.
-  - pin_map cue TSK_model_<short> before substantive edit; mutate delta after mcp-sysml-v2 validate. leftover add/update named leftover.
+  - MemNet is the cache; .sysml is source of truth for structure; AGENT-CONTEXT is catalog session + campaign cue only.
+  - Nested organisation SSOT: memnet-nested-sessions. Campaign cue TSK_model_<short> is not a second session-id scheme.
+  - pin_map this cut (session=) before edit; mutate delta after mcp-sysml-v2 validate. leftover add/update named leftover.
   - Atomise only -- one fact per GQL/shaped graph row; never store full .sysml or paragraph prose.
   - Skip cache write: comment-only edit, serve down / MCP missing, question-only turn (see sysml-memnet-snap.md).
+  - Multitask: memnet-multitask + memnet-pi TCP/HTTP. MUST NOT in-process MCP.
 ---
 
 # SysML MemNet cache (modeling relatives)
@@ -40,7 +42,7 @@ Specialist **`sysml-*`** skills (generators, reviewers, refactorers) **do not** 
 |-------|-------|------------|
 | Project `models/*.sysml` | Structure, syntax, satisfy | Edit first; validate |
 | **MemNet** | Relatives (below) | cue `pin_map` then **`mutate`** |
-| `AGENT-CONTEXT.md` | Session id + campaign cue + short summary | Never topology/backlog |
+| `AGENT-CONTEXT.md` | Catalog session id + campaign cue + short summary | Never topology/backlog |
 
 ## What counts as a "relative"
 
@@ -66,22 +68,21 @@ Full kind map: [sysml-memnet-patterns.md](../sysml-memnet-documentation/referenc
 Per-skill write map: [relatives-cache-map.md](../sysml-memnet-documentation/references/relatives-cache-map.md).
 Thin bridge: [sysml-gql](../sysml-gql/SKILL.md).
 
-## MCP tool loop (every modeling turn)
+## MCP loop (every modeling turn)
 
-```text
-0. MemNet MCP in catalog? If no -> skip MemNet steps; plain Markdown only (no TOON/TRON)
-1. serve_status (TCP / unsure only; skip under in-process default)
-2. session_open with SCHEMA map if this session has none (`no_map` / `unknown_tag`)
-3. pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)
-   # leftover anchor= named leftover. first snap: ingest_sysml or snap_model -- locators, no leftover NEW
-4. ... specialist skill edits project models/*.sysml ...
-5. mcp-sysml-v2 validate
-6. sysml-view-doc-sync (iff outputs + structure changed)
-7. mutate openCypher-shaped rows + refresh SYM line + settle CLM/TSK   # WRITE cache
-8. session_save -> <model-root>/.memnet/<short>.snap
-```
+Six-step sequence SSOT: [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md). Tools: [mcp-memnet](../mcp-memnet/SKILL.md). Wire: [memnet-format](../memnet-format/SKILL.md).
 
-Mechanics: [mcp-memnet](../mcp-memnet/SKILL.md). Procedure: [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md). Wire detail: [memnet-format](../memnet-format/SKILL.md) (GQL / shaped pin_map) -- do not invent a thinner dialect here.
+**SysML nested delta** (procedure SSOT: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md)):
+
+| MUST | MUST NOT |
+|------|----------|
+| Cue campaign `:TSK` `goal=TSK_model_<short>` from repo `AGENTS.md` | Treat that house id as a competing session-id scheme |
+| Catalog Snap = `snap_model`. Path-B = `ingest_sysml` into **this** `session` (1->1) | Smash ingest, Snap, and docs into one undifferentiated session when a nest applies |
+| One `pin_map` this generate; MCP `session=` for **this** cut | Stack N nested maps in one prompt |
+| Join with `import_slice` of a neighbourhood | Absorb a whole interior / paste the nested tree |
+| `snap_model` cap -> `housekeep_stats`, settle stale `TSK_*`, cut further interiors | Silent ignore; clip `max_rows` and call it Shape; flatten leftovers into the current session |
+
+**Transport:** Cursor **`memnet-pi`** HTTP `:18766` bridging TCP `:18765` ([mcp-memnet](../mcp-memnet/SKILL.md)). Multitask / Task workers: [memnet-multitask](../memnet-multitask/SKILL.md) -- **MUST NOT** in-process MCP. Single-agent in-process: skip `serve_status`; otherwise probe TCP when unsure.
 
 **MCP wire:** EDG `rel` names are **session-registered strings**. SysML closed list: [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md) (`declaredIn`, `hasPort`, `typedBy`, `inFile`, `satisfies`, `allocates`, ...). **Copy exact spellings from the live pin map**; seed unknowns with `allow_new_relation=true`. Engine-generic new edges prefer English verb / snake tokens (MemNet `docs/grammar/`); do not invent a second spelling for an existing link.
 
@@ -89,7 +90,7 @@ Mechanics: [mcp-memnet](../mcp-memnet/SKILL.md). Procedure: [sysml-memnet-snap.m
 
 Any **`sysml-*`** skill that changes `.sysml` **MUST**:
 
-1. **Before:** `pin_map` on project anchor (or accept warm_miss -> initial snap). If MemNet MCP is missing: edit `.sysml` without cache.
+1. **Before:** `pin_map` on the campaign cue, then `session=` for the interior under edit if the catalog pin carries one (or accept warm_miss -> initial snap). If MemNet MCP is missing: edit `.sysml` without cache.
 2. **After validate:** emit MemNet delta per [relatives-cache-map.md](../sysml-memnet-documentation/references/relatives-cache-map.md) -- do **not** paste topology into chat.
 
 Hub skills own the sequence: [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) step 6.
@@ -107,11 +108,12 @@ When MemNet MCP tools are absent from the session catalog, or `serve_status` is 
 
 | Action | When |
 |--------|------|
-| `session_open` + seed `TSK`/`MOD` | sysml-new-project scaffold |
-| `session_save` -> `<model-root>/.memnet/<short>.snap` | End of substantive turn or session handoff |
+| `session_open` + map; seed campaign `TSK` on the **catalog** | sysml-new-project / warm miss (see snap.md) |
+| `snap_model` / `ingest_sysml` | Catalog vs Path-B -- not both into one flat session when nested |
+| `session_save` -> `<model-root>/.memnet/<short>.snap` | End of substantive turn or handoff (catalog id) |
 | `session_load` | Resume when `MEMNET_SESSION` unset |
 
-Store snap path in `AGENT-CONTEXT.md` header when used.
+Store **catalog** session id + campaign cue in `AGENT-CONTEXT.md`. Interior `session=` locators live on catalog pins.
 
 ## NCU-LEO note (system repo)
 
@@ -121,4 +123,5 @@ Anchor `TSK_model_leo_cubesat`; model root `sysml-models/`. August hybrid ground
 
 - [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md)
 - [sysml-memnet-read-policy.md](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md)
+- [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md)
 - [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)

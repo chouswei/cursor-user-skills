@@ -7,14 +7,14 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.4"
+  version: "1.5"
   product: "memnet-llm==0.19.3"
   pairs_with: [sysml-root-config, sysml-requirements-generator, sysml-modeling-session-checklist, sysml-memnet-cache, sysml-memnet-documentation, mcp-memnet, sysml-v2-lsp-mcp, project-planner]
 token_guardrails: |
   - Ask for project slug, one-line purpose, and requirement ID prefix before bulk generation unless user gave them.
   - Use an existing project config.yaml as OMG Kernel template; do not invent library paths.
   - After scaffold: validate project load; update indexes; commit/push only when user asks.
-  - When serve_status true at scaffold: create AGENT-CONTEXT stub + MemNet session skeleton (steps 11–12).
+  - When MemNet is up at scaffold: AGENT-CONTEXT stub + catalog session skeleton (steps 11-12). Nested Snap: memnet-nested-sessions.
 ---
 
 # SysML new project
@@ -53,7 +53,7 @@ Copy this checklist and track progress:
 - [ ] 9. Repo indexes (projects/README, root README, docs/DOCS_INDEX)
 - [ ] 10. Validate / visualize smoke test
 - [ ] 11. AGENT-CONTEXT.md (thin stub — when MemNet or multi-session design expected)
-- [ ] 12. MemNet session_open + skeleton @TSK + @MOD rows (when serve_status true)
+- [ ] 12. MemNet catalog `session_open` + campaign `TSK` + `MOD` rows (when serve up). Prefer `snap_model` if a nest applies; do not flatten the tree into one session.
 ```
 
 ### 1. Folder layout
@@ -141,19 +141,19 @@ Derive `<short>` from slug (e.g. `vedan-foam-detection-lite-ver2` → `vfdl2`). 
 
 ### 12. MemNet skeleton (required when MemNet is up at scaffold)
 
-1. `serve_status` -- if false, skip; complete step 11 with placeholder session.
-2. `session_open` with coding/SysML kinds enabled (see [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md) for field notes).
-3. `mutate` skeleton (openCypher-shaped; leftover `add` / `id:'NEW'` named leftover):
+1. `serve_status` -- TCP/HTTP / unsure. If false, skip; complete step 11 with placeholder session. Multitask MUST NOT in-process.
+2. `session_open` with coding/SysML kinds enabled (see [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md) for field notes). This is the **catalog** session.
+3. `mutate` skeleton (openCypher-shaped; leftover `add` / `id:'NEW'` named leftover). Campaign `goal` = `TSK_model_<short>` from the slug. If the load tree is already nested: `snap_model` per [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md) -- MUST NOT dump every file into this one session.
 
 ```cypher
-CREATE (t:TSK {goal: $purpose, phase: 'model', status: 'in_progress', recycle: 'persistent'})
+CREATE (t:TSK {goal: $campaign, phase: 'model', status: 'in_progress', recycle: 'persistent'})
 CREATE (m1:MOD {path: 'models/deploy-<slug>.sysml', role: 'deploy', status: 'active', recycle: 'persistent'})
 CREATE (m2:MOD {path: 'models/root-<slug>.sysml', role: 'root', status: 'active', recycle: 'persistent'})
-MATCH (t:TSK {goal: $purpose}), (m1:MOD {path: 'models/deploy-<slug>.sysml'})
+MATCH (t:TSK {goal: $campaign}), (m1:MOD {path: 'models/deploy-<slug>.sysml'})
 CREATE (t)-[:OWNS {note: 'scope', recycle: 'persistent'}]->(m1)
 ```
 
-Add MOD for each other `models/*.sysml` created. Store returned `session_id` in `AGENT-CONTEXT.md` and optionally `MEMNET_SESSION` in mcp.json.
+Add MOD for each other `models/*.sysml` created. Store returned **catalog** `session_id` in `AGENT-CONTEXT.md` and optionally `MEMNET_SESSION`.
 
 ## Optional follow-ups
 

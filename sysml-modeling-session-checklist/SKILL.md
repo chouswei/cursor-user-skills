@@ -7,12 +7,12 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.7"
+  version: "1.8"
   product: "memnet-llm==0.19.3"
-  pairs_with: [sysml-memnet-documentation, sysml-memnet-cache, sysml-modeling-workflow, project-planner, mcp-sysml-v2, mcp-sysmledgraph, mcp-memnet, sysml-view-doc-sync]
+  pairs_with: [sysml-memnet-documentation, sysml-memnet-cache, sysml-modeling-workflow, project-planner, mcp-sysml-v2, mcp-sysmledgraph, mcp-memnet, sysml-view-doc-sync, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
   - **Thin:** run the checklist mentally or as bullets; do not paste long repo trees.
-  - **MemNet first:** steps 0-1 before any `.sysml` Read (see sysml-memnet-read-policy.md).
+  - **MemNet first:** steps 0-1 before any `.sysml` Read (see sysml-memnet-read-policy.md). Nested: memnet-nested-sessions (one interior per generate).
   - **Model SSOT:** plan edits to `.sysml` first; commissioning / power-cycle / setup flows -> behaviour + requirements (refine/derive), then outputs diagrams.
   - **After edits:** mcp-sysml-v2 validate; step 6 MemNet delta when structure changed.
   - Use project-planner in a separate turn for full requirements interview + roadmap.
@@ -34,7 +34,8 @@ After the checklist, state briefly:
 
 - **project** -- model root + short name (from repo `AGENTS.md` if present)
 - **campaign** -- `TSK_model_<short>` (cue `goal=`; leftover `anchor=` is leftover)
-- **warm** -- `warm_hit` | `warm_miss` (if miss -> initial snap)
+- **session** -- catalog id; interior `session=` if the catalog pin carries one
+- **warm** -- `warm_hit` | `warm_miss` (if miss -> initial snap; catalog vs Path-B per snap.md)
 - **read plan** -- symbols from warm only; no full deploy read unless warm_miss
 - **pipe** -- `TSK_turn_*` id if serve up; else `serve_down`
 - **next** -- target file from `@SYM` if known, else which `models/*.sysml`
@@ -42,7 +43,7 @@ After the checklist, state briefly:
 
 ## Pipeline
 
-0. **MemNet (steps 1-2)** -- in-process: skip `serve_status`. Cue `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)`. leftover `anchor=` / `id=` named leftover. Session from `MEMNET_SESSION` or read **only** the header line of `AGENT-CONTEXT.md` (session id + cue). On **warm_miss** -> [initial snap](../sysml-memnet-documentation/references/sysml-memnet-snap.md#initial-snap-warm-miss-only). If serve down -> note stale graph; skip warm.
+0. **MemNet (steps 1-2)** -- TCP/HTTP / unsure: `serve_status`. Skip probe only under single-agent in-process. Multitask MUST NOT in-process. Cue catalog `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)`; if the cut has `session=`, goldfish **that** interior next generate ([memnet-nested-sessions](../memnet-nested-sessions/SKILL.md)). leftover `anchor=` / `id=` named leftover. Catalog id from `MEMNET_SESSION` or the header line of `AGENT-CONTEXT.md`. On **warm_miss** -> [initial snap](../sysml-memnet-documentation/references/sysml-memnet-snap.md#initial-snap-warm-miss-only). If serve down -> note stale graph; skip warm.
 
 1. **Project context** -- Confirm model root (`sysml-v2-models/projects/<name>/` **or** repo `AGENTS.md` path such as `sysml-models/`), `config.yaml`, files to touch. **Read policy:** [sysml-memnet-read-policy.md](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md) -- no full deploy/AGENT-CONTEXT when warm hit. Submodules: edit in canonical repo if applicable (open repo root `AGENTS.md`).
 

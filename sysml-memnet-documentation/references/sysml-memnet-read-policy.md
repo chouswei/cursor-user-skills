@@ -30,7 +30,7 @@ Pair with [sysml-memnet-snap.md](sysml-memnet-snap.md) (6-step turn) and [sysml-
 
 | Allowed | Typical limit |
 |---------|----------------|
-| Optional `serve_status` + `pin_map` | 1-2 calls (`TSK_model_*`, optional `@PRT_*` / `@CON_*`) |
+| Optional `serve_status` + `pin_map` | 1-2 calls (catalog campaign, then one interior `session=`) |
 | `Read` on `.sysml` | **<=2 files**, **<=40 lines each** (locator window around `@SYM.line`) |
 | `Grep` on `models/` | **<=3** queries; scoped to one file when `@MOD` known |
 | `Read` hub `index.md` | 1x (~80 lines) when touching reports |
@@ -54,7 +54,8 @@ MemNet MCP in catalog?
   no -> grep/read as needed; plain Markdown notes; skip MemNet write
 serve_status (TCP / unsure only).running?
   false -> grep/read as needed; note stale MemNet; skip step 6
-  true / in-process -> pin_map(TSK_model_<short>, depth=2)
+  true / TCP / HTTP -> pin_map campaign TSK_model_<short> on catalog; then session= for this cut (next generate)
+  true / single-agent in-process -> same pin_map; MUST NOT in-process under Multitask
 
 Need symbol location?
   warm has @SYM_<name> with path+line?
