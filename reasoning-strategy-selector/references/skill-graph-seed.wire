@@ -28,7 +28,6 @@
 @SKL: mcp-markitdown|user|T|T|meta|medium|medium|structural|low|/workspace/mcp-markitdown|persistent
 @SKL: mcp-memnet|user|T|T|meta|medium|medium|structural|low|/workspace/mcp-memnet|persistent
 @SKL: mcp-sysml-v2|user|T|T|sysml-tool|medium|low|structural|low|/workspace/mcp-sysml-v2|persistent
-@SKL: mcp-sysmledgraph|user|T|T|sysml-tool|high|low|structural|low|/workspace/mcp-sysmledgraph|persistent
 @SKL: md-to-tex|user|P|P|doc|medium|low|structural|low|/workspace/md-to-tex|persistent
 @SKL: mdtohtml|user|T|T|doc|low|low|structural|low|/workspace/mdtohtml|persistent
 @SKL: meeting-notes-generator|user|G|G|doc|low|low|structural|low|/workspace/meeting-notes-generator|persistent
@@ -152,8 +151,6 @@
 @TRG: TRG_mcp-memnet_1|mcp|persistent
 @TRG: TRG_mcp-sysml-v2_0|mcp sysml v2|persistent
 @TRG: TRG_mcp-sysml-v2_1|mcp|persistent
-@TRG: TRG_mcp-sysmledgraph_0|mcp sysmledgraph|persistent
-@TRG: TRG_mcp-sysmledgraph_1|mcp|persistent
 @TRG: TRG_md-to-tex_0|md to tex|persistent
 @TRG: TRG_md-to-tex_1|md|persistent
 @TRG: TRG_mdtohtml_0|mdtohtml|persistent
@@ -344,8 +341,6 @@
 @EDG: E0054|TRG_mcp-memnet_1|triggers|mcp-memnet|mcp|persistent
 @EDG: E0055|TRG_mcp-sysml-v2_0|triggers|mcp-sysml-v2|mcp sysml v2|persistent
 @EDG: E0056|TRG_mcp-sysml-v2_1|triggers|mcp-sysml-v2|mcp|persistent
-@EDG: E0057|TRG_mcp-sysmledgraph_0|triggers|mcp-sysmledgraph|mcp sysmledgraph|persistent
-@EDG: E0058|TRG_mcp-sysmledgraph_1|triggers|mcp-sysmledgraph|mcp|persistent
 @EDG: E0059|TRG_md-to-tex_0|triggers|md-to-tex|md to tex|persistent
 @EDG: E0060|TRG_md-to-tex_1|triggers|md-to-tex|md|persistent
 @EDG: E0061|TRG_mdtohtml_0|triggers|mdtohtml|mdtohtml|persistent
@@ -540,7 +535,6 @@
 @EDG: E0244|skill-creator|specializes|mcp-latex|meta|persistent
 @EDG: E0245|skill-creator|specializes|mcp-markitdown|meta|persistent
 @EDG: E0246|skill-creator|specializes|mcp-memnet|meta|persistent
-@EDG: E0247|mcp-sysml-v2|specializes|mcp-sysmledgraph|sysml-tool|persistent
 @EDG: E0248|tech-report-generator|specializes|md-to-tex|doc|persistent
 @EDG: E0249|tech-report-generator|specializes|mdtohtml|doc|persistent
 @EDG: E0250|tech-report-generator|specializes|meeting-notes-generator|doc|persistent

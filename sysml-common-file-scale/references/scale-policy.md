@@ -24,7 +24,7 @@ Adjust thresholds here if the team changes them; optionally mirror the numbers i
 - **Do:** Add **`new_snake_case.sysml`** with **one primary top-level package** (per [common-library-naming-detailed.md](../../sysml-common-lib-contribution/references/common-library-naming-detailed.md) §§1–2).
 - **Do:** Carve by **cohesive subdomain** (e.g. power ICs vs interface ICs), not “first N lines / rest.”
 - **Do not:** Split **one logical package** across two files to satisfy line count.
-- **Do not:** Split only for LLM tokens if the domain boundary is unclear—prefer **MCP** (`symbols`, `definition`, `references`, `validate`) and **sysmledgraph** first.
+- **Do not:** Split only for LLM tokens if the domain boundary is unclear—prefer **Grep / Read** on live `.sysml`, then Cursor **`user-sysml-v2` MCP** (`getSymbols`, `getDefinition`, `getReferences`, `parse`, `validate`) on loaded code.
 
 ## Exceptions (existing layout)
 

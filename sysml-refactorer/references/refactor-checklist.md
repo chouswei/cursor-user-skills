@@ -5,7 +5,7 @@ Use as a **lint list** during **sysml-refactorer** runs. Not every item applies 
 ## Before editing
 
 - [ ] Old symbol names and **all** spellings (qualified vs short) noted for grep.
-- [ ] **sysmledgraph** indexed for the roots that contain the model (`sysml-v2-models/libs/common`, `sysml-v2-models/projects/...`).
+- [ ] **Grep / Read** live `.sysml` roots and use Cursor **`user-sysml-v2` MCP** references on the file or code just loaded; do not use abandoned **`sysmledgraph`** or its workspace index.
 - [ ] **Consumers:** every `config.yaml` that loads the changed package(s) identified.
 
 ## Edit layers (typical order)
@@ -32,4 +32,3 @@ Use as a **lint list** during **sysml-refactorer** runs. Not every item applies 
 ## Optional
 
 - [ ] **`ibd.py`** connection label map for PNG/Mermaid IBD readability.
-- [ ] **sysmledgraph** **clean** + re-**indexDbGraph** only when the tool policy allows (see **mcp-sysmledgraph**).

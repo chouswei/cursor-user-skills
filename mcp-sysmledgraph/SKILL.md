@@ -1,8 +1,8 @@
 ---
 name: mcp-sysmledgraph
 description: >-
-  Cursor MCP sysmledgraph: indexDbGraph, context, impact, cypher, query, clean, rename, list indexed paths;
-  Kuzu graph under .sysmledgraph-local. Triggers: cross-file sysml, who references, graph query, index project, sysmledgraph mcp.
+  Abandoned historical notes for the former sysmledgraph MCP. Retained only to identify legacy
+  configuration and schema; never route live SysML work here.
 metadata:
   pattern: tool-wrapper
   specialization: mcp-integration
@@ -10,10 +10,13 @@ metadata:
   mcp_key: sysmledgraph
 ---
 
-# MCP: sysmledgraph
+# MCP: sysmledgraph (abandoned)
 
-1. **Config:** [.cursor/mcp.json](../../../.cursor/mcp.json) key `sysmledgraph`; storage `SYSMEDGRAPH_STORAGE_ROOT=.sysmledgraph-local`.
-2. **Setup & index roots:** [docs/mcp/SYSMLEDGRAPH_MCP.md](../../../docs/mcp/SYSMLEDGRAPH_MCP.md) — typical roots `sysml-v2-models/libs/common`, `sysml-v2-models/projects`.
-3. Load [references/mcp-policy.md](references/mcp-policy.md) before **indexDbGraph** or destructive **clean** calls.
+This MCP is abandoned. Do not install, configure, invoke, or recommend it for rename, impact,
+search, validation, or any other live SysML work.
 
-**Repo:** [tools/mcp/README.md](../../../tools/mcp/README.md).
+Use **Grep / Read** on live `.sysml` files, then Cursor **`user-sysml-v2` MCP** on the file or
+code just loaded (`parse`, `validate`, `getSymbols`, `getDefinition`, `getReferences`). The
+workspace URI index is not model SSOT.
+
+The remaining references and schema are historical documentation only.

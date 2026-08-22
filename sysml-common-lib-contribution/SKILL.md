@@ -8,7 +8,7 @@ description: >-
 metadata:
   pattern: pipeline
   pairs_with:
-    [mcp-sysml-v2, mcp-sysmledgraph, sysml-item-generator, sysml-physical-port-generator, sysml-common-file-scale, sysml-part-reviewer]
+    [mcp-sysml-v2, sysml-item-generator, sysml-physical-port-generator, sysml-common-file-scale, sysml-part-reviewer]
 token_guardrails: |
   - **Part / port / shared item maturity:** For substantive edits to **part def**, **port def**, or shared **item def**, consider **sysml-part-reviewer** (only **under-design** may change without accompanying docs).
   - Confirm user wants cross-project reuse before editing libs/common.
@@ -39,7 +39,7 @@ system_instruction: |
 
 4. **Load order** — **FlowItems** before **hardware_ports**; **parts** before **connections** where types are referenced; document new file in README if new top-level file.
 
-5. **Blast radius** — **grep** `import.*FlowItems` / package name; **sysmledgraph** impact optional.
+5. **Blast radius** — Use **Grep / Read** for `import.*FlowItems`, package names, and symbol usages in live `.sysml`, then Cursor **`user-sysml-v2` MCP** (`getSymbols`, `getDefinition`, `getReferences`, `parse`, `validate`) on the file or code just loaded. Do not use abandoned `sysmledgraph` or treat an MCP workspace URI index as model SSOT.
 
 6. **Minimal change** — Smallest addition; avoid drive-by refactors.
 

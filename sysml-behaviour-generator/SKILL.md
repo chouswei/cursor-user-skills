@@ -10,7 +10,7 @@ metadata:
   pattern: generator
   output-format: sysml
   secondary: ask-first (gather inputs before generating)
-  version: "1.1"
+  version: "1.2"
   pairs_with: [mcp-sysml-v2, sysml-software-part-generator, sysml-requirements-generator, sysml-view-doc-sync]
 token_guardrails: |
   - Ask for missing names/events before generating large state machines.
@@ -58,4 +58,4 @@ token_guardrails: |
 - **sysml-connections** — logical software connections when behaviour drives data flow.
 - **sysml-requirements-generator** — refine/derive commissioning or power-cycle children.
 
-**Repo:** [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) · Example: `sysml-v2-models/projects/sysmledgraph/models/behaviour-sysmledgraph.sysml`
+**Repo:** [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) · Example: the target project's `behaviour-*.sysml`

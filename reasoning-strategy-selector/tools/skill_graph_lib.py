@@ -66,7 +66,6 @@ FEATURE_MAP: Dict[str, Tuple[str, str, str, str, str, str]] = {
     "sysml-modeling-session-checklist": ("P", "sysml", "medium", "medium", "structural", "low"),
     "sysml-view-doc-sync": ("R", "sysml", "medium", "medium", "structural", "low"),
     "mcp-sysml-v2": ("T", "sysml-tool", "medium", "low", "structural", "low"),
-    "mcp-sysmledgraph": ("T", "sysml-tool", "high", "low", "structural", "low"),
     "sysml-refactorer": ("P", "sysml", "high", "high", "structural", "low"),
     "sysml-new-project": ("G", "sysml", "medium", "medium", "structural", "low"),
     "sysml-memnet-documentation": ("P", "sysml", "high", "medium", "structural", "low"),

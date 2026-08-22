@@ -15,7 +15,7 @@ Fields: `id`, `intent`, `expected_order`, `acceptable_alternatives` (slash-separ
 | mermaid_block | architecture block diagram from deploy model | mermaid | mermaid / sysml-view-doc-sync |
 | report_gen | technical report white paper design doc | tech-report-generator | tech-report-generator / project-output-article |
 | rfc_vs_adr | RFC design proposal tech spec | rfc-generator | rfc-generator / adr-generator |
-| mcp_validate | validate sysml parse diagnostics | mcp-sysml-v2 | mcp-sysml-v2 / mcp-sysmledgraph |
+| mcp_validate | validate sysml parse diagnostics | mcp-sysml-v2 | mcp-sysml-v2 |
 | skill_creator | create new skill write SKILL.md | skill-creator | skill-creator / skill-reviewer |
 | memnet_warm | memnet query warm goldfish loop design memory | sysml-memnet-documentation | sysml-memnet-documentation / mcp-memnet / memnet-format |
 | pcba_review | PCBA design review power ground thermal | pcba-design-reviewer | pcba-design-reviewer / hardware-custom-pcba-workflow (deprecated stub -> pack hub) |

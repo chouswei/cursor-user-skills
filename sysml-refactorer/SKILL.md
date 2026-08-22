@@ -2,8 +2,8 @@
 name: sysml-refactorer
 description: >-
   Plan and execute cross-file SysML v2 refactors: rename parts/ports/connection defs, migrate role ports to de facto
-  physical naming, update deploy + libs/common + SharedConnections consistently. Workflow: impact (sysmledgraph),
-  minimal diffs, SysML v2 MCP validate, exam_model.py project load, optional outputs sync. Triggers: refactor sysml,
+  physical naming, update deploy + libs/common + SharedConnections consistently. Workflow: Grep / Read live `.sysml`,
+  user-sysml-v2 MCP references, minimal diffs, SysML v2 MCP validate, exam_model.py project load, optional outputs sync. Triggers: refactor sysml,
   rename port across project, bulk port rename, de facto migration, restructure deploy, change connection def ends,
   blast radius sysml, find all references to part def.
 metadata:
@@ -11,7 +11,6 @@ metadata:
   domain: sysml-v2
   pairs_with:
     - mcp-sysml-v2
-    - mcp-sysmledgraph
     - sysml-part-reviewer
     - sysml-connections
     - sysml-common-lib-contribution
@@ -21,7 +20,7 @@ metadata:
 token_guardrails: |
   - **Scope:** One refactor intent per pass (e.g. one part family or one connection-def change); avoid drive-by cleanups.
   - **COTS / well-design:** Before changing baselined **part def** ports or shared **libs/common** types, consider **sysml-part-reviewer** (doc gate).
-  - **Cross-file:** Prefer **mcp-sysmledgraph** `impact` / `context` / `query` after **indexDbGraph**; complement with **grep** for string paths MCP may not index.
+  - **Cross-file:** Use **Grep / Read** on live `.sysml` files, then Cursor **`user-sysml-v2` MCP** (`parse` / `validate` / `getSymbols` / `getDefinition` / `getReferences`) on the file or code just loaded. Do not use abandoned `sysmledgraph` or treat an MCP workspace URI index as model SSOT.
   - **Verify:** **SysML v2 MCP validate** on touched files or merged `code` where practical; run **exam_model.py** with **--project** for each affected project under **sysml-v2-models/projects/**.
   - Do not paste full multi-file models into chat; use file paths and targeted reads.
   - **Diagram labels:** `sysml-v2-models/core/ibd.py` edge labels are **presentation-only**; update only when the user cares about IBD/`--visualize` output (optional, not a substitute for validate).
@@ -45,7 +44,7 @@ system_instruction: |
 
 2. **Gate (optional)** — If editing **COTS** or **well-design** **part def** / shared ports: **sysml-part-reviewer** once; list required docs if not **under-design**.
 
-3. **Discovery** — **grep** `import`, `::>`, `part ` usages of old names. **sysmledgraph** MCP: **indexDbGraph** if stale, then **impact** / **query** on the symbol(s) under refactor.
+3. **Discovery** — **Grep** `import`, `::>`, and `part ` usages of old names. Use Cursor **`user-sysml-v2` MCP** `getSymbols`, `getDefinition`, and `getReferences` on the loaded file or code; use `parse` / `validate` for syntax and diagnostics. The live `.sysml` files remain SSOT.
 
 4. **Plan** — Ordered edits: **library types first** (part/port/connection def), then **SharedConnections**, then **project** `connections-*` / `deploy-*`, then **requirements** `satisfy` text if affected. Note **config.yaml** `model_files` if new files split.
 
@@ -59,8 +58,7 @@ system_instruction: |
 
 ## Pairing
 
-- **mcp-sysml-v2** — validate; optional **preview** for local sanity on snippets.
-- **mcp-sysmledgraph** — cross-file impact and references.
+- **mcp-sysml-v2** — loaded-file parsing, validation, symbols, definitions, and references; do not use abandoned `sysmledgraph`.
 - **sysml-common-lib-contribution** — when refactor centers on **`sysml-v2-models/libs/common/`**.
 - **sysml-import-order-helper** — **`model_files`** / import order after new files, splits, or “mysterious” unresolved symbols post-rename.
 - **sysml-connections** — after library stabilizes, for deploy-only rewires.

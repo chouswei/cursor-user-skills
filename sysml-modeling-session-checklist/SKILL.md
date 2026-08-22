@@ -7,9 +7,9 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.8"
+  version: "1.9"
   product: "memnet-llm==0.19.3"
-  pairs_with: [sysml-memnet-documentation, sysml-memnet-cache, sysml-modeling-workflow, project-planner, mcp-sysml-v2, mcp-sysmledgraph, mcp-memnet, sysml-view-doc-sync, memnet-nested-sessions, memnet-multitask]
+  pairs_with: [sysml-memnet-documentation, sysml-memnet-cache, sysml-modeling-workflow, project-planner, mcp-sysml-v2, mcp-memnet, sysml-view-doc-sync, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
   - **Thin:** run the checklist mentally or as bullets; do not paste long repo trees.
   - **MemNet first:** steps 0-1 before any `.sysml` Read (see sysml-memnet-read-policy.md). Nested: memnet-nested-sessions (one interior per generate).
@@ -49,7 +49,7 @@ After the checklist, state briefly:
 
 2. **Plan-with-user** -- Non-trivial / ambiguous work without agreed plan: stop and plan--or **project-planner** for documented roadmap. If user skipped planning, state in one line.
 
-3. **Cross-file scope** -- Large setups: **mcp-sysmledgraph** **indexDbGraph** / **impact** before wide renames.
+3. **Cross-file scope** -- For rename, impact, or search, use **Grep / Read** on live `.sysml` files, then Cursor **`user-sysml-v2` MCP** (`parse` / `validate` / `getSymbols` / `getDefinition` / `getReferences`) on the file or code just loaded. **Do not use abandoned `sysmledgraph` or treat an MCP workspace URI index as model SSOT.**
 
 4. **Modeling sequence** -- requirements (prefer **refine** / **derive** under parents) -> deploy / connections -> behaviour (incl. commissioning / power-cycle when in scope) -> satisfy / allocate -> outputs + **`outputs/diagrams/`** ([sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) 6-step turn). Model first; do not author architecture only in Markdown.
 

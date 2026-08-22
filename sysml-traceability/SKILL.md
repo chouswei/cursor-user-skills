@@ -9,10 +9,10 @@ description: >-
   de facto wiring, nominal vs actual ports, site convention.
 metadata:
   pattern: pipeline
-  version: "1.1"
-  pairs_with: [mcp-sysml-v2, mcp-sysmledgraph, sysml-requirements-generator, sysml-requirements-audit, sysml-connections, sysml-view-doc-sync]
+  version: "1.2"
+  pairs_with: [mcp-sysml-v2, sysml-requirements-generator, sysml-requirements-audit, sysml-connections, sysml-view-doc-sync]
 token_guardrails: |
-  - Use sysmledgraph impact before renaming requirement or part defs used in satisfy/allocate/refine/derive.
+  - Before renaming linked requirements or part defs, use **Grep / Read** on live `.sysml`, then Cursor **`user-sysml-v2` MCP** (`getSymbols`, `getDefinition`, `getReferences`, `parse`, `validate`) on the file or code just loaded. Do not use abandoned `sysmledgraph` or treat an MCP workspace URI index as model SSOT.
   - After edits: validate; update .md only as second step (model first).
   - Load references/traceability-patterns.md when auditing.
   - De facto vs nominal ports: [references/de-facto-modeling.md](references/de-facto-modeling.md).
@@ -41,7 +41,7 @@ system_instruction: |
 
 5. **Add allocate** — **`allocate softwarePart to hardwarePart;`** (see **sysml-allocate-generator**).
 
-6. **Cross-file rename** — **sysmledgraph** or **SysML v2 MCP** impact before renaming linked elements.
+6. **Cross-file rename** — Grep / Read live `.sysml`, then use Cursor **`user-sysml-v2` MCP** on the loaded file or code (`getSymbols`, `getDefinition`, `getReferences`, `parse`, `validate`) before renaming linked elements.
 
 7. **Docs** — Update **`outputs/**/10-requirements-traceability.md`** (and related pack sections) **from** the model: parent → child requirementIds, satisfy, allocate. Model first; markdown second.
 

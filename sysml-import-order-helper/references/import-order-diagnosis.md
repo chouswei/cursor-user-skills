@@ -19,7 +19,7 @@
 ## 3. Circular dependency suspicion
 
 - If two packages import each other, **break the cycle** by moving shared types upstream (e.g. into **common**), or by narrowing imports — not by random reorder.
-- **sysmledgraph** can help list **who imports whom** after indexing.
+- Use **Grep / Read** on live `.sysml`, then Cursor **`user-sysml-v2` MCP** `getReferences` on the file or code just loaded to check import and symbol references. Do not use abandoned **`sysmledgraph`** or its workspace index.
 
 ## 4. When to switch to **sysml-root-config**
 

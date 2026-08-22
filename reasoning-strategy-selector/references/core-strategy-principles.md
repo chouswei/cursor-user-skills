@@ -36,7 +36,6 @@
 | mcp-markitdown | T | meta | medium | medium | structural | low |
 | mcp-memnet | T | meta | medium | medium | structural | low |
 | mcp-sysml-v2 | T | sysml-tool | medium | low | structural | low |
-| mcp-sysmledgraph | T | sysml-tool | high | low | structural | low |
 | md-to-tex | P | doc | medium | low | structural | low |
 | mdtohtml | T | doc | low | low | structural | low |
 | meeting-notes-generator | G | doc | low | low | structural | low |

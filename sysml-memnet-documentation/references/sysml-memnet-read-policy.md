@@ -82,7 +82,7 @@ Still ambiguous after warm + one grep?
 |--------------|-----------|------------|
 | Read `deploy*.sysml` at start of every user message | Graph already has `@PRT`/`@CON` | `pin_map` |
 | Grep known part names across repo each turn | Redundant after delta push | Warm on the relevant `@PRT_*` / `@CON_*` |
-| Read requirements + deploy + root before one link rename | Blast radius is in MemNet + sysmledgraph | Warm `@CON_*` + grep link name |
+| Read requirements + deploy + root before one link rename | Blast radius is in MemNet + live-file search | Grep / Read live `.sysml`, then `user-sysml-v2` MCP references on loaded code |
 | Sync outputs by re-reading all of deploy | Report pipeline: warm + **one** section | [memnet-report-pipeline.md](../../system-design-report-generator/references/memnet-report-pipeline.md) M1-M3 |
 | Skip MemNet write after multi-file session | Next turn forces full re-read | Step 6 delta + `session_save` / wire push |
 
@@ -123,7 +123,7 @@ Increase `max_rows` (50->80) only when warm returns &lt;3 relevant rows **and** 
 | **Initial snap** (warm miss, greenfield) | Grep-by-role per [sysml-memnet-snap.md](sysml-memnet-snap.md) section Initial snap -- not blind `Read` entire file |
 | **User:** "audit deploy file" / "review whole model" | Full read permitted |
 | **Import-order diagnosis** | `sysml-import-order-helper` -- targeted files from validate errors |
-| **Refactor blast radius** | `mcp-sysmledgraph` first; full deploy only if graph unavailable |
+| **Refactor blast radius** | Grep / Read live `.sysml`, then Cursor `user-sysml-v2` MCP (`getSymbols`, `getDefinition`, `getReferences`, `parse`, `validate`) on the file or code just loaded |
 | **Common lib edit** (`libs/common/` or pack equivalent) | No project `@TSK` -- grep/read lib file; optional `MOD_*` in MemNet if seeded |
 
 ---

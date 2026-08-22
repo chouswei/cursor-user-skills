@@ -8,4 +8,4 @@ sysml-refactorer/
     refactor-checklist.md  # Pre/during/post refactor lint list
 ```
 
-No `tools/` retriever required: use **mcp-sysmledgraph** and **grep** per **SKILL.md**.
+No `tools/` retriever required: use **Grep / Read** on live `.sysml` and Cursor **`user-sysml-v2` MCP** per **SKILL.md**.

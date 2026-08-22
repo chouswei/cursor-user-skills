@@ -1,4 +1,6 @@
-# sysmledgraph MCP — agent notes
+# sysmledgraph MCP — historical agent notes
+
+This file documents an abandoned MCP and is not a live routing guide. Do not run these commands.
 
 - **indexDbGraph** when the graph may be stale after `.sysml` changes; use **paths** relative to repo root.
 - **impact** / **context** / **query** / **cypher** for “who references”, blast radius, and graph exploration.

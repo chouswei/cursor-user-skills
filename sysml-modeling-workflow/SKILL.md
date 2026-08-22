@@ -7,7 +7,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.11"
+  version: "1.12"
   product: "memnet-llm==0.19.3"
   pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
@@ -52,7 +52,7 @@ Every substantive turn on the project model tree **MUST** follow this order. Def
 |----|-------|
 | Pin map on `TSK_model_*` then SYM window | `Read` entire `deploy-*.sysml` each turn |
 | One `Grep` per unknown symbol | Re-grep names already on the pin map |
-| `mcp-sysmledgraph` before cross-file rename | Re-read all requirements + root for one link |
+| Grep / Read live `.sysml`, then `user-sysml-v2` MCP references | Treat an MCP workspace URI index as model SSOT or use abandoned `sysmledgraph` |
 
 Full policy: [sysml-memnet-read-policy.md](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md).
 
@@ -93,7 +93,7 @@ Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sy
 - Ports, parts, items: `sysml-physical-port-generator`, `sysml-hardware-part-generator`, `sysml-software-port-generator`, `sysml-software-part-generator`, `sysml-item-generator`
 - Wiring, interconnection, outputs sync: `sysml-connections`, `sysml-view-doc-sync` (include `outputs/diagrams/` plant-setup style flows)
 - Behaviour or state machines: `sysml-behaviour-generator`, `sysml-view-doc-sync`
-- Rename, migration, blast radius: `sysml-refactorer`, `mcp-sysmledgraph`
+- Rename, migration, blast radius: `sysml-refactorer`; use Grep / Read on live `.sysml`, then `user-sysml-v2` MCP (`getSymbols`, `getDefinition`, `getReferences`, `parse`, `validate`) on loaded code; do not use abandoned `sysmledgraph`
 - Shared library changes or file splits: `sysml-common-lib-contribution`, `sysml-common-file-scale`
 - Part maturity gate: `sysml-part-reviewer`
 - Long-form outputs packs: `project-output-article`, `system-design-report-generator`

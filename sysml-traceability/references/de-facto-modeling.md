@@ -34,7 +34,7 @@
 ## Anti-patterns
 
 - **Role ports on COTS** with no deploy instance: suggests a jack that does not exist as a separate physical interface.
-- **Renaming library ports** without **sysmledgraph** / **getReferences** and **outputs** pass: breaks de facto traceability.
+- **Renaming library ports** without **Grep / Read** on live `.sysml`, Cursor **`user-sysml-v2` MCP** `getReferences`, and an **outputs** pass: breaks de facto traceability.
 - **Mermaid or narrative** that invents wiring not present in `connection` usages (model-first workflow).
 
 ---

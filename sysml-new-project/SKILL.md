@@ -7,7 +7,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.5"
+  version: "1.6"
   product: "memnet-llm==0.19.3"
   pairs_with: [sysml-root-config, sysml-requirements-generator, sysml-modeling-session-checklist, sysml-memnet-cache, sysml-memnet-documentation, mcp-memnet, sysml-v2-lsp-mcp, project-planner]
 token_guardrails: |
@@ -121,8 +121,6 @@ python scripts/visualize.py --project <slug> --diagram bdd --format svg
 ```
 
 Or **sysml-v2-lsp-mcp** / **mcp-sysml-v2** **validate** on edited files (repo may use **sysml-v2-lsp-mcp** under `.cursor/skills/`).
-
-**sysmledgraph:** After substantial scaffold, user may run `npm run sysmledgraph:analyze` at repo root.
 
 ### 11. AGENT-CONTEXT.md (required when MemNet-assisted or multi-session design)
 

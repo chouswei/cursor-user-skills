@@ -9,7 +9,7 @@ metadata:
   pattern: generator
   output-format: sysml
   secondary: ask-first
-  version: "1.1"
+  version: "1.2"
   pairs_with: [mcp-sysml-v2, sysml-traceability, sysml-root-config, sysml-requirements-audit]
 token_guardrails: |
   - Ask for id scheme and parent package name before bulk generation.
@@ -42,4 +42,4 @@ token_guardrails: |
 
 7. **Verify + docs** — **SysML v2 MCP validate**. Hand off **sysml-traceability** / **sysml-view-doc-sync** so **`outputs/**/10-requirements-traceability.md`** (or project equivalent) shows parent/child and satisfy coverage.
 
-**Example:** `sysml-v2-models/projects/sysmledgraph/models/requirements-sysmledgraph.sysml`
+**Example:** the target project's `requirements-*.sysml`

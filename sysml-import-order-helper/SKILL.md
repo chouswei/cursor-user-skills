@@ -8,7 +8,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  pairs_with: [mcp-sysml-v2, sysml-root-config, mcp-sysmledgraph, sysml-refactorer]
+  pairs_with: [mcp-sysml-v2, sysml-root-config, sysml-refactorer]
 token_guardrails: |
   - **Diagnose first:** read **config.yaml** `model_files` and compare to [references/import-order-diagnosis.md](references/import-order-diagnosis.md); do not reorder OMG Kernel paths casually.
   - **Minimal change:** move one file or add one import at a time when possible; re-validate after each logical step.
@@ -30,7 +30,7 @@ system_instruction: |
 
 2. **Check chain** — Compare to [references/import-order-diagnosis.md](references/import-order-diagnosis.md) and [sysml-root-config/references/load-order.md](../sysml-root-config/references/load-order.md). Flag: **root not last**, **deploy before requirements** (when deploy references reqs), **connections** after parts that use connection defs, **FlowItems** / **hardware_ports** order in common.
 
-3. **Import closure** — For the failing file, grep **`private import`** / **`import`**; confirm every referenced package is loaded **earlier** in **`model_files`** (or re-exported). **sysmledgraph** MCP **context** / **impact** optional for cross-file package names.
+3. **Import closure** — For the failing file, use **Grep / Read** on live `.sysml` for **`private import`** / **`import`**; confirm every referenced package is loaded **earlier** in **`model_files`** (or re-exported). For symbol checks, use Cursor **`user-sysml-v2` MCP** (`getSymbols`, `getDefinition`, `getReferences`, `parse`, `validate`) on the file or code just loaded. Do not use abandoned `sysmledgraph` or treat an MCP workspace URI index as model SSOT.
 
 4. **Edit** — Reorder **`model_files`** or add **`private import`** in **`root-*.sysml`** / package file per project conventions; keep paths correct relative to **`model_dir`**.
 

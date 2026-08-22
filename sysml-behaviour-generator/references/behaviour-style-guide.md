@@ -16,7 +16,7 @@
 
 ## Events
 
-- Model triggers as **`attribute def EventName { doc /* ... */ }`** (see sysmledgraph behaviour example).
+- Model triggers as **`attribute def EventName { doc /* ... */ }`** (see the project behaviour model for an example).
 - One event per user-visible or protocol signal; name with PascalCase verb-noun (e.g. `StartIndex`, `IndexComplete`).
 
 ## State machine

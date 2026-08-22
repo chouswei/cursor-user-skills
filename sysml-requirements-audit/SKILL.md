@@ -9,11 +9,11 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.1"
-  pairs_with: [mcp-sysml-v2, mcp-sysmledgraph, sysml-traceability, sysml-requirements-generator]
+  version: "1.2"
+  pairs_with: [mcp-sysml-v2, sysml-traceability, sysml-requirements-generator]
 token_guardrails: |
   - **Scope:** Audit and report; do not bulk-add satisfy / allocate / refine unless the user asks to fix gaps (then hand off to sysml-traceability or sysml-requirements-generator).
-  - Use grep / sysmledgraph on requirements-*.sysml and deploy-*.sysml; avoid loading entire model into chat.
+  - Use **Grep / Read** on live `requirements-*.sysml` and `deploy-*.sysml`; then use Cursor **`user-sysml-v2` MCP** (`parse` / `validate` / `getSymbols` / `getDefinition` / `getReferences`) on the file or code just loaded. Do not use abandoned `sysmledgraph` or treat an MCP workspace URI index as model SSOT.
   - After user requests fixes: sysml-traceability for satisfy/allocate/docs; sysml-requirements-generator for new or derived requirement defs.
   - exam_model.py requirement consistency check when available.
   - After substantive .sysml changes: sysml-memnet-cache delta (`@ISSUE`/`@CLM` findings); workflow step 6.

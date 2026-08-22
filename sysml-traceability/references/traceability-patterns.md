@@ -11,4 +11,4 @@
 - **Naming:** Exact **`requirement def`** name after `satisfy`.
 - **Trees:** Prefer one parent theme id with derived/refined children over parallel flat peers for the same concern (e.g. plant setup → sticky DHCP / ordered steps / power-cycle recovery).
 - **Outputs:** After model change, sync **`outputs/**/10-requirements-traceability.md`** (parent/child + satisfy matrix).
-- **sysmledgraph:** Query who references a requirement before deleting or renaming.
+- **Rename gate:** Grep / Read live `.sysml`, then use Cursor **`user-sysml-v2` MCP** `getReferences` on the loaded file or code before deleting or renaming.

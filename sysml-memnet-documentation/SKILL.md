@@ -9,9 +9,9 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.16"
+  version: "1.17"
   product: "memnet-llm==0.19.3"
-  pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, mcp-sysmledgraph, memnet-format, sysml-gql, memnet-nested-sessions, memnet-multitask]
+  pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, memnet-format, sysml-gql, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
   - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; pin_map before substantive edits.
   - MUST follow references/sysml-memnet-read-policy.md: topology from warm; <=2 narrow Read windows per turn; no full deploy re-read.
@@ -32,7 +32,7 @@ token_guardrails: |
 
 **Entry point for "use MemNet as cache":** [sysml-memnet-cache](../sysml-memnet-cache/SKILL.md) -- specialist `sysml-*` skills defer read/write there.
 
-**Durable graph memory** for SysML v2 projects: symbol index with file/line locators, ports, connections, behaviour, design rationale, and documentation atoms. Complements `mcp-sysmledgraph` (structural impact) and `mcp-sysml-v2` (validate/parse).
+**Durable graph memory** for SysML v2 projects: symbol index with file/line locators, ports, connections, behaviour, design rationale, and documentation atoms. Complements `mcp-sysml-v2` (loaded-file validation, parsing, and symbol navigation).
 
 MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `deploy*.sysml` for topology** when pin_map has PRT/CON -- see [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md). Tools: [mcp-memnet](../mcp-memnet/SKILL.md); GQL wire: [memnet-format](../memnet-format/SKILL.md). Thin SysML bridge: [sysml-gql](../sysml-gql/SKILL.md). Nest cuts: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md).
 
@@ -88,7 +88,6 @@ ITM is a **node** only (item definition / flow item); see [the ITM pattern](refe
 - **sysml-view-doc-sync** -- sync outputs, then atomise key claims as CLM
 - **sysml-refactorer**, **sysml-traceability**, **sysml-requirements-audit** -- persist findings after work
 - **memnet-format** -- MemNet GQL wire; thin SysML x MemNet kind/id pointer only
-- **mcp-sysmledgraph** -- impact/rename; record intent in MemNet
 - **mcp-memnet** -- base MCP mechanics
 - **memnet-nested-sessions** -- catalog / look loop (do not copy here)
 - **memnet-multitask** -- shared TCP/HTTP when Task workers run
