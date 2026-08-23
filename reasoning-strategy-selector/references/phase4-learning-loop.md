@@ -10,7 +10,7 @@ Strengthen routing edges from empirical outcomes: `TSK_route_* -[:LED_TO_SUCCESS
 
 | Actor | Responsibility |
 |-------|----------------|
-| **Parent agent** | On task settle, emit `led_to_success` edges via `memnet.add` (not the selector) |
+| **Parent agent** | On task settle, emit `LED_TO_SUCCESS` via `mutate` (not the selector) |
 | **Selector** | Read-only writer; ranks existing `led_to_success` edges (+0.6 weight per edge) |
 | **memnet-goldfish-loop** | [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc) — settle hook |
 
@@ -31,7 +31,7 @@ Downstream skill output includes `pass: true`, or task completed without error.
 python tools/record_routing_success.py TSK_route_<slug> <skill-id> [more-ids...]
 ```
 
-Paste output into `mutate` with `allow_new_relation=true`. leftover `memnet.add` named leftover.
+Paste output into `mutate`.
 
 ### Settle example (store write; not always-on rule body)
 
@@ -41,11 +41,9 @@ When `reasoning-strategy-selector` `order[]` succeeds, **parent** writes openCyp
 CREATE (:TSK {goal: $tid})-[:LED_TO_SUCCESS {note: 'pass', recycle: 'persistent'}]->(:SKL {id: $skillId})
 ```
 
-(Engine seed / import may still use compact store rows; do not teach pipe `@EDG:` as agent I/O.)
-
 ## Validation
 
-- `led_to_success` dst must be existing `@SKL` id (`record_routing_success.py` checks seed)
+- `LED_TO_SUCCESS` dst must be an existing SKL id (`record_routing_success.py` checks seed)
 - Bootstrap `--sync` emits seed rows only — **merge** into MemNet; never delete empirical edges
 
 ## Activation checklist

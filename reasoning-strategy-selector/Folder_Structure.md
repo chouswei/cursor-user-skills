@@ -8,7 +8,7 @@ reasoning-strategy-selector/          # canonical: user-pack only (D1)
 │   └── selector-output-template.md
 ├── references/
 │   ├── skill-graph.md                # schema, anchors, weights (source doc)
-│   ├── skill-graph-seed.wire         # SINGLE SOURCE (D2) — @SKG/@SKL/@TRG/@EDG
+│   ├── skill-graph-seed.wire         # SINGLE SOURCE (D2) -- GQL CREATE rows
 │   ├── core-strategy-principles.md   # GENERATED audit view (not routing)
 │   ├── routing-golden-set.md         # labelled intents for score_routing.py
 │   ├── routing-baseline.txt          # graph golden-set benchmark

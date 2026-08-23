@@ -10,7 +10,7 @@
 - Opposing polarities detected:  
 
 **Recommended strategy**  
-- Skill(s): ids from graph `@SKL` or `metadata.related_skills`; `none` via `order: []`  
+- Skill(s): ids from graph SKL or `metadata.related_skills`; `none` via `order: []`  
 - Order: (execution sequence)  
 - Graph path: (optional ids traversed)  
 - Why:  

@@ -78,3 +78,5 @@ Full guidance: [sysml-traceability/references/de-facto-modeling.md](../../sysml-
 ## Contrast with generators
 
 This skill **reviews** maturity and doc gates; it does **not** scaffold new part defs. Run **sysml-part-reviewer** first when **editing an existing** part or when maturity is unclear; use **sysml-hardware-part-generator**, **sysml-software-part-generator**, or **sysml-item-generator** after the gate allows edits.
+
+**Minimalist Engineering** (structure economy): gates live in [SKILL.md](../SKILL.md). Doctrine: Ammar Hakim and Murtaza Hakim, [A Minimalist Approach to Software](https://ammar-hakim.org/minimalist-software.html) (updated 3 Nov 2022).

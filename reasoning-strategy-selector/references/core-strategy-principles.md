@@ -4,7 +4,7 @@
 
 **Source:** [`skill-graph-seed.wire`](skill-graph-seed.wire). Regenerate: `python tools/bootstrap_skill_graph.py --regenerate-views`.
 
-**Purpose:** Human audit view of `@SKL` node metadata from the skill graph. **Not used for routing.**
+**Purpose:** Human audit view of SKL node metadata from the skill graph. **Not used for routing.**
 
 | Skill | Direction | Domain | Complexity | Stakes | Evidence | Tension |
 |-------|-----------|--------|------------|--------|----------|---------|
@@ -42,6 +42,9 @@
 | memnet-codebase-snap | P | user | medium | medium | structural | low |
 | memnet-format | T | meta | medium | medium | structural | low |
 | memnet-multitask | P | user | medium | medium | structural | low |
+| memnet-nested-sessions | P | user | medium | medium | structural | low |
+| memnet-planner | P | user | medium | medium | structural | low |
+| memnet-use | P | user | medium | medium | structural | low |
 | mermaid | G | doc | medium | low | structural | low |
 | mermaid-doc-readability | P | user | medium | medium | structural | low |
 | mmdc | T | doc | low | low | structural | low |

@@ -6,6 +6,7 @@ description: >-
 metadata:
   pattern: inversion
   interaction: multi-turn
+  version: "1.1"
 ---
 
 # Project planner
@@ -27,3 +28,5 @@ Structured requirements. **Do not design/build until all phases done.**
 ## Phase 3 - Synthesis (after all answers)
 
 Load `assets/project-plan-template.md`; fill from answers; present; ask what to change; iterate until confirmed.
+
+To keep the agreed plan in a MemNet session (update / repolish later): [memnet-planner](../memnet-planner/SKILL.md).

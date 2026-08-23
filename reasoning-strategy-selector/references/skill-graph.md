@@ -1,6 +1,6 @@
 # Skill graph (schema for seed + MemNet)
 
-**Audience:** LLM + tooling. Canonical routing store is [`skill-graph-seed.wire`](skill-graph-seed.wire) (**engine seed only** -- may use compact store rows). Agent-facing docs use MemNet **GQL wire** (shaped pin_map + openCypher-shaped mutate); wire SSOT: [memnet-format](../../memnet-format/SKILL.md) (see also [SKILL-GRAPH.md](../../SKILL-GRAPH.md)).
+**Audience:** LLM + tooling. Canonical routing store is [`skill-graph-seed.wire`](skill-graph-seed.wire) (**GQL `CREATE` rows**). Agent I/O is the same shape (shaped pin_map + openCypher-shaped mutate); wire SSOT: [memnet-format](../../memnet-format/SKILL.md) (see also [SKILL-GRAPH.md](../../SKILL-GRAPH.md)).
 
 ## Pre-Phase-1 decisions (D1-D4)
 
@@ -30,7 +30,7 @@
 - **pattern / dir:** G | R | P | T
 - **domain:** user | sysml | sysml-tool | pcba | doc | meta | coding
 
-Agent-facing edge shape (GQL present; not seed pipe):
+Agent-facing edge shape:
 
 ```cypher
 (:TRG {id: 'trg-id'})-[:TRIGGERS {id: 'E01', note: '...', recycle: 'persistent'}]->(:SKL {id: 'skill-id'})
@@ -48,7 +48,7 @@ Agent-facing edge shape (GQL present; not seed pipe):
 | `CONFLICTS_WITH` | Mutually exclusive (rare) |
 | `LED_TO_SUCCESS` | Phase 4 empirical edge |
 
-**Engine seed:** `skill-graph-seed.wire` may still use compact pipe rows for tooling; do not copy that syntax into agent mutate I/O.
+**Engine seed:** `skill-graph-seed.wire` is GQL `CREATE` rows. Tools parse that file; agents `mutate` the same shape.
 
 ## Edge-density contract
 

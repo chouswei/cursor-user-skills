@@ -10,7 +10,7 @@ description: >-
   TSK_* settle, TCP serve, streamable-http MCP, GQL wire, shaped pin_map.
 metadata:
   pattern: pipeline
-  version: "2.6"
+  version: "2.7"
   domain: memnet
   product: "memnet-llm==0.19.3"
 ---
@@ -30,6 +30,7 @@ User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Tas
 |--------|--------|
 | Multitask Mode on | Follow this skill + MemNet `docs/operations/multi-agent-sessions.md` |
 | Spawning Task / background workers | Parent checklist below; pass session id in every worker prompt |
+| Plan with parallel steps | [memnet-planner](../memnet-planner/SKILL.md) records `wave` / `PRECEDES` at plan time; this skill runs a **ready wave** |
 | `modelbasedPrj-*` system repo + Multitask | Also read MemNet `docs/application-notes/system/llm-system-dev-multitask.md` |
 | Single-agent goldfish loop | [memnet-use](../memnet-use/SKILL.md) -- default in-process MCP |
 
@@ -136,4 +137,5 @@ Path-B: **`ingest_*`** into the current session (locator ids; **no** leftover NE
 | [memnet-format](../memnet-format/SKILL.md) | MemNet GQL wire / shaped pin_map |
 | [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) | Look loop / nested `session=` |
 | [memnet-use](../memnet-use/SKILL.md) | How-to hub |
+| [memnet-planner](../memnet-planner/SKILL.md) | Plan-time `wave` / `PRECEDES`; this skill executes a ready wave |
 | [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md) | SysML relatives (pair when SysML + Multitask) |

@@ -2,9 +2,9 @@
 Validate reasoning-strategy-selector pack consistency.
 
 1. related_skills.txt ↔ SKILL.md metadata
-2. skill-graph-seed.wire edge-density contract
+2. skill-graph-seed.wire edge-density contract (GQL CREATE rows)
 3. Generated views drift check (optional --check-views)
-4. Optional --order-json against full graph @SKL ids
+4. Optional --order-json against full graph SKL ids
 
 Run from this skill's root:
   python tools/validate_selector_pack.py
@@ -73,8 +73,8 @@ def check_views(g, root: Path) -> bool:
     skill_graph = USER_PACK / "SKILL-GRAPH.md"
     if skill_graph.is_file():
         text = skill_graph.read_text(encoding="utf-8")
-        if "canonical_graph|skill-graph-seed.wire" in text:
-            print("OK: SKILL-GRAPH.md is wire hub (graph in seed.wire).")
+        if "CANONICAL_GRAPH" in text and "skill-graph-seed.wire" in text:
+            print("OK: SKILL-GRAPH.md is GQL hub (graph in seed.wire).")
         elif GENERATED_MARKER in text:
             exp_triggers = regenerate_skill_graph_triggers(g)
             if exp_triggers not in text:
@@ -122,7 +122,7 @@ def main() -> None:
         for e in density_errors[:5]:
             print(f"  {e}", file=sys.stderr)
         sys.exit(1)
-    print(f"OK: skill-graph seed ({len(g.skills)} @SKL, density contract).")
+    print(f"OK: skill-graph seed ({len(g.skills)} SKL, density contract).")
 
     for sid in txt_ids:
         if sid not in g.skills:

@@ -7,7 +7,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.12"
+  version: "1.13"
   product: "memnet-llm==0.19.3"
   pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
@@ -95,7 +95,7 @@ Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sy
 - Behaviour or state machines: `sysml-behaviour-generator`, `sysml-view-doc-sync`
 - Rename, migration, blast radius: `sysml-refactorer`; use Grep / Read on live `.sysml`, then `user-sysml-v2` MCP (`getSymbols`, `getDefinition`, `getReferences`, `parse`, `validate`) on loaded code; do not use abandoned `sysmledgraph`
 - Shared library changes or file splits: `sysml-common-lib-contribution`, `sysml-common-file-scale`
-- Part maturity gate: `sysml-part-reviewer`
+- Part maturity and Minimalist Engineering gates: `sysml-part-reviewer`
 - Long-form outputs packs: `project-output-article`, `system-design-report-generator`
 - EAGLE / de-facto PCBA alignment: `sysml-pcba-de-facto-alignment`
 

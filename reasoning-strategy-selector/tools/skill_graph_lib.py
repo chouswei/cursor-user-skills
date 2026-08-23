@@ -390,22 +390,186 @@ def build_seed_wire(discovered: Dict[str, Tuple[SkillNode, List[str]]]) -> Skill
     return g
 
 
+_PROP_RE = re.compile(
+    r"(\w+)\s*:\s*(?:'((?:\\'|[^'])*)'|\"((?:\\\"|[^\"])*)\")"
+)
+_NODE_RE = re.compile(r"^CREATE\s+\(:(\w+)\s+\{(.+)\}\)\s*$")
+_REL_RE = re.compile(
+    r"^CREATE\s+\(:(\w+)\s+\{([^}]*)\}\)"
+    r"-\[:(\w+)\s+\{([^}]*)\}\]->"
+    r"\(:(\w+)\s+\{([^}]*)\}\)\s*$"
+)
+
+
+def _cypher_escape(value: str) -> str:
+    return value.replace("\\", "\\\\").replace("'", "\\'")
+
+
+def _cypher_unescape(value: str) -> str:
+    return value.replace("\\'", "'").replace("\\\\", "\\")
+
+
+def _parse_props(blob: str) -> Dict[str, str]:
+    out: Dict[str, str] = {}
+    for m in _PROP_RE.finditer(blob):
+        raw = m.group(2) if m.group(2) is not None else m.group(3)
+        out[m.group(1)] = _cypher_unescape(raw or "")
+    return out
+
+
+def _props_to_cypher(pairs: List[Tuple[str, str]]) -> str:
+    return ", ".join(f"{k}: '{_cypher_escape(v)}'" for k, v in pairs)
+
+
 def graph_to_wire_lines(g: SkillGraph) -> List[str]:
     out = [
-        "# skill-graph-seed.wire — single source (D2). Regenerate via scan_skills_to_wire.py",
-        f"@SKG: SKG_global|{g.version}|user_pack|persistent",
+        "# skill-graph-seed.wire -- GQL CREATE rows (D2). scan_skills_to_wire.py --write",
+        "# Same shape as agent mutate. Do not emit @TAG pipe.",
+        "CREATE (:"
+        + "SKG {"
+        + _props_to_cypher(
+            [
+                ("id", "SKG_global"),
+                ("version", g.version),
+                ("pack", "user_pack"),
+                ("recycle", "persistent"),
+            ]
+        )
+        + "})",
     ]
     for sid in sorted(g.skills):
         n = g.skills[sid]
         out.append(
-            f"@SKL: {n.id}|{n.pack}|{n.pattern}|{n.dir}|{n.domain}|{n.cx}|{n.stakes}|{n.ev}|{n.tension}|{n.path}|{n.recycle}"
+            "CREATE (:"
+            + "SKL {"
+            + _props_to_cypher(
+                [
+                    ("id", n.id),
+                    ("pack", n.pack),
+                    ("pattern", n.pattern),
+                    ("dir", n.dir),
+                    ("domain", n.domain),
+                    ("cx", n.cx),
+                    ("stakes", n.stakes),
+                    ("ev", n.ev),
+                    ("tension", n.tension),
+                    ("path", n.path),
+                    ("recycle", n.recycle),
+                ]
+            )
+            + "})"
         )
     for tid in sorted(g.triggers):
         t = g.triggers[tid]
-        out.append(f"@TRG: {t.id}|{t.phrase}|{t.recycle}")
+        out.append(
+            "CREATE (:"
+            + "TRG {"
+            + _props_to_cypher(
+                [
+                    ("id", t.id),
+                    ("phrase", t.phrase),
+                    ("recycle", t.recycle),
+                ]
+            )
+            + "})"
+        )
     for e in g.edges:
-        out.append(f"@EDG: {e.id}|{e.src}|{e.relation}|{e.dst}|{e.note}|{e.recycle}")
+        src_kind = "TRG" if e.relation == "triggers" else (
+            "SKG" if e.src == "SKG_global" else "SKL"
+        )
+        if e.src.startswith("TSK_"):
+            src_kind = "TSK"
+        dst_kind = "SKL"
+        out.append(
+            "CREATE (:"
+            + f"{src_kind} {{"
+            + _props_to_cypher([("id", e.src)])
+            + "})-[:"
+            + e.relation.upper()
+            + " {"
+            + _props_to_cypher(
+                [
+                    ("id", e.id),
+                    ("note", e.note),
+                    ("recycle", e.recycle),
+                ]
+            )
+            + "}]->(:"
+            + f"{dst_kind} {{"
+            + _props_to_cypher([("id", e.dst)])
+            + "})"
+        )
     return out
+
+
+def _parse_gql_line(line: str, g: SkillGraph) -> None:
+    rel = _REL_RE.match(line)
+    if rel:
+        src_props = _parse_props(rel.group(2))
+        edge_props = _parse_props(rel.group(4))
+        dst_props = _parse_props(rel.group(6))
+        src = src_props.get("id", "")
+        dst = dst_props.get("id", "")
+        rid = edge_props.get("id", "")
+        relation = rel.group(3).lower()
+        note = edge_props.get("note", "")
+        recycle = edge_props.get("recycle", "persistent")
+        if not (src and dst and rid):
+            return
+        e = Edge(rid, src, relation, dst, note, recycle)
+        g.edges.append(e)
+        if relation == "triggers":
+            g.trigger_to_skill[src] = dst
+        return
+    node = _NODE_RE.match(line)
+    if not node:
+        return
+    kind, blob = node.group(1), node.group(2)
+    props = _parse_props(blob)
+    nid = props.get("id", "")
+    recycle = props.get("recycle", "persistent")
+    if kind == "SKG":
+        g.version = props.get("version", g.version)
+        return
+    if kind == "SKL" and nid:
+        g.skills[nid] = SkillNode(
+            nid,
+            props.get("pack", "user"),
+            props.get("pattern", "G"),
+            props.get("dir", props.get("pattern", "G")),
+            props.get("domain", "user"),
+            props.get("cx", "medium"),
+            props.get("stakes", "medium"),
+            props.get("ev", "structural"),
+            props.get("tension", "low"),
+            props.get("path", ""),
+            recycle,
+        )
+        return
+    if kind == "TRG" and nid:
+        g.triggers[nid] = TriggerNode(nid, props.get("phrase", ""), recycle)
+
+
+def _parse_pipe_line(line: str, g: SkillGraph) -> None:
+    if line.startswith("@SKG:"):
+        parts = line.split(":", 1)[1].strip().split("|")
+        if len(parts) >= 2:
+            g.version = parts[1]
+    elif line.startswith("@SKL:"):
+        p = line.split(":", 1)[1].strip().split("|")
+        if len(p) >= 10:
+            g.skills[p[0]] = SkillNode(*p[:10], p[10] if len(p) > 10 else "persistent")
+    elif line.startswith("@TRG:"):
+        p = line.split(":", 1)[1].strip().split("|")
+        if len(p) >= 2:
+            g.triggers[p[0]] = TriggerNode(p[0], p[1], p[2] if len(p) > 2 else "persistent")
+    elif line.startswith("@EDG:"):
+        p = line.split(":", 1)[1].strip().split("|")
+        if len(p) >= 5:
+            e = Edge(p[0], p[1], p[2], p[3], p[4], p[5] if len(p) > 5 else "persistent")
+            g.edges.append(e)
+            if e.relation == "triggers":
+                g.trigger_to_skill[e.src] = e.dst
 
 
 def parse_wire_file(path: Path) -> SkillGraph:
@@ -416,25 +580,10 @@ def parse_wire_file(path: Path) -> SkillGraph:
         line = raw.strip()
         if not line or line.startswith("#"):
             continue
-        if line.startswith("@SKG:"):
-            parts = line.split(":", 1)[1].strip().split("|")
-            if len(parts) >= 2:
-                g.version = parts[1]
-        elif line.startswith("@SKL:"):
-            p = line.split(":", 1)[1].strip().split("|")
-            if len(p) >= 10:
-                g.skills[p[0]] = SkillNode(*p[:10], p[10] if len(p) > 10 else "persistent")
-        elif line.startswith("@TRG:"):
-            p = line.split(":", 1)[1].strip().split("|")
-            if len(p) >= 2:
-                g.triggers[p[0]] = TriggerNode(p[0], p[1], p[2] if len(p) > 2 else "persistent")
-        elif line.startswith("@EDG:"):
-            p = line.split(":", 1)[1].strip().split("|")
-            if len(p) >= 5:
-                e = Edge(p[0], p[1], p[2], p[3], p[4], p[5] if len(p) > 5 else "persistent")
-                g.edges.append(e)
-                if e.relation == "triggers":
-                    g.trigger_to_skill[e.src] = e.dst
+        if line.startswith("CREATE "):
+            _parse_gql_line(line, g)
+        elif line.startswith("@"):
+            _parse_pipe_line(line, g)
     g.rebuild_adjacency()
     return g
 

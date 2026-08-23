@@ -11,29 +11,29 @@ description: >-
 metadata:
   pattern: pipeline
   secondary: router
-  version: 3.6-method-pack
+  version: 3.7-method-pack
   related_skills: [academic-report-generator, adr-generator, architecture-reviewer, code-reviewer, commit-message-generator, control-theory-planner, decision-inverter, scientific-method-first-principles, empirical-paradox-synthesis, engineering-practices-learner, incentive-alignment-reviewer, launch-readiness-assessor, mcdm-decider, meeting-notes-generator, optimization-planner, pandas-expert, pr-reviewer, project-planner, risk-assessor, rfc-generator, security-reviewer, tech-report-generator, tech-report-reviewer, skill-creator, skillfish, skill-reviewer, sysml-new-project, sysml-refactorer]
 
 pipeline_steps:
   1. Frame — objective, hidden_assumptions, polarities. Abort with `order: []` if a single domain skill already fits.
-  2. Graph load — parse [`skill-graph-seed.wire`](references/skill-graph-seed.wire) locally, or cue `pin_map` for `SKL_<hit>` / `SKG_global` when MemNet live. leftover `anchor=` named leftover. Match `@TRG` phrases; cue per [skill-graph.md](references/skill-graph.md).
-  3. Rank — graph traversal only: trigger hit → typed `@EDG` neighbours (`precedes`, `default_stack`, `complements`, `specializes`); score by edge weights + hop penalty. No 6D convolution over the skill table.
-  4. Output — Markdown handoff (≤400 tokens): objective, hidden_assumptions, polarities, feature_scores{top skills}, order[], graph_path[], rationale[≤4], pass. `order` ⊆ graph `@SKL` ids; never `reasoning-strategy-selector`.
-  5. Revise — if ambiguous: re-anchor `pin_map(SKL_<top>, depth=1)` or widen trigger match; max once.
-  6. Settle (parent agent, not selector) — on downstream `pass: true`, emit `led_to_success` `@EDG` rows per [phase4-learning-loop.md](references/phase4-learning-loop.md); `python tools/record_routing_success.py TSK_route_<slug> <skill-id> [...]`
+  2. Graph load — parse [`skill-graph-seed.wire`](references/skill-graph-seed.wire) locally, or cue `pin_map` for `SKG_global` / matching SKL when MemNet is live. Match TRG phrases; cue per [skill-graph.md](references/skill-graph.md).
+  3. Rank — graph traversal only: trigger hit -> typed neighbours (`PRECEDES`, `DEFAULT_STACK`, `COMPLEMENTS`, `SPECIALIZES`); score by edge weights + hop penalty. No 6D convolution over the skill table.
+  4. Output — Markdown handoff (≤400 tokens): objective, hidden_assumptions, polarities, feature_scores{top skills}, order[], graph_path[], rationale[≤4], pass. `order` ⊆ graph SKL ids; never `reasoning-strategy-selector`.
+  5. Revise — if ambiguous: `pin_map` the top SKL (`depth=1`) or widen trigger match; max once.
+  6. Settle (parent agent, not selector) — on downstream `pass: true`, `mutate` `LED_TO_SUCCESS` per [phase4-learning-loop.md](references/phase4-learning-loop.md); `python tools/record_routing_success.py TSK_route_<slug> <skill-id> [...]`
 
 system_instruction: |
   You route via skill graph traversal only; you do not solve the task.
   Prefer `order: []` + SKILL-GRAPH / repo AGENTS when domain intent is clear.
 
-  1. Match intent to `@TRG` rows (skill-graph-seed.wire or MemNet warm slice).
-  2. Traverse typed `@EDG` neighbours; rank per edge weights in skill-graph.md.
-  3. Cold start (no trigger): anchor `SKG_global` or domain hub via graph `default_stack` edges.
+  1. Match intent to TRG phrases (skill-graph-seed.wire or MemNet pin_map).
+  2. Traverse typed neighbours; rank per edge weights in skill-graph.md.
+  3. Cold start (no trigger): cue `SKG_global` or domain hub via `DEFAULT_STACK`.
   4. Return top-3 with score ≥ 0.55, or `[]` → SKILL-GRAPH fast-path.
 
   **No convolution.** Do not score all skills against a 6D feature table.
 
-  **MemNet optional:** `pin_map` from a cue (`kind`/`id` nickname leftover); if unavailable, parse seed wire locally.
+  **MemNet optional:** `pin_map` from a cue; if unavailable, parse seed wire locally.
 
   **Output (Markdown bullets or short table):**
   ```

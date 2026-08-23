@@ -4,7 +4,7 @@ Bootstrap skill graph: validate seed, regenerate views, optional MemNet sync.
 
   python tools/bootstrap_skill_graph.py --regenerate-views
   python tools/bootstrap_skill_graph.py --dry-run
-  python tools/bootstrap_skill_graph.py --sync   # prints wire for manual memnet.add
+  python tools/bootstrap_skill_graph.py --sync   # prints GQL CREATE for mutate
 """
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ def regenerate_core_strategy_principles(g) -> str:
 
 **Source:** [`skill-graph-seed.wire`](skill-graph-seed.wire). Regenerate: `python tools/bootstrap_skill_graph.py --regenerate-views`.
 
-**Purpose:** Human audit view of `@SKL` node metadata from the skill graph. **Not used for routing.**
+**Purpose:** Human audit view of SKL node metadata from the skill graph. **Not used for routing.**
 
 | Skill | Direction | Domain | Complexity | Stakes | Evidence | Tension |
 |-------|-----------|--------|------------|--------|----------|---------|
@@ -73,9 +73,9 @@ def patch_skill_graph_md(trigger_rows: str) -> None:
     if not skill_graph_path.is_file():
         print(f"WARN: {skill_graph_path} not found", file=sys.stderr)
         return
-    if "canonical_graph|skill-graph-seed.wire" not in skill_graph_path.read_text(encoding="utf-8"):
+    if "CANONICAL_GRAPH" not in skill_graph_path.read_text(encoding="utf-8"):
         print(
-            "WARN: SKILL-GRAPH.md is not wire-hub format; skip trigger table patch",
+            "WARN: SKILL-GRAPH.md missing CANONICAL_GRAPH; skip trigger table patch",
             file=sys.stderr,
         )
         return
@@ -86,7 +86,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Bootstrap skill graph seed and views.")
     parser.add_argument("--regenerate-views", action="store_true")
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--sync", action="store_true", help="Emit wire lines for MemNet add")
+    parser.add_argument("--sync", action="store_true", help="Emit GQL CREATE lines for mutate")
     args = parser.parse_args()
 
     if not SEED_PATH.is_file():
@@ -114,8 +114,8 @@ def main() -> None:
             if line.startswith("#"):
                 continue
             print(line)
-        print("# Paste above @ rows into memnet.add with allow_new_relation=true", file=sys.stderr)
-        print("# MERGE only — do not delete existing led_to_success edges", file=sys.stderr)
+        print("# Paste CREATE lines into mutate; MERGE empirical LED_TO_SUCCESS", file=sys.stderr)
+        print("# Do not delete existing led_to_success edges", file=sys.stderr)
 
     if args.dry_run:
         print("Dry-run complete.")

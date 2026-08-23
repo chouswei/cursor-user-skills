@@ -6,7 +6,7 @@ description: >-
   goldfish, mission working memory, chat never SSOT, session graph.
 metadata:
   pattern: pipeline
-  version: "1.5"
+  version: "1.6"
   domain: memnet
   product: "memnet-llm==0.19.3"
 ---
@@ -38,6 +38,7 @@ User-pack store: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:18
 | Multitask / shared session | [memnet-multitask](../memnet-multitask/SKILL.md) |
 | Code `MOD`/`SYM` | [memnet-codebase-snap](../memnet-codebase-snap/SKILL.md) |
 | Nested sessions / look loop | [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) |
+| Plan in session (draft / update / repolish) | [memnet-planner](../memnet-planner/SKILL.md) |
 | SysML relatives + nest cuts | pack `sysml-*` plus MemNet `docs/application-notes/system/llm-sysml-v2-modeling.md` |
 | Build the MemNet engine | **not this pack** -- MemNet checkout `.cursor/skills/memnet-reference/` |
 

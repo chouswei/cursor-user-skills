@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Emit led_to_success @EDG rows for MemNet after successful routing (Phase 4).
+"""Emit LED_TO_SUCCESS CREATE lines after successful routing (Phase 4).
 
 Usage:
   python tools/record_routing_success.py TSK_route_abc sysml-refactorer code-reviewer
@@ -12,30 +12,36 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from skill_graph_lib import SEED_PATH, parse_wire_file  # noqa: E402
+from skill_graph_lib import SEED_PATH, _cypher_escape, parse_wire_file  # noqa: E402
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Format led_to_success edges for memnet.add")
+    parser = argparse.ArgumentParser(description="Format LED_TO_SUCCESS CREATE lines for mutate")
     parser.add_argument("tsk_id", help="Routing task id, e.g. TSK_route_sysml_refactor")
     parser.add_argument("skill_ids", nargs="+", help="Skill ids that succeeded")
     parser.add_argument("--note", default="pass", help="Edge note field")
     args = parser.parse_args()
 
     if not re.match(r"^TSK_route_[a-z0-9_-]+$", args.tsk_id):
-        print(f"ERROR: tsk_id must match TSK_route_<slug>", file=sys.stderr)
+        print("ERROR: tsk_id must match TSK_route_<slug>", file=sys.stderr)
         sys.exit(2)
 
     g = parse_wire_file(SEED_PATH)
     bad = [s for s in args.skill_ids if s not in g.skills]
     if bad:
-        print(f"ERROR: unknown @SKL ids: {bad}", file=sys.stderr)
+        print(f"ERROR: unknown SKL ids: {bad}", file=sys.stderr)
         sys.exit(1)
 
+    note = _cypher_escape(args.note)
+    tid = _cypher_escape(args.tsk_id)
     for i, sid in enumerate(args.skill_ids):
-        eid = f"E_{args.tsk_id}_{sid}_{i}"
-        print(f"@EDG: {eid}|{args.tsk_id}|led_to_success|{sid}|{args.note}|persistent")
-    print("# Paste into memnet.add with allow_new_relation=true", file=sys.stderr)
+        eid = _cypher_escape(f"E_{args.tsk_id}_{sid}_{i}")
+        sk = _cypher_escape(sid)
+        print(
+            f"CREATE (:TSK {{id: '{tid}'}})-[:LED_TO_SUCCESS "
+            f"{{id: '{eid}', note: '{note}', recycle: 'persistent'}}]->(:SKL {{id: '{sk}'}})"
+        )
+    print("# Paste CREATE lines into mutate", file=sys.stderr)
 
 
 if __name__ == "__main__":
