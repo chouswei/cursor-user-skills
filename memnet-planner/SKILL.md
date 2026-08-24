@@ -12,17 +12,17 @@ description: >-
   building the MemNet engine.
 metadata:
   pattern: pipeline
-  version: "1.1"
+  version: "1.2"
   domain: memnet
   product: "memnet-llm==0.19.3"
-  secondary: "hybrid: mcp-memnet + memnet-format; memnet-multitask on execute"
+  secondary: "hybrid: mcp-memnet + memnet-format; memnet-multitask on execute; + chat-shape template"
   pairs_with: [memnet-use, mcp-memnet, memnet-format, memnet-nested-sessions, memnet-multitask, project-planner]
 
-pipeline_steps:
+pipeline_steps: |
   1. Gate
      - MemNet tools in catalog. Else scratch Markdown only; say the plan is not durable.
   2. Session
-     - Reuse current session. If none: session_open with the SCHEMA map in references/plan-graph.md.
+     - Reuse current session. If none, session_open with the SCHEMA map in references/plan-graph.md.
   3. Cue then pin_map
      - Cue the plan task (kind TSK + phase=plan or goal=). Empty cue = outline. CueConflict if two unrelated in-progress plan roots.
   4. Draft or delta
@@ -31,7 +31,7 @@ pipeline_steps:
   5. Pin_map again
      - Drop the prior map. Present the Shape from stdout only (assets/chat-shape.md).
   6. Execute (only if the user asked to run)
-     - Ready wave: predecessors settled. Multitask off -> parent serial. Multitask on -> memnet-multitask workers, then end the turn.
+     - Ready wave: predecessors settled and step llm_id empty. Claim with SET llm_id before spawn. Multitask off -> parent serial. Multitask on -> memnet-multitask workers, then end the turn.
   7. Optional persist
      - session_save when the user wants a file snap.
 
@@ -92,3 +92,4 @@ There is **no** `:PLAN` kind. A plan is one `:TSK` with `phase:'plan'` plus chil
 - Dump session S.
 - Same `wave` for steps that share a write `scope` without RSV.
 - Settle plan or sibling steps from worker chat.
+- Re-spawn a step that already has `llm_id` set (claimed).

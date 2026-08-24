@@ -11,6 +11,7 @@ Record **how steps may run** while **drafting**, not only when spawning workers.
 | `ord` | Display / stable identity with `goal` |
 | `wave` | Integer. Same `wave` => candidates for one parallel spawn |
 | `scope` | Short write neighbourhood (`path=`, `qname=`, or `session=` cut). Empty => treat as overlapping |
+| `llm_id` | Claim. Empty = not spawned. Parent sets worker id **before** spawn |
 
 Default if unsure: `wave = ord` (fully serial). Do not invent parallelism.
 
@@ -37,7 +38,16 @@ Otherwise bump `wave`.
 | Multitask **off** | Parent runs ready steps **in `ord`** (even if `wave` ties). Graph still stores waves for a later parallel host. |
 | Multitask **on** | Load memnet-multitask. Shared TCP or HTTP (`memnet-pi`); **MUST NOT** in-process. One worker per ready step in that `wave`. Pass session id, cue `kind=TSK` `goal=` of **that step**, `scope`, `llm_id`. `reserve` if scopes overlap. **End the turn** -- no poll. |
 
-**Ready step:** `status='in_progress'` and every `PRECEDES` predecessor is `settled`.
+**Ready step:** `status='in_progress'`, `llm_id` empty (or absent), and every `PRECEDES` predecessor is `settled`.
+
+**Claim before spawn:**
+
+```cypher
+MATCH (s:TSK {phase: 'step', goal: 'Confirm port mapping', ord: 1})
+SET s.llm_id = 'worker-a'
+```
+
+MUST NOT spawn a step that already has a non-empty `llm_id`. That blocks double-spawn on a re-entrant coordinator turn.
 
 Parent **owns** settle: next coordinator turn `pin_map` the plan, then `SET` step `status='settled'` from **graph facts**, not worker prose. Workers MUST NOT settle the plan root or sibling steps.
 
@@ -51,4 +61,4 @@ Include: mission `session`, step `goal=`, locators, `scope`, `llm_id`, "mutate o
 
 ## Retrieval seeds
 
-plan wave, parallel steps, PRECEDES step, multitask plan execution, reserve overlapping scope
+plan wave, parallel steps, PRECEDES step, multitask plan execution, reserve overlapping scope, llm_id claim spawn

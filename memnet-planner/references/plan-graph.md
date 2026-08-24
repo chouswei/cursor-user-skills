@@ -7,7 +7,7 @@ Wire: [memnet-format](../../memnet-format/SKILL.md). Tools: [mcp-memnet](../../m
 | Kind | Role | Typical props |
 |------|------|----------------|
 | `:TSK` `phase:'plan'` | Plan root | `goal`, `phase`, `status`, `recycle` |
-| `:TSK` `phase:'step'` | Ordered step | `goal`, `phase`, `ord`, `wave`, `scope`, `status`, `recycle` |
+| `:TSK` `phase:'step'` | Ordered step | `goal`, `phase`, `ord`, `wave`, `scope`, `status`, `llm_id`, `recycle` |
 | `:USR` | Constraint that must survive polish | `topic`, `content`, `status` (`active` / `superseded`) |
 | `:CLM` | Assumption or polish note | `type` (`assumption` / `polish`), `code`, `status` |
 | `:DEC` | Open choice | `code`, `status` (`open` / `closed`) |
@@ -23,9 +23,11 @@ Optional house nickname property `id` (e.g. `TSK_plan_foam_ui`) is **not** graph
 
 Do not use `done` or `active` on `:TSK`.
 
+**Claim (steps only):** `llm_id` empty = not yet spawned. Parent `SET`s `llm_id` to the worker id **before** spawn so a later coordinator turn will not re-spawn. Clear or leave on settle; do not spawn when `llm_id` is already set. See [execution-waves.md](execution-waves.md).
+
 **Cardinality:** one in-progress plan root per session. Steps are children, not second roots. Prefer one live campaign `:TSK` (`goal=TSK_model_<short>`) plus this plan as `CHILDOF`.
 
-**Recycle:** plan root `persistent` until the work is abandoned. Step rows default `delete_on_settle`. Constraints `persistent` while `active`.
+**Recycle:** plan root `persistent` until the work is abandoned. Step rows stay `persistent` while the plan root is `in_progress` (so `PRECEDES` readiness still has predecessors to inspect). Flip steps to `delete_on_settle` when the plan root settles ([polish-protocol.md](polish-protocol.md)). Constraints `persistent` while `active`.
 
 ## Rel types
 
@@ -39,7 +41,7 @@ Do not use `done` or `active` on `:TSK`.
 ## SCHEMA (`session_open` `map_lines`)
 
 ```text
-SCHEMA TSK ; fields=goal phase ord wave scope status recycle
+SCHEMA TSK ; fields=goal phase ord wave scope status llm_id recycle
 SCHEMA USR ; fields=topic content status recycle
 SCHEMA CLM ; fields=type code status recycle
 SCHEMA DEC ; fields=code status recycle
@@ -51,9 +53,9 @@ Cover every kind you will mutate. Missing kind -> `unknown_tag`.
 
 ```cypher
 CREATE (p:TSK {goal: 'Plan: recover PoE camera', phase: 'plan', status: 'in_progress', recycle: 'persistent'})
-CREATE (s1:TSK {goal: 'Confirm port mapping', phase: 'step', ord: 1, wave: 1, scope: 'items-host-config.sysml', status: 'in_progress', recycle: 'delete_on_settle'})
-CREATE (s2:TSK {goal: 'Draft collector chip copy', phase: 'step', ord: 2, wave: 1, scope: 'watchdog-collector/static/app.js', status: 'in_progress', recycle: 'delete_on_settle'})
-CREATE (s3:TSK {goal: 'Cycle PoE then re-open pipeline', phase: 'step', ord: 3, wave: 2, scope: 'poe_port_power.py', status: 'in_progress', recycle: 'delete_on_settle'})
+CREATE (s1:TSK {goal: 'Confirm port mapping', phase: 'step', ord: 1, wave: 1, scope: 'items-host-config.sysml', status: 'in_progress', llm_id: '', recycle: 'persistent'})
+CREATE (s2:TSK {goal: 'Draft collector chip copy', phase: 'step', ord: 2, wave: 1, scope: 'watchdog-collector/static/app.js', status: 'in_progress', llm_id: '', recycle: 'persistent'})
+CREATE (s3:TSK {goal: 'Cycle PoE then re-open pipeline', phase: 'step', ord: 3, wave: 2, scope: 'poe_port_power.py', status: 'in_progress', llm_id: '', recycle: 'persistent'})
 CREATE (s1)-[:CHILDOF {note: 'step', recycle: 'persistent'}]->(p)
 CREATE (s2)-[:CHILDOF {note: 'step', recycle: 'persistent'}]->(p)
 CREATE (s3)-[:CHILDOF {note: 'step', recycle: 'persistent'}]->(p)
@@ -84,4 +86,4 @@ When `|Q|>1` for plan roots: CueConflict -- do not pick one.
 
 ## Retrieval seeds
 
-memnet plan, session plan, TSK phase plan, CHILDOF step, PRECEDES wave, mutate plan, pin_map plan, SCHEMA TSK
+memnet plan, session plan, TSK phase plan, CHILDOF step, PRECEDES wave, mutate plan, pin_map plan, SCHEMA TSK, llm_id claim

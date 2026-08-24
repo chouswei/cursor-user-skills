@@ -9,8 +9,9 @@ Always `pin_map` the plan task first. Apply a **delta**; do not recreate the who
 | Reword a step | `MATCH` that step by `goal` + `ord`; `SET` `goal` |
 | Reorder | `SET` `ord` on the affected steps (keep unique `ord`) |
 | Change parallelism | `SET` `wave` / `scope`; add or `DELETE` `PRECEDES` (see [execution-waves.md](execution-waves.md)) |
-| Add a step | `CREATE` step + `CHILDOF` to the plan |
+| Add a step | `CREATE` step + `CHILDOF` to the plan (`recycle:'persistent'`, `llm_id:''`) |
 | Drop a step | `SET` `status='settled'` (and `recycle='delete_on_settle'`) or `DELETE` the node if it never ran |
+| Clear a bad claim | `SET` step `llm_id=''` only if the worker never started (user confirm) |
 | New constraint | `CREATE` `:USR` + `constrained_by` from the plan |
 | Supersede constraint | `SET` USR `status='superseded'` |
 
@@ -39,9 +40,12 @@ When the plan is finished or abandoned:
 ```cypher
 MATCH (p:TSK {phase: 'plan', goal: 'Plan: recover PoE camera'})
 SET p.status = 'settled', p.recycle = 'delete_on_settle'
+WITH p
+MATCH (s:TSK {phase: 'step'})-[:CHILDOF]->(p)
+SET s.status = 'settled', s.recycle = 'delete_on_settle'
 ```
 
-Settle child steps the same way if they should drop from later maps. Do not settle a parent campaign `TSK_model_*` from this skill unless the user owns that campaign close-out.
+Steps stay `persistent` until this close-out so `PRECEDES` readiness remains inspectable. Do not settle a parent campaign `TSK_model_*` from this skill unless the user owns that campaign close-out.
 
 Workers: parent owns settle ([memnet-multitask](../../memnet-multitask/SKILL.md)). Overlapping writers: `reserve` then matching `llm_id` on `mutate`. Execute a ready **wave** only when asked -- [execution-waves.md](execution-waves.md).
 
@@ -51,4 +55,4 @@ Only if the user asks to replace the plan: settle or `DELETE` old steps, then CR
 
 ## Retrieval seeds
 
-repolish plan, update memnet plan, SET step goal, settle plan TSK, polish CLM, SET wave
+repolish plan, update memnet plan, SET step goal, settle plan TSK, polish CLM, SET wave, clear llm_id claim

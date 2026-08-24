@@ -10,14 +10,13 @@ After the second `pin_map`, answer with this block only (fill from stdout). Do n
 
 ## Steps (by `ord`)
 
-| ord | wave | Goal | scope | Status |
-|-----|------|------|-------|--------|
+| ord | wave | Goal | scope | Status | llm_id |
+|-----|------|------|-------|--------|--------|
 
 ## Ready now
 
-- (steps whose predecessors are settled, or "none")
+- (steps with empty `llm_id` whose predecessors are settled, or "none")
 - **Run:** serial on this host | parallel wave `N` (Multitask on)
-|-----|------|--------|
 
 ## Constraints
 
@@ -29,4 +28,4 @@ After the second `pin_map`, answer with this block only (fill from stdout). Do n
 
 ## Changed this turn
 
-- (one line: drafted | updated | repolished | settled)
+- (one line: drafted | updated | repolished | settled | claimed wave)

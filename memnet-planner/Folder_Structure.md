@@ -12,4 +12,4 @@ memnet-planner/
     └── chat-shape.md
 ```
 
-Primary pattern: `pipeline` (hybrid with mcp-memnet / memnet-format). No `tools/` retriever.
+Primary pattern: `pipeline` (hybrid with mcp-memnet / memnet-format; chat-shape template; memnet-multitask on execute). No `tools/` retriever.
