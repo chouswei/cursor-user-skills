@@ -20,6 +20,8 @@ Patch by labels+properties. leftover `MATCH ({id})` / leftover NEW mint are left
 
 Primary read returns a bounded neighbourhood. Cue with `kind` / `locators` / `keyword`. leftover `anchor`/`anchors` are leftover nicknames. Empty cue = outline. `find` then `pin_map` from labels+props -- `find` is not goldfish read.
 
+Shaped `pin_map` / `export_pin_map` / `find` emit MUST NOT show `hid`, `_memnet_hid`, `elementId` (`SHAPE_DROP_KEYS`), or nickname `id`. Cue-by-nickname lookup is still OK. Do not put momentum / coverage / lambda / m on `pin_map`. Audit: MemNet `docs/operations/honesty-c-wire-audit.md`.
+
 Session schema (`session_open` map -- not graph rows):
 
 ```text

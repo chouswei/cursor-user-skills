@@ -12,9 +12,9 @@ description: >-
   building the MemNet engine.
 metadata:
   pattern: pipeline
-  version: "1.2"
+  version: "1.3"
   domain: memnet
-  product: "memnet-llm==0.19.3"
+  product: "memnet-llm==0.19.5"
   secondary: "hybrid: mcp-memnet + memnet-format; memnet-multitask on execute; + chat-shape template"
   pairs_with: [memnet-use, mcp-memnet, memnet-format, memnet-nested-sessions, memnet-multitask, project-planner]
 

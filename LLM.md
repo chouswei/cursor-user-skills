@@ -4,32 +4,32 @@
 
 Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>/SKILL.md`.
 
-**Wire reminder:** pin_map = **shaped subgraph** from a cue. Mutate = openCypher-shaped CREATE / MATCH-SET / DELETE. leftover `id:'NEW'` mint named leftover.
+**Wire reminder:** pin_map = **shaped subgraph** from a cue. Mutate = openCypher-shaped CREATE / MATCH-SET / DELETE. leftover `id:'NEW'` mint named leftover. Honesty `c` (0.19.5): shaped `pin_map` / export / find emit MUST NOT show `hid`, `_memnet_hid`, `elementId`, or nickname `id`. Cue-by-nickname lookup is still OK. Do not put momentum / coverage / lambda / m on `pin_map`. Audit: MemNet `docs/operations/honesty-c-wire-audit.md`.
 
 ---
 
 ## Rules (MUST / MUST NOT)
 
-**Preferred format** (shaped present -- as on a pin_map):
+**Preferred format** (shaped present -- as on a pin_map; no nickname `id`):
 
 ```cypher
-(:RUL {id: 'R01', kind: 'MUSTNOT', code: 'load every skill; one user request -> <=1 specialist active', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R02', kind: 'MUSTNOT', code: 'treat "list every skill" as a workflow', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R03', kind: 'MUST', code: 'if selector order=[] -> answer without opening another SKILL.md', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R04', kind: 'MUST', code: 'model-choice / Task model -> user rule sub-agent-policy Model by role table (not reasoning-strategy-selector)', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R05', kind: 'MUST', code: 'model above $6/1M tokens requires explicit user approval', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R06', kind: 'SHOULD', code: 'obvious single-skill task -> apply that skill directly', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'R07', kind: 'SHOULD', code: 'general reasoning/planning, no domain -> user-domain skills', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'R08', kind: 'SHOULD', code: 'multi-step/broad task -> sub-agent; same routing inside; see user rule sub-agent-policy', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'R09', kind: 'MUST', code: 'no summary/review docs unless user asks', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'R10', kind: 'MUST', code: 'skill-creator only when user wants to create/scaffold a skill', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'R11', kind: 'MUST', code: 'bump metadata.version before pushing a user-pack skill to GitHub', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'R12', kind: 'MUST', code: 'obey active skill token_guardrails; prefer tools/* over dumping references/*', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R13', kind: 'MUST', code: 'pipeline handoffs: MemNet up -> GQL wire (shaped pin_map + openCypher mutate); MemNet down -> plain Markdown; tool boundary -> JSON', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R14', kind: 'SHOULD', code: 'large uniform tabular data in answers -> Markdown table over JSON when clearer', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'R15', kind: 'MUSTNOT', code: 'invent skill-ids absent from skill-graph-seed.wire / SKILL-GRAPH.md', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R16', kind: 'MUST', code: 'ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes)', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R17', kind: 'MUST', code: 'Task models per user rule sub-agent-policy: thinking/unclear->cursor-grok-4.5-low (never FAST); web->gemini-3-flash; visual items review->kimi-k3-max; MemNet snapshot->gpt-5.6-luna-medium; routines with clear steps/guide->composer-2.5; never *-fast', priority: 'high', recycle: 'persistent'})
+(:RUL {kind: 'MUSTNOT', code: 'load every skill; one user request -> <=1 specialist active', priority: 'high', recycle: 'persistent'})
+(:RUL {kind: 'MUSTNOT', code: 'treat "list every skill" as a workflow', priority: 'high', recycle: 'persistent'})
+(:RUL {kind: 'MUST', code: 'if selector order=[] -> answer without opening another SKILL.md', priority: 'high', recycle: 'persistent'})
+(:RUL {kind: 'MUST', code: 'model-choice / Task model -> user rule sub-agent-policy Model by role table (not reasoning-strategy-selector)', priority: 'high', recycle: 'persistent'})
+(:RUL {kind: 'MUST', code: 'model above $6/1M tokens requires explicit user approval', priority: 'high', recycle: 'persistent'})
+(:RUL {kind: 'SHOULD', code: 'obvious single-skill task -> apply that skill directly', priority: 'med', recycle: 'persistent'})
+(:RUL {kind: 'SHOULD', code: 'general reasoning/planning, no domain -> user-domain skills', priority: 'med', recycle: 'persistent'})
+(:RUL {kind: 'SHOULD', code: 'multi-step/broad task -> sub-agent; same routing inside; see user rule sub-agent-policy', priority: 'med', recycle: 'persistent'})
+(:RUL {kind: 'MUST', code: 'no summary/review docs unless user asks', priority: 'med', recycle: 'persistent'})
+(:RUL {kind: 'MUST', code: 'skill-creator only when user wants to create/scaffold a skill', priority: 'med', recycle: 'persistent'})
+(:RUL {kind: 'MUST', code: 'bump metadata.version before pushing a user-pack skill to GitHub', priority: 'med', recycle: 'persistent'})
+(:RUL {kind: 'MUST', code: 'obey active skill token_guardrails; prefer tools/* over dumping references/*', priority: 'high', recycle: 'persistent'})
+(:RUL {kind: 'MUST', code: 'pipeline handoffs: MemNet up -> GQL wire (shaped pin_map + openCypher mutate); MemNet down -> plain Markdown; tool boundary -> JSON', priority: 'high', recycle: 'persistent'})
+(:RUL {kind: 'SHOULD', code: 'large uniform tabular data in answers -> Markdown table over JSON when clearer', priority: 'med', recycle: 'persistent'})
+(:RUL {kind: 'MUSTNOT', code: 'invent skill-ids absent from skill-graph-seed.wire / SKILL-GRAPH.md', priority: 'high', recycle: 'persistent'})
+(:RUL {kind: 'MUST', code: 'ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes)', priority: 'high', recycle: 'persistent'})
+(:RUL {kind: 'MUST', code: 'Task models per user rule sub-agent-policy: thinking/unclear->cursor-grok-4.5-low (never FAST); web->gemini-3-flash; visual items review->kimi-k3-max; MemNet snapshot->gpt-5.6-luna-medium; routines with clear steps/guide->composer-2.5; never *-fast', priority: 'high', recycle: 'persistent'})
 ```
 
 Mutate sketch (when writing rules into a live session):

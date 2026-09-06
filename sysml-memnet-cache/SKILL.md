@@ -9,8 +9,8 @@ description: >-
 metadata:
   pattern: tool-wrapper
   domain: sysml-v2,memnet
-  version: "2.1"
-  product: "memnet-llm==0.19.3"
+  version: "2.2"
+  product: "memnet-llm==0.19.5"
   pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format, sysml-gql, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
   - MemNet is the cache; .sysml is source of truth for structure; AGENT-CONTEXT is catalog session + campaign cue only.

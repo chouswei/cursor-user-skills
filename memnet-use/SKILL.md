@@ -6,16 +6,16 @@ description: >-
   goldfish, mission working memory, chat never SSOT, session graph.
 metadata:
   pattern: pipeline
-  version: "1.6"
+  version: "1.7"
   domain: memnet
-  product: "memnet-llm==0.19.3"
+  product: "memnet-llm==0.19.5"
 ---
 
 # How to use MemNet
 
 **Using** MemNet -- not building the engine. Doctrine: MemNet `docs/SHAPE.md`, `docs/grammar/gql-wire-profile.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Open one specialist; do not paste those files here.
 
-**Package and PyPI 0.19.3** (Hatch; tag `v0.19.3`; extras 0.10-0.19 unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.3`. **1.0** unclaimed. Chat is never SSOT. Novel-writer is out of scope. Open one specialist; this hub does not steal specialist triggers.
+**Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`; Hatch; tag `v0.19.5`; extras 0.10-0.19 unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.5`. **1.0** unclaimed. No 0.20. Chat is never SSOT. Novel-writer is out of scope. Open one specialist; this hub does not steal specialist triggers.
 
 User-pack store: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:18765`**. InvenTree MCP is not MemNet.
 
@@ -24,7 +24,7 @@ User-pack store: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:18
 1. **Open** -- `session_open` with a SCHEMA map (`map_file` / `map_lines`) covering every kind you will mutate. Missing map -> `no_map`. Missing kind -> `unknown_tag`. Bundled maps: MemNet checkout `parts/common/memnet/memnet/examples/schema.*.example.txt` (this pack does not vendor them).
 2. **Transport** -- in-process MCP for a single agent. Multitask / Task workers: TCP or streamable-http; load [memnet-multitask](../memnet-multitask/SKILL.md). If the shared serve is down: files only; plain Markdown.
 3. **Cue** -- `kind` / labels+properties / keyword. If ego unknown: `find` then `pin_map` from that pattern. Prefer one live `TSK_*`. leftover `anchor=` is leftover. Empty cue = session outline (0.11).
-4. **`pin_map`** -- one session per generate; complete Shape of **this** cue. Drop the prior map next turn.
+4. **`pin_map`** -- one session per generate; complete Shape of **this** cue. Drop the prior map next turn. Shaped emit MUST NOT show `hid` / `_memnet_hid` / `elementId` / nickname `id` (cue-by-nickname lookup still OK). Do not put momentum / coverage / lambda / m on `pin_map`. Audit: MemNet `docs/operations/honesty-c-wire-audit.md`.
 5. **Act** from that Shape plus the current request. Narrow-Read files at `SYM.line` / `SYM.path`.
 6. **Sparse Commit** -- MCP/CLI **`mutate`**. leftover `add`/`update` / `id:'NEW'` are leftover-named.
 7. **Settle** finished `TSK_*` (`status=settled`; `recycle=delete_on_settle` when done).
@@ -49,4 +49,5 @@ User-pack store: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:18
 - Treat chat as ids / paths / mission state.
 - `rag_query` / ANN of the session.
 - Claim **1.0**.
+- Teach `hid` / `_memnet_hid` / `elementId` / nickname `id` on shaped `pin_map` emit.
 - Load an in-repo `memnet-reference` copy unless **building** MemNet in that checkout.
