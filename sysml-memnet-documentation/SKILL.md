@@ -9,8 +9,8 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.17"
-  product: "memnet-llm==0.19.3"
+  version: "1.18"
+  product: "memnet-llm==0.19.5"
   pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, memnet-format, sysml-gql, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
   - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; pin_map before substantive edits.
@@ -18,7 +18,7 @@ token_guardrails: |
   - MUST follow references/sysml-memnet-pipeline.md: pipeline step atoms via GQL/openCypher-shaped mutate when MemNet is up; plain Markdown when down (not TOON/TRON).
   - Use unified labels PRT/POR/BEH with kind prop; MUST NOT write PARTD/PORTD/BEHD/TASK aliases.
   - Atomise first: one fact per node/rel; short props; never store full .sysml or paragraph prose.
-  - Copy stable ids from pin_map; refresh SYM.line after every validated edit.
+  - Copy locators from pin_map (nickname `id` is off shaped read); refresh SYM.line after every validated edit.
   - satisfy/allocate -> relationships only (SATISFIES, ALLOCATES); SYM only for line locators.
   - AGENT-CONTEXT.md: catalog session + campaign cue only; topology/backlog live in MemNet.
   - Nested organisation: memnet-nested-sessions (catalog then one interior per generate). Campaign cue TSK_model_<short> stays the mission anchor.
@@ -59,7 +59,7 @@ Pair with [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) and [me
 
 ## Prerequisites
 
-1. **Package and PyPI 0.19.3** (tag `v0.19.3`; extras 0.10-0.19 unchanged). **Install:** `pip install 'memnet-llm[mcp]'` or `pip install 'memnet-llm[mcp]==0.19.3'`. Optional `[neo4j]` (live claimed 0.14; drivers only). **1.0** unclaimed.
+1. **Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`; tag `v0.19.5`; extras 0.10-0.19 unchanged). **Install:** `pip install 'memnet-llm[mcp]'` or `pip install 'memnet-llm[mcp]==0.19.5'`. Optional `[neo4j]` (live claimed 0.14; drivers only). **1.0** unclaimed.
 2. Cursor MCP **`memnet-pi`** (HTTP `:18766` / TCP `:18765`) -- [mcp-memnet](../mcp-memnet/SKILL.md). Multitask **MUST NOT** in-process ([memnet-multitask](../memnet-multitask/SKILL.md)).
 3. MemNet MCP tools visible in the session catalog. If absent: treat as serve down -- no `pin_map` / mutate.
 4. `serve_status` when TCP / unsure. Skip that probe only under single-agent in-process.

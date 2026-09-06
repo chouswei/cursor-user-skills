@@ -7,8 +7,8 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.6"
-  product: "memnet-llm==0.19.3"
+  version: "1.7"
+  product: "memnet-llm==0.19.5"
   pairs_with: [sysml-root-config, sysml-requirements-generator, sysml-modeling-session-checklist, sysml-memnet-cache, sysml-memnet-documentation, mcp-memnet, sysml-v2-lsp-mcp, project-planner]
 token_guardrails: |
   - Ask for project slug, one-line purpose, and requirement ID prefix before bulk generation unless user gave them.

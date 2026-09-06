@@ -32,6 +32,7 @@ CREATE (m:MOD {path: 'parts/memnet-mcp/software/memnet_mcp/server.py'})-[:define
 - Cap `max_rows`. Do not clip and call it Shape -- cut a nested session instead
 - `view=shell` is grain on a seed, not 0.11 outline
 - Prefer `housekeep_stats` + settle over stuffing old maps
+- Honesty `c`: emit MUST NOT show `hid` / `_memnet_hid` / `elementId` / nickname `id`. Cue-by-nickname lookup is still OK. Do not put momentum / coverage / lambda / m on `pin_map`. Audit: MemNet `docs/operations/honesty-c-wire-audit.md`
 
 ## MCP mapping
 

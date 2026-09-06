@@ -7,9 +7,9 @@ description: >-
   export_pin_map, reserve, RSV.
 metadata:
   pattern: tool-wrapper
-  version: "7.5"
+  version: "7.6"
   domain: memnet
-  product: "memnet-llm==0.19.3"
+  product: "memnet-llm==0.19.5"
 token_guardrails: |
   - Product read is pin_map from a cue (kind / locators / keyword / session). leftover anchor= is leftover.
   - Product write is mutate (CREATE/MERGE/SET/DELETE). leftover add/update / id:'NEW' are leftover facades.
@@ -20,7 +20,7 @@ token_guardrails: |
 
 **Use** MemNet via MCP. Doctrine SSOT: MemNet `docs/SHAPE.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Wire: [memnet-format](../memnet-format/SKILL.md). Nested interiors: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md). Hub: [memnet-use](../memnet-use/SKILL.md).
 
-**Package and PyPI 0.19.3** (Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.3`; extras **0.10-0.19** unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.3`. Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only. Default `max_sessions` **1024**.
+**Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`; Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.5`; extras **0.10-0.19** unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.5`. Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). No 0.20. CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only. Default `max_sessions` **1024**.
 
 ## User-pack transport (this machine)
 
@@ -68,7 +68,7 @@ session_open(map) -> cue / find -> pin_map -> reason -> mutate -> pin_map
 
 1. **Map** -- `session_open` needs `map_file` or `map_lines` else `no_map`. Missing kind -> `unknown_tag`. Bundled SCHEMA maps live in the MemNet checkout (`parts/common/memnet/memnet/examples/schema.*.example.txt`). This pack does not vendor those files.
 2. **Cue** -- `kind` / locators (`qname=`, `path=`, ...) / `keyword` / nickname `cue`. Empty cue = outline. Prefer one live `TSK_*`.
-3. **`pin_map`** -- one S per generate. MCP `session=` selects the stratum. Drop the prior map next turn. leftover `anchor=` / `anchors=` are leftover nicknames.
+3. **`pin_map`** -- one S per generate. MCP `session=` selects the stratum. Drop the prior map next turn. leftover `anchor=` / `anchors=` are leftover nicknames. Shaped `pin_map` / `export_pin_map` / `find` emit MUST NOT show `hid`, `_memnet_hid`, `elementId`, or nickname `id`. Cue-by-nickname lookup is still OK. RSV product errors use `anchor=` + `llm_id` only (no `_elN`). Do not put momentum / coverage / lambda / m on `pin_map`. Audit: MemNet `docs/operations/honesty-c-wire-audit.md`.
 4. **`mutate`** -- sparse GraphElement `CREATE` / `MATCH`...`SET`/`DELETE`. No leftover `id:'NEW'` mint.
 5. Persist if needed: `session_save` (file) or live cabinet (0.7 Agens / 0.14 Neo4j).
 
@@ -176,6 +176,7 @@ Tag vocabulary: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL
 - Restore novel-writer MCP extras.
 - `rag_query` / ANN of S / dump S / stack N nested maps in one generate.
 - Claim **1.0**. Claim hydrate-by-hid proven. Vendor a Neo4j/AgensGraph server.
+- Teach `hid` / `_memnet_hid` / `elementId` / nickname `id` on shaped `pin_map` / export / find emit.
 
 ## Related
 

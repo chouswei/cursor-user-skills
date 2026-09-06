@@ -6,9 +6,9 @@ description: >-
   MOD SYM snap.
 metadata:
   pattern: pipeline
-  version: "0.11"
+  version: "0.12"
   domain: memnet,codebase
-  product: "memnet-llm==0.19.3"
+  product: "memnet-llm==0.19.5"
 token_guardrails: |
   - Verify on disk (Grep/Read) before mutate; never invent paths or call edges.
   - Prefer ingest_codebase for locator pins; mutate only confirmed facts.
@@ -17,7 +17,7 @@ token_guardrails: |
 
 # MemNet codebase snap
 
-Pair with [memnet-format](../memnet-format/SKILL.md) and [mcp-memnet](../mcp-memnet/SKILL.md). Wire: MemNet `docs/grammar/gql-wire-profile.md`. **Package and PyPI 0.19.3**.
+Pair with [memnet-format](../memnet-format/SKILL.md) and [mcp-memnet](../mcp-memnet/SKILL.md). Wire: MemNet `docs/grammar/gql-wire-profile.md`. **Package and PyPI 0.19.5**.
 
 **Role:** durable index of files (`:MOD`) and symbols (`:SYM`) plus typed edges (`defines`, `calls`, `includes`, `owns`, ...). Not a substitute for grep / LSP.
 
