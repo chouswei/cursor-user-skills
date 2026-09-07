@@ -11,7 +11,7 @@ MCP envelopes: parse **`stdout`**. Mutate in **`wire_lines`**.
 | Principle | Why |
 |-----------|-----|
 | Atomisation | Small nodes + edges; pin_map pulls neighbours |
-| Cue then Shape | `kind` / locators / keyword -- leftover `anchor=` is leftover |
+| Cue then Shape | `kind` / locators / keyword then `pin_map(q)` -- leftover `anchor=` is leftover nickname cue |
 | Short props | ids, codes, paths, numbers -- no sentences |
 | BIND vs typed rel | Port-port `BIND`; node-node typed labels |
 | Recycle | Settled work drops out of maps |
@@ -44,6 +44,6 @@ CREATE (m:MOD {path: 'parts/memnet-mcp/software/memnet_mcp/server.py'})-[:define
 
 ## Checklist
 
-- [ ] Cue, not leftover copy-id `--anchor` as law
+- [ ] Cue then `pin_map(q)`, not leftover copy-id `--anchor` as law
 - [ ] Props short; edges not id-lists
 - [ ] Drop prior map before the next generate

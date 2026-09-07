@@ -10,14 +10,14 @@ description: >-
   TSK_* settle, TCP serve, streamable-http MCP, GQL wire, shaped pin_map.
 metadata:
   pattern: pipeline
-  version: "2.8"
+  version: "2.9"
   domain: memnet
   product: "memnet-llm==0.19.5"
 ---
 
 # MemNet + Multitask Mode
 
-User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Task** sub-agents. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) (tools) and [memnet-format](../memnet-format/SKILL.md) (GQL wire / shaped pin_map).
+User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Task** sub-agents. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) (tools) and [memnet-format](../memnet-format/SKILL.md) (GQL wire / shaped pin_map). STM locks (pointer): [memnet-stm-harness](../memnet-stm-harness/SKILL.md).
 
 **Product ops SSOT:** MemNet `docs/operations/multi-agent-sessions.md`.
 **System-repo adoption:** MemNet `docs/application-notes/system/llm-system-dev-multitask.md`.
@@ -48,9 +48,9 @@ Set `MEMNET_MCP_TRANSPORT=tcp` on the shared HTTP MCP (or use TCP CLI). Probe wi
 
 ### MUST
 
-- `session_open` / `session_load` **one** mission `session` id; pass it in every worker prompt.
-- Mint and own **`TSK_*`** / **`USR_*`**: `status=active` -> `status=settled`; optional `led_to_success` edges. Prefer **one live `TSK`** (0.5 V5). leftover NEW mint is leftover.
-- Self-contained worker prompts: session id, cue locators (`kind` / `goal=` / `path=` / `qname=`), write scope (subgraph or relation types), return shape, **`llm_id`**. leftover nickname `id` is leftover.
+- `session_open` / `session_load` **one** mission `session` id; pass it in every worker prompt. Handoff = session id + cue locators. Peer re-pins via `pin_map`. Do not ship a dump of S as STM.
+- Mint and own **`TSK_*`** / **`USR_*`**: `status=active` -> `status=settled`; optional `led_to_success` edges. Prefer **one live `TSK`** (0.5 V5). leftover NEW mint is leftover. User input is control **u** / admitted W / discrete force -- gated Commit, not automatic inventory.
+- Self-contained worker prompts: session id, cue locators (`kind` / labels+observable properties such as `goal=` / `path=` / `qname=`), write scope (subgraph or relation types), return shape, **`llm_id`**. leftover nickname `id` / hid / elementId are not identity.
 - **`reserve`** overlapping neighbourhoods before parallel mutate (shipped RSV); pass matching `llm_id` on worker **`mutate`**.
 - **End the turn** after background spawn -- no poll, no await.
 - Next coordinator turn: **`pin_map` first** (cue / `find` if ego lost); act from refreshed slice -- do not redo worker investigation from chat.
@@ -59,7 +59,7 @@ Set `MEMNET_MCP_TRANSPORT=tcp` on the shared HTTP MCP (or use TCP CLI). Probe wi
 ### MUST NOT
 
 - Treat chat, tool transcripts, or sub-agent prose as durable mission state.
-- Settle `TSK_*` / `USR_*` from worker chat -- only from shared-session pin-map facts.
+- Settle `TSK_*` / `USR_*` from worker chat -- only from shared-session shaped pin-map facts (locators, not nickname ids).
 - Use in-process MCP for a shared mission.
 - Run parallel writers on the **same** reserved slice with different `llm_id`s.
 
@@ -67,8 +67,8 @@ Set `MEMNET_MCP_TRANSPORT=tcp` on the shared HTTP MCP (or use TCP CLI). Probe wi
 
 ### MUST
 
-- Use the parent's **session id**; **`pin_map` first** every turn (or `find` then pin_map).
-- Cue locators from the pin map -- **MUST NOT** invent a store key. leftover nickname `id` is leftover.
+- Use the parent's **session id**; **`pin_map` first** every turn (cue then pin_map; or `find` then pin_map). Drop the prior map. Empty q = outline, not a dump of S.
+- Cue MATCH by locators on shaped emit (labels+observable properties). **MUST NOT** invent a store key or treat nickname `id` / hid / elementId as identity.
 - Mutate only under the **assigned subgraph**.
 - Pass the assigned **`llm_id`** on mutate when RSV is held.
 - Return a concise result; durable facts live in MemNet rows.
@@ -121,7 +121,8 @@ Path-B: **`ingest_*`** into the current session (locator ids; **no** leftover NE
 
 | Anti-pattern | Why it fails |
 |--------------|--------------|
-| Chat as SSOT for ids / mission state | Parent and workers diverge |
+| Chat as SSOT for locators / mission state | Parent and workers diverge; identity is the graph element |
+| Copy nickname `id` / hid from `pin_map` as law | Honesty `c`; `SHAPE_DROP_KEYS` off shaped emit (0.19.5) |
 | In-process MCP under Multitask | Each process gets its own graph |
 | Parent polls or re-runs worker work | Token waste; violates turn boundary |
 | Worker mints duplicate `TSK_*` | Parent owns task lifecycle |
@@ -134,6 +135,7 @@ Path-B: **`ingest_*`** into the current session (locator ids; **no** leftover NE
 | Skill | Role |
 |-------|------|
 | [mcp-memnet](../mcp-memnet/SKILL.md) | MCP tools, transport, session lifecycle |
+| [memnet-stm-harness](../memnet-stm-harness/SKILL.md) | STM thesis playbook pointer |
 | [memnet-format](../memnet-format/SKILL.md) | MemNet GQL wire / shaped pin_map |
 | [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) | Look loop / nested `session=` |
 | [memnet-use](../memnet-use/SKILL.md) | How-to hub |

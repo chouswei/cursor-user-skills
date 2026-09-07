@@ -6,18 +6,19 @@ description: >-
   wire, GraphElement, shaped subgraph, BIND vs relation, openCypher mutate.
 metadata:
   pattern: tool-wrapper
-  version: "5.7"
+  version: "5.8"
   domain: data-formats,memnet
   product: "memnet-llm==0.19.5"
 token_guardrails: |
   - Wire SSOT: MemNet docs/grammar/gql-wire-profile.md. This skill is MemNet-specific only.
-  - pin_map from a cue; leftover anchor= is leftover. Do not dump S.
-  - Product Commit is GraphElement CREATE / MATCH SET DELETE -- not leftover id:'NEW'.
+  - Cue then pin_map(q); empty q = outline. leftover nickname cue / anchor= only as leftover. Do not dump S.
+  - Identity is the graph element. MATCH locators (labels+observable properties). Never copy hid/id/elementId as law.
+  - Product Commit is GraphElement CREATE / MATCH SET DELETE -- not leftover id:'NEW' / add / update.
 ---
 
 # MemNet formats
 
-Pair with [mcp-memnet](../mcp-memnet/SKILL.md). Formal SSOT: MemNet `docs/grammar/gql-wire-profile.md`. Version map: MemNet `docs/ROADMAP.md`.
+Pair with [mcp-memnet](../mcp-memnet/SKILL.md). Formal SSOT: MemNet `docs/grammar/gql-wire-profile.md`. Version map: MemNet `docs/ROADMAP.md`. STM locks (pointer): [memnet-stm-harness](../memnet-stm-harness/SKILL.md).
 
 **Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`; tag `v0.19.5`; extras 0.10-0.19 unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.5`. **1.0** unclaimed. No 0.20. Recall/Commit `operatorCount` stays 2.
 
@@ -27,14 +28,14 @@ User-pack engine: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:1
 
 ## Shaped pin_map
 
-MCP `pin_map` / CLI `query pin-map` emits a bounded neighbourhood. Parse envelope **`stdout`**.
+MCP `pin_map` / CLI `query pin-map` emits a bounded neighbourhood -- working set offer **W**, not a dump of inventory **S**. Parse envelope **`stdout`**.
 
 | Control | Product use |
 |---------|-------------|
-| `kind` / `locators` / `keyword` / `cue` / `session` | Cue q. Empty q = 0.11 outline |
+| `kind` / `locators` / `keyword` / `cue` / `session` | Cue q then `pin_map(q)`. Empty q = 0.11 outline |
 | `depth` / `max_rows` | Hard bound. Raise depth only if the slice is too thin. Over M: cut a nested session -- do not clip and call it Shape |
 | `view` | Grain on a **seed** (`shell` / `interior`). Not the outline |
-| leftover `anchor` / `anchors` | leftover nicknames |
+| leftover `anchor` / `anchors` | leftover nickname cue only -- not required, not identity |
 
 If ego unknown: `find(limit=...)` then `pin_map` from labels+props. CueConflict when |Q|>1. `query_warm` is a leftover alias.
 
@@ -90,16 +91,18 @@ House nicknames (optional property `id`, not identity): `TSK_model_<short>`, `US
 
 ## Pre-write checklist
 
-- [ ] pin_map from a cue (view / max_rows budgeted); `find` first if ego unknown
+- [ ] Cue then `pin_map` (view / max_rows budgeted); `find` first if ego unknown
+- [ ] MATCH / cue by locators from shaped emit (labels+observable properties)
 - [ ] Values short and structured
 - [ ] Relations are relationships (BIND for port-port)
 - [ ] Recycle matches lifetime
-- [ ] Atom reachable from a useful cue
+- [ ] Atom reachable from a useful cue; drop the prior map next turn
 
 ## MUST NOT
 
 - Unbounded `MATCH`...`RETURN` as goldfish read.
 - leftover NEW on patch. Client NEW for artefact locators.
+- Require leftover `anchor`. Treat nickname `id` / hid / elementId as identity.
 - Duplicate the SysML construct table in this file.
 - Claim **1.0**.
 - Put momentum / coverage / lambda / m on `pin_map`.
@@ -110,6 +113,7 @@ House nicknames (optional property `id`, not identity): `TSK_model_<short>`, `US
 - [graph-query-language](../graph-query-language/SKILL.md)
 - [gql-path-patterns](../gql-path-patterns/SKILL.md)
 - [mcp-memnet](../mcp-memnet/SKILL.md)
+- [memnet-stm-harness](../memnet-stm-harness/SKILL.md)
 - [memnet-use](../memnet-use/SKILL.md)
 - [sysml-gql](../sysml-gql/SKILL.md)
 - MemNet `docs/grammar/` -- design SSOT
