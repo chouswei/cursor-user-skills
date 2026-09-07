@@ -44,6 +44,7 @@
 | memnet-multitask | P | user | medium | medium | structural | low |
 | memnet-nested-sessions | P | user | medium | medium | structural | low |
 | memnet-planner | P | user | medium | medium | structural | low |
+| memnet-stm-harness | P | user | medium | medium | structural | low |
 | memnet-use | P | user | medium | medium | structural | low |
 | mermaid | G | doc | medium | low | structural | low |
 | mermaid-doc-readability | P | user | medium | medium | structural | low |
