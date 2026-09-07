@@ -6,7 +6,7 @@ description: >-
   goldfish, mission working memory, chat never SSOT, session graph.
 metadata:
   pattern: pipeline
-  version: "1.6"
+  version: "1.8"
   domain: memnet
   product: "memnet-llm==0.19.3"
 ---
@@ -22,7 +22,7 @@ User-pack store: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:18
 ## Goldfish loop
 
 1. **Open** -- `session_open` with a SCHEMA map (`map_file` / `map_lines`) covering every kind you will mutate. Missing map -> `no_map`. Missing kind -> `unknown_tag`. Bundled maps: MemNet checkout `parts/common/memnet/memnet/examples/schema.*.example.txt` (this pack does not vendor them).
-2. **Transport** -- in-process MCP for a single agent. Multitask / Task workers: TCP or streamable-http; load [memnet-multitask](../memnet-multitask/SKILL.md). If the shared serve is down: files only; plain Markdown.
+2. **Transport** -- in-process MCP for a single agent. Multitask / Task workers: TCP or streamable-http; load [memnet-multitask](../memnet-multitask/SKILL.md) (wave, end turn, checkpoint, repeat). Task `model`: User Rules unsync checkpoint pipeline. If the shared serve is down: files only; plain Markdown.
 3. **Cue** -- `kind` / labels+properties / keyword. If ego unknown: `find` then `pin_map` from that pattern. Prefer one live `TSK_*`. leftover `anchor=` is leftover. Empty cue = session outline (0.11).
 4. **`pin_map`** -- one session per generate; complete Shape of **this** cue. Drop the prior map next turn.
 5. **Act** from that Shape plus the current request. Narrow-Read files at `SYM.line` / `SYM.path`.

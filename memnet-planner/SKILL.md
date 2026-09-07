@@ -8,11 +8,11 @@ description: >-
   Chat is a Shape of the graph, never the plan SSOT.
   Triggers: memnet plan, plan in memnet, update memnet plan, repolish plan,
   session plan, memnet planner, plan waves, parallel plan steps, execute plan
-  wave. Skip: Markdown-only project-planner interview with no MemNet;
-  building the MemNet engine.
+  wave, execute atoms, checkpoint loop. Skip: Markdown-only project-planner
+  interview with no MemNet; building the MemNet engine.
 metadata:
   pattern: pipeline
-  version: "1.2"
+  version: "1.5"
   domain: memnet
   product: "memnet-llm==0.19.3"
   secondary: "hybrid: mcp-memnet + memnet-format; memnet-multitask on execute; + chat-shape template"
@@ -30,8 +30,11 @@ pipeline_steps: |
      - Same wave only if write scopes are disjoint (or one RSV writer). Else serial (wave = ord).
   5. Pin_map again
      - Drop the prior map. Present the Shape from stdout only (assets/chat-shape.md).
-  6. Execute (only if the user asked to run)
-     - Ready wave: predecessors settled and step llm_id empty. Claim with SET llm_id before spawn. Multitask off -> parent serial. Multitask on -> memnet-multitask workers, then end the turn.
+  6. Execute (only if the user asked to run, or Bind ready already holds)
+     - After Bind ready, mint Execute as atoms (one path, qname, or proof per step). Same wave only if scopes are disjoint.
+     - Ready wave: predecessors settled and step llm_id empty. Claim with SET llm_id before spawn. Spawn one worker per ready step with that step's role model (User Rules). Many Execute workers in one wave is not a committee.
+     - Multitask on -> end the turn. Next coordinator turn is a checkpoint (pin_map, settle, next wave or stop). Repeat until no ready steps remain.
+     - Multitask off -> still spawn Task with the role slug; MUST NOT collapse Execute into the parent.
   7. Optional persist
      - session_save when the user wants a file snap.
 
@@ -39,6 +42,7 @@ system_instruction: |
   The plan SSOT is the MemNet session graph. Follow pipeline_steps in order.
   Product write is mutate (GQL). Do not teach leftover add/update or pin_map(anchor=).
   Record waves while planning. Spawn workers only on execute, and only a ready wave.
+  Next parent turn is a checkpoint; repeat until no ready steps remain.
   Present a short Shape; do not paste the whole session.
 
 token_guardrails: |
@@ -61,11 +65,11 @@ There is **no** `:PLAN` kind. A plan is one `:TSK` with `phase:'plan'` plus chil
 3. **Read** -- `pin_map` from a cue; `find` if ego unknown.
 4. **Write** -- one `mutate` with many statements; then `pin_map`.
 5. **Chat** -- fill [assets/chat-shape.md](assets/chat-shape.md) from the new map.
-6. **Execute** -- only when asked; [references/execution-waves.md](references/execution-waves.md).
+6. **Execute** -- only when asked, or Bind ready already holds; [references/execution-waves.md](references/execution-waves.md) (wave, checkpoint, repeat).
 
 **Campaign attach:** if the repo already cues `goal=TSK_model_<short>`, the plan task `CHILDOF` that campaign. The campaign stays the mission cue; this skill cues the plan task for edit.
 
-**Multitask:** while planning, still write `wave` / `scope` / `PRECEDES`. Running a wave uses [memnet-multitask](../memnet-multitask/SKILL.md) (shared TCP/HTTP; parent settles from the next `pin_map`).
+**Multitask:** while planning, still write `wave` / `scope` / `PRECEDES`. Running a wave uses [memnet-multitask](../memnet-multitask/SKILL.md) (shared TCP/HTTP; Task `model` from User Rules; runtime loop = spawn wave, end turn, checkpoint, repeat).
 
 ## Delegated skills
 
@@ -91,5 +95,7 @@ There is **no** `:PLAN` kind. A plan is one `:TSK` with `phase:'plan'` plus chil
 - Two in-progress plan roots in one session (CueConflict).
 - Dump session S.
 - Same `wave` for steps that share a write `scope` without RSV.
+- Mint one bundled Execute step for a single Execute worker to run sequentially.
 - Settle plan or sibling steps from worker chat.
 - Re-spawn a step that already has `llm_id` set (claimed).
+- Collapse several Execute waves into one parent turn.

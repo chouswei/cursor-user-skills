@@ -4,8 +4,10 @@ alwaysApply: false
 
 # Workflow
 
-**Plan:** for 3+ steps, a new project, or architecture -- brief plan plus scope confirm first. For a new system or variant: confirm purpose, parts, and links unless the user said to mirror X or MemNet / user-constraint (`USR_*`) pins already bind scope.
+**Pipeline:** User Rules unsync checkpoint pipeline. Loop: spawn one ready wave of disjoint workers; end the turn; next parent turn is a checkpoint (`pin_map`, settle, next wave or stop). After Bind ready, one Execute worker per execute atom (one path, qname, or proof); many Execute workers in one wave is not a committee. Wave count sets checkpoint count. Checkpoint kinds live in User Rules; do not copy that table here. Trivial single-tool answers stay in the parent.
 
-**Route:** MUST NOT browse skill lists. Match triggers in `~/.cursor/skills/SKILL-GRAPH.md` (at most 2 passes); `~/.cursor/skills/LLM.md` is secondary. Open one `SKILL.md` and follow it. Default one skill per turn (SysML: checklist + workflow + at most one `sysml-*` specialist; honour selector `order[]`). After two ambiguous scans: ask the user or open the repo `AGENTS.md`.
+**Route:** MUST NOT glob every `SKILL.md`. Match triggers in `~/.cursor/skills/SKILL-GRAPH.md` (at most 2 passes); `~/.cursor/skills/LLM.md` is secondary. Open one `SKILL.md` and follow it. Default one skill per turn (SysML: checklist + workflow + at most one `sysml-*` specialist; honour selector `order[]`). After two ambiguous scans: ask the user or open the repo `AGENTS.md`.
 
-**Execute / verify:** follow the MemNet goldfish loop; dialect detail in `~/.cursor/skills/memnet-format/SKILL.md`. Prefer MCP before bulk file reads; lazy-load `references/` only when a step needs them. Proof = commands run with sane output. Write corrections to `tasks/lessons.md` (or the repo equivalent).
+**Verify:** Proof = commands run with sane output. MemNet dialect: `~/.cursor/skills/memnet-format/SKILL.md`. Prefer MCP before bulk file reads; lazy-load `references/` only when a step needs them.
+
+Project architecture (SysML SSOT, part folders) stays in repo Project Rules, not User Rules.

@@ -69,13 +69,15 @@ Result: `.cursor/rules/imported/<...>/` (relative paths kept).
 
 | Name | Location | Not to confuse with |
 |------|----------|---------------------|
-| Settings User Rules | Customize -> Rules UI (user pastes) | Pack `~/.cursor/rules/*.mdc` |
-| Pack user `.mdc` | `~/.cursor/rules/` (copies in pack `rules/`) | Settings User Rules blob |
+| Settings User Rules | Customize -> Rules UI (user pastes) | Abandoned user-home `.mdc` |
+| Pack `rules/*.mdc` | `~/.cursor/skills/rules/` | Settings User Rules blob; **not loaded** by Cursor |
 | Project Rules | `<repo>/.cursor/rules/` | Either of the above |
 
-Do not double-inject the same content via Settings User Rules and alwaysApply `.mdc`.
+Cursor does **not** load `~/.cursor/rules/*.mdc` as User Rules. Do not tell the user to copy pack rules there.
 
-Pack `.mdc` edits: sync to a paste buffer / composed helper for User Rules if the user wants that text in Settings -- **never** silent DB write.
+Do not double-inject the same text via Settings User Rules **and** an `alwaysApply: true` **project** `.mdc`.
+
+Pack `.mdc` edits: sync into the Settings paste buffer if the user wants that text live -- **never** silent DB write.
 
 ## Best practices (docs)
 

@@ -124,4 +124,4 @@ Anchor `TSK_model_leo_cubesat`; model root `sysml-models/`. August hybrid ground
 - [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md)
 - [sysml-memnet-read-policy.md](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md)
 - [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md)
-- [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
+- [memnet-goldfish-loop.mdc](../rules/memnet-goldfish-loop.mdc)

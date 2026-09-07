@@ -11,7 +11,7 @@ description: >-
 metadata:
   pattern: generator
   domain: meta
-  version: "1.1"
+  version: "1.2"
 ---
 
 # Rule writer
@@ -44,10 +44,10 @@ These are **not** the same thing:
 | Store | Path / UI | What it is | Agent action |
 |-------|-----------|------------|--------------|
 | Settings **User Rules** | Customize -> Rules -> User Rules | One global freeform blob (IDE-only / online Settings) | Draft markdown; **user copy/pastes** into the field and saves |
-| Pack `~/.cursor/rules/*.mdc` | `~/.cursor/rules/` (source also in pack `rules/`) | Optional pack convention -- **not** the Settings UI | Edit pack / compose paste buffer; **do not** silent-write Settings |
+| Pack `rules/*.mdc` | `~/.cursor/skills/rules/` (optional copy in `~/.cursor/rules/`) | Compose source only. Cursor does **not** load user-home `.mdc` as User Rules | Edit pack / compose paste buffer; **do not** silent-write Settings; **do not** tell the user to copy into `~/.cursor/rules/` |
 | **Project Rules** | `<workspace>/.cursor/rules/*.mdc` | Repo-scoped | Agent edits `.mdc` files directly |
 
-**MUSTNOT** put the same normative text in Settings User Rules **and** an `alwaysApply: true` pack/project `.mdc` if both load -- double injection.
+**MUSTNOT** put the same normative text in Settings User Rules **and** an `alwaysApply: true` **project** `.mdc` -- double injection. Pack `rules/*.mdc` is not loaded.
 
 ## User Rules workflow (MUST / MUST NOT)
 
@@ -57,7 +57,7 @@ Aligned with docs: [User Rules](https://cursor.com/docs/rules) = global preferen
 
 - Do **not** write `aicontext.personalContext`, patch `state.vscdb`, or use AppData / SQLite / other storage hacks to "set User Rules".
 - Do **not** claim Settings were updated, or that the agent applied User Rules programmatically.
-- Do **not** treat pack `~/.cursor/rules/*.mdc` as equivalent to Settings User Rules.
+- Do **not** treat `~/.cursor/rules/*.mdc` or pack `rules/*.mdc` as live User Rules. Cursor does not load them.
 
 ### MUST
 

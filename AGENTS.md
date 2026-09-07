@@ -9,7 +9,7 @@
 |-------|------|
 | **User Rules** (Cursor Settings; draft [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt)) | Global prefs, no secrets, Terminal (Windows), prompt disciplines, sub-agent policy + model table, Workflow, MemNet goldfish loop, MemNet under Multitask Mode. **SSOT -- do not restate here.** |
 | **This file** | Pack hub: skill-graph routing, token tips, MemNet examples, skill binding, cross-refs |
-| **Pack `rules/*.mdc`** | Optional always-on mirrors; User Rules win when both apply |
+| **Pack `rules/*.mdc`** | Compose source for Settings paste. Cursor does **not** load `~/.cursor/rules/*.mdc`. |
 | **Open-repo `AGENTS.md`** (`modelbasedPrj-*`) | SysML / PCBA / part layout for that system |
 
 Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)). Never write `state.vscdb`.
@@ -27,7 +27,7 @@ Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)). Neve
 | **MCP over bulk file reads** | Cheaper than reading entire trees |
 | **No normative paste** | Cite paths; do not paste huge specs |
 
-Sub-agents / MemNet handoff: follow **User Rules** (sub-agent policy; MemNet goldfish loop; MemNet under Multitask Mode when Multitask / Task workers are active).
+Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: spawn a wave, checkpoint, repeat; Execute is parallel atoms). When Multitask / Task workers are active, also follow MemNet goldfish loop + memnet-multitask.
 
 ---
 

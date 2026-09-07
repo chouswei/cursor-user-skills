@@ -25,9 +25,10 @@ Tools / dialect: `mcp-memnet`, `memnet-format` -- do not re-copy here.
 
 - MUST open or load **one** mission session id; pass it in every worker prompt.
 - MUST mint and settle `TSK_*` / `USR_*` from shared-session pin-map facts (not from worker chat).
+- MUST set Task `model` from User Rules Model by role. MUST NOT copy that table here.
 - MUST end the turn after background spawn -- no poll, no await.
-- Next coordinator turn: `pin_map` first; act from the refreshed slice.
-- Prefer one worker per coherent workstream; parallel only with disjoint anchors or separate session ids.
+- Next coordinator turn is a checkpoint: `pin_map` first; settle from the refreshed slice; then the next ready wave or stop. Wave count sets checkpoint count.
+- After Bind ready, one Execute worker per execute atom (one path, qname, or proof). MUST NOT hand one Execute worker a bundled sequential job. Parallel only with disjoint scopes or RSV.
 
 ## Worker
 

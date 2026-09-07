@@ -65,7 +65,7 @@ CREATE (u:USR {topic: 'safety', content: 'no unauthorised switch writes', status
 CREATE (p)-[:constrained_by {recycle: 'persistent'}]->(u)
 ```
 
-`s1` and `s2` share `wave: 1` (disjoint `scope`). `s3` is `wave: 2` after both. Waves: [execution-waves.md](execution-waves.md).
+`s1` and `s2` share `wave: 1` (disjoint `scope`). `s3` is `wave: 2` after both. Waves: [execution-waves.md](execution-waves.md). After Bind ready, each Execute step is one atom (one path, qname, or proof) -- do not mint one step that bundles several files for a single Execute worker.
 
 Attach to an existing campaign:
 

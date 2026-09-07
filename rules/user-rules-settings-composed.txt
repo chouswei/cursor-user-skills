@@ -1,5 +1,48 @@
+Cursor does not load `~/.cursor/rules/*.mdc`; paste this text into Settings -> Rules -> User Rules.
+
+# Global prefs
+
+- MUST run `git submodule update --init --recursive` when opening a `modelbasedPrj-*` repo with `.gitmodules`.
+- Prefer a correct result over a merely good one.
+- MUST use ASCII-only filenames and folder names.
+- MUST write concise British English; when using Chinese, write as a native speaker would.
+
 ---
-alwaysApply: false
+
+# No secrets
+
+- MUST NOT commit API keys, tokens, passwords, or credentials.
+- MUST NOT echo or log secrets to stdout or commit-able files.
+- MUST store secrets in environment variables or gitignored config (`.env`, `auth_config.json`, `secrets/`).
+- MUST document expected env names and paths in README with placeholders only.
+
+---
+
+# Terminal (Windows)
+
+When the host shell is Windows PowerShell:
+
+- MUST chain commands with `;`, not `&&`.
+- Prefer absolute paths; MUST quote paths that contain spaces.
+- MUST remove directories with `Remove-Item -Recurse`, not `rmdir /s`.
+- If script execution is disabled, use `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`, or use `cmd.exe`.
+
+---
+
+# Prompt quality
+
+Author `.mdc`, User Rules, `AGENTS.md`, and `SKILL.md` as LLM-facing prompts.
+
+- MUST state only accurate, checkable facts and live paths.
+- MUST use precise MUST / MUST NOT gates; avoid vague fillers.
+- MUST cut repetition and keep User Rules under 120 lines.
+- MUST use one term, voice, and single source of truth per concept.
+- MUST name the structure first, then state each per-item gate.
+- MUST prefer clear English names; expand any required house label on first use.
+- MUST use ASCII in prompt text, including `->` and `--`.
+
+Cut before adding. Verify cited paths exist. Detail: `~/.cursor/skills/prompt-writing-discipline/SKILL.md`.
+
 ---
 
 # Unsync checkpoint pipeline
@@ -70,6 +113,6 @@ When Multitask Mode is on, the system gate wins: MUST spawn async, MUST end the 
 
 Use the GQL wire from `~/.cursor/skills/memnet-format/SKILL.md`; chat is not durable mission state.
 
-When: multi-turn, 3+ step pipelines, SysML, or user constraints. Skip: one-shot, trivial edit, MemNet tools absent, or serve down. When skipped, use plain Markdown only (no TOON/TRON).
+When: multi-turn, 3+ step pipelines, SysML, or user constraints. Skip: one-shot, trivial edit, MemNet tools absent, or serve down. When skipped, use plain Markdown only.
 
 Under Multitask Mode or Task sub-agents, follow `~/.cursor/skills/memnet-multitask/SKILL.md`. MUST use one shared MemNet session over TCP `:18765` or streamable HTTP `:18766/mcp` bridged to that serve; MUST NOT use in-process MCP. Parent and worker share the session; worker calls `pin_map` first, mutates only its assigned subgraph, and MUST NOT settle parent-owned `TSK_*` or `USR_*`.

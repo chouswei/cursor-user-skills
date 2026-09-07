@@ -113,5 +113,5 @@ ITM is a **node** only (item definition / flow item); see [the ITM pattern](refe
 - [sysml-memnet-pipeline.md](references/sysml-memnet-pipeline.md)
 - [sysml-memnet-patterns.md](references/sysml-memnet-patterns.md)
 - [sysml-memnet-cookbook-bridge.md](references/sysml-memnet-cookbook-bridge.md)
-- [mcp-memnet](../mcp-memnet/SKILL.md), [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md), [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc)
+- [mcp-memnet](../mcp-memnet/SKILL.md), [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md), [memnet-goldfish-loop.mdc](../rules/memnet-goldfish-loop.mdc)
 - [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md)

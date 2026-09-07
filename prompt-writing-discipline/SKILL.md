@@ -12,7 +12,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: doc
-  version: "1.4"
+  version: "1.8"
 ---
 
 # Prompt writing discipline
@@ -43,7 +43,8 @@ Writing or editing prose that a model will read. Skip for human-only marketing f
 4. Do not invent cryptic tiers/codes (`T1`, `LAW-PIPE20`, unglossed house labels) as the primary agent-facing term.
 5. Optional example (MemNet): if a design doc says "Tier A" or "Write = display", gloss once as obsolete house labels, then prefer **GQL wire** (shaped pin_map + openCypher-shaped mutate).
 6. Prefer **ASCII** in LLM-consumed skill/rule/hub text (`->` not arrows; `--` not em dashes; no smart quotes). See pack rule R16 in `LLM.md`.
-7. When spawning Task/subagents: set `model` per `sub-agent-policy` / R17 (thinking/unclear -> `cursor-grok-4.5-low`; visual items review -> `kimi-k3-max`; MemNet snapshot -> `gpt-5.6-luna-medium`). **MUSTNOT** use any `*-fast` / FAST slug.
+7. When spawning Task/subagents: set `model` from User Rules **unsync checkpoint pipeline** (R17). After Bind ready, spawn one Execute worker per execute atom. **MUSTNOT** hand one Execute worker a bundled sequential job. **MUSTNOT** use any `*-fast` / FAST slug.
+8. Skills and pack hubs MUST pin **roles** (Plan, Detail, Execute, Web, Visual, Prose, Unclear). MUST NOT use a model nickname as a role pin. Model slugs live only in User Rules Model by role.
 
 ## Good vs bad (one-liners)
 
@@ -53,7 +54,7 @@ Writing or editing prose that a model will read. Skip for human-only marketing f
 | "Use CFG / ENV / RT interchangeably." | "Use **config** for files; **environment variable** for process env." |
 | "Follow Tier A / T1 / LAW-PIPE20." | "Follow the **GQL wire** (shaped pin_map + openCypher mutate); expand any house label on first use." |
 | "The NFT of the SKL is TBD w.r.t. QoS." | "Skill metadata version is unset; quality targets are not defined yet." |
-| Three paragraphs restating the same MUST. | One MUST line; no restatement. |
+| "Spawn one Luna per file." | "Spawn one Execute worker per execute atom; set `model` from User Rules." |
 
 ## Checklist before emit
 

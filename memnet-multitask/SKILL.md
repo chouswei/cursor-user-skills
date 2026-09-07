@@ -7,10 +7,11 @@ description: >-
   Triggers: Multitask Mode, multitask, multi-agent, Task sub-agent, background
   worker, parent coordinator, delegate worker, shared session, memnet multitask,
   system-dev multitask, modelbasedPrj multitask, MN-REQ-12, parallel workers,
-  TSK_* settle, TCP serve, streamable-http MCP, GQL wire, shaped pin_map.
+  TSK_* settle, TCP serve, streamable-http MCP, GQL wire, shaped pin_map,
+  checkpoint loop, execute atom, parallel Execute workers.
 metadata:
   pattern: pipeline
-  version: "2.7"
+  version: "3.1"
   domain: memnet
   product: "memnet-llm==0.19.3"
 ---
@@ -44,17 +45,35 @@ User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Tas
 
 Set `MEMNET_MCP_TRANSPORT=tcp` on the shared HTTP MCP (or use TCP CLI). Probe with `serve_status` before delegating if uncertain. User-pack: Cursor **`memnet-pi`** HTTP `http://10.0.0.10:18766/mcp`. InvenTree MCP is not MemNet. Detail: [mcp-memnet](../mcp-memnet/SKILL.md).
 
+## Model and checkpoint
+
+Task `model` SSOT is User Rules **unsync checkpoint pipeline** (Model by role). This skill owns shared session, transport, RSV, the **wave/checkpoint loop**, and parent/worker split -- not the role table and not the named checkpoint kinds.
+
+## Runtime loop
+
+The pipeline is a **loop**. Wave count sets checkpoint count.
+
+1. Parent mints `TSK_*` / `USR_*`. Trivial single-tool work stays in the parent.
+2. Spawn **one ready wave** only (disjoint `scope`, or one RSV writer). One worker per step. After Bind ready, Execute steps are **atoms** (one path, qname, or proof): spawn one Execute worker per atom in that wave. MUST NOT hand one Execute worker a bundled sequential job.
+3. **End the turn** -- no poll, no await.
+4. Next coordinator turn is a **checkpoint**: `pin_map` first; settle from graph facts and proof commands; spawn the next ready wave or stop.
+5. Repeat 2-4 until no ready steps remain.
+
+Named checkpoint kinds live in User Rules. MUST NOT copy that table here. MUST NOT treat those kinds as "only four turns" -- each wave produces its own checkpoint. Execute after Bind ready usually yields several Execute-proof checkpoints.
+
+One role model per step (no committee on the same atom). Many Execute workers in one wave is not a committee.
+
 ## Parent coordinator
 
 ### MUST
 
 - `session_open` / `session_load` **one** mission `session` id; pass it in every worker prompt.
 - Mint and own **`TSK_*`** / **`USR_*`**: `status=active` -> `status=settled`; optional `led_to_success` edges. Prefer **one live `TSK`** (0.5 V5). leftover NEW mint is leftover.
-- Self-contained worker prompts: session id, cue locators (`kind` / `goal=` / `path=` / `qname=`), write scope (subgraph or relation types), return shape, **`llm_id`**. leftover nickname `id` is leftover.
+- Self-contained worker prompts: session id, cue locators (`kind` / `goal=` / `path=` / `qname=`), write scope (subgraph or relation types), return shape, **`llm_id`**, Task `model` from User Rules. leftover nickname `id` is leftover.
 - **`reserve`** overlapping neighbourhoods before parallel mutate (shipped RSV); pass matching `llm_id` on worker **`mutate`**.
 - **End the turn** after background spawn -- no poll, no await.
-- Next coordinator turn: **`pin_map` first** (cue / `find` if ego lost); act from refreshed slice -- do not redo worker investigation from chat.
-- Prefer **one worker** per coherent workstream; parallel only when the **parent shell is already clear** and interiors are **disjoint** (or RSV) -- [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md).
+- Next coordinator turn: **checkpoint** -- **`pin_map` first** (cue / `find` if ego lost); settle from the refreshed slice; then the next ready wave or stop -- do not redo worker investigation from chat.
+- Prefer **one worker per execute atom**; Execute MUST run many atoms in one wave when scopes are disjoint. Parallel only when the **parent shell is already clear** and interiors are **disjoint** (or RSV) -- [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md).
 
 ### MUST NOT
 
@@ -62,6 +81,9 @@ Set `MEMNET_MCP_TRANSPORT=tcp` on the shared HTTP MCP (or use TCP CLI). Probe wi
 - Settle `TSK_*` / `USR_*` from worker chat -- only from shared-session pin-map facts.
 - Use in-process MCP for a shared mission.
 - Run parallel writers on the **same** reserved slice with different `llm_id`s.
+- Do the worker's role when that role applies (Plan/Detail/Execute stay on the spawned model).
+- Copy the User Rules role table or checkpoint-kind list into this skill.
+- Skip a checkpoint turn, or collapse several Execute waves into one parent turn.
 
 ## Worker agent
 
@@ -124,6 +146,9 @@ Path-B: **`ingest_*`** into the current session (locator ids; **no** leftover NE
 | Chat as SSOT for ids / mission state | Parent and workers diverge |
 | In-process MCP under Multitask | Each process gets its own graph |
 | Parent polls or re-runs worker work | Token waste; violates turn boundary |
+| Coordinator does the worker's role | Skips the unsync checkpoint pipeline |
+| One bundled Execute worker for all Execute steps | User Rules: Execute is atomised parallel workers |
+| One proof turn for all Execute waves | Wave count sets checkpoint count; each wave has its own checkpoint |
 | Worker mints duplicate `TSK_*` | Parent owns task lifecycle |
 | Teaching full ACL modes / `rag_query` as available | Full ACL modes still design; HostSearch is locators only (**0.17**) |
 | Skipping RSV on overlapping parallel mutate | Last-write-wins |
