@@ -18,7 +18,9 @@ Patch by labels+properties. leftover `MATCH ({id})` / leftover NEW mint are left
 
 ## Pin_map (shaped subgraph)
 
-Primary read returns a bounded neighbourhood. Cue with `kind` / `locators` / `keyword`. leftover `anchor`/`anchors` are leftover nicknames. Empty cue = outline. `find` then `pin_map` from labels+props -- `find` is not goldfish read.
+Primary read returns a bounded neighbourhood (working set offer **W**, not dump of **S**). Cue with `kind` / `locators` / `keyword` then `pin_map`. leftover `anchor`/`anchors` are leftover nickname cues only -- not required. Empty cue = outline. `find` then `pin_map` from labels+props -- `find` is not goldfish read.
+
+Shaped `pin_map` / `export_pin_map` / `find` emit MUST NOT show `hid`, `_memnet_hid`, `elementId` (`SHAPE_DROP_KEYS`), or nickname `id`. Cue-by-nickname lookup is still OK. Do not put momentum / coverage / lambda / m on `pin_map`. Audit: MemNet `docs/operations/honesty-c-wire-audit.md`.
 
 Session schema (`session_open` map -- not graph rows):
 
@@ -50,7 +52,7 @@ SCHEMA TSK ; fields=goal status recycle
 | `MOD` | `path`, `lang`, `role`, `loc`, `recycle` |
 | `SYM` | `name`, `kind`, `path`, `line`, `sig`, `vis`, `recycle` |
 | `PKG` / `PRT` / `POR` / `CON` / `BEH` / `ITM` / `REQ` | SysML atoms -- see [sysml-memnet-patterns](../../sysml-memnet-documentation/references/sysml-memnet-patterns.md) |
-| Rel types | `BIND` (port-port); else English verb / snake / upper token -- copy from pin_map |
+| Rel types | `BIND` (port-port); else English verb / snake / upper token -- MATCH typed labels on shaped emit |
 
 ## Design principles
 

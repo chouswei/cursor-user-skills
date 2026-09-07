@@ -7,20 +7,21 @@ description: >-
   export_pin_map, reserve, RSV.
 metadata:
   pattern: tool-wrapper
-  version: "7.5"
+  version: "7.7"
   domain: memnet
-  product: "memnet-llm==0.19.3"
+  product: "memnet-llm==0.19.5"
 token_guardrails: |
-  - Product read is pin_map from a cue (kind / locators / keyword / session). leftover anchor= is leftover.
-  - Product write is mutate (CREATE/MERGE/SET/DELETE). leftover add/update / id:'NEW' are leftover facades.
-  - Parse envelope stdout. Wire SSOT: memnet-format + MemNet docs/grammar/gql-wire-profile.md.
+  - Working set W (shaped pin_map) is not inventory dump S. Cue then pin_map(q); empty q = outline.
+  - Cue MATCH by labels+observable properties. leftover nickname cue only as leftover. Never copy hid/id/elementId as identity.
+  - Product write is gated mutate (CREATE/MATCH SET/DELETE). leftover add/update / id:'NEW' / --anchor are leftover.
+  - Parse envelope stdout. Wire SSOT: memnet-format. STM playbooks: memnet-stm-harness.
 ---
 
 # MemNet MCP (user pack)
 
-**Use** MemNet via MCP. Doctrine SSOT: MemNet `docs/SHAPE.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Wire: [memnet-format](../memnet-format/SKILL.md). Nested interiors: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md). Hub: [memnet-use](../memnet-use/SKILL.md).
+**Use** MemNet via MCP. Doctrine SSOT: MemNet `docs/SHAPE.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Wire: [memnet-format](../memnet-format/SKILL.md). Nested interiors: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md). Hub: [memnet-use](../memnet-use/SKILL.md). STM thesis locks (pointer): [memnet-stm-harness](../memnet-stm-harness/SKILL.md).
 
-**Package and PyPI 0.19.3** (Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.3`; extras **0.10-0.19** unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.3`. Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only. Default `max_sessions` **1024**.
+**Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`; Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.5`; extras **0.10-0.19** unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.5`. Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). No 0.20. CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only. Default `max_sessions` **1024**.
 
 ## User-pack transport (this machine)
 
@@ -47,11 +48,13 @@ After editing mcp.json: **Cursor -> MCP / Tools -> restart `memnet-pi`**. Do **n
 
 | Idea | Meaning |
 |------|---------|
-| Product loop | `session_open(map)` then codebook **cue -> `pin_map`** + **`mutate`** (GQL Commit) |
-| Empty q | **0.11 outline** (census of S), not a skip |
-| GQL wire | openCypher-shaped statements in `wire_lines`; parse envelope `stdout` |
-| leftover identity | leftover `--anchor` / `anchor=` / leftover id as identity -- not TARGET |
+| W vs S | Shaped `pin_map` is working set **W** (bounded offer). Do not dump inventory **S** |
+| Product loop | `session_open(map)` then codebook **cue -> `pin_map(q)`** + gated **`mutate`** (Commit) |
+| Empty q | **0.11 outline** (census under LIMIT), not a neighbourhood dump and not a skip |
+| User input | Control **u** / admitted mass in W / discrete force -- not automatic inventory. [user-input-memory.md](references/user-input-memory.md) |
+| Identity | Graph element. Cue by locators (labels + observable properties). leftover `--anchor` / nickname `id` / hid / elementId -- not TARGET |
 | leftover write | leftover-named `add`/`update`; leftover `id:'NEW'` / NEW mint -- not TARGET |
+| GQL wire | openCypher-shaped statements in `wire_lines`; parse envelope `stdout` |
 | Durable cabinet | Agens live claimed (0.7); **`liveNeo4jClaimed=true`** (0.14). Do not write hydrate-by-hid proven. Do not vendor a Neo4j/AgensGraph server. Agents MUST NOT talk Bolt. No `rag_query`. |
 | HostSearch / Peak_L / export | **Shipped** extras 0.17 / 0.18 / 0.19 -- not Later |
 | Transport | HTTP `:18766/mcp` -> Pi; bridge to TCP serve `:18765` when sharing one graph |
@@ -68,7 +71,7 @@ session_open(map) -> cue / find -> pin_map -> reason -> mutate -> pin_map
 
 1. **Map** -- `session_open` needs `map_file` or `map_lines` else `no_map`. Missing kind -> `unknown_tag`. Bundled SCHEMA maps live in the MemNet checkout (`parts/common/memnet/memnet/examples/schema.*.example.txt`). This pack does not vendor those files.
 2. **Cue** -- `kind` / locators (`qname=`, `path=`, ...) / `keyword` / nickname `cue`. Empty cue = outline. Prefer one live `TSK_*`.
-3. **`pin_map`** -- one S per generate. MCP `session=` selects the stratum. Drop the prior map next turn. leftover `anchor=` / `anchors=` are leftover nicknames.
+3. **`pin_map`** -- one shaped offer per generate (admit into **W**). MCP `session=` selects the stratum. Drop the prior map next turn. leftover `anchor=` / `anchors=` are leftover nickname cues only. Shaped `pin_map` / `export_pin_map` / `find` emit MUST NOT show `hid`, `_memnet_hid`, `elementId`, or nickname `id` (`SHAPE_DROP_KEYS`). Cue-by-nickname lookup is still OK if the agent already holds that nickname. RSV product errors use leftover `anchor=` + `llm_id` only (no `_elN`). Do not put momentum / coverage / lambda / m on `pin_map`. Audit: MemNet `docs/operations/honesty-c-wire-audit.md`.
 4. **`mutate`** -- sparse GraphElement `CREATE` / `MATCH`...`SET`/`DELETE`. No leftover `id:'NEW'` mint.
 5. Persist if needed: `session_save` (file) or live cabinet (0.7 Agens / 0.14 Neo4j).
 
@@ -131,7 +134,7 @@ Args: [references/tool-parameters.md](references/tool-parameters.md). Policy: [r
 | Find by schematic field | `read_list` with `where` (`refdes=`, `net=`, `qname=`, `path=`) |
 | Neighbourhood | `pin_map` from that locator cue |
 | First materialise pin | `ingest_*` or `mutate` with explicit locators |
-| Annotate about a pin | `mutate` CREATE `:CLM` then rel to the copied pin |
+| Annotate about a pin | `mutate` CREATE `:CLM` then rel MATCH'd by locators |
 
 ```cypher
 CREATE (c:CMP {refdes: 'R1', path: 'boards/pdu/pdu.ato', recycle: 'persistent'})
@@ -169,19 +172,21 @@ Tag vocabulary: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL
 
 ## MUST NOT
 
-- Invent ids already present on the pin map -- copy locators.
+- Treat nickname `id` / hid / elementId as identity. Cue MATCH by locators.
 - Teach leftover `--anchor` / `id:'NEW'` / leftover `add`/`update` as TARGET.
 - Emit pipe `@TAG:...` rows as agent I/O -- GQL / shaped wire only.
 - Recommend TOON/TRON for handoffs.
 - Restore novel-writer MCP extras.
 - `rag_query` / ANN of S / dump S / stack N nested maps in one generate.
 - Claim **1.0**. Claim hydrate-by-hid proven. Vendor a Neo4j/AgensGraph server.
+- Teach `hid` / `_memnet_hid` / `elementId` / nickname `id` on shaped `pin_map` / export / find emit.
 
 ## Related
 
 | Path | Role |
 |------|------|
 | [memnet-use](../memnet-use/SKILL.md) | How to use MemNet (hub) |
+| [memnet-stm-harness](../memnet-stm-harness/SKILL.md) | STM thesis playbook pointer (W vs S, debug triage) |
 | [memnet-format](../memnet-format/SKILL.md) | MemNet GQL wire conventions |
 | [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) | Catalog / look loop |
 | [graph-query-language](../graph-query-language/SKILL.md) | General GQL |

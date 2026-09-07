@@ -1,8 +1,10 @@
 # MemNet for user input and preferences
 
+User input is **steering**, not automatic inventory **S**. Three placements (may stack): control **u** (cue for `pin_map`), admitted mass in working set **W**, or a discrete force (stop / redo / correction). Gated Commit (`mutate` `:USR`) only when the distilled fact must persist -- table below.
+
 When the agent **must recall what the user said** across turns -- atomise each constraint as its own **`USR`** row (one fact, short `content`), link to `TSK` via an edge. See [atomisation.md](atomisation.md), [wire-format.md](wire-format.md). GQL wire only.
 
-MemNet is **not** a chat log. Store **distilled atoms**, not messages.
+MemNet is **not** a chat log. Store **distilled atoms**, not messages. STM pointer: [memnet-stm-harness](../../memnet-stm-harness/SKILL.md).
 
 ## When to write user input to MemNet
 

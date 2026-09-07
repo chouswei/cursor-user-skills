@@ -9,8 +9,8 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.8"
-  product: "memnet-llm==0.19.3"
+  version: "1.9"
+  product: "memnet-llm==0.19.5"
   pairs_with: [graph-query-language, gql-path-patterns, mcp-memnet, memnet-format, sysml-memnet-cache, sysml-memnet-documentation, sysml-modeling-workflow, memnet-nested-sessions]
 token_guardrails: |
   - GQL wire only: shaped pin_map read + openCypher-shaped mutate. No Layer / NODE|EDGE line dialect; no pipe @TAG agent I/O.
@@ -62,7 +62,7 @@ CREATE (p:PRT {name: 'Pdu', kind: 'partUsage'})-[:hasPort]->(por:POR {name: 'pwr
 CREATE (p)-[:satisfies]->(:REQ {requirementId: $req})
 ```
 
-Cue and MATCH by labels+properties (`goal`, `name`, `qname`, `path`, `requirementId`). leftover nickname `id` / `locators=['id=...']` / `id:'NEW'` are leftover. Bound paths: [gql-path-patterns](../gql-path-patterns/SKILL.md).
+Cue and MATCH by labels+properties (`goal`, `name`, `qname`, `path`, `requirementId`). leftover nickname `id` / `locators=['id=...']` / `id:'NEW'` are leftover. Shaped `pin_map` emit MUST NOT show `hid` / `_memnet_hid` / `elementId` / nickname `id`. Bound paths: [gql-path-patterns](../gql-path-patterns/SKILL.md).
 
 ## Related
 
