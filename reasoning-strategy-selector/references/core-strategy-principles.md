@@ -14,7 +14,6 @@
 | api-client-pattern | G | user | medium | medium | structural | low |
 | architecture-reviewer | R | user | high | high | structural | medium |
 | code-reviewer | R | user | medium | medium | structural | low |
-| comic-construction-basics | G | user | medium | low | structural | low |
 | commit-message-generator | G | doc | low | low | structural | low |
 | control-theory-planner | P | user | high | high | conceptual | low |
 | decision-inverter | R | user | high | high | conceptual | high |
@@ -26,10 +25,7 @@
 | graph-query-language | T | user | medium | medium | structural | low |
 | hardware-custom-pcba-workflow | P | pcba | high | high | structural | low |
 | incentive-alignment-reviewer | R | user | high | high | conceptual | high |
-| kids-photo-coloring-page | P | user | medium | low | structural | low |
 | launch-readiness-assessor | R | user | medium | high | structural | low |
-| likeness-face-sketch | P | user | medium | low | structural | low |
-| localized-feature-study | P | user | medium | low | structural | low |
 | markdown-preview-enhanced | T | user | medium | medium | structural | low |
 | markdown-viewer-user-pack | T | user | medium | medium | structural | low |
 | mcdm-decider | P | user | high | high | measured | medium |
@@ -57,7 +53,6 @@
 | pandas-expert | T | user | medium | low | structural | low |
 | pcba-design-reviewer | R | pcba | high | high | structural | low |
 | pcba-netlist-reader | T | pcba | medium | low | structural | low |
-| photo-to-sketch-practice | P | user | medium | low | structural | low |
 | polarfire-soc-setup | T | user | medium | medium | structural | low |
 | pr-reviewer | R | user | medium | medium | structural | low |
 | pretty-mermaid | T | user | medium | medium | structural | low |
