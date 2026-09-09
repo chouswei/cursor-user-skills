@@ -56,6 +56,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 | Cursor rules | create rule, .mdc, alwaysApply, AGENTS.md, user/team rules | `rule-writer` |
 | SysML + MemNet GQL | sysml gql, modeling pin_map, TSK_model GQL | `sysml-gql` |
 | STM harness | agent harness, STM debug, W vs S, user-input-as-control | `memnet-stm-harness` |
+| LLM STM mechanics | analytic mechanics STM, LLM STM, working set W, ShapeWalk harness, STM debug from thesis | `llm-stm-analytical-mechanics` |
 | Use MemNet | use memnet, how to use memnet, memnet goldfish | `memnet-use` |
 
 **See:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -> `skill-graph-seed.wire`. Route steps: User Rules **Workflow**.
@@ -122,6 +123,7 @@ Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 | [memnet-format](memnet-format/SKILL.md) | MemNet GQL wire / shaped pin_map |
 | [mcp-memnet](mcp-memnet/SKILL.md) | MemNet MCP tools / pin map |
 | [memnet-stm-harness](memnet-stm-harness/SKILL.md) | STM thesis playbook pointer (W vs S, debug) |
+| [llm-stm-analytical-mechanics](llm-stm-analytical-mechanics/SKILL.md) | STM analytical-mechanics turn loop (thesis locks; not a SemVer claim) |
 | [sysml-gql](sysml-gql/SKILL.md) | Thin SysML x MemNet GQL turn loop |
 | [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md) | Pipeline step atoms |
 | [sysml-memnet-read-policy](sysml-memnet-documentation/references/sysml-memnet-read-policy.md) | Pin map vs narrow `.sysml` |
