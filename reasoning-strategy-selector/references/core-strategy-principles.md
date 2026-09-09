@@ -10,6 +10,7 @@
 |-------|-----------|--------|------------|--------|----------|---------|
 | academic-report-generator | G | doc | medium | low | structural | low |
 | adr-generator | G | doc | low | low | structural | low |
+| analytical-mechanics-propose | P | user | high | medium | conceptual | medium |
 | antlr4-grammar | P | user | medium | medium | structural | low |
 | api-client-pattern | G | user | medium | medium | structural | low |
 | architecture-reviewer | R | user | high | high | structural | medium |

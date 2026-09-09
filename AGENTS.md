@@ -56,6 +56,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 | Cursor rules | create rule, .mdc, alwaysApply, AGENTS.md, user/team rules | `rule-writer` |
 | SysML + MemNet GQL | sysml gql, modeling pin_map, TSK_model GQL | `sysml-gql` |
 | STM harness | agent harness, STM debug, W vs S, user-input-as-control | `memnet-stm-harness` |
+| Analytical mechanics propose | analytical mechanics propose, apply Lagrangian to, Hamiltonian framing, KKT cap diagnostic, Noether gauge propose | `analytical-mechanics-propose` |
 | LLM STM mechanics | analytic mechanics STM, LLM STM, working set W, ShapeWalk harness, STM debug from thesis | `llm-stm-analytical-mechanics` |
 | Use MemNet | use memnet, how to use memnet, memnet goldfish | `memnet-use` |
 

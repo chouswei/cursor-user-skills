@@ -11,7 +11,7 @@ description: >-
   (mcp-memnet, memnet-format); CompanyMemory desk mapping except as a pointer.
 metadata:
   pattern: pipeline
-  version: "1.0"
+  version: "1.1"
   domain: memnet
 pipeline_steps:
   1. Classify -- wire harness, debug triage, or CompanyMemory pointer only.
@@ -119,6 +119,7 @@ Then: logs exist? gauge leak? cap biting vs slack? cue wrong? admission vs offer
 | GQL / shaped emit grammar | [memnet-format](../memnet-format/SKILL.md) |
 | Which GitHub playbook file | [memnet-stm-harness](../memnet-stm-harness/SKILL.md) |
 | Shared workers | [memnet-multitask](../memnet-multitask/SKILL.md) -- hand off **session id** + locators; peer re-pins |
+| General AM propose (any domain) | [analytical-mechanics-propose](../analytical-mechanics-propose/SKILL.md) -- STM is the worked example, not the only plant |
 
 ## Steps
 
