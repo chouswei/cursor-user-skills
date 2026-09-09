@@ -6,7 +6,7 @@ description: >-
   goldfish, mission working memory, chat never SSOT, session graph.
 metadata:
   pattern: pipeline
-  version: "1.9"
+  version: "1.10"
   domain: memnet
   product: "memnet-llm==0.19.5"
 ---
@@ -35,7 +35,7 @@ User-pack store: Cursor HTTP **`10.0.0.10:18766/mcp`** bridging TCP serve **`:18
 |------|--------|
 | MCP tools, ingest, `snap_model`, export | [mcp-memnet](../mcp-memnet/SKILL.md) |
 | STM harness / debug / W vs S | [memnet-stm-harness](../memnet-stm-harness/SKILL.md) |
-| STM analytical mechanics (turn loop) | [llm-stm-analytical-mechanics](../llm-stm-analytical-mechanics/SKILL.md) |
+| Analytical-mechanics framing (any domain) | [analytical-mechanics-propose](../analytical-mechanics-propose/SKILL.md) |
 | GQL / shaped `pin_map` | [memnet-format](../memnet-format/SKILL.md) |
 | Multitask / shared session | [memnet-multitask](../memnet-multitask/SKILL.md) |
 | Code `MOD`/`SYM` | [memnet-codebase-snap](../memnet-codebase-snap/SKILL.md) |

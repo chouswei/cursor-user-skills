@@ -7,19 +7,19 @@ description: >-
   export_pin_map, reserve, RSV.
 metadata:
   pattern: tool-wrapper
-  version: "7.8"
+  version: "7.9"
   domain: memnet
   product: "memnet-llm==0.19.5"
 token_guardrails: |
   - Working set W (shaped pin_map) is not inventory dump S. Cue then pin_map(q); empty q = outline.
   - Cue MATCH by labels+observable properties. leftover nickname cue only as leftover. Never copy hid/id/elementId as identity.
   - Product write is gated mutate (CREATE/MATCH SET/DELETE). leftover add/update / id:'NEW' / --anchor are leftover.
-  - Parse envelope stdout. Wire SSOT: memnet-format. STM: memnet-stm-harness / llm-stm-analytical-mechanics.
+  - Parse envelope stdout. Wire SSOT: memnet-format. STM: memnet-stm-harness (thesis playbooks).
 ---
 
 # MemNet MCP (user pack)
 
-**Use** MemNet via MCP. Doctrine SSOT: MemNet `docs/SHAPE.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Wire: [memnet-format](../memnet-format/SKILL.md). Nested interiors: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md). Hub: [memnet-use](../memnet-use/SKILL.md). STM thesis locks: [memnet-stm-harness](../memnet-stm-harness/SKILL.md) (pointer), [llm-stm-analytical-mechanics](../llm-stm-analytical-mechanics/SKILL.md) (turn loop).
+**Use** MemNet via MCP. Doctrine SSOT: MemNet `docs/SHAPE.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Wire: [memnet-format](../memnet-format/SKILL.md). Nested interiors: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md). Hub: [memnet-use](../memnet-use/SKILL.md). STM thesis locks: [memnet-stm-harness](../memnet-stm-harness/SKILL.md) (playbook pointer to [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics)).
 
 **Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`; Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.5`; extras **0.10-0.19** unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.5`. Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). No 0.20. CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only. Default `max_sessions` **1024**.
 
@@ -187,7 +187,6 @@ Tag vocabulary: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL
 |------|------|
 | [memnet-use](../memnet-use/SKILL.md) | How to use MemNet (hub) |
 | [memnet-stm-harness](../memnet-stm-harness/SKILL.md) | STM thesis playbook pointer (W vs S, debug triage) |
-| [llm-stm-analytical-mechanics](../llm-stm-analytical-mechanics/SKILL.md) | STM analytical-mechanics turn loop (not a SemVer claim) |
 | [memnet-format](../memnet-format/SKILL.md) | MemNet GQL wire conventions |
 | [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) | Catalog / look loop |
 | [graph-query-language](../graph-query-language/SKILL.md) | General GQL |

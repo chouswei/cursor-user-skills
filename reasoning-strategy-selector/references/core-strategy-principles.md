@@ -27,7 +27,6 @@
 | hardware-custom-pcba-workflow | P | pcba | high | high | structural | low |
 | incentive-alignment-reviewer | R | user | high | high | conceptual | high |
 | launch-readiness-assessor | R | user | medium | high | structural | low |
-| llm-stm-analytical-mechanics | P | user | medium | medium | structural | low |
 | markdown-preview-enhanced | T | user | medium | medium | structural | low |
 | markdown-viewer-user-pack | T | user | medium | medium | structural | low |
 | mcdm-decider | P | user | high | high | measured | medium |
