@@ -7,7 +7,7 @@ description: >-
   inventory, user-input-as-control, thesis locks, pin_map vs dump.
 metadata:
   pattern: pipeline
-  version: "1.0"
+  version: "1.1"
   domain: memnet
   product: "memnet-llm==0.19.5"
 token_guardrails: |
@@ -17,7 +17,7 @@ token_guardrails: |
 
 # STM thesis harness (pointer)
 
-**Not a second thesis.** Doctrine SSOT lives in [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics) playbooks. This skill names **when** to open which file. Tools: [mcp-memnet](../mcp-memnet/SKILL.md). Wire: [memnet-format](../memnet-format/SKILL.md). **Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`). **1.0** unclaimed.
+**Not a second thesis.** Doctrine SSOT lives in [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics) playbooks. This skill names **when** to open which file. Operational checklist (turn loop): [llm-stm-analytical-mechanics](../llm-stm-analytical-mechanics/SKILL.md). Tools: [mcp-memnet](../mcp-memnet/SKILL.md). Wire: [memnet-format](../memnet-format/SKILL.md). **Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`). **1.0** unclaimed.
 
 ## When to load
 

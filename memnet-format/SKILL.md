@@ -6,7 +6,7 @@ description: >-
   wire, GraphElement, shaped subgraph, BIND vs relation, openCypher mutate.
 metadata:
   pattern: tool-wrapper
-  version: "5.8"
+  version: "5.9"
   domain: data-formats,memnet
   product: "memnet-llm==0.19.5"
 token_guardrails: |
@@ -18,7 +18,7 @@ token_guardrails: |
 
 # MemNet formats
 
-Pair with [mcp-memnet](../mcp-memnet/SKILL.md). Formal SSOT: MemNet `docs/grammar/gql-wire-profile.md`. Version map: MemNet `docs/ROADMAP.md`. STM locks (pointer): [memnet-stm-harness](../memnet-stm-harness/SKILL.md).
+Pair with [mcp-memnet](../mcp-memnet/SKILL.md). Formal SSOT: MemNet `docs/grammar/gql-wire-profile.md`. Version map: MemNet `docs/ROADMAP.md`. STM locks (pointer): [memnet-stm-harness](../memnet-stm-harness/SKILL.md). Turn loop: [llm-stm-analytical-mechanics](../llm-stm-analytical-mechanics/SKILL.md).
 
 **Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`; tag `v0.19.5`; extras 0.10-0.19 unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.5`. **1.0** unclaimed. No 0.20. Recall/Commit `operatorCount` stays 2.
 
@@ -114,6 +114,7 @@ House nicknames (optional property `id`, not identity): `TSK_model_<short>`, `US
 - [gql-path-patterns](../gql-path-patterns/SKILL.md)
 - [mcp-memnet](../mcp-memnet/SKILL.md)
 - [memnet-stm-harness](../memnet-stm-harness/SKILL.md)
+- [llm-stm-analytical-mechanics](../llm-stm-analytical-mechanics/SKILL.md)
 - [memnet-use](../memnet-use/SKILL.md)
 - [sysml-gql](../sysml-gql/SKILL.md)
 - MemNet `docs/grammar/` -- design SSOT
