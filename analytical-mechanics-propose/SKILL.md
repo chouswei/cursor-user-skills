@@ -9,11 +9,11 @@ description: >-
   Lagrangian / Hamiltonian / KKT / Noether language onto a new plant.
   Triggers: analytical mechanics propose, apply Lagrangian to, Hamiltonian
   framing, KKT cap diagnostic, Noether gauge propose. Skip: STM-only harness
-  or triage (llm-stm-analytical-mechanics); MemNet install/wire
+  or triage (memnet-stm-harness; thesis playbooks); MemNet install/wire
   (mcp-memnet, memnet-format).
 metadata:
   pattern: pipeline
-  version: "1.0"
+  version: "1.1"
   domain: user
 pipeline_steps:
   1. Usefulness -- name resident configuration W versus inventory S; usefulness is action A on a trajectory, not a dump of S.
@@ -30,7 +30,7 @@ pipeline_steps:
 system_instruction: |
   General method-transfer propose. STM thesis is the worked example, not the only plant.
   Not a MemNet SemVer claim. Pack metadata.version is this skill only. MemNet 1.0 unclaimed.
-  British English. ASCII. If the job is STM harness or STM debug only, stop and open llm-stm-analytical-mechanics.
+  British English. ASCII. If the job is STM harness or STM debug only, stop and open memnet-stm-harness (thesis playbooks).
 token_guardrails: |
   - L2 = this checklist. L3 = GitHub thesis headings / playbooks. MUST NOT paste thesis math or playbook body.
   - MUST NOT duplicate mcp-memnet install or memnet-format GQL grammar.
@@ -42,18 +42,18 @@ token_guardrails: |
 
 **Method transfer.** Doctrine SSOT: [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics) (`thesis/analytical-mechanics-of-llm-stm.md`). This skill is the **general propose checklist** (L2). Section pointers: [references/l3-sources.md](references/l3-sources.md). Thin dictionary: [references/core-am-propose-principles.md](references/core-am-propose-principles.md).
 
-**Worked example, not the only target.** LLM STM / ShapeWalk / `pin_map` is one instantiation on the same phase-space idea. For STM-only wire or triage, stop and open [llm-stm-analytical-mechanics](../llm-stm-analytical-mechanics/SKILL.md).
+**Worked example, not the only target.** LLM STM / ShapeWalk / `pin_map` is one instantiation on the same phase-space idea. For STM-only wire or triage, stop and open [memnet-stm-harness](../memnet-stm-harness/SKILL.md) and fetch [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics) playbooks.
 
 **Not a MemNet SemVer claim.** Pack `metadata.version` is this skill folder only. Do **not** claim MemNet **1.0**. Thesis package pins (for example `memnet-llm` 0.19.x) are source citations, not this pack's version.
 
-**Pair (do not duplicate):** STM specialist [llm-stm-analytical-mechanics](../llm-stm-analytical-mechanics/SKILL.md). Not MemNet install or GQL wire: [mcp-memnet](../mcp-memnet/SKILL.md), [memnet-format](../memnet-format/SKILL.md).
+**Pair (do not duplicate):** STM playbook pointer [memnet-stm-harness](../memnet-stm-harness/SKILL.md). Not MemNet install or GQL wire: [mcp-memnet](../mcp-memnet/SKILL.md), [memnet-format](../memnet-format/SKILL.md).
 
 ## When to load
 
 | Job | This skill | Then |
 |-----|------------|------|
 | Propose or review AM framing on an arbitrary plant (cache, RAG, planner, hardware loop, org process) | Pipeline below | Fetch L3 section that the step names |
-| STM harness, W vs S, ShapeWalk debug, thesis triage | **Stop** | [llm-stm-analytical-mechanics](../llm-stm-analytical-mechanics/SKILL.md) |
+| STM harness, W vs S, ShapeWalk debug, thesis triage | **Stop** | [memnet-stm-harness](../memnet-stm-harness/SKILL.md) / [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics) playbooks |
 | MemNet tools / GQL grammar | **Stop** | mcp-memnet / memnet-format |
 
 ## Pipeline
@@ -74,7 +74,7 @@ Run in order. Each step writes one short block (table or bullets). Intermediate 
 
 ## MUST NOT
 
-- Route STM-only harness / debug here; use the STM specialist.
+- Route STM-only harness / debug here; use memnet-stm-harness and the thesis playbooks.
 - Duplicate mcp-memnet install or memnet-format GQL.
 - Claim MemNet **1.0** or treat honesty `c` as a SemVer a/b cut.
 - Paste thesis or playbook body into the card.
@@ -87,8 +87,7 @@ Run in order. Each step writes one short block (table or bullets). Intermediate 
 
 | Need | Skill |
 |------|--------|
-| STM turn loop / debug tree | [llm-stm-analytical-mechanics](../llm-stm-analytical-mechanics/SKILL.md) |
-| Which STM playbook file | [memnet-stm-harness](../memnet-stm-harness/SKILL.md) |
+| STM harness / debug / which playbook | [memnet-stm-harness](../memnet-stm-harness/SKILL.md) |
 | Feedback / stability (not AM propose) | [control-theory-planner](../control-theory-planner/SKILL.md) |
 | Constrained allocation (not AM propose) | [optimization-planner](../optimization-planner/SKILL.md) |
 | Experiment design after a prediction | [scientific-method-first-principles](../scientific-method-first-principles/SKILL.md) |
@@ -96,6 +95,6 @@ Run in order. Each step writes one short block (table or bullets). Intermediate 
 
 ## Steps
 
-1. If STM-only, stop and open the specialist.
+1. If STM-only, stop and open memnet-stm-harness (fetch thesis playbooks).
 2. Run pipeline 1-10. Fetch L3 by heading only ([references/l3-sources.md](references/l3-sources.md)).
 3. Fill the propose card. Stop.

@@ -47,8 +47,8 @@ Unobservables, rename test, order-is-physical:
 **Firewalls applied**  
 (MUST NOTs checked; no SemVer invention)
 
-**STM specialist**  
-Stopped and handed off / not STM-only / N/A:
+**STM-only handoff**  
+Stopped for harness/debug (memnet-stm-harness / thesis playbooks) / not STM-only / N/A:
 
 **L3 fetched**  
 (heading names only, or none)
