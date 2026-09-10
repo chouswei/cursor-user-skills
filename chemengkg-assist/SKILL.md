@@ -28,12 +28,14 @@ Use when a **Chemical Engineering Knowledge Graph** lookup could assist chem/pro
 
 ## Tool shape (kgtool)
 
+```python
 from kgtool.interface import ChemKG
 chemkg = ChemKG(url="<graphql_api>", graph="<graph_name>")  # or ChemKG.dev() -> localhost:4001
 chemkg.runSparql("SELECT * WHERE { ?s ?p ?o } LIMIT 10")
+```
 
-Install: pip install git+https://github.com/process-intelligence-research/ChemEngKG_kgtool
-Backend local: see ChemEngKG_backend. Responses are GraphQL {data|errors} dicts.
+Install: `pip install git+https://github.com/process-intelligence-research/ChemEngKG_kgtool`  
+Backend local: see ChemEngKG_backend. Responses are GraphQL `{data|errors}` dicts.
 
 ## Pipeline
 
@@ -41,13 +43,13 @@ Backend local: see ChemEngKG_backend. Responses are GraphQL {data|errors} dicts.
 2. **Query** ChemEngKG with a tight SPARQL (limit rows); cite graph name + query.
 3. **Label provenance** -- every triple is KG-assist, not assay fact.
 4. **Refuse invention** -- if KG is empty/unreachable, say so; do not fabricate process edges.
-5. **Optional MemNet landing** -- if the user wants durable working memory, use pack MemNet skills (memnet-use / mcp-memnet): cue -> pin_map -> sparse mutate; no Layer pipe; do not silently fork a second SSOT.
+5. **Optional MemNet landing** -- if the user wants durable working memory, use pack MemNet skills ([memnet-use](../memnet-use/SKILL.md) / [mcp-memnet](../mcp-memnet/SKILL.md)): cue -> pin_map -> sparse mutate; no Layer pipe (deep MemNet nested/layer session mode); do not silently fork a second SSOT.
 6. **Lecture patterns** -- optional: mirror hybrid-model / GNN structure from lecture-coding; never paste lecture note dumps.
 
 ## Related
 
-- P&ID / DEXPI graphs: pydexpi-p-id (prefer over demoted d2-pid)
-- Physics-consistent surrogates: physics-constrained-surrogate-routing
+- P&ID / DEXPI graphs: [pyDEXPI P&ID](../pydexpi-p-id/SKILL.md) (prefer over demoted [d2-pid](../d2-pid/SKILL.md))
+- Physics-consistent surrogates: [physics-constrained-surrogate-routing](../physics-constrained-surrogate-routing/SKILL.md)
 
 ## Emit shape
 
