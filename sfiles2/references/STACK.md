@@ -34,4 +34,4 @@ Confirm imports before claiming installed.
 
 ## SysML landing
 
-Graph/SFILES/GGILES -> ports/items/connections via the SysML specialist (out-of-pack bridge skill `sfiles-pydexpi-sysml-bridge` when present locally). No invent equipment; `.sysml` SSOT. Mapping table: [sysml-topology-handoff.md](sysml-topology-handoff.md).
+Graph/SFILES/GGILES -> ports/items/connections via the SysML specialist (out-of-pack bridge skill `sfiles-pydexpi-sysml-bridge` when present locally). No invent equipment; `.sysml` SSOT. Mapping table: `pydexpi-p-id/references/sysml-topology-handoff.md`.
