@@ -7,7 +7,7 @@
 2. **Optional string views**
    - Flowsheet units -> **SFILES2** (`sfiles2`, MIT) -- graph <-> SFILES 2.0
    - Arbitrary typed graphs -> **GGILES** (`ggiles`, MIT) -- graph <-> sequence + tokenizer
-3. **Demoted:** D2 ISA sketches (`d2-pid`) -- stakeholder only; no redraw spam without a clear target
+3. **Do not use D2 for P&ID** -- anti-pattern skill `d2-pid` (stub to catch bad defaults and redirect). D2 is for architecture posters only.
 
 ## Upstream
 
@@ -35,3 +35,4 @@ Confirm imports before claiming installed.
 ## SysML landing
 
 Graph/SFILES/GGILES -> ports/items/connections via the SysML specialist (out-of-pack bridge skill `sfiles-pydexpi-sysml-bridge` when present locally). No invent equipment; `.sysml` SSOT. Mapping table: `pydexpi-p-id/references/sysml-topology-handoff.md`.
+
