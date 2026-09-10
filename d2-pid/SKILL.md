@@ -10,7 +10,7 @@ metadata:
 ---
 # D2 P&ID (demoted -- last resort)
 
-**Demoted.** Prefer [pyDEXPI P&ID](sand-workflow:pydexpi-p-id) (DEXPI -> graph). Use this skill **only** when the user explicitly asks for a non-DEXPI D2 stakeholder sketch.
+**Demoted.** Prefer [pyDEXPI P&ID](../pydexpi-p-id/SKILL.md) (DEXPI -> graph). Use this skill **only** when the user explicitly asks for a non-DEXPI D2 stakeholder sketch.
 
 User rule (2026-09-10): stop P&ID redraw loops that waste tokens; do not touch P&ID without a clear target.
 
@@ -21,7 +21,7 @@ User rule (2026-09-10): stop P&ID redraw loops that waste tokens; do not touch P
 
 ## When not
 
-- Any DEXPI / Proteus / smart P&ID / GraphRAG / MemNet topology task -> [pyDEXPI P&ID](sand-workflow:pydexpi-p-id)
+- Any DEXPI / Proteus / smart P&ID / GraphRAG / MemNet topology task -> [pyDEXPI P&ID](../pydexpi-p-id/SKILL.md)
 - After user stop / token-waste feedback -> stop
 
 ## Hard rules (if used)
@@ -33,5 +33,5 @@ User rule (2026-09-10): stop P&ID redraw loops that waste tokens; do not touch P
 
 ## Hand off
 
-- Real P&ID -> [pyDEXPI P&ID](sand-workflow:pydexpi-p-id)
-- Routing -> [Diagram routing](sand-workflow:diagram-routing)
+- Real P&ID -> [pyDEXPI P&ID](../pydexpi-p-id/SKILL.md)
+- Routing -> [Diagram routing](../diagram-routing/SKILL.md)
