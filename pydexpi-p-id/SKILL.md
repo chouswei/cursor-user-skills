@@ -2,15 +2,15 @@
 name: pydexpi-p-id
 description: >-
   Use for real P&ID via pyDEXPI (DEXPI/Proteus -> NetworkX -> MemNet/GraphRAG).
-  Prefer over D2. AGPL-3.0 -- flag before proprietary redistribute. Pair with
-  SFILES2/GGILES for graph<->string.
+  Never use D2 for P&ID (anti-pattern d2-pid). AGPL-3.0 -- flag before
+  proprietary redistribute. Pair with SFILES2/GGILES for graph<->string.
 metadata:
   pattern: pipeline
-  version: "1.0.1"
+  version: "1.0.2"
 ---
 # pyDEXPI P&ID (primary)
 
-Real P&ID path: **DEXPI -> pyDEXPI -> NetworkX** (then MemNet / GraphRAG / optional SFILES or GGILES strings). Do **not** default to D2 glyph sketches.
+Real P&ID path: **DEXPI -> pyDEXPI -> NetworkX** (then MemNet / GraphRAG / optional SFILES or GGILES strings). **Never** draw P&ID in D2 (anti-pattern skill [d2-pid](../d2-pid/SKILL.md)).
 
 Upstream: https://github.com/process-intelligence-research/pyDEXPI  
 DEXPI **1.3**. Citation: Goldstein et al., ESCAPE-35 (2025), doi:10.69997/sct.139043.  
@@ -43,7 +43,7 @@ SFILES2 and GGILES are **MIT** and do not inherit this gate; pyDEXPI-derived cod
 
 1. **Graph is SSOT for P&ID reasoning** -- query the graph; never dump full XML/image into the LLM context.
 2. **No invention** of equipment, tags, nozzles, or lines beyond locks / DEXPI model.
-3. Prefer pyDEXPI over D2. [D2 P&ID](../d2-pid/SKILL.md) only on explicit non-DEXPI sketch ask.
+3. **Never** use D2 for P&ID. If asked for D2 P&ID, refuse/redirect here; cite [d2-pid](../d2-pid/SKILL.md) only as anti-pattern docs.
 4. AGPL flag before proprietary redistribute (see above).
 5. Install in a **venv**: `python3 -m venv .venv && .venv/bin/pip install pydexpi`.
 
@@ -101,7 +101,7 @@ SysML topology landing is owned by the SysML specialist (out-of-pack bridge skil
 - SFILES string -> [SFILES 2.0](../sfiles2/SKILL.md)
 - General sequence -> [GGILES](../ggiles/SKILL.md)
 - SysML topology mapping -> [sysml-topology-handoff.md](references/sysml-topology-handoff.md) (out-of-pack bridge skill `sfiles-pydexpi-sysml-bridge` when present locally)
-- D2 sketch only -> [D2 P&ID](../d2-pid/SKILL.md) (demoted)
+- Asked for D2 P&ID -> refuse; stay on this skill (or SFILES2/GGILES for strings). Anti-pattern docs only: [d2-pid](../d2-pid/SKILL.md)
 
 ## Refs
 
