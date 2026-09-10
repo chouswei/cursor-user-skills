@@ -4,9 +4,9 @@ Not a substitute for ANSI/ISA-5.1. Use for stakeholder D2 P&IDs when tagging loo
 
 ## Tag shape
 
-`XX-NNN` or `XXX-NNN` — letter code + loop number (e.g. `FT-101`, `FIC-101`, `PSHH-301`).
+`XX-NNN` or `XXX-NNN` -- letter code + loop number (e.g. `FT-101`, `FIC-101`, `PSHH-301`).
 
-## First letter (measured / initiating variable) — common
+## First letter (measured / initiating variable) -- common
 
 | Letter | Meaning |
 |--------|---------|
@@ -14,7 +14,7 @@ Not a substitute for ANSI/ISA-5.1. Use for stakeholder D2 P&IDs when tagging loo
 | L | Level |
 | P | Pressure / vacuum |
 | T | Temperature |
-| A | Analysis (composition, pH, conductivity, …) |
+| A | Analysis (composition, pH, conductivity, ...) |
 | S | Speed / frequency |
 | W | Weight / force |
 | V | Vibration |
@@ -23,7 +23,7 @@ Not a substitute for ANSI/ISA-5.1. Use for stakeholder D2 P&IDs when tagging loo
 | X | Unclassified / multi |
 | Y | Event / state |
 
-## Succeeding letters (function) — common
+## Succeeding letters (function) -- common
 
 | Letter | Meaning |
 |--------|---------|
@@ -58,10 +58,10 @@ Not a substitute for ANSI/ISA-5.1. Use for stakeholder D2 P&IDs when tagging loo
 |------|----------------|
 | Process | solid `->` |
 | Utility / minor | solid, thinner label `utility` |
-| Electric / 4–20 mA | dashed `->` label `elec` |
+| Electric / 4-20 mA | dashed `->` label `elec` |
 | Pneumatic | dashed `->` label `air` |
 | Software / DCS | dotted or dashed label `sw` |
 
 ## Equipment class tags (PIP-ish shorthand)
 
-Prefix by family when useful: `T-` tank, `P-` pump, `E-` exchanger, `V-` vessel/valve (disambiguate), `R-` reactor, `F-` filter — always prefer the project's locked tag list over inventing numbers.
+Prefix by family when useful: `T-` tank, `P-` pump, `E-` exchanger, `V-` vessel/valve (disambiguate), `R-` reactor, `F-` filter -- always prefer the project's locked tag list over inventing numbers.
