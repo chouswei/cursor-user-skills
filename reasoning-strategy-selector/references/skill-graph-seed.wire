@@ -727,8 +727,9 @@ CREATE (:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E0395', note: 'flowsheet_
 CREATE (:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E0396', note: 'general_string', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
 CREATE (:SKL {id: 'sfiles2'})-[:COMPLEMENTS {id: 'E0397', note: 'string_stack', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
 CREATE (:SKL {id: 'chemengkg-assist'})-[:COMPLEMENTS {id: 'E0398', note: 'kg_then_pid', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
-CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0399', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'd2-pid'})
+CREATE (:SKL {id: 'scientific-method-first-principles'})-[:COMPLEMENTS {id: 'E0399', note: 'anti_pattern_do_not_use_for_pid', recycle: 'persistent'}]->(:SKL {id: 'd2-pid'})
 CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0400', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'diagram-routing'})
 CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0401', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
 CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0402', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
 CREATE (:SKL {id: 'scientific-method-first-principles'})-[:SPECIALIZES {id: 'E0403', note: 'user', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
+
