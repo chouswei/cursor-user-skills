@@ -114,7 +114,25 @@ Build-the-engine hub **`memnet-reference`** lives in the MemNet checkout (`.curs
 (:SKL {id: 'chemengkg-assist'})-[:COMPLEMENTS {id: 'E_phys_07', note: 'kg_then_surrogate', recycle: 'persistent'}]->(:SKL {id: 'physics-constrained-surrogate-routing'})
 ```
 
-Load `physics-constrained-surrogate-routing` when choosing among ENFORCE / ReLU-ANN->MILP / KAN global opt for a physics-consistent surrogate. Load `chemengkg-assist` for generic ChemEngKG (kgtool) SPARQL assist -- never invent user/PDF-locked assay coefficients. `pydexpi-p-id` / `d2-pid` and `physics-routing` / `chemistry-routing` / `diagram-routing` are not in this pack.
+Load `physics-constrained-surrogate-routing` when choosing among ENFORCE / ReLU-ANN->MILP / KAN global opt for a physics-consistent surrogate. Load `chemengkg-assist` for generic ChemEngKG (kgtool) SPARQL assist -- never invent user/PDF-locked assay coefficients.
+
+---
+
+## Diagram / P&ID stack (graph edges, not prose)
+
+```cypher
+(:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_01', note: 'dexpi_primary', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
+(:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_02', note: 'sfiles', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
+(:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_03', note: 'ggiles', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
+(:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_04', note: 'd2_pid_demoted', recycle: 'persistent'}]->(:SKL {id: 'd2-pid'})
+(:SKL {id: 'diagram-routing'})-[:PRECEDES {id: 'E_diag_05', note: 'pid_primary', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
+(:SKL {id: 'diagram-routing'})-[:COMPLEMENTS {id: 'E_diag_06', note: 'sysml_mermaid', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
+(:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E_diag_07', note: 'flowsheet_string', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
+(:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E_diag_08', note: 'general_string', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
+(:SKL {id: 'chemengkg-assist'})-[:COMPLEMENTS {id: 'E_diag_09', note: 'kg_then_pid', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
+```
+
+Load `diagram-routing` when diagram format is unclear. Load `pydexpi-p-id` for real P&ID / DEXPI / Proteus (AGPL-3.0 -- flag before proprietary redistribute). Load `sfiles2` (MIT) for flowsheet strings and `ggiles` (MIT) for general graph↔string. Load `d2-pid` only as a last-resort D2 stakeholder sketch when the user explicitly asks. `chemistry-routing` is not in this pack.
 
 ---
 

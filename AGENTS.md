@@ -49,6 +49,8 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 | Academic report | thesis, lab report, IMRaD, lit review | `academic-report-generator` |
 | Tech spec | RFC, design proposal, tech spec draft | `rfc-generator` |
 | Generate Mermaid | create/edit Mermaid, fix diagram syntax | `mermaid` (then `mmdc` / `pretty-mermaid` / `mermaid-doc-readability` per its router) |
+| Diagram format unclear | diagram routing, pyDEXPI for real P&ID, diagram format is unclear | `diagram-routing` |
+| pyDEXPI P&ID | pyDEXPI, DEXPI Proteus, real P&ID | `pydexpi-p-id` |
 | Markdown to HTML | markdown to html, mdtohtml, render html | `mdtohtml` |
 | DigiKey search | digikey, MPN search, digikey pricing | `mcp-digikey` |
 | Inventree stock | inventree, IPN, inventree part | `mcp-inventree` |
