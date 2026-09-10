@@ -124,7 +124,7 @@ Load `physics-constrained-surrogate-routing` when choosing among ENFORCE / ReLU-
 (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_01', note: 'dexpi_primary', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
 (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_02', note: 'sfiles', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
 (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_03', note: 'ggiles', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
-(:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_04', note: 'd2_pid_demoted', recycle: 'persistent'}]->(:SKL {id: 'd2-pid'})
+(:SKL {id: 'diagram-routing'})-[:COMPLEMENTS {id: 'E_diag_04', note: 'anti_pattern_do_not_use_for_pid', recycle: 'persistent'}]->(:SKL {id: 'd2-pid'})
 (:SKL {id: 'diagram-routing'})-[:PRECEDES {id: 'E_diag_05', note: 'pid_primary', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
 (:SKL {id: 'diagram-routing'})-[:COMPLEMENTS {id: 'E_diag_06', note: 'sysml_mermaid', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
 (:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E_diag_07', note: 'flowsheet_string', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
@@ -132,7 +132,7 @@ Load `physics-constrained-surrogate-routing` when choosing among ENFORCE / ReLU-
 (:SKL {id: 'chemengkg-assist'})-[:COMPLEMENTS {id: 'E_diag_09', note: 'kg_then_pid', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
 ```
 
-Load `diagram-routing` when diagram format is unclear. Load `pydexpi-p-id` for real P&ID / DEXPI / Proteus (AGPL-3.0 -- flag before proprietary redistribute). Load `sfiles2` (MIT) for flowsheet strings and `ggiles` (MIT) for general graph↔string. Load `d2-pid` only as a last-resort D2 stakeholder sketch when the user explicitly asks. `chemistry-routing` is not in this pack.
+Load `diagram-routing` when diagram format is unclear. Load `pydexpi-p-id` for real P&ID / DEXPI / Proteus (AGPL-3.0 -- flag before proprietary redistribute). Load `sfiles2` (MIT) for flowsheet strings and `ggiles` (MIT) for general graph<->string. **Do not** load `d2-pid` as a P&ID lane -- it is an anti-pattern stub (D2 is architecture posters only; never P&ID). `chemistry-routing` is not in this pack.
 
 ---
 
