@@ -112,6 +112,12 @@ MANUAL_COMPLEMENTS = [
     ("mermaid", "sysml-memnet-documentation"),
     ("mermaid", "sysml-view-doc-sync"),
     ("sysml-view-doc-sync", "mermaid"),
+    ("physics-enforce-constrained-nn", "physics-relu-milp-embed"),
+    ("physics-enforce-constrained-nn", "physics-kan-global-opt"),
+    ("physics-relu-milp-embed", "physics-kan-global-opt"),
+    ("analytical-mechanics-propose", "physics-constrained-surrogate-routing"),
+    ("chemengkg-assist", "physics-constrained-surrogate-routing"),
+    ("chemengkg-assist", "memnet-use"),
 ]
 
 # SKG_global default_stack targets (hub entry per domain)

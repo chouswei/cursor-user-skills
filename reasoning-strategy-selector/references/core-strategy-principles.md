@@ -14,6 +14,7 @@
 | antlr4-grammar | P | user | medium | medium | structural | low |
 | api-client-pattern | G | user | medium | medium | structural | low |
 | architecture-reviewer | R | user | high | high | structural | medium |
+| chemengkg-assist | P | user | medium | medium | structural | low |
 | code-reviewer | R | user | medium | medium | structural | low |
 | commit-message-generator | G | doc | low | low | structural | low |
 | control-theory-planner | P | user | high | high | conceptual | low |
@@ -54,6 +55,10 @@
 | pandas-expert | T | user | medium | low | structural | low |
 | pcba-design-reviewer | R | pcba | high | high | structural | low |
 | pcba-netlist-reader | T | pcba | medium | low | structural | low |
+| physics-constrained-surrogate-routing | P | user | high | high | measured | low |
+| physics-enforce-constrained-nn | P | user | high | high | measured | low |
+| physics-kan-global-opt | P | user | high | high | measured | low |
+| physics-relu-milp-embed | P | user | high | high | measured | low |
 | polarfire-soc-setup | T | user | medium | medium | structural | low |
 | pr-reviewer | R | user | medium | medium | structural | low |
 | pretty-mermaid | T | user | medium | medium | structural | low |
