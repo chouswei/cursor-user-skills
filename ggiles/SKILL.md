@@ -6,11 +6,11 @@ description: >-
   pyDEXPI for DEXPI SSOT. MIT.
 metadata:
   pattern: tool-wrapper
-  version: "1.0"
+  version: "1.0.1"
 ---
 # GGILES
 
-**Generalized Graph Input Line Entry System** -- NetworkX graph ↔ sequential string (SFILES generalized beyond flowsheets).
+**Generalized Graph Input Line Entry System** -- NetworkX graph <-> sequential string (SFILES generalized beyond flowsheets).
 
 Upstream: https://github.com/process-intelligence-research/Generalized-graph-line-entry-system  
 PyPI: `pip install ggiles`  
@@ -18,15 +18,15 @@ Licence: **MIT**.
 
 ## When
 
-- Need graph↔string for **arbitrary** typed NetworkX graphs (not only chemical flowsheets)
+- Need graph<->string for **arbitrary** typed NetworkX graphs (not only chemical flowsheets)
 - Canonical sequences via graph invariants; tokenization for ML
 - Bridging a pyDEXPI / custom process graph into a compact string when SFILES unit vocabulary does not fit
 
 ## When not
 
-- Classic PFD/P&ID unit strings with SFILES vocabulary -> prefer [SFILES 2.0](sand-workflow:sfiles2)
-- DEXPI load / plant SSOT -> [pyDEXPI P&ID](sand-workflow:pydexpi-p-id)
-- Architecture posters -> D2; SysML report -> Mermaid
+- Classic PFD/P&ID unit strings with SFILES vocabulary -> prefer [SFILES 2.0](../sfiles2/SKILL.md)
+- DEXPI load / plant SSOT -> [pyDEXPI P&ID](../pydexpi-p-id/SKILL.md)
+- Architecture posters -> out-of-pack D2 architecture skill if installed locally; SysML report -> Mermaid
 
 ## Hard rules
 
@@ -67,25 +67,16 @@ Prefer DEXPI/pyDEXPI graph over D2 sketches; stop redraw loops without a clear t
 
 ## SysML mapping (handoff)
 
-Topology from this stack is **evidence** for the product SysML model. Structural SSOT stays **SysML v2 `.sysml`**.
+See shared mapping: [sysml-topology-handoff.md](../pydexpi-p-id/references/sysml-topology-handoff.md).
 
-| Graph / string element | Lands in SysML as | If missing in model |
-|------------------------|-------------------|---------------------|
-| Equipment / instrument node | existing `part` (+ ports) | **gap** -- do not invent equipment |
-| Piping / process edge | `port` + `item`/`flow` + `connection`/`bind` | gap / ISSUE |
-| Signal / control edge | ports + connections per locks | gap |
-| SFILES / GGILES token only | same after decode to graph | never invent from string alone |
-
-**Locks win** (user/PDF-named topology and assay locks). Conflict with locks -> **contradict** if `.sysml` does the opposite, else gap.
-
-Owner of the landing: [sfiles-pydexpi-sysml-bridge](sand-workflow:sfiles-pydexpi-sysml-bridge) (Sysmler). Diagram owns load/encode/draw; SysML owner edits `.sysml` and reviews this section. Prefer conceptual/process graph over complete DEXPI for SoI wiring. No invented mL/λ/size. MemNet delta only **after** `.sysml` validate -- do not treat NetworkX as MemNet SSOT.
+SysML topology landing is owned by the SysML specialist (out-of-pack bridge skill `sfiles-pydexpi-sysml-bridge` when present locally). Diagram owns load/encode/draw; SysML owner edits `.sysml`.
 
 ## Hand off
 
-- SysML topology mapping -> [sfiles-pydexpi-sysml-bridge](sand-workflow:sfiles-pydexpi-sysml-bridge)
-- Flowsheet SFILES -> [SFILES 2.0](sand-workflow:sfiles2)
-- DEXPI -> [pyDEXPI P&ID](sand-workflow:pydexpi-p-id)
-- Routing -> [Diagram routing](sand-workflow:diagram-routing)
+- SysML topology mapping -> [sysml-topology-handoff.md](../pydexpi-p-id/references/sysml-topology-handoff.md) (out-of-pack bridge skill `sfiles-pydexpi-sysml-bridge` when present locally)
+- Flowsheet SFILES -> [SFILES 2.0](../sfiles2/SKILL.md)
+- DEXPI -> [pyDEXPI P&ID](../pydexpi-p-id/SKILL.md)
+- Routing -> [Diagram routing](../diagram-routing/SKILL.md)
 
 ## Refs
 
