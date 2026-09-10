@@ -2,11 +2,11 @@
 name: diagram-routing
 description: >-
   Use first when diagram format is unclear. Mermaid for SysML; D2 for
-  architecture; pyDEXPI for real P&ID; SFILES2/GGILES for graph<->string; D2 P&ID
-  only if explicitly requested.
+  architecture posters only (never P&ID); pyDEXPI for real P&ID; SFILES2/GGILES
+  for graph<->string.
 metadata:
   pattern: pipeline
-  version: "1.0.1"
+  version: "1.0.2"
 ---
 # Diagram routing
 
@@ -17,16 +17,16 @@ Pick one path, then open that skill. Do not invent a third text-to-diagram langu
 | Lane | Tool | When |
 |------|------|------|
 | **In-repo SysML figures** | **Mermaid** | `outputs/**`, report fences, IBD/state/activity |
-| **Stakeholder architecture SVG** | **D2** | Slides / posters -- out-of-pack D2 architecture skill if installed locally |
+| **Stakeholder architecture SVG** | **D2** | Slides / posters -- out-of-pack D2 architecture skill if installed locally; **never P&ID** |
 | **Real P&ID / DEXPI topology** | **pyDEXPI** | Proteus/DEXPI -> NetworkX -- [pyDEXPI P&ID](../pydexpi-p-id/SKILL.md) (**AGPL** -- flag before proprietary redistribute) |
 | **Flowsheet <-> SFILES string** | **SFILES2** | PFD/P&ID unit strings -- [SFILES 2.0](../sfiles2/SKILL.md) (MIT) |
 | **General graph <-> string** | **GGILES** | Arbitrary typed NetworkX sequences -- [GGILES](../ggiles/SKILL.md) (MIT) |
-| **D2 P&ID sketch** (demoted) | **D2** | Explicit non-DEXPI sketch only -- [D2 P&ID](../d2-pid/SKILL.md) |
+| **Do not: D2 for P&ID** | -- | Wrong tool. Use pyDEXPI (or SFILES2/GGILES for strings). Anti-pattern stub: [d2-pid](../d2-pid/SKILL.md) |
 | **Data charts** | Python | matplotlib/plotly |
 
 SysML desk: **model -> MemNet -> Mermaid in `outputs/**` -> `mmdc`**.
 
-P&ID desk: **DEXPI -> pyDEXPI -> graph** -> optional SFILES2/GGILES. Prefer DEXPI/pyDEXPI graph over D2 sketches; stop redraw loops without a clear target.
+P&ID desk: **DEXPI -> pyDEXPI -> graph** -> optional SFILES2/GGILES. Never D2 for P&ID; stop redraw loops without a clear target.
 
 ## Choose
 
@@ -35,7 +35,7 @@ P&ID desk: **DEXPI -> pyDEXPI -> graph** -> optional SFILES2/GGILES. Prefer DEXP
 | P&ID / DEXPI / Proteus / smart P&ID / plant graph | [pyDEXPI P&ID](../pydexpi-p-id/SKILL.md) |
 | SFILES / flowsheet string / PFD tokens | [SFILES 2.0](../sfiles2/SKILL.md) |
 | GGILES / graph sequence / tokenize graph string | [GGILES](../ggiles/SKILL.md) |
-| Explicit "D2 P&ID sketch only" | [D2 P&ID](../d2-pid/SKILL.md) |
+| User asks for "D2 P&ID" / D2 plant sketch | **Refuse / redirect** to [pyDEXPI P&ID](../pydexpi-p-id/SKILL.md) (or SFILES2/GGILES for strings). Cite [d2-pid](../d2-pid/SKILL.md) only as anti-pattern docs (what not to do) |
 | SysML interconnection / IBD in report | SysML interconnection Mermaid (out-of-pack) |
 | SysML behaviour in report | [Mermaid diagrams](../mermaid/SKILL.md) |
 | Stakeholder architecture SVG | out-of-pack D2 architecture skill if installed locally |
@@ -46,12 +46,12 @@ P&ID desk: **DEXPI -> pyDEXPI -> graph** -> optional SFILES2/GGILES. Prefer DEXP
 ## Defaults
 
 1. SysML / report -> Mermaid.
-2. Architecture poster -> D2.
-3. P&ID -> pyDEXPI; strings -> SFILES2 (flowsheet) or GGILES (general); D2 P&ID only on explicit ask.
+2. Architecture poster -> D2 (architecture only; never P&ID).
+3. P&ID -> pyDEXPI only; strings -> SFILES2 (flowsheet) or GGILES (general); **never D2** for P&ID.
 4. Never invent parts / `link*` / instrument tags.
 
 ## CLI / install
 
-- D2: `d2` on PATH (or local go install)
+- D2: `d2` on PATH (or local go install) -- architecture posters only
 - Mermaid: `mmdc` or `npx @mermaid-js/mermaid-cli`
 - pyDEXPI / SFILES2 / GGILES: venv + `pip install pydexpi` / `SFILES2` / `ggiles`
