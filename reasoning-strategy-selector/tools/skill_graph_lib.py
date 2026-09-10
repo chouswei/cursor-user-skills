@@ -98,6 +98,7 @@ MANUAL_PRECEDES = [
     ("scientific-method-first-principles", "empirical-paradox-synthesis"),
     ("tech-report-generator", "tech-report-reviewer"),
     ("rfc-generator", "adr-generator"),
+    ("diagram-routing", "pydexpi-p-id"),
 ]
 
 MANUAL_COMPLEMENTS = [
@@ -112,6 +113,17 @@ MANUAL_COMPLEMENTS = [
     ("mermaid", "sysml-memnet-documentation"),
     ("mermaid", "sysml-view-doc-sync"),
     ("sysml-view-doc-sync", "mermaid"),
+    ("physics-enforce-constrained-nn", "physics-relu-milp-embed"),
+    ("physics-enforce-constrained-nn", "physics-kan-global-opt"),
+    ("physics-relu-milp-embed", "physics-kan-global-opt"),
+    ("analytical-mechanics-propose", "physics-constrained-surrogate-routing"),
+    ("chemengkg-assist", "physics-constrained-surrogate-routing"),
+    ("chemengkg-assist", "memnet-use"),
+    ("diagram-routing", "mermaid"),
+    ("pydexpi-p-id", "sfiles2"),
+    ("pydexpi-p-id", "ggiles"),
+    ("sfiles2", "ggiles"),
+    ("chemengkg-assist", "pydexpi-p-id"),
 ]
 
 # SKG_global default_stack targets (hub entry per domain)

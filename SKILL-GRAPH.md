@@ -93,11 +93,46 @@ Then at most one specialist SKL from `TRIGGERS` match. Repo `AGENTS.md` may add 
 (:SKL {id: 'sysml-gql'})-[:COMPLEMENTS {id: 'E_mn_05', note: 'gql_core', recycle: 'persistent'}]->(:SKL {id: 'graph-query-language'})
 (:SKL {id: 'sysml-gql'})-[:COMPLEMENTS {id: 'E_mn_06', note: 'snap_ssot', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
 (:SKL {id: 'analytical-mechanics-propose'})-[:COMPLEMENTS {id: 'E_am_01', note: 'stm_playbooks', recycle: 'persistent'}]->(:SKL {id: 'memnet-stm-harness'})
+(:SKL {id: 'analytical-mechanics-propose'})-[:COMPLEMENTS {id: 'E_am_02', note: 'framing_before_surrogate', recycle: 'persistent'}]->(:SKL {id: 'physics-constrained-surrogate-routing'})
 ```
 
 Load `memnet-use` when the job is **using** MemNet. Load `memnet-planner` when a plan must live in the session graph and be updated or repolished. Load `memnet-nested-sessions` when a nest is cut across sessions. Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play (spawn a wave, checkpoint, repeat). Load `analytical-mechanics-propose` when proposing or reviewing an analytical-mechanics framing for any domain (STM thesis is the worked example, not the only target). Load `memnet-stm-harness` when wiring or triaging STM from thesis locks (W vs S, ShapeWalk harness, gauge/caps) -- fetch playbooks from [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics). Load `sysml-gql` when SysML modeling uses MemNet GQL working memory. Ops: MemNet `docs/operations/multi-agent-sessions.md`. Shape: `docs/SHAPE.md`. Version map: `docs/ROADMAP.md` (**package and PyPI 0.19.3**). System-repo pattern: MemNet `docs/application-notes/system/llm-system-dev-multitask.md`.
 
 Build-the-engine hub **`memnet-reference`** lives in the MemNet checkout (`.cursor/skills/memnet-reference/`); this pack does not copy it.
+
+---
+
+## Physics constrained-surrogate stack (graph edges, not prose)
+
+```cypher
+(:SKL {id: 'physics-constrained-surrogate-routing'})-[:SPECIALIZES {id: 'E_phys_01', note: 'enforce', recycle: 'persistent'}]->(:SKL {id: 'physics-enforce-constrained-nn'})
+(:SKL {id: 'physics-constrained-surrogate-routing'})-[:SPECIALIZES {id: 'E_phys_02', note: 'relu_milp', recycle: 'persistent'}]->(:SKL {id: 'physics-relu-milp-embed'})
+(:SKL {id: 'physics-constrained-surrogate-routing'})-[:SPECIALIZES {id: 'E_phys_03', note: 'kan_minlp', recycle: 'persistent'}]->(:SKL {id: 'physics-kan-global-opt'})
+(:SKL {id: 'physics-enforce-constrained-nn'})-[:COMPLEMENTS {id: 'E_phys_04', note: 'train_then_embed', recycle: 'persistent'}]->(:SKL {id: 'physics-relu-milp-embed'})
+(:SKL {id: 'physics-enforce-constrained-nn'})-[:COMPLEMENTS {id: 'E_phys_05', note: 'train_then_kan', recycle: 'persistent'}]->(:SKL {id: 'physics-kan-global-opt'})
+(:SKL {id: 'physics-relu-milp-embed'})-[:COMPLEMENTS {id: 'E_phys_06', note: 'relu_vs_kan', recycle: 'persistent'}]->(:SKL {id: 'physics-kan-global-opt'})
+(:SKL {id: 'chemengkg-assist'})-[:COMPLEMENTS {id: 'E_phys_07', note: 'kg_then_surrogate', recycle: 'persistent'}]->(:SKL {id: 'physics-constrained-surrogate-routing'})
+```
+
+Load `physics-constrained-surrogate-routing` when choosing among ENFORCE / ReLU-ANN->MILP / KAN global opt for a physics-consistent surrogate. Load `chemengkg-assist` for generic ChemEngKG (kgtool) SPARQL assist -- never invent user/PDF-locked assay coefficients.
+
+---
+
+## Diagram / P&ID stack (graph edges, not prose)
+
+```cypher
+(:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_01', note: 'dexpi_primary', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
+(:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_02', note: 'sfiles', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
+(:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_03', note: 'ggiles', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
+(:SKL {id: 'diagram-routing'})-[:COMPLEMENTS {id: 'E_diag_04', note: 'anti_pattern_do_not_use_for_pid', recycle: 'persistent'}]->(:SKL {id: 'd2-pid'})
+(:SKL {id: 'diagram-routing'})-[:PRECEDES {id: 'E_diag_05', note: 'pid_primary', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
+(:SKL {id: 'diagram-routing'})-[:COMPLEMENTS {id: 'E_diag_06', note: 'sysml_mermaid', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
+(:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E_diag_07', note: 'flowsheet_string', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
+(:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E_diag_08', note: 'general_string', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
+(:SKL {id: 'chemengkg-assist'})-[:COMPLEMENTS {id: 'E_diag_09', note: 'kg_then_pid', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
+```
+
+Load `diagram-routing` when diagram format is unclear. Load `pydexpi-p-id` for real P&ID / DEXPI / Proteus (AGPL-3.0 -- flag before proprietary redistribute). Load `sfiles2` (MIT) for flowsheet strings and `ggiles` (MIT) for general graph<->string. **Do not** load `d2-pid` as a P&ID lane -- it is an anti-pattern stub (D2 is architecture posters only; never P&ID). `chemistry-routing` is not in this pack.
 
 ---
 

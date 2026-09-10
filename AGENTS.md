@@ -49,6 +49,8 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 | Academic report | thesis, lab report, IMRaD, lit review | `academic-report-generator` |
 | Tech spec | RFC, design proposal, tech spec draft | `rfc-generator` |
 | Generate Mermaid | create/edit Mermaid, fix diagram syntax | `mermaid` (then `mmdc` / `pretty-mermaid` / `mermaid-doc-readability` per its router) |
+| Diagram format unclear | diagram routing, pyDEXPI for real P&ID, diagram format is unclear | `diagram-routing` |
+| pyDEXPI P&ID | pyDEXPI, DEXPI Proteus, real P&ID | `pydexpi-p-id` |
 | Markdown to HTML | markdown to html, mdtohtml, render html | `mdtohtml` |
 | DigiKey search | digikey, MPN search, digikey pricing | `mcp-digikey` |
 | Inventree stock | inventree, IPN, inventree part | `mcp-inventree` |
@@ -57,6 +59,8 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 | SysML + MemNet GQL | sysml gql, modeling pin_map, TSK_model GQL | `sysml-gql` |
 | STM harness | agent harness, STM debug, W vs S, user-input-as-control, ShapeWalk harness | `memnet-stm-harness` |
 | Analytical mechanics propose | analytical mechanics propose, apply Lagrangian to, Hamiltonian framing, KKT cap diagnostic, Noether gauge propose | `analytical-mechanics-propose` |
+| Physics constrained surrogate | physics constrained surrogate, ENFORCE ReLU KAN, hard-constrained surrogate routing | `physics-constrained-surrogate-routing` |
+| ChemEngKG assist | ChemEngKG, kgtool, ChemKG SPARQL | `chemengkg-assist` |
 | Use MemNet | use memnet, how to use memnet, memnet goldfish | `memnet-use` |
 
 **See:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -> `skill-graph-seed.wire`. Route steps: User Rules **Workflow**.
