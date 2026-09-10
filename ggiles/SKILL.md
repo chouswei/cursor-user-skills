@@ -6,7 +6,7 @@ description: >-
   pyDEXPI for DEXPI SSOT. MIT.
 metadata:
   pattern: tool-wrapper
-  version: "1.0.1"
+  version: "1.0.2"
 ---
 # GGILES
 
@@ -63,7 +63,7 @@ Markers (from upstream docs): `v(.)` node, `e(.)` edge, `[.]` branch, `<&|.&.|` 
 
 pyDEXPI plant/process graph -> (optional) abstract -> **GGILES** when you need a general sequence; use **SFILES2** when the domain is standard flowsheet units.
 
-Prefer DEXPI/pyDEXPI graph over D2 sketches; stop redraw loops without a clear target.
+**Do not use D2 for P&ID** (anti-pattern [d2-pid](../d2-pid/SKILL.md)); prefer DEXPI/pyDEXPI graph. Stop redraw loops without a clear target.
 
 ## SysML mapping (handoff)
 
