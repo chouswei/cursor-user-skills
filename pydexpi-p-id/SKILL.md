@@ -3,7 +3,7 @@ name: pydexpi-p-id
 description: >-
   Use for real P&ID via pyDEXPI (DEXPI/Proteus -> NetworkX -> MemNet/GraphRAG).
   Prefer over D2. AGPL-3.0 -- flag before proprietary redistribute. Pair with
-  SFILES2/GGILES for graph↔string.
+  SFILES2/GGILES for graph<->string.
 metadata:
   pattern: pipeline
   version: "1.0.1"
@@ -33,19 +33,19 @@ SFILES2 and GGILES are **MIT** and do not inherit this gate; pyDEXPI-derived cod
 
 ## When not
 
-- SysML deploy interconnection in `outputs/**` -> Mermaid interconnection skill
-- Software architecture posters -> D2 architecture
+- SysML deploy interconnection in `outputs/**` -> SysML interconnection Mermaid (out-of-pack)
+- Software architecture posters -> out-of-pack D2 architecture skill if installed locally
 - User stop / no clear P&ID target -> do nothing
-- Classic flowsheet **string** encoding only -> [SFILES 2.0](sand-workflow:sfiles2) after you have a process graph
-- Arbitrary graph↔string -> [GGILES](sand-workflow:ggiles)
+- Classic flowsheet **string** encoding only -> [SFILES 2.0](../sfiles2/SKILL.md) after you have a process graph
+- Arbitrary graph<->string -> [GGILES](../ggiles/SKILL.md)
 
 ## Hard rules
 
 1. **Graph is SSOT for P&ID reasoning** -- query the graph; never dump full XML/image into the LLM context.
 2. **No invention** of equipment, tags, nozzles, or lines beyond locks / DEXPI model.
-3. Prefer pyDEXPI over D2. [D2 P&ID](sand-workflow:d2-pid) only on explicit non-DEXPI sketch ask.
+3. Prefer pyDEXPI over D2. [D2 P&ID](../d2-pid/SKILL.md) only on explicit non-DEXPI sketch ask.
 4. AGPL flag before proprietary redistribute (see above).
-5. Install in a **venv**: `python3 -m venv … && pip install pydexpi`.
+5. Install in a **venv**: `python3 -m venv .venv && .venv/bin/pip install pydexpi`.
 
 ## Pipeline
 
@@ -69,8 +69,8 @@ Agent path: export a **bounded** graph slice to MemNet (equipment + piping edges
 
 Downstream strings:
 
-- Process flowsheet vocabulary -> [SFILES 2.0](sand-workflow:sfiles2)
-- Custom typed graphs -> [GGILES](sand-workflow:ggiles)
+- Process flowsheet vocabulary -> [SFILES 2.0](../sfiles2/SKILL.md)
+- Custom typed graphs -> [GGILES](../ggiles/SKILL.md)
 
 ## Features checklist (deepen)
 
@@ -80,7 +80,7 @@ Downstream strings:
 | Proteus XML load | `ProteusSerializer` (drawing info often not fully parsed) |
 | JSON / pickle serialize | `JsonSerializer` / `PickleSerializer` |
 | Full / process / conceptual graphs | `GraphLoader` + `GraphAbstractor` |
-| SVG export | `SvgRenderer`, `DrawDiagram`, … |
+| SVG export | `SvgRenderer`, `DrawDiagram`, ... |
 | Synthetic P&ID | upstream generative helpers (only if asked) |
 
 ## Related
@@ -91,26 +91,17 @@ Downstream strings:
 
 ## SysML mapping (handoff)
 
-Topology from this stack is **evidence** for the product SysML model. Structural SSOT stays **SysML v2 `.sysml`**.
+See shared mapping: [sysml-topology-handoff.md](references/sysml-topology-handoff.md).
 
-| Graph / string element | Lands in SysML as | If missing in model |
-|------------------------|-------------------|---------------------|
-| Equipment / instrument node | existing `part` (+ ports) | **gap** -- do not invent equipment |
-| Piping / process edge | `port` + `item`/`flow` + `connection`/`bind` | gap / ISSUE |
-| Signal / control edge | ports + connections per locks | gap |
-| SFILES / GGILES token only | same after decode to graph | never invent from string alone |
-
-**Locks win** (user/PDF-named topology and assay locks). Conflict with locks -> **contradict** if `.sysml` does the opposite, else gap.
-
-Owner of the landing: [sfiles-pydexpi-sysml-bridge](sand-workflow:sfiles-pydexpi-sysml-bridge) (Sysmler). Diagram owns load/encode/draw; SysML owner edits `.sysml` and reviews this section. Prefer conceptual/process graph over complete DEXPI for SoI wiring. No invented mL/λ/size. MemNet delta only **after** `.sysml` validate -- do not treat NetworkX as MemNet SSOT.
+SysML topology landing is owned by the SysML specialist (out-of-pack bridge skill `sfiles-pydexpi-sysml-bridge` when present locally). Diagram owns load/encode/draw; SysML owner edits `.sysml`.
 
 ## Hand off
 
-- Routing -> [Diagram routing](sand-workflow:diagram-routing)
-- SFILES string -> [SFILES 2.0](sand-workflow:sfiles2)
-- General sequence -> [GGILES](sand-workflow:ggiles)
-- SysML topology mapping -> [sfiles-pydexpi-sysml-bridge](sand-workflow:sfiles-pydexpi-sysml-bridge)
-- D2 sketch only -> [D2 P&ID](sand-workflow:d2-pid) (demoted)
+- Routing -> [Diagram routing](../diagram-routing/SKILL.md)
+- SFILES string -> [SFILES 2.0](../sfiles2/SKILL.md)
+- General sequence -> [GGILES](../ggiles/SKILL.md)
+- SysML topology mapping -> [sysml-topology-handoff.md](references/sysml-topology-handoff.md) (out-of-pack bridge skill `sfiles-pydexpi-sysml-bridge` when present locally)
+- D2 sketch only -> [D2 P&ID](../d2-pid/SKILL.md) (demoted)
 
 ## Refs
 
