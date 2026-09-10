@@ -720,7 +720,7 @@ CREATE (:TRG {id: 'TRG_sfiles2_2'})-[:TRIGGERS {id: 'E0388', note: 'flowsheet st
 CREATE (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E0389', note: 'dexpi_primary', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
 CREATE (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E0390', note: 'sfiles', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
 CREATE (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E0391', note: 'ggiles', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
-CREATE (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E0392', note: 'd2_pid_demoted', recycle: 'persistent'}]->(:SKL {id: 'd2-pid'})
+CREATE (:SKL {id: 'diagram-routing'})-[:COMPLEMENTS {id: 'E0392', note: 'd2_pid_demoted_last_resort', recycle: 'persistent'}]->(:SKL {id: 'd2-pid'})
 CREATE (:SKL {id: 'diagram-routing'})-[:PRECEDES {id: 'E0393', note: 'pid_primary', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
 CREATE (:SKL {id: 'diagram-routing'})-[:COMPLEMENTS {id: 'E0394', note: 'sysml_mermaid', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
 CREATE (:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E0395', note: 'flowsheet_string', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
