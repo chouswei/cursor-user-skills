@@ -6,7 +6,7 @@ description: >-
   graphs. MIT.
 metadata:
   pattern: tool-wrapper
-  version: "1.0.1"
+  version: "1.0.2"
 ---
 # SFILES 2.0
 
@@ -36,7 +36,7 @@ Licence: **MIT**. Package: `pip install SFILES2` (import path `Flowsheet_Class.f
 2. Do not invent unit tags or streams beyond locks / graph / SFILES input.
 3. Use `version="v2"` unless legacy v1 is required.
 4. Install in a **venv**, not system pip.
-5. D2 glyph sketches remain demoted.
+5. **Do not use D2 for P&ID** (anti-pattern [d2-pid](../d2-pid/SKILL.md)); redirect to pyDEXPI / this skill / GGILES.
 
 ## Pipeline
 
@@ -60,9 +60,9 @@ Also: `sfiles_list` tokens; GraphML via `Flowsheet(xml_file=...)`; upstream demo
 1. DEXPI -> [pyDEXPI P&ID](../pydexpi-p-id/SKILL.md) -> NetworkX  
 2. Process-level string -> **SFILES 2.0** (this skill)  
 3. Custom-typed graphs -> [GGILES](../ggiles/SKILL.md)  
-4. Never default to [D2 P&ID](../d2-pid/SKILL.md)
+4. **Do not use** [d2-pid](../d2-pid/SKILL.md) for P&ID (anti-pattern stub only)
 
-Prefer DEXPI/pyDEXPI graph over D2 sketches; stop redraw loops without a clear target.
+Never D2 for P&ID; stop redraw loops without a clear target.
 
 ## SysML mapping (handoff)
 
