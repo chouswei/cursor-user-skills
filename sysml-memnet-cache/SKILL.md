@@ -9,7 +9,7 @@ description: >-
 metadata:
   pattern: tool-wrapper
   domain: sysml-v2,memnet
-  version: "2.2"
+  version: "2.3"
   product: "memnet-llm==0.19.5"
   pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format, sysml-gql, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
@@ -29,10 +29,12 @@ Specialist **`sysml-*`** skills (generators, reviewers, refactorers) **do not** 
 
 ## Model root layouts
 
+New house default is `sysml-models/` (legacy opt-in: `sysml-v2-models/projects/<slug>/`).
+
 | Layout | Model root | Typical snap dir | Example anchor |
 |--------|------------|------------------|----------------|
-| Multi-project pack | `sysml-v2-models/projects/<slug>/` | `.../projects/<slug>/.memnet/` | `TSK_model_<short>` |
-| System repo (`modelbasedPrj-*`) | `sysml-models/` (+ optional `parts/*/model/`) | `sysml-models/.memnet/` | e.g. NCU-LEO: `TSK_model_leo_cubesat` |
+| House / system repo (`modelbasedPrj-*`) | `sysml-models/` (+ optional `parts/*/model/`) | `sysml-models/.memnet/` | e.g. NCU-LEO: `TSK_model_leo_cubesat` |
+| Multi-project pack (legacy) | `sysml-v2-models/projects/<slug>/` | `.../projects/<slug>/.memnet/` | `TSK_model_<short>` |
 
 **MUST** copy the live repo root from `AGENTS.md` / `AGENT-CONTEXT.md`. **MUST NOT** invent `sysml-v2-models/...` paths when the workspace only has `sysml-models/`. Stale `path=` fields in an old `.memnet` wire/snap are not SSOT -- re-snap or fix locators before trusting them.
 

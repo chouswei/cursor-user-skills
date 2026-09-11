@@ -1,27 +1,31 @@
 ---
 name: sysml-new-project
 description: >-
-  Scaffold a new SysML v2 project under sysml-v2-models/projects/: folder layout, config.yaml,
+  Scaffold a new SysML v2 project under house sysml-models/: folder layout, config.yaml,
   model files (connections, requirements, deploy, behaviour, root), READMEs, and repo index updates.
+  Legacy opt-in: repos that still use sysml-v2-models/projects/<slug>/.
   Triggers: new project, create project, add project, scaffold project, new sysml project, start a project folder.
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.7"
+  version: "1.8"
   product: "memnet-llm==0.19.5"
-  pairs_with: [sysml-root-config, sysml-requirements-generator, sysml-modeling-session-checklist, sysml-memnet-cache, sysml-memnet-documentation, mcp-memnet, sysml-v2-lsp-mcp, project-planner]
+  pairs_with: [sysml-root-config, sysml-requirements-generator, sysml-modeling-session-checklist, sysml-memnet-cache, sysml-memnet-documentation, mcp-memnet, sysml-v2-lsp-mcp, project-planner, sysmledge-workflow]
 token_guardrails: |
   - Ask for project slug, one-line purpose, and requirement ID prefix before bulk generation unless user gave them.
-  - Use an existing project config.yaml as OMG Kernel template; do not invent library paths.
+  - House default tree is sysml-models/. Use sysml-v2-models/projects/<slug>/ only when the repo already uses that layout (legacy opt-in).
+  - Use an existing project config.yaml as OMG Kernel template; do not invent library paths; fix relatives for the chosen root.
   - After scaffold: validate project load; update indexes; commit/push only when user asks.
   - When MemNet is up at scaffold: AGENT-CONTEXT stub + catalog session skeleton (steps 11-12). Nested Snap: memnet-nested-sessions.
 ---
 
 # SysML new project
 
-**When:** Greenfield **`sysml-v2-models/projects/<slug>/`** — not fixing load order only (**sysml-import-order-helper**) or root/config drift only (**sysml-root-config**).
+**When:** Greenfield **`sysml-models/`** -- not fixing load order only (**sysml-import-order-helper**) or root/config drift only (**sysml-root-config**).
 
-**Pairing:** In **weft.Projects**, hub **`.cursor/skills/sysml-v2-modeling`** + this skill for scaffold; elsewhere **sysml-modeling-workflow** + this skill. Use **one** specialist after (e.g. **sysml-requirements-generator**, **sysml-connections**) for content depth.
+**House default:** `sysml-models/` (SysMLEdge author SSOT). **Legacy opt-in:** repos that still use **`sysml-v2-models/projects/<slug>/`** -- keep that layout; do not migrate a live pack tree in this skill unless the user asked.
+
+**Pairing:** After scaffold, SysMLEdge day loop is **sysmledge-workflow**. Elsewhere **sysml-modeling-workflow** + this skill. Use **one** specialist after (e.g. **sysml-requirements-generator**, **sysml-connections**) for content depth.
 
 ## Before you scaffold
 
@@ -29,12 +33,13 @@ Confirm with the user (or infer from the request):
 
 | field | rule |
 |-------|------|
-| `slug` | kebab-case folder e.g. `delta-datacentre-heat-exchange-unit-test-bench` |
+| `root` | House `sysml-models/` unless the repo already uses `sysml-v2-models/projects/<slug>/` |
+| `slug` | kebab-case folder / file prefix e.g. `delta-datacentre-heat-exchange-unit-test-bench` |
 | `purpose` | One sentence for README and config comment |
 | `req_id_prefix` | Project-specific e.g. `DDCHXU-R1` not generic `R1` unless agreed |
 | `package_prefix` | Short PascalCase e.g. `DeltaDCHXU` for `DeltaDCHXUConnections` etc. |
 | `libs_common` | Only if deploy uses NI catalog or shared ports `sbrio-9651-carrier-board`; else Kernel+ISQ/SI `temperature-iv-curve` |
-| `hardware` | Optional `hardware/<slug>/` via repo `hardware-custom-pcba-workflow` when PCBA in scope (weft.Projects) |
+| `hardware` | Optional `hardware/<slug>/` via repo `hardware-custom-pcba-workflow` when PCBA in scope |
 For ambiguous scope or a roadmap, run **project-planner** first or state planning **skipped** per **sysml-modeling-session-checklist**.
 
 ## Pipeline
@@ -42,7 +47,7 @@ For ambiguous scope or a roadmap, run **project-planner** first or state plannin
 Copy this checklist and track progress:
 
 ```
-- [ ] 1. Create project folder + models/ + outputs/
+- [ ] 1. Create model root + models/ + outputs/ (+ proposals/ on house tree)
 - [ ] 2. config.yaml (OMG chain + project model_files, root last)
 - [ ] 3. connections-*.sysml (if deploy has links)
 - [ ] 4. requirements-*.sysml (optional but typical)
@@ -50,16 +55,18 @@ Copy this checklist and track progress:
 - [ ] 6. behaviour-*.sysml (optional)
 - [ ] 7. root-*.sysml (imports only)
 - [ ] 8. Project README + outputs/README.md
-- [ ] 9. Repo indexes (projects/README, root README, docs/DOCS_INDEX)
+- [ ] 9. Repo indexes (README, AGENTS, optional DOCS_INDEX)
 - [ ] 10. Validate / visualize smoke test
-- [ ] 11. AGENT-CONTEXT.md (thin stub — when MemNet or multi-session design expected)
-- [ ] 12. MemNet catalog `session_open` + campaign `TSK` + `MOD` rows (when serve up). Prefer `snap_model` if a nest applies; do not flatten the tree into one session.
+- [ ] 11. AGENT-CONTEXT.md (thin stub -- when MemNet or multi-session design expected)
+- [ ] 12. MemNet catalog session_open + campaign TSK + MOD rows (when serve up). Prefer snap_model if a nest applies; do not flatten the tree into one session.
 ```
 
 ### 1. Folder layout
 
+House default:
+
 ```
-sysml-v2-models/projects/<slug>/
+sysml-models/
 ├── config.yaml
 ├── README.md
 ├── models/
@@ -68,21 +75,26 @@ sysml-v2-models/projects/<slug>/
 │   ├── deploy-<slug>.sysml
 │   ├── behaviour-<slug>.sysml     # optional
 │   └── root-<slug>.sysml          # always last in config
-└── outputs/
+├── outputs/
+│   └── README.md
+└── proposals/                     # agent proposals; not SSOT until human Save
     └── README.md
 ```
+
+**Legacy opt-in** (same inner layout, no `proposals/` required): `sysml-v2-models/projects/<slug>/`.
 
 **File names:** lowercase, hyphens; prefix matches slug: `deploy-<slug>.sysml`.
 
 ### 2. config.yaml
 
-- Copy **`model_files`** OMG block from **temperature-iv-curve** or **delta-datacentre-heat-exchange-unit-test-bench** `config.yaml`.
+- Copy **`model_files`** OMG block from an existing project `config.yaml` (e.g. temperature-iv-curve or a system-repo `sysml-models/config.yaml`).
+- Adjust **relative library paths** for the chosen root (house `sysml-models/` vs nested `projects/<slug>/`).
 - Set top comment to project purpose.
 - List project files in dependency order; **`root-<slug>.sysml` last** ([load-order](~/.cursor/skills/sysml-root-config/references/load-order.md)).
 
-Typical order: `connections` → `requirements` → `deploy` → `behaviour` → `root`.
+Typical order: `connections` -> `requirements` -> `deploy` -> `behaviour` -> `root`.
 
-### 3–7. Model files
+### 3-7. Model files
 
 | file | skill |
 |------|-------|
@@ -97,45 +109,45 @@ Typical order: `connections` → `requirements` → `deploy` → `behaviour` →
 
 ### 8. READMEs
 
-- **Project README:** purpose, model file table (file → package), validate commands, req ID table if any.
-- **outputs/README.md:** model-first note, `visualize.py --project <slug>` example, pointer to **sysml-view-doc-sync**.
+- **Project README:** purpose, model file table (file -> package), validate commands, req ID table if any.
+- **outputs/README.md:** model-first note, pointer to **sysml-view-doc-sync**.
+- **proposals/README.md** (house tree): agents propose only; human Save is SSOT. See **sysmledge-workflow**.
 
-Do **not** put project docs under repo `docs/` when the workspace defines **sysml-docs-outputs** (e.g. weft.Projects `.cursor/rules/sysml-docs-outputs.mdc`).
+Do **not** put project docs under repo `docs/` when the workspace defines **sysml-docs-outputs**.
 
 ### 9. Repo indexes
 
-Add one row each to:
+Add one row each to the files that exist:
 
-- `sysml-v2-models/projects/README.md`
-- Repo root `README.md` (projects table + optional “Key docs” subsection)
-- `docs/DOCS_INDEX.md` (sysml-v2-models project list sentence)
+- House: `sysml-models/README.md` (or create it), repo root `README.md`, `AGENTS.md` project-paths table, `docs/DOCS_INDEX.md` if present
+- Legacy: also `sysml-v2-models/projects/README.md`
 
-Match existing table style; link to `projects/<slug>/README.md`.
+Match existing table style; link to the model-root README.
 
 ### 10. Verify
 
-From `sysml-v2-models/` (venv + OMG submodule):
+**House:** **mcp-sysml-v2** / **sysml-v2-lsp-mcp** **validate** on edited files. After a human Save on a SysMLEdge repo, `rev_status` must bind (see **sysmledge-workflow**).
+
+**Legacy pack** (venv + OMG submodule), from `sysml-v2-models/`:
 
 ```bash
 python scripts/visualize.py --project <slug> --diagram bdd --format svg
 ```
 
-Or **sysml-v2-lsp-mcp** / **mcp-sysml-v2** **validate** on edited files (repo may use **sysml-v2-lsp-mcp** under `.cursor/skills/`).
-
 ### 11. AGENT-CONTEXT.md (required when MemNet-assisted or multi-session design)
 
-Create `AGENT-CONTEXT.md` at project root per [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md#agent-contextmd-contract). Max 40 lines:
+Create `AGENT-CONTEXT.md` at the model root per [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md#agent-contextmd-contract). Max 40 lines:
 
 ```markdown
-# Agent context — <slug>
-**MemNet session:** `<mn_…>` · **Anchor:** `TSK_model_<short>`
+# Agent context -- <slug>
+**MemNet session:** `<mn_...>` -- **Anchor:** `TSK_model_<short>`
 ## Summary
-<purpose one sentence + 5–10 line human overview as design grows>
+<purpose one sentence + 5-10 line human overview as design grows>
 ## MemNet
-Query `TSK_model_<short>` — do not duplicate topology/backlog here.
+Query `TSK_model_<short>` -- do not duplicate topology/backlog here.
 ```
 
-Derive `<short>` from slug (e.g. `vedan-foam-detection-lite-ver2` → `vfdl2`). Record session id after step 12.
+Derive `<short>` from slug (e.g. `vedan-foam-detection-lite-ver2` -> `vfdl2`). Record session id after step 12.
 
 ### 12. MemNet skeleton (required when MemNet is up at scaffold)
 
@@ -157,8 +169,9 @@ Add MOD for each other `models/*.sysml` created. Store returned **catalog** `ses
 
 | need | skill |
 |------|-------|
+| SysMLEdge day loop / propose-only | `sysmledge-workflow` |
 | system design report `outputs/` | `system-design-report-generator` / `sysml-view-doc-sync` |
-| custom PCBA `hardware/` | `hardware-custom-pcba-workflow` (weft.Projects repo skill) |
+| custom PCBA `hardware/` | `hardware-custom-pcba-workflow` (repo skill when present) |
 | shared part `libs/common/` | `sysml-common-lib-contribution` |
 ## Rename later
 

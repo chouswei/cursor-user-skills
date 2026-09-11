@@ -18,7 +18,7 @@ token_guardrails: |
 
 # SysML root & config
 
-**When:** New **project**, broken **imports**, or **`config.yaml`** / **`root-*.sysml`** out of sync with [sysml-modeling-workflow](../../sysml-modeling-workflow/SKILL.md).
+**When:** New **project**, broken **imports**, or **`config.yaml`** / **`root-*.sysml`** out of sync with [sysml-modeling-workflow](../../sysml-modeling-workflow/SKILL.md). New house default is `sysml-models/` (legacy opt-in: `sysml-v2-models/projects/<slug>/`).
 
 ## Pipeline
 

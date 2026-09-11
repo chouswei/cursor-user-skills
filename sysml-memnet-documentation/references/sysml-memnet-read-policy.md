@@ -4,7 +4,7 @@
 
 **Problem:** Agents with MemNet still **re-read** `deploy*.sysml`, `requirements*.sysml`, and report sections every turn -- duplicating work the graph already holds and burning context.
 
-**Rule:** On the live **model root** (`sysml-v2-models/projects/<slug>/` **or** system-repo `sysml-models/`), **topology discovery = MemNet**; **syntax edit = narrow file window**; **full file read = last resort**.
+**Rule:** On the live **model root** (house `sysml-models/` **or** legacy `sysml-v2-models/projects/<slug>/`), **topology discovery = MemNet**; **syntax edit = narrow file window**; **full file read = last resort**.
 
 Pair with [sysml-memnet-snap.md](sysml-memnet-snap.md) (6-step turn) and [sysml-memnet-pipeline.md](sysml-memnet-pipeline.md) (step wire).
 

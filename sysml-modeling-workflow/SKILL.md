@@ -7,9 +7,9 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.14"
+  version: "1.15"
   product: "memnet-llm==0.19.5"
-  pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator, memnet-nested-sessions, memnet-multitask]
+  pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator, memnet-nested-sessions, memnet-multitask, sysmledge-workflow]
 token_guardrails: |
   - MUST follow the 6-step MemNet turn sequence below on every substantive modeling turn.
   - Model SSOT: edit `.sysml` first; then outputs; then programs under parts/**. Never invent architecture only in Markdown or code.
@@ -31,7 +31,7 @@ Use this skill when the user asks how to structure SysML work, which skill to us
 
 ## Mandatory turn sequence (6 steps)
 
-Every substantive turn on the project model tree **MUST** follow this order. Default pack path is `sysml-v2-models/projects/<slug>/`; if the open repo's root **`AGENTS.md`** names another tree (e.g. `sysml-models/`), use that. Full rules including nested catalog/interiors: [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md). Nest protocol: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) -- do not copy it here.
+Every substantive turn on the project model tree **MUST** follow this order. New house default is `sysml-models/` (legacy opt-in: `sysml-v2-models/projects/<slug>/`). If the open repo's root **`AGENTS.md`** names a tree, use that. Full rules including nested catalog/interiors: [sysml-memnet-snap.md](../sysml-memnet-documentation/references/sysml-memnet-snap.md). Nest protocol: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) -- do not copy it here.
 
 | Step | Action | MemNet |
 |------|--------|--------|
@@ -52,7 +52,7 @@ Every substantive turn on the project model tree **MUST** follow this order. Def
 |----|-------|
 | Pin map on `TSK_model_*` then SYM window | `Read` entire `deploy-*.sysml` each turn |
 | One `Grep` per unknown symbol | Re-grep names already on the pin map |
-| Grep / Read live `.sysml`, then `user-sysml-v2` MCP references | Treat an MCP workspace URI index as model SSOT or use abandoned `sysmledgraph` |
+| Grep / Read live `.sysml`, then `user-sysml-v2` MCP references | Treat an MCP workspace URI index as model SSOT or use Kuzu `sysmledgraph` |
 
 Full policy: [sysml-memnet-read-policy.md](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md).
 
@@ -86,6 +86,7 @@ Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sy
 - Nested catalog / interiors: `memnet-nested-sessions` (SysML delta in snap.md)
 - Multitask / Task workers: `memnet-multitask` (shared TCP/HTTP)
 - MemNet GQL thin bridge: `sysml-gql`
+- SysMLEdge day loop (edit, human Save, GQL, propose-only): `sysmledge-workflow` (MemNet MCP P0; never Kuzu)
 - MemNet policy / snap procedure: `sysml-memnet-documentation`
 - Session preflight: `sysml-modeling-session-checklist`
 - New project root/config or load order: `sysml-root-config`, `sysml-import-order-helper`
@@ -93,7 +94,7 @@ Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sy
 - Ports, parts, items: `sysml-physical-port-generator`, `sysml-hardware-part-generator`, `sysml-software-port-generator`, `sysml-software-part-generator`, `sysml-item-generator`
 - Wiring, interconnection, outputs sync: `sysml-connections`, `sysml-view-doc-sync` (include `outputs/diagrams/` plant-setup style flows)
 - Behaviour or state machines: `sysml-behaviour-generator`, `sysml-view-doc-sync`
-- Rename, migration, blast radius: `sysml-refactorer`; use Grep / Read on live `.sysml`, then `user-sysml-v2` MCP (`getSymbols`, `getDefinition`, `getReferences`, `parse`, `validate`) on loaded code; do not use abandoned `sysmledgraph`
+- Rename, migration, blast radius: `sysml-refactorer`; live graph query via `sysmledge-workflow` (`gql_impact` / `gql_context`); loaded-file syntax via `user-sysml-v2` MCP; do not use Kuzu `sysmledgraph`
 - Shared library changes or file splits: `sysml-common-lib-contribution`, `sysml-common-file-scale`
 - Part maturity and Minimalist Engineering gates: `sysml-part-reviewer`
 - Long-form outputs packs: `project-output-article`, `system-design-report-generator`

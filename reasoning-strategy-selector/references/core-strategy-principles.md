@@ -41,6 +41,7 @@
 | mcp-markitdown | T | meta | medium | medium | structural | low |
 | mcp-memnet | T | meta | medium | medium | structural | low |
 | mcp-sysml-v2 | T | sysml-tool | medium | low | structural | low |
+| mcp-sysmledgraph | T | sysml | low | low | structural | low |
 | md-to-tex | P | doc | medium | low | structural | low |
 | mdtohtml | T | doc | low | low | structural | low |
 | meeting-notes-generator | G | doc | low | low | structural | low |
@@ -110,6 +111,7 @@
 | sysml-v2-release-how-to-use | P | sysml | medium | medium | structural | low |
 | sysml-v2-syntax-reference | T | sysml | medium | medium | structural | low |
 | sysml-view-doc-sync | R | sysml | medium | medium | structural | low |
+| sysmledge-workflow | P | sysml | high | medium | structural | low |
 | system-design-report-generator | P | doc | medium | medium | structural | low |
 | system-nesting | P | user | medium | medium | structural | low |
 | tech-report-generator | G | doc | medium | low | structural | low |

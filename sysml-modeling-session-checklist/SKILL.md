@@ -7,7 +7,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.10"
+  version: "1.11"
   product: "memnet-llm==0.19.5"
   pairs_with: [sysml-memnet-documentation, sysml-memnet-cache, sysml-modeling-workflow, project-planner, mcp-sysml-v2, mcp-memnet, sysml-view-doc-sync, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
@@ -45,11 +45,11 @@ After the checklist, state briefly:
 
 0. **MemNet (steps 1-2)** -- TCP/HTTP / unsure: `serve_status`. Skip probe only under single-agent in-process. Multitask MUST NOT in-process. Cue catalog `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)`; if the cut has `session=`, goldfish **that** interior next generate ([memnet-nested-sessions](../memnet-nested-sessions/SKILL.md)). leftover `anchor=` / `id=` named leftover. Catalog id from `MEMNET_SESSION` or the header line of `AGENT-CONTEXT.md`. On **warm_miss** -> [initial snap](../sysml-memnet-documentation/references/sysml-memnet-snap.md#initial-snap-warm-miss-only). If serve down -> note stale graph; skip warm.
 
-1. **Project context** -- Confirm model root (`sysml-v2-models/projects/<name>/` **or** repo `AGENTS.md` path such as `sysml-models/`), `config.yaml`, files to touch. **Read policy:** [sysml-memnet-read-policy.md](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md) -- no full deploy/AGENT-CONTEXT when warm hit. Submodules: edit in canonical repo if applicable (open repo root `AGENTS.md`).
+1. **Project context** -- Confirm model root. New house default is `sysml-models/` (legacy opt-in: `sysml-v2-models/projects/<name>/`; else repo `AGENTS.md`). Also `config.yaml`, files to touch. **Read policy:** [sysml-memnet-read-policy.md](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md) -- no full deploy/AGENT-CONTEXT when warm hit. Submodules: edit in canonical repo if applicable (open repo root `AGENTS.md`).
 
 2. **Plan-with-user** -- Non-trivial / ambiguous work without agreed plan: stop and plan--or **project-planner** for documented roadmap. If user skipped planning, state in one line.
 
-3. **Cross-file scope** -- For rename, impact, or search, use **Grep / Read** on live `.sysml` files, then Cursor **`user-sysml-v2` MCP** (`parse` / `validate` / `getSymbols` / `getDefinition` / `getReferences`) on the file or code just loaded. **Do not use abandoned `sysmledgraph` or treat an MCP workspace URI index as model SSOT.**
+3. **Cross-file scope** -- For rename, impact, or search, use **Grep / Read** on live `.sysml` files, then loaded-file SysML v2 MCP on the file just loaded. Live graph query: [sysmledge-workflow](../sysmledge-workflow/SKILL.md). **Do not use Kuzu `sysmledgraph` or treat an MCP workspace URI index as model SSOT.**
 
 4. **Modeling sequence** -- requirements (prefer **refine** / **derive** under parents) -> deploy / connections -> behaviour (incl. commissioning / power-cycle when in scope) -> satisfy / allocate -> outputs + **`outputs/diagrams/`** ([sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) 6-step turn). Model first; do not author architecture only in Markdown.
 

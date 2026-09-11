@@ -4,12 +4,12 @@
 
 Authoritative MemNet-first rules for SysML project roots. Pair with [sysml-memnet-patterns.md](sysml-memnet-patterns.md), [sysml-memnet-cookbook-bridge.md](sysml-memnet-cookbook-bridge.md), and [mcp-memnet](../../mcp-memnet/SKILL.md).
 
-**Model root (pick one; do not mix):**
+**Model root (pick one; do not mix).** New house default is `sysml-models/` (legacy opt-in: `sysml-v2-models/projects/<slug>/`).
 
 | Layout | Root | Snap dir |
 |--------|------|----------|
-| Multi-project pack | `sysml-v2-models/projects/<slug>/` | `.../projects/<slug>/.memnet/` |
-| System repo (`modelbasedPrj-*`) | `sysml-models/` | `sysml-models/.memnet/` |
+| House / system repo (`modelbasedPrj-*`) | `sysml-models/` | `sysml-models/.memnet/` |
+| Multi-project pack (legacy) | `sysml-v2-models/projects/<slug>/` | `.../projects/<slug>/.memnet/` |
 
 Copy the live root from repo `AGENTS.md`. **This MemNet repo:** `sysml-models/`.
 
