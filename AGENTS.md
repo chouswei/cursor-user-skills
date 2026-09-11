@@ -57,6 +57,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 | File to Markdown | markitdown, pdf to md, docx to markdown | `mcp-markitdown` |
 | Cursor rules | create rule, .mdc, alwaysApply, AGENTS.md, user/team rules | `rule-writer` |
 | SysML + MemNet GQL | sysml gql, modeling pin_map, TSK_model GQL | `sysml-gql` |
+| SysMLEdge day loop | sysmledge, sysml edge, STALE sysml, sysml propose, gql_read, rev_status | `sysmledge-workflow` |
 | STM harness | agent harness, STM debug, W vs S, user-input-as-control, ShapeWalk harness | `memnet-stm-harness` |
 | Analytical mechanics propose | analytical mechanics propose, apply Lagrangian to, Hamiltonian framing, KKT cap diagnostic, Noether gauge propose | `analytical-mechanics-propose` |
 | Physics constrained surrogate | physics constrained surrogate, ENFORCE ReLU KAN, hard-constrained surrogate routing | `physics-constrained-surrogate-routing` |

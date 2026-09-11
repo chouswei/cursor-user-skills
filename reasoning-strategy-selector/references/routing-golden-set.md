@@ -6,6 +6,7 @@ Fields: `id`, `intent`, `expected_order`, `acceptable_alternatives` (slash-separ
 |----|--------|----------------|-------------------------|
 | sysml_refactor | cross-file SysML refactor rename parts ports | sysml-refactorer | sysml-modeling-workflow / sysml-refactorer |
 | sysml_new | scaffold new SysML v2 project folder config | sysml-new-project | sysml-new-project / sysml-modeling-workflow |
+| sysmledge_loop | sysmledge STALE sysml propose gql_read rev_status | sysmledge-workflow | sysmledge-workflow / sysml-modeling-workflow |
 | sysml_req_audit | audit requirements satisfy links traceability | sysml-requirements-audit | sysml-requirements-audit / sysml-traceability |
 | reasoning_ambiguous | scientific method hypothesis experiment for design decision | scientific-method-first-principles | scientific-method-first-principles / empirical-paradox-synthesis / mcdm-decider |
 | premortem | what would fail blind spots decision risks | decision-inverter | decision-inverter / risk-assessor / launch-readiness-assessor |

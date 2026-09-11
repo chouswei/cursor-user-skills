@@ -33,6 +33,8 @@
 | skillfish | skill.fish registry: install, search, submit, bundle/install manifest |
 | skill-reviewer | Audit SKILL.md packages; structure, safety, publish readiness |
 | sysml-new-project | Scaffold new SysML v2 project |
+| sysmledge-workflow | SysMLEdge day loop: edit, human Save, GQL, propose-only |
+| mcp-sysmledgraph | Retarget to MemNet/SysMLEdge MCP; never Kuzu |
 | sysml-refactorer | Cross-file SysML v2 refactors: renames, lib + deploy + `SharedConnections` |
 
 Audit view (not routing): [core-strategy-principles.md](core-strategy-principles.md) (generated from seed).

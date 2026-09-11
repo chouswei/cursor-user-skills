@@ -73,9 +73,10 @@ Pattern codes: `G`=Generator, `R`=Reviewer, `P`=Pipeline, `T`=Tool-wrapper.
 ```cypher
 (:SKL {id: 'sysml-modeling-session-checklist'})-[:DEFAULT_STACK {id: 'E_sys_01', note: 'hub', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
 (:SKL {id: 'sysml-modeling-workflow'})-[:DEFAULT_STACK {id: 'E_sys_02', note: 'memnet', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
+(:SKL {id: 'sysml-modeling-workflow'})-[:COMPLEMENTS {id: 'E_sys_03', note: 'sysmledge', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
 ```
 
-Then at most one specialist SKL from `TRIGGERS` match. Repo `AGENTS.md` may add project overrides.
+Then at most one specialist SKL from `TRIGGERS` match. Repo `AGENTS.md` may add project overrides. SysMLEdge day loop (edit, human Save, GQL, propose-only): `sysmledge-workflow`.
 
 ## MemNet application stack (graph edges, not prose)
 

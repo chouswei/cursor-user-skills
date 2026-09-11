@@ -9,7 +9,7 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.18"
+  version: "1.19"
   product: "memnet-llm==0.19.5"
   pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, memnet-format, sysml-gql, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |
@@ -66,9 +66,9 @@ Pair with [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) and [me
 
 ## When to use
 
-- Opening or resuming work on a SysML project root:
-  - Multi-project pack: `sysml-v2-models/projects/<slug>/`
-  - System repo (`modelbasedPrj-*`): `sysml-models/` (NCU-LEO anchor `TSK_model_leo_cubesat`)
+- Opening or resuming work on a SysML project root. New house default is `sysml-models/` (legacy opt-in: `sysml-v2-models/projects/<slug>/`).
+  - House / system repo (`modelbasedPrj-*`): `sysml-models/` (NCU-LEO anchor `TSK_model_leo_cubesat`)
+  - Multi-project pack (legacy): `sysml-v2-models/projects/<slug>/`
 - Recording design decisions, assumptions, backlog not fully expressed in `.sysml`
 - Maintaining `outputs/*.md` / system-design-report atoms (ART/SEC/CLM)
 - Multi-turn refactors, requirement audits, report updates
