@@ -18,16 +18,16 @@ Shared character (not this skill's job): Harmony; Rational Unified Process for S
 |----------|-------|--------------------|------|
 | Needs analysis | Problem unclear; solution language not yet allowed | `sysml-stakeholder-use-case` | Named stakeholders, goals, operational scenarios |
 | Requirements analysis | Needs and scenarios exist | `sysml-requirements-generator` | Black-box requirements; no presupposed design |
-| Architecture and logical decomposition | Black-box behaviour exists | `sysml-nested-structure-modeling`, then `sysml-behaviour-generator`, then `sysml-connections` (one per turn) | Logical objects with allocated behaviour; then physical component split |
+| Architecture and logical decomposition | Black-box behaviour exists | Nested structure, then behaviour on those objects, then connections / software ports / items, then `sysml-allocate-generator` for software-to-hardware (one skill per turn) | Logical objects with behaviour and interactions; then physical component split |
 | Trade studies and analysis | Two or more candidate architectures or parameter sets | `mcdm-decider` against measures of effectiveness | Justified choice (or documented reject) |
-| Design synthesis | Logical/physical split chosen | hardware/software part generators; ports as needed | Design specific enough to implement, test, integrate |
-| Verification and validation | Design or implementation claims done | `sysml-traceability`, `sysml-requirements-audit`; `sysml-part-reviewer` for part maturity | Coverage of requirements and original needs; lessons listed for an earlier activity |
+| Design synthesis | Logical/physical split chosen | hardware/software part generators; `sysml-physical-port-generator` when connector pinouts are the gap | Design specific enough to implement, test, integrate |
+| Verification and validation | Design or implementation claims done | `sysml-traceability` or `sysml-requirements-audit` (audit after trace); `sysml-part-reviewer` for part maturity -- one skill per turn | Coverage of requirements and original needs; lessons listed for an earlier activity |
 
 ## Iteration
 
 Each pass MAY decompose objects further, allocate more detailed behaviour, and tighten requirements. V&V MUST feed lessons into earlier activities. Closing 06 does not forbid another 01-05 pass.
 
-Order inside architecture: logical interacting objects before physical components. Order vs design: do not synthesise implementable parts until a logical allocation exists unless the user is explicitly refining an already-allocated object.
+Order inside architecture: logical interacting objects before physical components. `sysml-allocate-generator` is software/firmware **usages to hardware usages** in deploy -- not a substitute for behaviour on logical objects (`sysml-behaviour-generator`). Order vs design: do not synthesise implementable parts until a logical allocation exists unless the user is explicitly refining an already-allocated object.
 
 ## Tooling this pack uses
 

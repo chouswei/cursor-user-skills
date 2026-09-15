@@ -120,6 +120,7 @@ MANUAL_COMPLEMENTS = [
     ("oosem-workflow", "sysml-modeling-workflow"),
     ("oosem-workflow", "mcdm-decider"),
     ("oosem-workflow", "sysml-traceability"),
+    ("oosem-workflow", "sysml-allocate-generator"),
     ("skill-creator", "skill-reviewer"),
     ("mermaid", "sysml-memnet-documentation"),
     ("mermaid", "sysml-view-doc-sync"),

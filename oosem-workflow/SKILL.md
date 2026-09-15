@@ -9,10 +9,10 @@ description: >-
   generic SysML file edits with no method language.
 metadata:
   pattern: pipeline
-  version: "1.0"
+  version: "1.1"
   domain: sysml
   secondary: "hybrid: one OOSEM activity per turn; delegates one sysml-* specialist"
-  pairs_with: [sysml-modeling-workflow, sysml-stakeholder-use-case, sysml-requirements-generator, sysml-nested-structure-modeling, sysml-behaviour-generator, sysml-connections, mcdm-decider, sysml-hardware-part-generator, sysml-software-part-generator, sysml-traceability, sysml-requirements-audit, sysmledge-workflow, sysml-part-reviewer]
+  pairs_with: [sysml-modeling-workflow, sysml-stakeholder-use-case, sysml-requirements-generator, sysml-nested-structure-modeling, sysml-behaviour-generator, sysml-connections, sysml-allocate-generator, mcdm-decider, sysml-hardware-part-generator, sysml-software-part-generator, sysml-physical-port-generator, sysml-software-port-generator, sysml-item-generator, sysml-traceability, sysml-requirements-audit, sysmledge-workflow, sysml-part-reviewer]
 token_guardrails: |
   - Method source is https://oosem.opensysml.org/. MUST NOT invent a seventh activity.
   - Cycle is iterative. MUST NOT treat the six activities as a one-pass waterfall.
@@ -34,7 +34,7 @@ pipeline_steps:
      - SysMLEdge tree: also ../sysmledge-workflow/SKILL.md (propose-only; human Save).
   5. Trade or V&V gate
      - Candidate architectures: ../mcdm-decider/SKILL.md against measures of effectiveness.
-     - Claiming done: ../sysml-traceability/SKILL.md then ../sysml-requirements-audit/SKILL.md.
+     - Claiming done: one of ../sysml-traceability/SKILL.md or ../sysml-requirements-audit/SKILL.md (audit only after trace exists).
   6. Cycle note
      - Record activity completed, iteration index, and which activity repeats next.
      - V&V lessons feed earlier activities; do not close the cycle as finished-forever.
@@ -77,11 +77,15 @@ Top-down and scenario-driven: black-box first, then logical objects, then physic
 | Needs | [sysml-stakeholder-use-case](../sysml-stakeholder-use-case/SKILL.md) | Stakeholders, goals, use cases, operational context |
 | Requirements | [sysml-requirements-generator](../sysml-requirements-generator/SKILL.md) | Black-box requirements; refine/derive children |
 | Architecture | [sysml-nested-structure-modeling](../sysml-nested-structure-modeling/SKILL.md) | Logical objects and nested structure |
-| Architecture | [sysml-behaviour-generator](../sysml-behaviour-generator/SKILL.md) | Allocate behaviour / state to those objects |
-| Architecture | [sysml-connections](../sysml-connections/SKILL.md) | Interactions between objects (ports and connectors) |
+| Architecture | [sysml-behaviour-generator](../sysml-behaviour-generator/SKILL.md) | Behaviour / state on those logical objects |
+| Architecture | [sysml-connections](../sysml-connections/SKILL.md) | Interactions between objects |
+| Architecture | [sysml-allocate-generator](../sysml-allocate-generator/SKILL.md) | Logical/software usages onto physical hardware usages |
+| Architecture | [sysml-software-port-generator](../sysml-software-port-generator/SKILL.md) or [sysml-item-generator](../sysml-item-generator/SKILL.md) | Logical interfaces or conveyed items (one of these) |
 | Trades | [mcdm-decider](../mcdm-decider/SKILL.md) | Weighted comparison of candidate architectures |
 | Design | [sysml-hardware-part-generator](../sysml-hardware-part-generator/SKILL.md) or [sysml-software-part-generator](../sysml-software-part-generator/SKILL.md) | Physical / software components |
-| V&V | [sysml-traceability](../sysml-traceability/SKILL.md) then [sysml-requirements-audit](../sysml-requirements-audit/SKILL.md) | satisfy/allocate coverage; then audit |
+| Design | [sysml-physical-port-generator](../sysml-physical-port-generator/SKILL.md) | Connector pinouts before or with hardware parts |
+| V&V | [sysml-traceability](../sysml-traceability/SKILL.md) | satisfy / allocate coverage |
+| V&V | [sysml-requirements-audit](../sysml-requirements-audit/SKILL.md) | Audit after trace links exist |
 | Maturity | [sysml-part-reviewer](../sysml-part-reviewer/SKILL.md) | Part ready for implementers |
 
 ## Gates

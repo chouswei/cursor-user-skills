@@ -763,4 +763,5 @@ CREATE (:SKL {id: 'oosem-workflow'})-[:COMPLEMENTS {id: 'E0420', note: 'method_o
 CREATE (:SKL {id: 'oosem-workflow'})-[:PRECEDES {id: 'E0421', note: 'needs_first', recycle: 'persistent'}]->(:SKL {id: 'sysml-stakeholder-use-case'})
 CREATE (:SKL {id: 'oosem-workflow'})-[:COMPLEMENTS {id: 'E0422', note: 'trades', recycle: 'persistent'}]->(:SKL {id: 'mcdm-decider'})
 CREATE (:SKL {id: 'oosem-workflow'})-[:COMPLEMENTS {id: 'E0423', note: 'vv', recycle: 'persistent'}]->(:SKL {id: 'sysml-traceability'})
+CREATE (:SKL {id: 'oosem-workflow'})-[:COMPLEMENTS {id: 'E0424', note: 'logical_to_physical', recycle: 'persistent'}]->(:SKL {id: 'sysml-allocate-generator'})
 
