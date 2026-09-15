@@ -7,9 +7,9 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.15"
+  version: "1.17"
   product: "memnet-llm==0.19.5"
-  pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator, memnet-nested-sessions, memnet-multitask, sysmledge-workflow]
+  pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator, memnet-nested-sessions, memnet-multitask, sysmledge-workflow, oosem-workflow]
 token_guardrails: |
   - MUST follow the 6-step MemNet turn sequence below on every substantive modeling turn.
   - Model SSOT: edit `.sysml` first; then outputs; then programs under parts/**. Never invent architecture only in Markdown or code.
@@ -87,6 +87,8 @@ Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sy
 - Multitask / Task workers: `memnet-multitask` (shared TCP/HTTP)
 - MemNet GQL thin bridge: `sysml-gql`
 - SysMLEdge day loop (edit, human Save, GQL, propose-only): `sysmledge-workflow` (MemNet MCP P0; never Kuzu)
+- Project specialists: match the **repo** skill graph first (`<repo>/.cursor/skills/skill-graph-seed.wire`); pack `sysml-*` only if no repo match
+- OOSEM method cycle (needs through V&V, iterative, not waterfall): `oosem-workflow`
 - MemNet policy / snap procedure: `sysml-memnet-documentation`
 - Session preflight: `sysml-modeling-session-checklist`
 - New project root/config or load order: `sysml-root-config`, `sysml-import-order-helper`

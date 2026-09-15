@@ -29,11 +29,13 @@
 | security-reviewer | Security, compliance review |
 | tech-report-generator | Tech / engineering reports, status, investigations, handoffs |
 | tech-report-reviewer | Review / critique technical reports before distribution |
+| skill-graph-workflow | Bind pack vs repo skill graph; pointer relatives; no merge |
 | skill-creator | Scaffold new skills / hybrid pipelines |
 | skillfish | skill.fish registry: install, search, submit, bundle/install manifest |
 | skill-reviewer | Audit SKILL.md packages; structure, safety, publish readiness |
 | sysml-new-project | Scaffold new SysML v2 project |
 | sysmledge-workflow | SysMLEdge day loop: edit, human Save, GQL, propose-only |
+| oosem-workflow | OOSEM method cycle: needs through V&V, scenario-driven MBSE |
 | mcp-sysmledgraph | Retarget to MemNet/SysMLEdge MCP; never Kuzu |
 | sysml-refactorer | Cross-file SysML v2 refactors: renames, lib + deploy + `SharedConnections` |
 

@@ -10,7 +10,7 @@ description: >-
   meta pipeline, orchestrate skills, pattern tool-wrapper generator reviewer inversion pipeline.
 metadata:
   pattern: pipeline
-  version: 1.2-skill-creator
+  version: 1.3-skill-creator
   domain: agent-skills
 
 pipeline_steps:
@@ -31,7 +31,7 @@ pipeline_steps:
   6. Final output
      - Fill assets/skill-output-template.md exactly; no extra sections.
   7. Selector & graph updates (conditional)
-     - If wants_selector_update: ingest the new skill into MemNet using `ingest_skills(path="<skill_dir>", session="<session>")` or append GQL `mutate` rows; update `related_skills.txt` if router subset changes then `python tools/sync_related_skills_from_txt.py --write`; optional export: `python tools/scan_skills_to_wire.py --write`; validate with `python tools/validate_selector_pack.py`.
+     - If wants_selector_update: bind graph via [skill-graph-workflow](../skill-graph-workflow/SKILL.md). Ingest into the bound MemNet SKG (`ingest_skills` or `mutate`). Pack export: pack `skill-graph-seed.wire`. Repo export: `--repo-skills` + `--repo-seed`. Density: SKL + >=2 TRG + >=1 typed rel. Update `related_skills.txt` if router subset changes then `python tools/sync_related_skills_from_txt.py --write`; `python tools/validate_selector_pack.py --check-views`. MUST NOT write repo SKL into the pack seed.
 
 system_instruction: |
   Respond in concise mode. Prefer plain Markdown tables or short prose for steps 1–2 structured handoffs; do not use TOON/TRON. JSON only when a tool requires it. Each intermediate step ≤ 400 tokens.

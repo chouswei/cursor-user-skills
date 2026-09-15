@@ -27,7 +27,7 @@ Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>
 (:RUL {id: 'R12', kind: 'MUST', code: 'obey active skill token_guardrails; prefer tools/* over dumping references/*', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R13', kind: 'MUST', code: 'pipeline handoffs: MemNet up -> GQL wire (shaped pin_map + openCypher mutate); MemNet down -> plain Markdown; tool boundary -> JSON', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R14', kind: 'SHOULD', code: 'large uniform tabular data in answers -> Markdown table over JSON when clearer', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'R15', kind: 'MUSTNOT', code: 'invent skill-ids absent from MemNet graph / SKILL-GRAPH.md', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R15', kind: 'MUSTNOT', code: 'invent skill-ids absent from the bound graph (repo SKG_repo or pack SKG_global / SKILL-GRAPH.md)', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R16', kind: 'MUST', code: 'ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes)', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R17', kind: 'MUST', code: 'Task models per User Rules Model by role only; unsync checkpoint pipeline (spawn a wave, checkpoint, repeat); after Bind ready spawn each atom required role, not Implement by default; Bind is the normal planner; Architect is thin-in/thin-out root plan only; slug on live Task allowlist; never *-fast', priority: 'high', recycle: 'persistent'})
 ```
@@ -45,7 +45,7 @@ Cross-refs: [memnet-goldfish-loop.mdc](rules/memnet-goldfish-loop.mdc), [sysml-m
 ## Procedure (per turn)
 
 1. Extract triggers from user phrase -> 2
-2. Match triggers via MemNet `pin_map` / `find` (`session=` from AGENT-CONTEXT), or fallback to `SKILL-GRAPH.md` (<=2 passes) -> 3
+2. Bind repo `SKG_repo` if present else pack `SKG_global`; match via MemNet `pin_map` / `find` (`session=` from AGENT-CONTEXT), else bound seed then `SKILL-GRAPH.md` (<=2 passes) -> 3
 3. Branch:
    - exactly one match -> open `<id>/SKILL.md` -> 4
    - model-choice / Task `model` intent -> user rule sub-agent-policy **Model by role** table only -> done
@@ -88,7 +88,7 @@ Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Stru
 
 ## Cross-references
 
-- **Routing aid:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -- hub for stack definitions and routing fallback; live graph in MemNet.
+- **Routing aid:** [skill-graph-workflow](skill-graph-workflow/SKILL.md) binds pack vs repo; [SKILL-GRAPH.md](SKILL-GRAPH.md) is the hub fallback; live graph is MemNet on the bound SKG.
 - **Handoff aid:** `memnet-goldfish-loop.mdc` + `memnet-format/SKILL.md` + `mcp-memnet` + `memnet-multitask` (Multitask / Task sub-agents) + `sysml-gql` + `sysml-memnet-pipeline.md`; plain Markdown when MemNet down.
 - **Model choice SSOT:** User Rules **unsync checkpoint pipeline** (Model by role). Pack compose: `~/.cursor/skills/rules/sub-agent-policy.mdc`. Cursor does not load `~/.cursor/rules/*.mdc`.
 

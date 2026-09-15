@@ -9,7 +9,8 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.2"
+  version: "1.3"
+  secondary: "reviewer-shaped report"
   pairs_with: [mcp-sysml-v2, sysml-traceability, sysml-requirements-generator]
 token_guardrails: |
   - **Scope:** Audit and report; do not bulk-add satisfy / allocate / refine unless the user asks to fix gaps (then hand off to sysml-traceability or sysml-requirements-generator).

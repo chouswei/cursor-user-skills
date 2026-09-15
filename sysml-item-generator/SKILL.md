@@ -9,6 +9,7 @@ metadata:
   pattern: generator
   output-format: sysml
   secondary: ask-first (gather inputs before generating)
+  version: "1.0"
   pairs_with: [mcp-sysml-v2, sysml-connections, sysml-behaviour-generator]
 token_guardrails: |
   - Prefer extending FlowItems only for repo-wide reuse; ask before editing libs/common.
@@ -25,7 +26,7 @@ token_guardrails: |
 1. **Ask first** — If missing: **item name(s)** (PascalCase), **semantic** (power / logical document / signal / composite), **home** (common `FlowItems` vs **project package**), **attributes** (optional quantities with ISQ/SI), **nested sub-items** (e.g. PoE). One short question per gap.
 
 2. **Placement** — Read [references/item-style-guide.md](references/item-style-guide.md):
-   - **Shared physical/logical flow items** (e.g. new nominal rail, reusable payload type) → extend **`sysml-v2-models/libs/common/parts/flow_items.sysml`** only with user confirmation and library review.
+   - **Shared physical/logical flow items** (e.g. new nominal rail, reusable payload type) -> extend house **`sysml-models/libs/common/parts/flow_items.sysml`** (legacy **`sysml-v2-models/libs/common/parts/flow_items.sysml`**) only with user confirmation and library review.
    - **Project-specific** (e.g. `DevelopmentPlan`, domain messages) → **`deploy-*.sysml`** or **`behaviour-*.sysml`** in the project package.
 
 3. **Generate** — Use [assets/item-def-stub.sysml](assets/item-def-stub.sysml). Each item: **`item def Name { doc /* ... */ }`**; optional **`attribute`** with **`ElectricPotentialDifferenceValue`** etc. when physical; **nested `item`** for composite items.
@@ -43,4 +44,4 @@ token_guardrails: |
 - **sysml-software-port-generator** — logical software flow types before binding items to software ports (project convention).
 - **sysml-part-reviewer** — when items are tied to **well-design** or **COTS** interfaces; changing shared **FlowItems** may need the doc gate (often **well-design**).
 
-**Repo:** [flow_items.sysml](../../../sysml-v2-models/libs/common/parts/flow_items.sysml) · [sysml-common-lib-contribution](../sysml-common-lib-contribution/SKILL.md) · [libs/common README](../../../sysml-v2-models/libs/common/README.md)
+**Repo:** house `sysml-models/libs/common/parts/flow_items.sysml` (legacy `sysml-v2-models/libs/common/parts/flow_items.sysml`) · [sysml-common-lib-contribution](../sysml-common-lib-contribution/SKILL.md)

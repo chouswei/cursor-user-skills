@@ -7,8 +7,8 @@
 | # | Decision |
 |---|----------|
 | D1 | Selector lives **only** in user-pack (`~/.cursor/skills/reasoning-strategy-selector/`). Repo copy is a thin pointer. |
-| D2 | **MemNet graph is live authority**. `SKILL-GRAPH.md` is a **hub** (routing rules + stack definitions). `skill-graph-seed.wire` is an **optional export artifact**. |
-| D3 | **Graph-only routing.** Primary via MemNet `pin_map`/`find`. MemNet down -> fallback to `SKILL-GRAPH.md` hub. |
+| D2 | **Two graphs, same GQL shape.** MemNet is live authority: pack `SKG_global` (pack-scoped) vs repo `SKG_repo`. Pack [`skill-graph-seed.wire`](skill-graph-seed.wire) and `<repo>/.cursor/skills/skill-graph-seed.wire` are **optional exports**, not a merge. `SKILL-GRAPH.md` is the pack hub. MUST NOT merge repo SKL into the pack seed. |
+| D3 | **Graph-only routing.** Primary via MemNet `pin_map`/`find` on the **bound** SKG. MemNet down -> bound seed, then `SKILL-GRAPH.md`. |
 | D4 | **Phase 4 active:** parent agent writes `LED_TO_SUCCESS` on settle; selector reads +0.6 boost per edge. |
 
 ## Prior art
@@ -21,7 +21,7 @@
 
 | Kind | Typical fields | Notes |
 |------|----------------|-------|
-| SKG | version, scope, recycle | Graph root: `SKG_global` |
+| SKG | version, scope, recycle | Graph root: `SKG_global` (pack) or `SKG_repo` (open repo) |
 | SKL | pack, pattern, dir, domain, path, recycle | Skill node; id = folder name |
 | TRG | phrase, recycle | Trigger phrase |
 | TSK | goal, phase, status, recycle | Ephemeral routing: `TSK_route_<slug>` |
@@ -48,7 +48,7 @@ Agent-facing edge shape:
 | `CONFLICTS_WITH` | Mutually exclusive (rare) |
 | `LED_TO_SUCCESS` | Phase 4 empirical edge |
 
-**Engine seed:** `skill-graph-seed.wire` is GQL `CREATE` rows. Tools parse that file; agents `mutate` the same shape.
+**Engine seed (optional export):** Pack `skill-graph-seed.wire` and each repo `skill-graph-seed.wire` are GQL `CREATE` rows of the same shape. Live authority is MemNet on the bound SKG. MUST NOT merge repo SKL into the pack seed.
 
 ## Edge-density contract
 

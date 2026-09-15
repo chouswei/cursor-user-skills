@@ -7,9 +7,9 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.11"
+  version: "1.12"
   product: "memnet-llm==0.19.5"
-  pairs_with: [sysml-memnet-documentation, sysml-memnet-cache, sysml-modeling-workflow, project-planner, mcp-sysml-v2, mcp-memnet, sysml-view-doc-sync, memnet-nested-sessions, memnet-multitask]
+  pairs_with: [sysml-memnet-documentation, sysml-memnet-cache, sysml-modeling-workflow, project-planner, mcp-sysml-v2, mcp-memnet, sysml-view-doc-sync, memnet-nested-sessions, memnet-multitask, oosem-workflow]
 token_guardrails: |
   - **Thin:** run the checklist mentally or as bullets; do not paste long repo trees.
   - **MemNet first:** steps 0-1 before any `.sysml` Read (see sysml-memnet-read-policy.md). Nested: memnet-nested-sessions (one interior per generate).
@@ -51,7 +51,7 @@ After the checklist, state briefly:
 
 3. **Cross-file scope** -- For rename, impact, or search, use **Grep / Read** on live `.sysml` files, then loaded-file SysML v2 MCP on the file just loaded. Live graph query: [sysmledge-workflow](../sysmledge-workflow/SKILL.md). **Do not use Kuzu `sysmledgraph` or treat an MCP workspace URI index as model SSOT.**
 
-4. **Modeling sequence** -- requirements (prefer **refine** / **derive** under parents) -> deploy / connections -> behaviour (incl. commissioning / power-cycle when in scope) -> satisfy / allocate -> outputs + **`outputs/diagrams/`** ([sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) 6-step turn). Model first; do not author architecture only in Markdown.
+4. **Modeling sequence** -- If the user named **OOSEM** / object-oriented systems engineering / scenario-driven MBSE: follow [oosem-workflow](../oosem-workflow/SKILL.md) (iterative cycle; do not collapse it to one pass). Else: requirements (prefer **refine** / **derive** under parents) -> deploy / connections -> behaviour (incl. commissioning / power-cycle when in scope) -> satisfy / allocate -> outputs + **`outputs/diagrams/`**. File/MemNet turn sequence stays [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md). Model first; do not author architecture only in Markdown.
 
 5. **After changes** -- **Validate** (step 4); **sysml-view-doc-sync** if outputs (step 5); **`mutate`** delta + pipe settle (step 6) unless comment-only or serve down. Optional: `python sysml-v2-models/scripts/exam_model.py --project <name>`.
 

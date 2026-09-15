@@ -1,0 +1,12 @@
+# Repo skill-graph seed -- GQL CREATE rows. Same shape as pack seed / agent mutate.
+# Owns project SKL only. Point at pack skills with pack: 'user' rows; do not copy bodies.
+CREATE (:SKG {id: 'SKG_repo', version: '1', pack: 'repo', recycle: 'persistent'})
+CREATE (:SKL {id: 'repo-context', pack: 'repo', pattern: 'P', dir: 'P', domain: 'meta', cx: 'low', stakes: 'low', ev: 'structural', tension: 'low', path: '.cursor/skills/repo-context', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_repo-context_0', phrase: 'repo context', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_repo-context_1', phrase: 'this repo', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_repo-context_0'})-[:TRIGGERS {id: 'E_repo_01', note: 'repo context', recycle: 'persistent'}]->(:SKL {id: 'repo-context'})
+CREATE (:TRG {id: 'TRG_repo-context_1'})-[:TRIGGERS {id: 'E_repo_02', note: 'this repo', recycle: 'persistent'}]->(:SKL {id: 'repo-context'})
+CREATE (:SKG {id: 'SKG_repo'})-[:DEFAULT_STACK {id: 'E_repo_03', note: 'hub', recycle: 'persistent'}]->(:SKL {id: 'repo-context'})
+# Example pack relative (uncomment and keep when this repo uses the pack method):
+# CREATE (:SKL {id: 'oosem-workflow', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', path: '~/.cursor/skills/oosem-workflow', recycle: 'persistent'})
+# CREATE (:SKL {id: 'repo-context'})-[:COMPLEMENTS {id: 'E_repo_04', note: 'pack_method', recycle: 'persistent'}]->(:SKL {id: 'oosem-workflow'})

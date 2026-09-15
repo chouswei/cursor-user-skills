@@ -66,7 +66,7 @@ Resolve to newest slug on session allowlist for family and tier; state slug used
 
 # Skill Route gate
 
-- MUST match triggers in `~/.cursor/skills/SKILL-GRAPH.md` in <=2 passes; use `~/.cursor/skills/LLM.md` secondarily.
+- MUST match the bound graph first (open-repo `SKG_repo` / `.cursor/skills/skill-graph-seed.wire` if present, else pack `SKG_global` / `SKILL-GRAPH.md`), in at most 2 passes; use `~/.cursor/skills/LLM.md` secondarily.
 - MUST NOT glob every `SKILL.md`; open and follow one matched skill.
 - For SysML, MUST use `sysml-modeling-session-checklist` -> `sysml-modeling-workflow` -> <=1 `sysml-*` specialist.
 - MUST honour open-repo `AGENTS.md`; after two ambiguous scans, ask user or read it.

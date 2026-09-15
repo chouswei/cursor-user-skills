@@ -24,6 +24,7 @@ rfc-generator
 security-reviewer
 tech-report-generator
 tech-report-reviewer
+skill-graph-workflow
 skill-creator
 skillfish
 skill-reviewer

@@ -11,6 +11,7 @@ metadata:
   pattern: generator
   output-format: sysml
   secondary: ask-first (gather inputs before generating)
+  version: "1.0"
 token_guardrails: |
   - IMD PCBA, IPN, **network.sysml**, **poe_edge_computer.sysml**: [sysml-common-lib-contribution/references/workspace-imd-lib-conventions.md](../sysml-common-lib-contribution/references/workspace-imd-lib-conventions.md).
   - **Existing part or libs/common edit:** Prefer **sysml-part-reviewer** once to classify under-design / well-design / COTS before substantive edits.
@@ -43,7 +44,7 @@ token_guardrails: |
 
 ## Post-generation
 
-1. Insert into `sysml-v2-models/libs/common/parts/*.sysml` (common) or project models (project-specific) — **network gear → `network.sysml`**; see [workspace-imd-lib-conventions.md](../sysml-common-lib-contribution/references/workspace-imd-lib-conventions.md).
+1. Insert into house `sysml-models/libs/common/parts/*.sysml` (legacy `sysml-v2-models/libs/common/parts/*.sysml`) or project models (project-specific) -- **network gear -> `network.sysml`**; see [workspace-imd-lib-conventions.md](../sysml-common-lib-contribution/references/workspace-imd-lib-conventions.md).
 2. Add to config.yaml model_files if new package
 3. Add connections in deploy model
 4. Validate: SysML MCP validate

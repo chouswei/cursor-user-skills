@@ -11,6 +11,7 @@
 | **This file** | Pack hub: skill-graph routing, token tips, MemNet examples, skill binding, cross-refs |
 | **Pack `rules/*.mdc`** | Compose source for Settings paste. Cursor does **not** load `~/.cursor/rules/*.mdc`. |
 | **Open-repo `AGENTS.md`** (`modelbasedPrj-*`) | SysML / PCBA / part layout for that system |
+| **Open-repo skill graph** (`<repo>/.cursor/skills/skill-graph-seed.wire`) | Project SKL + pointer rows to pack relatives. Bind via [skill-graph-workflow](skill-graph-workflow/SKILL.md). |
 
 Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)). Never write `state.vscdb`.
 
@@ -20,8 +21,8 @@ Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)). Neve
 
 | Do | Why |
 |----|-----|
-| **Trigger-first routing** | Match phrase -> [SKILL-GRAPH.md](SKILL-GRAPH.md); never browse skill folders |
-| **Max 2 trigger passes** | Then ask user or open-repo `AGENTS.md` |
+| **Trigger-first routing** | Match phrase -> bound graph (repo `SKG_repo` if present, else pack `SKG_global`); never browse skill folders |
+| **Max 2 trigger passes** | Pass 1 repo TRG; pass 2 pack TRG; MemNet `pin_map`/`find` when up; then ask user or open-repo `AGENTS.md` |
 | **One specialist per turn** | Default; SysML stack: checklist -> workflow -> sysml-memnet-cache -> sysml-memnet-documentation -> <=1 specialist |
 | **Lazy-load references/assets** | Open only when a step needs them |
 | **MCP over bulk file reads** | Cheaper than reading entire trees |
@@ -34,11 +35,12 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 ## 2. Skill Discovery by Trigger
 
 1. Extract keywords from the user request
-2. Match triggers via MemNet `pin_map` or `find` on `SKG_global` / `kind='SKL'` (max 2 passes; `session=` from `AGENT-CONTEXT.md`); fallback to [SKILL-GRAPH.md](SKILL-GRAPH.md) when MemNet is down; [LLM.md](LLM.md) secondary
-3. Open matched `<id>/SKILL.md` and follow steps
-4. If still unclear -> ask the user, or open-repo `AGENTS.md` / domain checklist
+2. Bind graph: repo `SKG_repo` / `<repo>/.cursor/skills/skill-graph-seed.wire` if present, else pack `SKG_global`
+3. Match TRG via MemNet `pin_map` or `find` on the bound SKG (max 2 passes; `session=` from `AGENT-CONTEXT.md`). Fallback: bound seed, then pack [SKILL-GRAPH.md](SKILL-GRAPH.md); [LLM.md](LLM.md) secondary
+4. Open matched `<id>/SKILL.md` (repo id under `.cursor/skills/`; pack id under `~/.cursor/skills/`)
+5. If still unclear -> ask the user, or open-repo `AGENTS.md` / domain checklist
 
-### Trigger examples (live in MemNet graph / SKILL-GRAPH.md)
+### Trigger examples (membership = SKL ids in the **bound** graph: repo then pack)
 
 | Task | Triggers | Skill |
 |------|----------|-------|
@@ -58,13 +60,15 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 | Cursor rules | create rule, .mdc, alwaysApply, AGENTS.md, user/team rules | `rule-writer` |
 | SysML + MemNet GQL | sysml gql, modeling pin_map, TSK_model GQL | `sysml-gql` |
 | SysMLEdge day loop | sysmledge, sysml edge, STALE sysml, sysml propose, gql_read, rev_status | `sysmledge-workflow` |
+| OOSEM method cycle | OOSEM, object-oriented systems engineering, scenario-driven MBSE | `oosem-workflow` |
+| Skill graph bind | skill graph, repo skill graph, relative skills | `skill-graph-workflow` |
 | STM harness | agent harness, STM debug, W vs S, user-input-as-control, ShapeWalk harness | `memnet-stm-harness` |
 | Analytical mechanics propose | analytical mechanics propose, apply Lagrangian to, Hamiltonian framing, KKT cap diagnostic, Noether gauge propose | `analytical-mechanics-propose` |
 | Physics constrained surrogate | physics constrained surrogate, ENFORCE ReLU KAN, hard-constrained surrogate routing | `physics-constrained-surrogate-routing` |
 | ChemEngKG assist | ChemEngKG, kgtool, ChemKG SPARQL | `chemengkg-assist` |
 | Use MemNet | use memnet, how to use memnet, memnet goldfish | `memnet-use` |
 
-**See:** [SKILL-GRAPH.md](SKILL-GRAPH.md) (or `pin_map` / `find` on `SKG_global` in MemNet). Route steps: User Rules **Workflow**.
+**See:** [skill-graph-workflow](skill-graph-workflow/SKILL.md) to bind; then `pin_map` / `find` on that SKG, or [SKILL-GRAPH.md](SKILL-GRAPH.md). MUST NOT merge repo SKL into the pack seed. Route steps: User Rules **Workflow**.
 
 ---
 
@@ -102,8 +106,9 @@ Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 | Rule | Detail |
 |------|--------|
 | **Entry file** | `<pack-root>/<id>/SKILL.md` -- follow frontmatter + numbered steps |
-| **Pick by trigger** | MemNet `pin_map` / `find` on `SKG_global` or `kind='SKL'`, or [SKILL-GRAPH.md](SKILL-GRAPH.md) (max 2 passes) |
+| **Pick by trigger** | Bound SKG: repo pass 1, pack pass 2. MemNet `pin_map` / `find`, else seed / [SKILL-GRAPH.md](SKILL-GRAPH.md) |
 | **Unclear route** | Ask user, or open-repo `AGENTS.md`; optional [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) only for explicit multi-match |
+| **Bind / edit graphs** | [skill-graph-workflow](skill-graph-workflow/SKILL.md) then one relative |
 | **New/audit skills** | [skill-creator](skill-creator/SKILL.md), [skill-reviewer](skill-reviewer/SKILL.md); **skillfish** (registry) |
 | **Cursor rules** | [rule-writer](rule-writer/SKILL.md) -- Project/Team/AGENTS.md writable; User Rules = draft for user paste (Customize -> Rules); never `state.vscdb` / pack != Settings |
 
@@ -121,7 +126,8 @@ Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 
 | Resource | Purpose |
 |----------|---------|
-| [SKILL-GRAPH.md](SKILL-GRAPH.md) | Wire hub & stack definitions |
+| [SKILL-GRAPH.md](SKILL-GRAPH.md) | Pack routing hub and stack definitions |
+| [skill-graph-workflow](skill-graph-workflow/SKILL.md) | Bind pack vs repo graph; pointer relatives; no merge |
 | [LLM.md](LLM.md) | Detailed skill discovery / pack rules |
 | [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt) | User Rules SSOT draft (prefs, secrets, terminal, sub-agent, workflow, goldfish, multitask MemNet) |
 | [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) | Optional graph router (explicit multi-match only) |
@@ -138,4 +144,4 @@ Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 
 ## Key Rule: Limited Iteration
 
-Do not walk skill folders or `related_skills.txt` as a checklist. Match triggers (<=2 passes), open one skill, execute. Ask when routing stays ambiguous.
+Do not walk skill folders or `related_skills.txt` as a checklist. Match repo TRG then pack TRG (<=2 passes), open one skill, execute. Ask when routing stays ambiguous.

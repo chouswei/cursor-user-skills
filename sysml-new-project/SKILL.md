@@ -8,9 +8,9 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.8"
+  version: "1.9"
   product: "memnet-llm==0.19.5"
-  pairs_with: [sysml-root-config, sysml-requirements-generator, sysml-modeling-session-checklist, sysml-memnet-cache, sysml-memnet-documentation, mcp-memnet, sysml-v2-lsp-mcp, project-planner, sysmledge-workflow]
+  pairs_with: [sysml-root-config, sysml-requirements-generator, sysml-modeling-session-checklist, sysml-memnet-cache, sysml-memnet-documentation, mcp-memnet, sysml-v2-lsp-mcp, project-planner, sysmledge-workflow, oosem-workflow]
 token_guardrails: |
   - Ask for project slug, one-line purpose, and requirement ID prefix before bulk generation unless user gave them.
   - House default tree is sysml-models/. Use sysml-v2-models/projects/<slug>/ only when the repo already uses that layout (legacy opt-in).
@@ -25,7 +25,7 @@ token_guardrails: |
 
 **House default:** `sysml-models/` (SysMLEdge author SSOT). **Legacy opt-in:** repos that still use **`sysml-v2-models/projects/<slug>/`** -- keep that layout; do not migrate a live pack tree in this skill unless the user asked.
 
-**Pairing:** After scaffold, SysMLEdge day loop is **sysmledge-workflow**. Elsewhere **sysml-modeling-workflow** + this skill. Use **one** specialist after (e.g. **sysml-requirements-generator**, **sysml-connections**) for content depth.
+**Pairing:** After scaffold, SysMLEdge day loop is **sysmledge-workflow**. Elsewhere **sysml-modeling-workflow** + this skill. If the user named **OOSEM**, content sequence is **oosem-workflow**. Use **one** specialist after (e.g. **sysml-requirements-generator**, **sysml-connections**) for content depth.
 
 ## Before you scaffold
 
@@ -170,6 +170,7 @@ Add MOD for each other `models/*.sysml` created. Store returned **catalog** `ses
 | need | skill |
 |------|-------|
 | SysMLEdge day loop / propose-only | `sysmledge-workflow` |
+| OOSEM method cycle (needs through V&V) | `oosem-workflow` |
 | system design report `outputs/` | `system-design-report-generator` / `sysml-view-doc-sync` |
 | custom PCBA `hardware/` | `hardware-custom-pcba-workflow` (repo skill when present) |
 | shared part `libs/common/` | `sysml-common-lib-contribution` |

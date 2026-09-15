@@ -55,6 +55,7 @@
 | mermaid | G | doc | medium | low | structural | low |
 | mermaid-doc-readability | P | user | medium | medium | structural | low |
 | mmdc | T | doc | low | low | structural | low |
+| oosem-workflow | P | sysml | high | medium | structural | low |
 | optimization-planner | P | user | high | high | measured | low |
 | pandas-expert | T | user | medium | low | structural | low |
 | pcba-design-reviewer | R | pcba | high | high | structural | low |
@@ -77,6 +78,7 @@
 | security-reviewer | R | user | high | high | structural | low |
 | sfiles2 | T | user | medium | medium | structural | low |
 | skill-creator | G | meta | high | low | structural | low |
+| skill-graph-workflow | P | meta | high | medium | structural | low |
 | skill-reviewer | R | meta | high | low | structural | low |
 | skillfish | T | meta | low | low | structural | low |
 | sysml-allocate-generator | G | sysml | medium | medium | structural | low |

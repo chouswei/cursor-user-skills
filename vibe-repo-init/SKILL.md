@@ -9,9 +9,9 @@ description: >-
   firmware basement, hybrid app scaffold.
 metadata:
   pattern: pipeline
-  version: 1.2-vibe-repo-init
+  version: 1.3-vibe-repo-init
   domain: repo-bootstrap
-  secondary: "hybrid: confirm-scope gate + Cursor basement (.cursor/skills required) + type playbooks; optional project-planner"
+  secondary: "hybrid: confirm-scope gate + Cursor basement (.cursor/skills + repo skill-graph-seed.wire) + type playbooks; optional project-planner / skill-graph-workflow"
 pipeline_steps:
   1. Detect blankness
      - Confirm workspace is empty or near-empty (no meaningful src). If not blank, stop and ask: init-in-place vs new folder.
@@ -25,7 +25,7 @@ pipeline_steps:
      - Fill assets/init-plan-template.md; show user; wait for OK before writing files (unless user said "just scaffold").
   5. Scaffold basement
      - Apply references/basement-layout.md + references/cursor-basement.md + type playbook(s) under references/types/.
-     - Create only basement files (README, ignore, build stub, src skeleton, AGENTS.md, `.cursor/rules/`, **`.cursor/skills/`**) — not full product features.
+     - Create only basement files (README, ignore, build stub, src skeleton, AGENTS.md, `.cursor/rules/`, **`.cursor/skills/`** including `skill-graph-seed.wire`) — not full product features.
   6. Optional deep plan
      - If requirements still fuzzy after scaffold: hand off to ../project-planner/SKILL.md once.
   7. Verify + settle
@@ -36,6 +36,7 @@ system_instruction: |
   Load one type playbook at a time. Hybrid: shared root first, then each type slice.
   Do not invent board/cloud credentials. Prefer ASCII paths.
   Do not omit `.cursor/skills/`; seed from assets/repo-context-skill-stub.md unless user names another first skill.
+  Copy ../skill-graph-workflow/assets/repo-skill-graph-seed.wire to .cursor/skills/skill-graph-seed.wire.
 token_guardrails: |
   - Open references/repo-types.md once for classification; open only matched type playbook(s).
   - Open references/cursor-basement.md once per scaffold.
@@ -57,8 +58,9 @@ token_guardrails: |
 2. Confirm scope before scaffold (workflow §1): do not assume or copy unless user said mirror X.
 3. Always apply [references/cursor-basement.md](references/cursor-basement.md) on scaffold — **`.cursor/skills/` is mandatory**.
 4. Seed `.cursor/skills/repo-context/` from [assets/repo-context-skill-stub.md](assets/repo-context-skill-stub.md) unless the user names a different first project skill.
-5. One primary type playbook; hybrid adds secondary slices without duplicating shared root.
-6. After scaffold: one clear "next vibe step" in Cursor (build/flash/run/open UI).
+5. Copy [../skill-graph-workflow/assets/repo-skill-graph-seed.wire](../skill-graph-workflow/assets/repo-skill-graph-seed.wire) to `.cursor/skills/skill-graph-seed.wire` unless that file already exists.
+6. One primary type playbook; hybrid adds secondary slices without duplicating shared root.
+7. After scaffold: one clear "next vibe step" in Cursor (build/flash/run/open UI).
 
 ## Type codes
 
@@ -77,6 +79,7 @@ Full taxonomy: [references/repo-types.md](references/repo-types.md).
 
 | Skill | When |
 |-------|------|
+| [skill-graph-workflow](../skill-graph-workflow/SKILL.md) | After basement: bind/edit the repo seed; pointer relatives to pack skills |
 | [project-planner](../project-planner/SKILL.md) | Step 6 — requirements still fuzzy |
 | [polarfire-soc-setup](../polarfire-soc-setup/SKILL.md) | MCU/SoC path needs PolarFire kit setup |
 | [api-client-pattern](../api-client-pattern/SKILL.md) | Server/client HTTP basement conventions |
@@ -92,7 +95,8 @@ Full taxonomy: [references/repo-types.md](references/repo-types.md).
 - [assets/init-plan-template.md](assets/init-plan-template.md)
 - [assets/init-report-template.md](assets/init-report-template.md)
 - [assets/repo-context-skill-stub.md](assets/repo-context-skill-stub.md) — default project skill seed
+- [../skill-graph-workflow/assets/repo-skill-graph-seed.wire](../skill-graph-workflow/assets/repo-skill-graph-seed.wire) — default repo graph seed
 
 ## Pairing
 
-User-pack skills: `~/.cursor/skills/`. **Project skills:** `.cursor/skills/` (required in every scaffold). Route via [SKILL-GRAPH.md](../SKILL-GRAPH.md) / repo `AGENTS.md`. Memory: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc).
+User-pack skills: `~/.cursor/skills/`. **Project skills:** `.cursor/skills/` (required in every scaffold). **Project graph:** `.cursor/skills/skill-graph-seed.wire`. Route via [skill-graph-workflow](../skill-graph-workflow/SKILL.md) then pack [SKILL-GRAPH.md](../SKILL-GRAPH.md) / repo `AGENTS.md`. Memory: [memnet-goldfish-loop.mdc](~/.cursor/rules/memnet-goldfish-loop.mdc).

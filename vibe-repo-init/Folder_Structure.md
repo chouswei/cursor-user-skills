@@ -9,7 +9,7 @@ vibe-repo-init/
 │   ├── init-report-template.md
 │   └── repo-context-skill-stub.md
 └── references/
-    ├── cursor-basement.md
+    ├── cursor-basement.md          # includes repo skill-graph-seed.wire (copy from skill-graph-workflow/assets)
     ├── repo-types.md
     ├── basement-layout.md
     ├── init-checklist.md

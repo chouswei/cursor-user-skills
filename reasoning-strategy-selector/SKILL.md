@@ -11,12 +11,12 @@ description: >-
 metadata:
   pattern: pipeline
   secondary: router
-  version: 3.8-method-pack
-  related_skills: [academic-report-generator, adr-generator, architecture-reviewer, code-reviewer, commit-message-generator, control-theory-planner, decision-inverter, scientific-method-first-principles, empirical-paradox-synthesis, engineering-practices-learner, incentive-alignment-reviewer, launch-readiness-assessor, mcdm-decider, meeting-notes-generator, optimization-planner, pandas-expert, pr-reviewer, project-planner, risk-assessor, rfc-generator, security-reviewer, tech-report-generator, tech-report-reviewer, skill-creator, skillfish, skill-reviewer, sysml-new-project, sysml-refactorer]
+  version: 3.12-method-pack
+  related_skills: [academic-report-generator, adr-generator, architecture-reviewer, code-reviewer, commit-message-generator, control-theory-planner, decision-inverter, scientific-method-first-principles, empirical-paradox-synthesis, engineering-practices-learner, incentive-alignment-reviewer, launch-readiness-assessor, mcdm-decider, meeting-notes-generator, optimization-planner, pandas-expert, pr-reviewer, project-planner, risk-assessor, rfc-generator, security-reviewer, tech-report-generator, tech-report-reviewer, skill-graph-workflow, skill-creator, skillfish, skill-reviewer, sysml-new-project, sysml-refactorer]
 
 pipeline_steps:
   1. Frame — objective, hidden_assumptions, polarities. Abort with `order: []` if a single domain skill already fits.
-  2. Graph load — MemNet `pin_map` / `find` for `SKG_global` / matching `SKL` nodes (`session=` from AGENT-CONTEXT). Fallback to `SKILL-GRAPH.md` when MemNet is down.
+  2. Graph load — bind pack vs repo (`skill-graph-workflow`): repo `SKG_repo` if present, else pack `SKG_global`. MemNet `pin_map` / `find` (`session=` from AGENT-CONTEXT). Fallback: bound seed, then `SKILL-GRAPH.md`.
   3. Rank — graph traversal: trigger hit -> typed neighbours (`PRECEDES`, `DEFAULT_STACK`, `COMPLEMENTS`, `SPECIALIZES`); score by edge weights + hop penalty. No 6D convolution over the skill table.
   4. Output — Markdown handoff (≤400 tokens): objective, hidden_assumptions, polarities, feature_scores{top skills}, order[], graph_path[], rationale[≤4], pass. `order` ⊆ graph SKL ids; never `reasoning-strategy-selector`.
   5. Revise — if ambiguous: `pin_map` the top SKL (`depth=1`) or widen trigger match; max once.
@@ -26,9 +26,9 @@ system_instruction: |
   You route via skill graph traversal only; you do not solve the task.
   Prefer `order: []` + SKILL-GRAPH / repo AGENTS when domain intent is clear.
 
-  1. Match intent to TRG phrases (MemNet pin_map / find, or SKILL-GRAPH hub).
+  1. Match intent to TRG phrases on the **bound** SKG (repo then pack) via MemNet pin_map / find, else bound seed / SKILL-GRAPH hub.
   2. Traverse typed neighbours; rank per edge weights in skill-graph.md.
-  3. Cold start (no trigger): cue `SKG_global` or domain hub via `DEFAULT_STACK`.
+  3. Cold start (no trigger): cue the bound SKG (`SKG_repo` or pack `SKG_global`) or domain hub via `DEFAULT_STACK`.
   4. Return top-3 with score ≥ 0.55, or `[]` → SKILL-GRAPH fast-path.
 
   **No convolution.** Do not score all skills against a 6D feature table.
@@ -57,26 +57,28 @@ token_guardrails: |
 
 **Role:** Graph-first router and operator capabilities for managing and querying the skill graph in MemNet.
 
----
+**Bind:** [skill-graph-workflow](../skill-graph-workflow/SKILL.md). Live graph is MemNet on `SKG_repo` or pack `SKG_global`. Optional exports: pack [`references/skill-graph-seed.wire`](references/skill-graph-seed.wire); repo `<repo>/.cursor/skills/skill-graph-seed.wire`.
 
 ## 1. Skill Graph USE (Skill Route & Graph Traversal)
 
-**Triggers:** `which skill`, `skill route`, `find skill`, `routing disambiguation`, `ambiguous multi-match after SKILL-GRAPH`.
+**Triggers:** `which skill`, `skill route`, `find skill`, `routing disambiguation`, `ambiguous multi-match after SKILL-GRAPH`, `skill graph`, `relative skills`.
 
 ### MUST / MUST NOT
-- **MUST:** Query MemNet first using `find(kind="SKL", keyword="<term>", limit=5, session="<session>")` or `pin_map(kind="SKL", locators=["phrase=<term>"], depth=2, session="<session>")` (`session=` from `AGENT-CONTEXT.md`). Max 2 passes.
-- **MUST:** Open only the single matched `<pack-root>/<skill-id>/SKILL.md`.
-- **MUST:** If MemNet is down or ingest is missing, fallback immediately to `SKILL-GRAPH.md` hub lookup + open matched `SKILL.md` directly. If pack missing, clone `https://github.com/chouswei/cursor-user-skills.git` to `~/.cursor/skills` then continue. MUST NOT stall.
+- **MUST:** Bind pack vs repo first. Query MemNet on the bound SKG using `find(kind="SKL", keyword="<term>", limit=5, session="<session>")` or `pin_map(...)` (`session=` from `AGENT-CONTEXT.md`). Max 2 passes.
+- **MUST:** Open only the single matched SKILL.md (repo id under `.cursor/skills/`; pack id under `~/.cursor/skills/`).
+- **MUST:** If MemNet is down, fallback to the bound seed then `SKILL-GRAPH.md`. If pack missing, clone `https://github.com/chouswei/cursor-user-skills.git` to `~/.cursor/skills` then continue. MUST NOT stall.
 - **MUST NOT:** Glob every `SKILL.md`.
-- **MUST NOT:** Require `skill-graph-seed.wire` for routing (seed is an optional export artifact only).
+- **MUST NOT:** Require `skill-graph-seed.wire` for routing when MemNet is up (seed is an optional export).
+- **MUST NOT:** Merge repo SKL into the pack seed or pack SKG.
 - **MUST NOT:** Iterate `related_skills.txt` as a checklist.
 - **MUST NOT:** Invent skill ids.
 
 ### Checkable Procedure
-1. **Extract keyword:** Extract key domain/action term from user request (e.g. `pcba`, `traceability`, `premortem`).
-2. **MemNet query:** Call `find(kind="SKL", keyword="<term>", limit=5, session="<session>")` or `pin_map(kind="SKL", locators=["phrase=<term>"], depth=2, session="<session>")`.
-3. **Fallback:** If MemNet is unavailable, match trigger in `SKILL-GRAPH.md`.
-4. **Open single skill:** Open `<pack-root>/<skill-id>/SKILL.md` and follow instructions.
+1. **Bind graph:** Repo `SKG_repo` if `<repo>/.cursor/skills/` has a seed; else pack `SKG_global`.
+2. **Extract keyword:** Extract key domain/action term from user request (e.g. `pcba`, `traceability`, `premortem`).
+3. **MemNet query:** `find` / `pin_map` on the bound SKG.
+4. **Fallback:** Bound seed, then `SKILL-GRAPH.md`.
+5. **Open single skill:** Open the matched `SKILL.md` and follow instructions.
 
 ---
 
@@ -85,15 +87,15 @@ token_guardrails: |
 **Triggers:** `create skill graph`, `ingest skills`, `init skill graph`, `ingest_skills`, `bootstrap skill graph`.
 
 ### MUST / MUST NOT
-- **MUST:** Ingest skills into MemNet via `mcp-memnet` tool `ingest_skills(path="<pack_path>", session="<session>")` or GQL `mutate` rows in the active session.
+- **MUST:** Ingest into the **bound** SKG via `ingest_skills` or GQL `mutate`. Pack path `~/.cursor/skills`; repo path `<repo>/.cursor/skills`.
 - **MUST:** Ensure each skill has `SKL` and `TRG` nodes linked via `TRIGGERS` edges.
-- **MUST NOT:** Require agents to manually parse or maintain `skill-graph-seed.wire` to use the graph.
-- **MUST NOT:** Invent a second, parallel graph store.
+- **MUST NOT:** Require agents to manually parse `skill-graph-seed.wire` to use the graph.
+- **MUST NOT:** Ingest repo skills into pack `SKG_global` / pack seed.
 
 ### Checkable Procedure
-1. **Ingest pack:** Call `ingest_skills(path="~/.cursor/skills", session="<session>")`.
-2. **Verify nodes:** Call `find(kind="SKL", limit=5, session="<session>")` and confirm returned skills.
-3. **Optional seed export:** Run `python tools/scan_skills_to_wire.py --write` to regenerate `references/skill-graph-seed.wire` as an offline artifact.
+1. **Ingest bound pack:** `ingest_skills(path="~/.cursor/skills", session="<session>")` for pack SKL, or `ingest_skills(path="<repo>/.cursor/skills", session="<session>")` for repo SKL.
+2. **Verify nodes:** `find(kind="SKL", limit=5, session="<session>")`.
+3. **Optional export:** Pack: `python tools/scan_skills_to_wire.py --write`. Repo: add `--repo-skills` and `--repo-seed`.
 
 ---
 
@@ -119,7 +121,11 @@ token_guardrails: |
 
 - `python tools/score_routing.py` — benchmark graph routing against golden set
 - `python tools/validate_selector_pack.py` — pack consistency checks
-- `python tools/scan_skills_to_wire.py --write` — optional export of seed wire from SKILL.md scan
-- `python tools/bootstrap_skill_graph.py --regenerate-views` — sync core-strategy-principles view from seed
+- `python tools/scan_skills_to_wire.py --write` — optional **pack** export from pack SKILL.md scan
+- `python tools/scan_skills_to_wire.py --repo-skills <repo>/.cursor/skills --repo-seed <repo>/.cursor/skills/skill-graph-seed.wire --write` — optional **repo** export (never without `--repo-seed`)
+- `python tools/bootstrap_skill_graph.py --regenerate-views` — sync core-strategy-principles view from pack seed
 - `python tools/record_routing_success.py TSK_route_<slug> <id> [...]` — format `LED_TO_SUCCESS` rows for MemNet
 
+1. Scan bound SKG (repo then pack) for obvious match (max 2 passes).
+2. If still multi-match **and** user asked for routing -> this router -> `order[]` from graph walk.
+3. Forbidden: exhaustive `related_skills.txt` iteration; using this skill as a thinking substitute.

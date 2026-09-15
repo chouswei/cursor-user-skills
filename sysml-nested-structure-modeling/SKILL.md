@@ -1,31 +1,18 @@
 ---
 name: sysml-nested-structure-modeling
-description: Decompose monolithic parts into hierarchical nested structures. Model coarse-grained architecture (container) with fine-grained stages (nested parts), inter-part ports, and explicit data flows.
-triggers:
-  - decompose monolithic part
-  - firmware architecture nested
-  - hierarchical structure modeling
-  - multi-stage processing decomposition
-  - nested part composition
-  - nested parts
-  - monolithic to modular
+description: >-
+  Decompose monolithic parts into hierarchical nested structures: container with
+  nested stages, inter-part ports, and explicit data flows.
+  Triggers: nested parts, hierarchical structure modeling, decompose monolithic part,
+  nested part composition, multi-stage processing decomposition.
 metadata:
   pattern: pipeline
-  version: 1.0
+  version: "1.1"
   domain: sysml
-  keywords:
-    - SysML v2
-    - firmware architecture
-    - hierarchical design
-    - refactoring
-related_skills:
-  - sysml-modeling-workflow
-  - sysml-memnet-cache
-  - sysml-signal-processing-pipeline
-  - sysml-connections
-duration_minutes: 20
-token_guardrails:
-  max_context_for_references: 8000
+  pairs_with: [sysml-modeling-workflow, sysml-memnet-cache, sysml-signal-processing-pipeline, sysml-connections]
+token_guardrails: |
+  - Load references/nested-structure-examples.md only when a worked example is needed.
+  - Keep this turn to one container and its nested stages; do not rewrite unrelated parts.
 ---
 
 system_instruction: |

@@ -16,7 +16,7 @@
 
 **Slices to create:**  
 
-**Cursor pack:** `.cursor/skills/` required (default seed: `repo-context`)  
+**Cursor pack:** `.cursor/skills/` required (default seed: `repo-context`) plus `.cursor/skills/skill-graph-seed.wire`  
 
 **Build/run commands (planned):**  
 
