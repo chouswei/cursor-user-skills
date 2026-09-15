@@ -9,6 +9,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
+  version: "1.0"
   pairs_with: [mcp-sysml-v2, sysml-part-reviewer, sysml-memnet-cache]
 token_guardrails: |
   - Scope to one project or named deploy package; use **Grep / Read** on live `.sysml` before reading wider trees.
@@ -30,7 +31,7 @@ system_instruction: |
 
 1. **Classify** — **Hardware / deployment:** `connection` usages in `deploy-*.sysml` (and sometimes project `connections-*.sysml`). Ends use `SharedConnections::*` (`SpiLink`, `UartLink`, `I2cLink`, `GpioExpansionLink`, …) or project `connection def`s. **Software:** logical `SoftwareDataFlow`, `StateCommandFlow`, etc. in the same deploy package or behaviour package. If unclear, ask one short question (hardware vs software vs both).
 
-2. **Locate** — Grep `connection ` and part names in `sysml-v2-models/projects/<project>/models/`. Read only the **connection blocks** and **port paths** on both ends (`master`/`slave`, `host`/`device`, `a`/`b` per link type).
+2. **Locate** — Grep `connection ` and part names under the live model root: house **`sysml-models/models/`**; legacy **`sysml-v2-models/projects/<project>/models/`**; else repo **`AGENTS.md`**. Read only the **connection blocks** and **port paths** on both ends (`master`/`slave`, `host`/`device`, `a`/`b` per link type).
 
 3. **Blast radius (cross-file)** — Before renames or wide rewires: use **Grep / Read** on live `.sysml`, then Cursor **`user-sysml-v2` MCP** (`getSymbols`, `getDefinition`, `getReferences`, `parse`, `validate`) on the file or code just loaded. Do not use abandoned `sysmledgraph` or treat an MCP workspace URI index as model SSOT.
 

@@ -7,6 +7,7 @@ metadata:
   pattern: generator
   output-format: sysml
   secondary: ask-first
+  version: "1.0"
   pairs_with: [mcp-sysml-v2, sysml-software-part-generator, sysml-traceability]
 token_guardrails: |
   - Both usages must exist in the same deployment composite (or clarify scope).
@@ -23,7 +24,7 @@ token_guardrails: |
 
 2. **Locate** — **`part def`** deployment composite in **`deploy-<project>.sysml`**; find existing **`allocate`** lines for pattern.
 
-3. **Generate** — For each pair:
+3. **Generate** — Fill [assets/allocate-stub.sysml](assets/allocate-stub.sysml). For each pair:
    ```text
    allocate <softwareUsage> to <hardwareUsage>;
    ```

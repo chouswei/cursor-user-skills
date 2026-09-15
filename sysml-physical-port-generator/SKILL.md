@@ -3,12 +3,14 @@ name: sysml-physical-port-generator
 description: >-
   Define SysML v2 physical port structures (connector { protocol { pin# } }) for hardware connectors
   (GPIO headers, mikroBUS, JST, etc.). Use when adding or modeling multi-pin connectors, breakout boards,
-  development-kit headers, or custom PCBA interfaces in sysml-v2-models/libs/common/parts/hardware_ports.sysml.
+  development-kit headers, or custom PCBA interfaces in house sysml-models/libs/common/parts/hardware_ports.sysml
+  (legacy sysml-v2-models/libs/common/parts/hardware_ports.sysml).
   Changing published connector defs in libs/common often implies well-design or COTS—use sysml-part-reviewer
   when maturity or doc impact is unclear.
 metadata:
   pattern: generator
   output-format: sysml
+  version: "1.0"
 token_guardrails: |
   - **libs/common `hardware_ports.sysml`:** Pinouts from standards/datasheets behave like **COTS**/baselined specs; substantive edits need rationale or **sysml-part-reviewer** + docs.
   - **Physical connector defs** are **de facto** pin truth for PCBs and cables; keep aligned with pin maps and deploy. See [sysml-traceability/references/de-facto-modeling.md](../sysml-traceability/references/de-facto-modeling.md).
@@ -31,7 +33,7 @@ token_guardrails: |
 
 ## Post-generation
 
-1. Insert defs into `sysml-v2-models/libs/common/parts/hardware_ports.sysml`
+1. Insert defs into house `sysml-models/libs/common/parts/hardware_ports.sysml` (legacy `sysml-v2-models/libs/common/parts/hardware_ports.sysml`)
 2. Use in part defs (e.g. `development_boards.sysml`)
 3. Add `I2cLink`/`UartLink` in `connections.sysml` if needed
 4. Validate: SysML MCP validate

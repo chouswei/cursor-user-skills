@@ -8,6 +8,7 @@ metadata:
   pattern: generator
   output-format: sysml
   secondary: ask-first
+  version: "1.0"
   pairs_with: [mcp-sysml-v2, sysml-requirements-generator, sysml-view-doc-sync]
 token_guardrails: |
   - Follow OMG SysML v2 textual syntax for any use case / objective constructs; validate with MCP.
@@ -25,7 +26,7 @@ token_guardrails: |
 
 2. **Package** — Usually **`deploy-<project>.sysml`** or dedicated **`requirements-`** / **`context-`** file; align with **`root-*.sysml`** imports (**sysml-root-config**).
 
-3. **Generate** — Minimal patterns (adjust to validator):
+3. **Generate** — Fill [assets/stakeholder-use-case-stub.sysml](assets/stakeholder-use-case-stub.sysml). Minimal patterns (adjust to validator):
    - **`part def`** or **`attribute def`** for stakeholder / actor roles with **`doc /* concern */`**
    - **`requirement def`** for goals if normative (**sysml-requirements-generator**)
    - **`part def <UseCaseName>`** with **`doc /* pre/post, actor, main success */`** for each use case

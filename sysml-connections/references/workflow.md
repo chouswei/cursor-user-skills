@@ -17,7 +17,7 @@ Match the `connection def` in `SharedConnections`: e.g. `SpiLink` uses `master` 
 
 If `mappings/*_pinmap_from_sysml.yaml` lists connection names, add or adjust entries when deploy connection names or hat ports change. Run:
 
-`python sysml-v2-models/scripts/check_pinmap_from_sysml.py --project <name>`
+`python sysml-v2-models/scripts/check_pinmap_from_sysml.py --project <name>` (legacy pack only; skip when the repo has no `sysml-v2-models/` tree).
 
 ## Anti-patterns
 
