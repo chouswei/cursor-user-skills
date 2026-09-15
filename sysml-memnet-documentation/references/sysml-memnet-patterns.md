@@ -20,6 +20,29 @@ ART, SEC, CLM, ENT, PKG, PRT, POR, CON, BEH, ITM, REQ, MOD, SYM, CONV, DEC, ISSU
 | DEC.task | parent TSK `goal`; short options; chosen when decided |
 | ISSUE.code | <=15 words backlog item |
 
+`session_open` `map_lines` MUST include every kind this file lists. A map of CON,EDG,LAW,PKG,POR,PRT,REQ,TSK,USR is unfit for campaign use -- `mutate` CLM will `unknown_tag` and cannot be repaired in-session.
+
+```text
+SCHEMA ART ; fields=title source kind status recycle
+SCHEMA SEC ; fields=heading order status recycle
+SCHEMA CLM ; fields=type code status recycle
+SCHEMA ENT ; fields=name kind code recycle
+SCHEMA PKG ; fields=qname kind status recycle
+SCHEMA PRT ; fields=name kind role status recycle
+SCHEMA POR ; fields=name kind dir typeRef status recycle
+SCHEMA CON ; fields=name kind ends status recycle
+SCHEMA BEH ; fields=name kind owner status recycle
+SCHEMA ITM ; fields=name kind recycle
+SCHEMA REQ ; fields=requirementId text status recycle
+SCHEMA MOD ; fields=path role status recycle
+SCHEMA SYM ; fields=name kind path line owner recycle
+SCHEMA CONV ; fields=topic recycle
+SCHEMA DEC ; fields=task code status recycle
+SCHEMA ISSUE ; fields=code topic recycle
+SCHEMA TSK ; fields=goal phase status recycle
+SCHEMA USR ; fields=topic content status recycle
+```
+
 ## Cue properties (not a store key)
 
 House tokens such as `TSK_model_<short>` are **`goal`** (or `name` / `qname` / `path` / `requirementId`). leftover nickname `id` is leftover.
@@ -46,7 +69,7 @@ House tokens such as `TSK_model_<short>` are **`goal`** (or `name` / `qname` / `
 | SYM | partDef, partUsage, portDef, portUsage, requirement, connection, behaviour, satisfy, allocate, package |
 | PKG | deploy, requirements, connections, behaviour, root, library, common |
 | ART | report, interconnection, behaviour, requirements, traceability |
-| CLM.type | fact, decision, assumption, convention, conclusion, stat |
+| CLM.type | fact, decision, assumption, convention, conclusion, stat, pipe |
 | TSK.phase | model, sync, audit, refactor, report, verify, turn, route |
 
 ## ITM is a node

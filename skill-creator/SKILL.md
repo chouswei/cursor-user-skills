@@ -30,8 +30,8 @@ pipeline_steps:
      - Apply every item in references/skill-creator-quality.md (include **skill.fish and portability** when registry/team/publish intent is present); max one revision.
   6. Final output
      - Fill assets/skill-output-template.md exactly; no extra sections.
-  7. Selector snippets (conditional)
-     - If wants_selector_update: bind graph via [skill-graph-workflow](../skill-graph-workflow/SKILL.md). Pack SKL: append GQL `CREATE` rows to `reasoning-strategy-selector/references/skill-graph-seed.wire`. Repo SKL: append to `<repo>/.cursor/skills/skill-graph-seed.wire`. Density: SKL + ≥2 TRG + ≥1 typed rel. Pack: run `python tools/bootstrap_skill_graph.py --regenerate-views`; update `related_skills.txt` if router subset changes then `python tools/sync_related_skills_from_txt.py --write`; `python tools/validate_selector_pack.py --check-views`. MUST NOT write repo SKL into the pack seed.
+  7. Selector & graph updates (conditional)
+     - If wants_selector_update: bind graph via [skill-graph-workflow](../skill-graph-workflow/SKILL.md). Ingest into the bound MemNet SKG (`ingest_skills` or `mutate`). Pack export: pack `skill-graph-seed.wire`. Repo export: `--repo-skills` + `--repo-seed`. Density: SKL + >=2 TRG + >=1 typed rel. Update `related_skills.txt` if router subset changes then `python tools/sync_related_skills_from_txt.py --write`; `python tools/validate_selector_pack.py --check-views`. MUST NOT write repo SKL into the pack seed.
 
 system_instruction: |
   Respond in concise mode. Prefer plain Markdown tables or short prose for steps 1–2 structured handoffs; do not use TOON/TRON. JSON only when a tool requires it. Each intermediate step ≤ 400 tokens.

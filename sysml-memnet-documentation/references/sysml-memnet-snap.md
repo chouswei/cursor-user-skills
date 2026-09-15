@@ -95,7 +95,7 @@ House tokens such as `TSK_model_<short>` live in **`goal`** (or `name` / `qname`
 
 ### `session_open` map
 
-Use the **full canonical map** in [sysml-memnet-patterns.md](sysml-memnet-patterns.md) -- 19 kinds including `POR`, `BEH`, `ITM`, `CONV`, `DEC`, `ISSUE`.
+Use the **full canonical map** in [sysml-memnet-patterns.md](sysml-memnet-patterns.md) -- 18 node kinds + edges, including `POR`, `BEH`, `ITM`, `CONV`, `DEC`, `ISSUE`.
 
 ### Example edges
 
@@ -113,7 +113,7 @@ CREATE (:PRT {name: 'edgePc'})-[:satisfies]->(:REQ {requirementId: 'VFDL2-MQTT-R
 
 1. `pin_map` on `PRT_*` / `POR_*` / `REQ_*` / `CON_*` / `SYM_*` -> `path`, `name`, `line`, link ends
 2. **Only if editing:** `Read(path, offset=line-12, limit=35)` -- not full file
-3. Window miss -> `Grep` exact name scoped to `path` from `:MOD`
+3. MUST confirm the Read window contains `SYM.name`. If not: line is stale -- Grep that path, SET `SYM.line`, then Read. MUST NOT patch a window that lacks the name.
 4. Still ambiguous -> Grep scoped to the `:MOD` path (not bulk Read)
 5. Grep/LSP line != stored line -> `mutate` SET `SYM.line` (self-heal)
 
@@ -183,7 +183,10 @@ memnet session load --file <project>.snap
 
 Agents **MUST NOT** paste `.snap` contents into chat. After load: `pin_map` the campaign cue on the **catalog**; then `session=` for the interior.
 
-Optional store path: `<model-root>/.memnet/<short>.snap` (not required in repo). For system repos this is typically `sysml-models/.memnet/`.
+MUST `session_save` after step 6 when any persistent CLM / USR / SYM / PRT row was written this turn.
+Path: `<model-root>/.memnet/<short>-<catalogId>-<YYYYMMDD>.snap`.
+MUST NOT overwrite a file named `*warm*`. `session_save` does not extend TTL; it is the only recovery if the id dies.
+Planner "when the user wants" does not apply to SysML / implement turns.
 
 ## AGENT-CONTEXT.md contract
 

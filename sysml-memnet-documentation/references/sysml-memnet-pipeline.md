@@ -26,8 +26,8 @@ Mutate after each step (or batch s1-s2, then s3, then s4-s6). Pin map is the sha
 
 ```cypher
 CREATE (t:TSK {goal: $goal, phase: 'turn', status: 'in_progress', recycle: 'delete_on_settle'})
-CREATE (c1:CLM {type: 'decision', code: 's1:up', recycle: 'delete_on_settle'})
-CREATE (c2:CLM {type: 'decision', code: 's2:hit', recycle: 'delete_on_settle'})
+CREATE (c1:CLM {type: 'pipe', code: 's1:up', recycle: 'delete_on_settle'})
+CREATE (c2:CLM {type: 'pipe', code: 's2:hit', recycle: 'delete_on_settle'})
 CREATE (t)-[:CHILDOF {note: 'turn', recycle: 'delete_on_settle'}]->(:TSK {goal: $campaign})
 ```
 
@@ -36,6 +36,8 @@ Settle with:
 ```cypher
 MATCH (t:TSK {goal: $goal}) SET t.status = 'settled'
 ```
+
+Pipe CLM (`type=pipe`, `code=sN:`, `recycle=delete_on_settle`) is telemetry. It is NOT the mission record. Verified decisions and proofs MUST be a separate `:CLM` `type=decision` or `type=fact` `recycle=persistent`, linked to the campaign TSK, written in step 6, then `session_save` ([sysml-memnet-snap.md](sysml-memnet-snap.md) Session `.snap` file). Settling `TSK_turn_*` MUST NOT delete those persistent rows.
 
 ### Step `code` vocabulary
 
@@ -60,12 +62,12 @@ MATCH (t:TSK {goal: $goal}) SET t.status = 'settled'
 
 ```cypher
 CREATE (t:TSK {goal: $goal, phase: 'turn', status: 'in_progress', recycle: 'delete_on_settle'})
-CREATE (c1:CLM {type: 'decision', code: 's1:up', recycle: 'delete_on_settle'})
-CREATE (c2:CLM {type: 'decision', code: 's2:hit', recycle: 'delete_on_settle'})
-CREATE (c3:CLM {type: 'decision', code: 's3:SYM_<symbol>', recycle: 'delete_on_settle'})
-CREATE (c4:CLM {type: 'decision', code: 's4:pass', recycle: 'delete_on_settle'})
-CREATE (c5:CLM {type: 'decision', code: 's5:sync:done', recycle: 'delete_on_settle'})
-CREATE (c6:CLM {type: 'decision', code: 's6:24rows', recycle: 'delete_on_settle'})
+CREATE (c1:CLM {type: 'pipe', code: 's1:up', recycle: 'delete_on_settle'})
+CREATE (c2:CLM {type: 'pipe', code: 's2:hit', recycle: 'delete_on_settle'})
+CREATE (c3:CLM {type: 'pipe', code: 's3:SYM_<symbol>', recycle: 'delete_on_settle'})
+CREATE (c4:CLM {type: 'pipe', code: 's4:pass', recycle: 'delete_on_settle'})
+CREATE (c5:CLM {type: 'pipe', code: 's5:sync:done', recycle: 'delete_on_settle'})
+CREATE (c6:CLM {type: 'pipe', code: 's6:24rows', recycle: 'delete_on_settle'})
 CREATE (t)-[:CHILDOF {note: 'turn', recycle: 'delete_on_settle'}]->(:TSK {goal: $campaign})
 ```
 
@@ -73,8 +75,8 @@ CREATE (t)-[:CHILDOF {note: 'turn', recycle: 'delete_on_settle'}]->(:TSK {goal: 
 
 ```cypher
 CREATE (t:TSK {goal: $intent, phase: 'route', status: 'in_progress', recycle: 'delete_on_settle'})
-CREATE (c1:CLM {type: 'decision', code: 'pick:sysml-modeling-workflow', recycle: 'delete_on_settle'})
-CREATE (c2:CLM {type: 'decision', code: 'pick:sysml-memnet-documentation', recycle: 'delete_on_settle'})
+CREATE (c1:CLM {type: 'pipe', code: 'pick:sysml-modeling-workflow', recycle: 'delete_on_settle'})
+CREATE (c2:CLM {type: 'pipe', code: 'pick:sysml-memnet-documentation', recycle: 'delete_on_settle'})
 CREATE (t)-[:LED_TO_SUCCESS {note: 'pass', recycle: 'persistent'}]->(:SKL {name: 'sysml-modeling-workflow'})
 ```
 
@@ -93,9 +95,9 @@ Parent: `TSK_model_<short>` or `TSK_report_<short>` (`phase=report`, `delete_on_
 
 ```cypher
 CREATE (t:TSK {goal: 'Sync relay section', phase: 'report', status: 'in_progress', recycle: 'delete_on_settle'})
-CREATE (c1:CLM {type: 'decision', code: 'M1:warm', recycle: 'delete_on_settle'})
-CREATE (c2:CLM {type: 'decision', code: 'M2:sec_S05-relay', recycle: 'delete_on_settle'})
-CREATE (c3:CLM {type: 'decision', code: 'M5:8clm', recycle: 'delete_on_settle'})
+CREATE (c1:CLM {type: 'pipe', code: 'M1:warm', recycle: 'delete_on_settle'})
+CREATE (c2:CLM {type: 'pipe', code: 'M2:sec_S05-relay', recycle: 'delete_on_settle'})
+CREATE (c3:CLM {type: 'pipe', code: 'M5:8clm', recycle: 'delete_on_settle'})
 ```
 
 Link report atoms with edges (`mentions` -> CON/PRT) in the same batch as model delta.

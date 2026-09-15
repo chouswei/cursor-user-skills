@@ -41,7 +41,7 @@ system_instruction: |
 
 4. **Inventory usages** — Grep **`requirement`** usages and **`satisfy`**: map **usage → requirement def type**.
 
-5. **Gaps** — No satisfy; broken satisfy refs; **duplicate** ids; **flat peers** that should derive from one parent; hierarchy orphans.
+5. **Gaps** — No satisfy; broken satisfy refs; **duplicate** ids; **flat peers** that should derive from one parent; hierarchy orphans. **MUST** flag mutually exclusive requirement or action docs on one subject, and any new satisfy that leaves sibling requirements unsatisfied or still pointing at a superseded action.
 
 6. **Optional allocate** — If user asks: shallow list of software→hardware pairs.
 

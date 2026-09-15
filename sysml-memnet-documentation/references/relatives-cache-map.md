@@ -53,8 +53,8 @@ Skills not listed: if they touch `.sysml` structure, use the matching row above 
 
 On first warm hit with zero `@PRT`/`@SYM` for a non-trivial project:
 
-1. `add` `@TSK`, all `@MOD` from `config.yaml`
+1. `mutate` CREATE `:TSK`, `:MOD` from `config.yaml`, and `:SYM` locators
 2. Grep each `part def`, `requirement def`, `connection def` -> `@PRT`/`@REQ`/`@CON` + `@SYM`
-3. `session_save` -> `<model-root>/.memnet/<short>.snap`
+3. `session_save` -> `<model-root>/.memnet/<short>-<catalogId>-<YYYYMMDD>.snap`. MUST NOT overwrite `*warm*`
 
 Procedure: [sysml-memnet-snap.md](sysml-memnet-snap.md#initial-snap-warm-miss-only).

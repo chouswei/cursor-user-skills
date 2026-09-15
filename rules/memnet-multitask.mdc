@@ -28,7 +28,7 @@ Tools / dialect: `mcp-memnet`, `memnet-format` -- do not re-copy here.
 - MUST set Task `model` from User Rules Model by role. MUST NOT copy that table here.
 - MUST end the turn after background spawn -- no poll, no await.
 - Next coordinator turn is a checkpoint: `pin_map` first; settle from the refreshed slice; then the next ready wave or stop. Wave count sets checkpoint count.
-- After Bind ready, one Execute worker per execute atom (one path, qname, or proof). MUST NOT hand one Execute worker a bundled sequential job. Parallel only with disjoint scopes or RSV.
+- After Bind ready, spawn one worker per ready atom with that atom's required role (one path, qname, or proof). MUST NOT default every atom to Implement. MUST NOT hand one Implement worker a bundled sequential job. Parallel only with disjoint scopes or RSV.
 
 ## Worker
 

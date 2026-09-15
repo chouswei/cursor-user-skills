@@ -1,14 +1,14 @@
-# Skill graph (schema for seed + MemNet)
+# Skill graph (schema for MemNet + seed export)
 
-**Audience:** LLM + tooling. Canonical routing store is [`skill-graph-seed.wire`](skill-graph-seed.wire) (**GQL `CREATE` rows**). Agent I/O is the same shape (shaped pin_map + openCypher-shaped mutate); wire SSOT: [memnet-format](../../memnet-format/SKILL.md) (see also [SKILL-GRAPH.md](../../SKILL-GRAPH.md)).
+**Audience:** LLM + tooling. Canonical live graph is in **MemNet** (`SKG_global` / `SKL` nodes, queried via `pin_map` and `find`). Agent I/O uses the GQL wire (shaped pin_map + openCypher-shaped mutate); wire SSOT: [memnet-format](../../memnet-format/SKILL.md) (see also [SKILL-GRAPH.md](../../SKILL-GRAPH.md)). Optional offline export: [`skill-graph-seed.wire`](skill-graph-seed.wire).
 
 ## Pre-Phase-1 decisions (D1-D4)
 
 | # | Decision |
 |---|----------|
 | D1 | Selector lives **only** in user-pack (`~/.cursor/skills/reasoning-strategy-selector/`). Repo copy is a thin pointer. |
-| D2 | **Two graphs, same GQL shape.** Pack [`skill-graph-seed.wire`](skill-graph-seed.wire) is SSOT for **pack** SKL (`SKG_global` is pack-scoped). Each repo has its own `<repo>/.cursor/skills/skill-graph-seed.wire` (`SKG_repo`). `SKILL-GRAPH.md` is a **pack hub**. `core-strategy-principles.md` is a **generated pack audit view**. MUST NOT merge repo SKL into the pack seed. |
-| D3 | **Graph-only routing.** No 6D convolution fallback. MemNet down -> parse seed wire locally. |
+| D2 | **Two graphs, same GQL shape.** MemNet is live authority: pack `SKG_global` (pack-scoped) vs repo `SKG_repo`. Pack [`skill-graph-seed.wire`](skill-graph-seed.wire) and `<repo>/.cursor/skills/skill-graph-seed.wire` are **optional exports**, not a merge. `SKILL-GRAPH.md` is the pack hub. MUST NOT merge repo SKL into the pack seed. |
+| D3 | **Graph-only routing.** Primary via MemNet `pin_map`/`find` on the **bound** SKG. MemNet down -> bound seed, then `SKILL-GRAPH.md`. |
 | D4 | **Phase 4 active:** parent agent writes `LED_TO_SUCCESS` on settle; selector reads +0.6 boost per edge. |
 
 ## Prior art
@@ -48,7 +48,7 @@ Agent-facing edge shape:
 | `CONFLICTS_WITH` | Mutually exclusive (rare) |
 | `LED_TO_SUCCESS` | Phase 4 empirical edge |
 
-**Engine seed:** Pack `skill-graph-seed.wire` and each repo `skill-graph-seed.wire` are GQL `CREATE` rows of the same shape. Tools parse the **bound** file; agents `mutate` the same shape. MUST NOT merge repo SKL into the pack seed.
+**Engine seed (optional export):** Pack `skill-graph-seed.wire` and each repo `skill-graph-seed.wire` are GQL `CREATE` rows of the same shape. Live authority is MemNet on the bound SKG. MUST NOT merge repo SKL into the pack seed.
 
 ## Edge-density contract
 

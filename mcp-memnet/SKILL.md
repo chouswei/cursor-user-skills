@@ -7,7 +7,7 @@ description: >-
   export_pin_map, reserve, RSV.
 metadata:
   pattern: tool-wrapper
-  version: "7.9"
+  version: "7.10"
   domain: memnet
   product: "memnet-llm==0.19.5"
 token_guardrails: |
@@ -73,7 +73,8 @@ session_open(map) -> cue / find -> pin_map -> reason -> mutate -> pin_map
 2. **Cue** -- `kind` / locators (`qname=`, `path=`, ...) / `keyword` / nickname `cue`. Empty cue = outline. Prefer one live `TSK_*`.
 3. **`pin_map`** -- one shaped offer per generate (admit into **W**). MCP `session=` selects the stratum. Drop the prior map next turn. leftover `anchor=` / `anchors=` are leftover nickname cues only. Shaped `pin_map` / `export_pin_map` / `find` emit MUST NOT show `hid`, `_memnet_hid`, `elementId`, or nickname `id` (`SHAPE_DROP_KEYS`). Cue-by-nickname lookup is still OK if the agent already holds that nickname. RSV product errors use leftover `anchor=` + `llm_id` only (no `_elN`). Do not put momentum / coverage / lambda / m on `pin_map`. Audit: MemNet `docs/operations/honesty-c-wire-audit.md`.
 4. **`mutate`** -- sparse GraphElement `CREATE` / `MATCH`...`SET`/`DELETE`. No leftover `id:'NEW'` mint.
-5. Persist if needed: `session_save` (file) or live cabinet (0.7 Agens / 0.14 Neo4j).
+5. Persist -- default session TTL is 1440 minutes; `session_save` does NOT extend it. After any `mutate` that created persistent CLM / USR / SYM / TSK facts, `session_save` to a new dated file (not a campaign warm file). Live cabinet (0.7 Agens / 0.14 Neo4j) is optional extra, not a substitute for that file.
+6. `session_not_found` -- `session_list` then `find` by locators. Adopt the richest live catalog (`qname` / `path` / SYM / CLM counts), not the unique `goal=` hit. MUST NOT `session_open` a replacement until that scan is done.
 
 **MCP missing:** skip MemNet; plain Markdown only (no TOON/TRON).
 
@@ -163,10 +164,10 @@ RSV may still take a leftover nick `anchor` on the tool -- that parameter name i
 | Turn phase | Tool |
 |------------|------|
 | Preflight | MemNet MCP in catalog? `serve_status` when TCP / unsure. Multitask MUST NOT in-process |
-| Read cache | `pin_map` campaign `goal=TSK_model_<short>`; then `session=` for the interior ([memnet-nested-sessions](../memnet-nested-sessions/SKILL.md)) |
-| Bootstrap | `session_open` + map; catalog `snap_model` or Path-B `ingest_sysml` (1->1). Cap: `housekeep_stats` -- MUST NOT ignore |
+| Read cache | `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)`; then `session=` for the interior ([memnet-nested-sessions](../memnet-nested-sessions/SKILL.md)) |
+| Bootstrap | `session_open` + map; catalog `snap_model` or Path-B `ingest_sysml` (1->1). `housekeep_stats`: act on session-cap and `unknown_tag`. MUST NOT treat `stale_orphans` / dangling counts on a mutate-maintained catalog as a prune signal -- those rows may be unreachable from the campaign cue and still be the mission record. Repo rules may forbid prune entirely. |
 | Write delta | **`mutate`**; `llm_id` if RSV held |
-| Persist | `session_save` -> project `.memnet/` snap |
+| Persist | After persistent CLM / USR / SYM / TSK mutate: `session_save` to `<model-root>/.memnet/<short>-<catalogId>-<YYYYMMDD>.snap`. MUST NOT overwrite `*warm*`. Engine TTL is 1..1440 minutes; `session_save` does not extend it. |
 
 Tag vocabulary: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md).
 

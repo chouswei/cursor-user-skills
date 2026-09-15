@@ -21,9 +21,9 @@ Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)). Neve
 
 | Do | Why |
 |----|-----|
-| **Trigger-first routing** | Match phrase -> repo seed if present, else pack [SKILL-GRAPH.md](SKILL-GRAPH.md); never browse skill folders |
-| **Max 2 trigger passes** | Pass 1 repo TRG; pass 2 pack TRG; then ask user or open-repo `AGENTS.md` |
-| **One specialist per turn** | Default; SysML stack per User Rules Workflow |
+| **Trigger-first routing** | Match phrase -> bound graph (repo `SKG_repo` if present, else pack `SKG_global`); never browse skill folders |
+| **Max 2 trigger passes** | Pass 1 repo TRG; pass 2 pack TRG; MemNet `pin_map`/`find` when up; then ask user or open-repo `AGENTS.md` |
+| **One specialist per turn** | Default; SysML stack: checklist -> workflow -> sysml-memnet-cache -> sysml-memnet-documentation -> <=1 specialist |
 | **Lazy-load references/assets** | Open only when a step needs them |
 | **MCP over bulk file reads** | Cheaper than reading entire trees |
 | **No normative paste** | Cite paths; do not paste huge specs |
@@ -35,12 +35,12 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 ## 2. Skill Discovery by Trigger
 
 1. Extract keywords from the user request
-2. If `<repo>/.cursor/skills/skill-graph-seed.wire` exists, match **repo** TRG (pass 1)
-3. If no match, scan pack [SKILL-GRAPH.md](SKILL-GRAPH.md) / pack seed (pass 2); [LLM.md](LLM.md) secondary
+2. Bind graph: repo `SKG_repo` / `<repo>/.cursor/skills/skill-graph-seed.wire` if present, else pack `SKG_global`
+3. Match TRG via MemNet `pin_map` or `find` on the bound SKG (max 2 passes; `session=` from `AGENT-CONTEXT.md`). Fallback: bound seed, then pack [SKILL-GRAPH.md](SKILL-GRAPH.md); [LLM.md](LLM.md) secondary
 4. Open matched `<id>/SKILL.md` (repo id under `.cursor/skills/`; pack id under `~/.cursor/skills/`)
 5. If still unclear -> ask the user, or open-repo `AGENTS.md` / domain checklist
 
-### Trigger examples (membership = SKL ids in the **bound** seed: repo seed if present, else pack `skill-graph-seed.wire`)
+### Trigger examples (membership = SKL ids in the **bound** graph: repo then pack)
 
 | Task | Triggers | Skill |
 |------|----------|-------|
@@ -68,7 +68,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 | ChemEngKG assist | ChemEngKG, kgtool, ChemKG SPARQL | `chemengkg-assist` |
 | Use MemNet | use memnet, how to use memnet, memnet goldfish | `memnet-use` |
 
-**See:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -> pack seed; open-repo seed when present. Route steps: User Rules **Workflow**. MUST NOT merge repo SKL into the pack seed.
+**See:** [skill-graph-workflow](skill-graph-workflow/SKILL.md) to bind; then `pin_map` / `find` on that SKG, or [SKILL-GRAPH.md](SKILL-GRAPH.md). MUST NOT merge repo SKL into the pack seed. Route steps: User Rules **Workflow**.
 
 ---
 
@@ -82,8 +82,8 @@ Normative loop and tiers: **User Rules** (Workflow + MemNet goldfish loop). Stor
 
 ```cypher
 CREATE (t:TSK {goal: 'Relay harness edit', phase: 'route', status: 'settled', recycle: 'delete_on_settle'})
-CREATE (c1:CLM {type: 'decision', code: 'pick:sysml-modeling-workflow', recycle: 'delete_on_settle'})
-CREATE (c2:CLM {type: 'decision', code: 'pick:sysml-memnet-documentation', recycle: 'delete_on_settle'})
+CREATE (c1:CLM {type: 'pipe', code: 'pick:sysml-modeling-workflow', recycle: 'delete_on_settle'})
+CREATE (c2:CLM {type: 'pipe', code: 'pick:sysml-memnet-documentation', recycle: 'delete_on_settle'})
 CREATE (t)-[:LED_TO_SUCCESS {note: 'pass', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
 ```
 
@@ -106,7 +106,7 @@ Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 | Rule | Detail |
 |------|--------|
 | **Entry file** | `<pack-root>/<id>/SKILL.md` -- follow frontmatter + numbered steps |
-| **Pick by trigger** | Repo seed pass 1, pack [SKILL-GRAPH.md](SKILL-GRAPH.md) pass 2 |
+| **Pick by trigger** | Bound SKG: repo pass 1, pack pass 2. MemNet `pin_map` / `find`, else seed / [SKILL-GRAPH.md](SKILL-GRAPH.md) |
 | **Unclear route** | Ask user, or open-repo `AGENTS.md`; optional [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) only for explicit multi-match |
 | **Bind / edit graphs** | [skill-graph-workflow](skill-graph-workflow/SKILL.md) then one relative |
 | **New/audit skills** | [skill-creator](skill-creator/SKILL.md), [skill-reviewer](skill-reviewer/SKILL.md); **skillfish** (registry) |
@@ -126,7 +126,7 @@ Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 
 | Resource | Purpose |
 |----------|---------|
-| [SKILL-GRAPH.md](SKILL-GRAPH.md) | Pack routing hub -> pack seed; repo seed is a second graph |
+| [SKILL-GRAPH.md](SKILL-GRAPH.md) | Pack routing hub and stack definitions |
 | [skill-graph-workflow](skill-graph-workflow/SKILL.md) | Bind pack vs repo graph; pointer relatives; no merge |
 | [LLM.md](LLM.md) | Detailed skill discovery / pack rules |
 | [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt) | User Rules SSOT draft (prefs, secrets, terminal, sub-agent, workflow, goldfish, multitask MemNet) |

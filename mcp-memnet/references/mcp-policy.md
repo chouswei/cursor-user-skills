@@ -37,7 +37,8 @@ Args: [tool-parameters.md](tool-parameters.md). Wire: [wire-format.md](wire-form
 |---------|--------|
 | Tools absent from catalog | Skip MemNet; plain Markdown |
 | `serve_required` | Start `memnet serve` or stay in-process |
-| `session_not_found` | `session_open` / `session_load` |
+| `session_not_found` | `session_list`; `find` locators (`goal=`, `qname=`, `path=`). Adopt richest match. Unique TSK seed with empty `qname`/`path` is a loser. `session_load` a snap only into a **new** id; MUST NOT load over a live catalog. `session_open` only after zero rich candidates. |
+| `unknown_tag` | Map at `session_open` is frozen. If the doctrine writes CLM/SYM/USR, those kinds MUST be in `map_lines` **before** first mutate. Do not keep using that session as campaign cache. |
 | `no_map` | Pass `map_file` / `map_lines` |
 | `limit_exceeded` | `session_list` for `sessions|n/max`; `session_close` unused strata |
 | CueConflict | Do not pick one root; SameThingAbsorb is a later Commit |

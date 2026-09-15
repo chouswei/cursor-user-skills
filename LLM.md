@@ -27,9 +27,9 @@ Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>
 (:RUL {id: 'R12', kind: 'MUST', code: 'obey active skill token_guardrails; prefer tools/* over dumping references/*', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R13', kind: 'MUST', code: 'pipeline handoffs: MemNet up -> GQL wire (shaped pin_map + openCypher mutate); MemNet down -> plain Markdown; tool boundary -> JSON', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R14', kind: 'SHOULD', code: 'large uniform tabular data in answers -> Markdown table over JSON when clearer', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'R15', kind: 'MUSTNOT', code: 'invent skill-ids absent from the bound seed (open-repo skill-graph-seed.wire or pack skill-graph-seed.wire / SKILL-GRAPH.md)', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R15', kind: 'MUSTNOT', code: 'invent skill-ids absent from the bound graph (repo SKG_repo or pack SKG_global / SKILL-GRAPH.md)', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R16', kind: 'MUST', code: 'ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes)', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R17', kind: 'MUST', code: 'Task models per User Rules Model by role only; unsync checkpoint pipeline (spawn a wave, checkpoint, repeat; Execute is parallel atoms); slug on live Task allowlist; Plan is not the default worker; never *-fast', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R17', kind: 'MUST', code: 'Task models per User Rules Model by role only; unsync checkpoint pipeline (spawn a wave, checkpoint, repeat); after Bind ready spawn each atom required role, not Implement by default; Bind is the normal planner; Architect is thin-in/thin-out root plan only; slug on live Task allowlist; never *-fast', priority: 'high', recycle: 'persistent'})
 ```
 
 Mutate sketch (when writing rules into a live session):
@@ -45,12 +45,12 @@ Cross-refs: [memnet-goldfish-loop.mdc](rules/memnet-goldfish-loop.mdc), [sysml-m
 ## Procedure (per turn)
 
 1. Extract triggers from user phrase -> 2
-2. Match repo seed TRG if present (pass 1); else pack SKILL-GRAPH.md / pack seed (pass 2) -> 3
+2. Bind repo `SKG_repo` if present else pack `SKG_global`; match via MemNet `pin_map` / `find` (`session=` from AGENT-CONTEXT), else bound seed then `SKILL-GRAPH.md` (<=2 passes) -> 3
 3. Branch:
    - exactly one match -> open `<id>/SKILL.md` -> 4
    - model-choice / Task `model` intent -> user rule sub-agent-policy **Model by role** table only -> done
    - ambiguous -> ask user or repo AGENTS; optional `reasoning-strategy-selector` only for explicit multi-match -> 4
-   - conflict between candidates -> SKILL-GRAPH.md Contrasts/Edges -> 4
+   - conflict between candidates -> MemNet graph edges / stack definitions in SKILL-GRAPH.md -> 4
 4. Follow SKILL.md frontmatter + numbered steps as binding -> 5
 5. Lazy-load `references/` `assets/` `tools/` only when a step needs them -> 6
 6. Between steps: MemNet up -> GQL/openCypher-shaped mutate on server; MemNet down -> plain Markdown in-prompt -> 7
@@ -69,14 +69,7 @@ Cross-refs: [memnet-goldfish-loop.mdc](rules/memnet-goldfish-loop.mdc), [sysml-m
 | `route_skillqa` | skill quality / structure | `skill-reviewer` |
 | `route_obvious` | single clear match | that skill directly |
 | `route_multi` | multi-step / broad | unsync checkpoint pipeline: wave of sub-agents, checkpoint, repeat |
-| `route_sysml` | `sysml-v2-models/*` edit | `sysml-modeling-session-checklist` -> `sysml-modeling-workflow` -> one `sysml-*` specialist |
-
-openCypher-shaped mutate sketch:
-
-```cypher
-CREATE (c:CLM {type: 'decision', code: 'route_model->sub-agent-policy_Model_by_role', recycle: 'persistent'})
-CREATE (c)-[:ROUTES_TO {note: 'model_choice', recycle: 'persistent'}]->(:SKL {id: 'sub-agent-policy'})
-```
+| `route_sysml` | `sysml-models/*` or `parts/*/model/*` edit | `sysml-modeling-session-checklist` -> `sysml-modeling-workflow` -> `sysml-memnet-cache` -> `sysml-memnet-documentation` -> <=1 `sysml-*` specialist |
 
 ---
 
@@ -85,8 +78,8 @@ CREATE (c)-[:ROUTES_TO {note: 'model_choice', recycle: 'persistent'}]->(:SKL {id
 ```cypher
 (:RUL {id: 'P01', kind: 'MUST', code: 'skill-id = immediate child dir under <pack-root>', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'P02', kind: 'MUST', code: 'entry file = <pack-root>/<skill-id>/SKILL.md (no alternates)', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'P03', kind: 'MUST', code: 'discover ids via glob <pack-root>/*/SKILL.md; do not invent', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'P04', kind: 'MAY', code: 'aliases -> ids via SKILL-GRAPH.md Map section', priority: 'low', recycle: 'persistent'})
+(:RUL {id: 'P03', kind: 'MUSTNOT', code: 'glob every */SKILL.md; discover ids via MemNet pin_map / find or SKILL-GRAPH.md', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'P04', kind: 'MUST', code: 'resolve aliases via SKILL-GRAPH.md / MemNet graph', priority: 'high', recycle: 'persistent'})
 ```
 
 Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Structure.md`.
@@ -95,7 +88,7 @@ Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Stru
 
 ## Cross-references
 
-- **Routing aid:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -- hub -> pack [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire); open-repo seed when present. Bind: [skill-graph-workflow](skill-graph-workflow/SKILL.md).
+- **Routing aid:** [skill-graph-workflow](skill-graph-workflow/SKILL.md) binds pack vs repo; [SKILL-GRAPH.md](SKILL-GRAPH.md) is the hub fallback; live graph is MemNet on the bound SKG.
 - **Handoff aid:** `memnet-goldfish-loop.mdc` + `memnet-format/SKILL.md` + `mcp-memnet` + `memnet-multitask` (Multitask / Task sub-agents) + `sysml-gql` + `sysml-memnet-pipeline.md`; plain Markdown when MemNet down.
 - **Model choice SSOT:** User Rules **unsync checkpoint pipeline** (Model by role). Pack compose: `~/.cursor/skills/rules/sub-agent-policy.mdc`. Cursor does not load `~/.cursor/rules/*.mdc`.
 
