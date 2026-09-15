@@ -36,7 +36,7 @@ Every substantive turn on the project model tree **MUST** follow this order. New
 | Step | Action | MemNet |
 |------|--------|--------|
 | **1** | TCP/HTTP (`memnet-pi`) / unsure: `serve_status`; if down -> `.sysml` only; skip 2 and 6; note stale graph. Single-agent in-process: skip probe. Multitask **MUST NOT** in-process ([memnet-multitask](../memnet-multitask/SKILL.md)). | -- |
-| **2** | `pin_map` campaign `goal=TSK_model_<short>` on the catalog. If the cut has `session=`: next generate `pin_map(..., session=<interior>)`. leftover `anchor=` named leftover. | **READ** |
+| **2** | `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)` on the catalog. If the cut has `session=`: next generate `pin_map(..., session=<interior>)`. leftover `anchor=` named leftover. | **READ** |
 | **3** | Locate symbol -> edit `models/*.sysml` ([read policy](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md): pin map first; Read +/-15 lines at SYM.line only) | -- |
 | **4** | `mcp-sysml-v2 validate` until pass | -- |
 | **5** | `sysml-view-doc-sync` **iff** outputs exist and structure changed. Interconnection figures: **[sysml-interconnection-mermaid](../sysml-interconnection-mermaid/SKILL.md)** before fenced Mermaid. | -- |

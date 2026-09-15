@@ -1,6 +1,6 @@
 # SysML v2 MCP — tool arguments (daltskin/sysml-v2-lsp)
 
-Verified against **npm `sysml-v2-lsp`** MCP as wired in [.cursor/mcp.json](../../../../.cursor/mcp.json) (`node …/mcpServer.js`). Cursor may show the same schema in **MCP server tool descriptors**; if a release differs, follow the descriptor.
+Verified against **npm `sysml-v2-lsp`** MCP as wired in `~/.cursor/mcp.json` (Windows: `$env:USERPROFILE\.cursor\mcp.json`, server key `sysml-v2`, Cursor namespace `user-sysml-v2`). Cursor may show the same schema in **MCP server tool descriptors**; if a release differs, follow the descriptor.
 
 ## Inline model text: `code`
 
@@ -36,8 +36,8 @@ Do **not** use `symbolName`, `elementName`, or `qualifiedName` unless the MCP de
 - npm package **`sysml-v2-lsp`**; MCP CLI bin **`sysml-mcp`** (same script as `mcpServer.js`).
 - **No** supported `npx sysml-v2-lsp validate` CLI.
 - **Windows:** `npm install` may fail in **postinstall**; use **`--ignore-scripts`**.
-- **Project load** in repo: `python sysml-v2-models/scripts/exam_model.py --project <folder>` (optional `--visualize` for BDD+IBD PNG smoke test). Diagrams: `visualize.py` when needed.
+- In `modelbasedPrj-*` system repos, SysML model files live under `sysml-models/`.
 
 ## Noise: `mcpServer.js`
 
-The published **`mcpServer.js`** is a **large minified bundle**. Do not `@`-edit it; follow the troubleshooting guidance in the `mcp-sysml-v2` skill and [.cursorignore](../../../../.cursorignore).
+The published **`mcpServer.js`** is a **large minified bundle**. Do not `@`-edit it; follow the troubleshooting guidance in the `mcp-sysml-v2` skill.

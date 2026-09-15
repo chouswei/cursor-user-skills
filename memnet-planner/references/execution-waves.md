@@ -53,7 +53,7 @@ MUST NOT spawn a step that already has a non-empty `llm_id`. That blocks double-
 
 Parent **owns** settle: next coordinator turn `pin_map` the plan, then `SET` step `status='settled'` from **graph facts**, not worker prose. Workers MUST NOT settle the plan root or sibling steps.
 
-Prefer **one worker per step**. After Bind ready, Execute steps are atoms (one path, qname, or proof); spawn one Execute worker per ready atom in the same `wave` when scopes are disjoint. Do not spawn two workers on the same step or the same `scope` without RSV. Do not mint one bundled Execute step that a single Execute worker must run sequentially.
+Prefer **one worker per step**. After Bind ready, steps are atoms (one path, qname, or proof); spawn one worker per ready atom in the same `wave` with that atom's **required role** when scopes are disjoint -- do not default every atom to Implement. Do not spawn two workers on the same step or the same `scope` without RSV. Do not mint one bundled step that a single worker must run sequentially.
 
 If the step is a nested `session=` interior: pass that `session=` in the worker prompt; worker goldfish only that S.
 
@@ -65,10 +65,10 @@ On each checkpoint turn:
 
 1. `pin_map` the plan (cue / `find` if ego lost).
 2. Settle finished steps from graph facts and proof commands -- not from worker chat.
-3. If a ready wave remains: claim `llm_id`, spawn that wave (one Execute worker per execute atom after Bind ready), end the turn.
+3. If a ready wave remains: claim `llm_id`, spawn that wave (one worker per ready atom with that atom's required role), end the turn.
 4. Else stop.
 
-Execute after Bind ready usually yields **several** Execute-proof checkpoints (one per Execute wave). MUST NOT skip the checkpoint and poll. MUST NOT collapse several Execute waves into one parent turn.
+Work after Bind ready usually yields **several** wave-proof checkpoints (one per wave). MUST NOT skip the checkpoint and poll. MUST NOT collapse several waves into one parent turn.
 
 ## Spawn prompt (parent -> worker)
 

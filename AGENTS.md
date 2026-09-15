@@ -22,7 +22,7 @@ Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)). Neve
 |----|-----|
 | **Trigger-first routing** | Match phrase -> [SKILL-GRAPH.md](SKILL-GRAPH.md); never browse skill folders |
 | **Max 2 trigger passes** | Then ask user or open-repo `AGENTS.md` |
-| **One specialist per turn** | Default; SysML stack per User Rules Workflow |
+| **One specialist per turn** | Default; SysML stack: checklist -> workflow -> sysml-memnet-cache -> sysml-memnet-documentation -> <=1 specialist |
 | **Lazy-load references/assets** | Open only when a step needs them |
 | **MCP over bulk file reads** | Cheaper than reading entire trees |
 | **No normative paste** | Cite paths; do not paste huge specs |
@@ -34,11 +34,11 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 ## 2. Skill Discovery by Trigger
 
 1. Extract keywords from the user request
-2. Scan [SKILL-GRAPH.md](SKILL-GRAPH.md) trigger table (max 2 passes); [LLM.md](LLM.md) secondary
+2. Match triggers via MemNet `pin_map` or `find` on `SKG_global` / `kind='SKL'` (max 2 passes; `session=` from `AGENT-CONTEXT.md`); fallback to [SKILL-GRAPH.md](SKILL-GRAPH.md) when MemNet is down; [LLM.md](LLM.md) secondary
 3. Open matched `<id>/SKILL.md` and follow steps
 4. If still unclear -> ask the user, or open-repo `AGENTS.md` / domain checklist
 
-### Trigger examples (membership = SKL ids in `skill-graph-seed.wire`)
+### Trigger examples (live in MemNet graph / SKILL-GRAPH.md)
 
 | Task | Triggers | Skill |
 |------|----------|-------|
@@ -64,7 +64,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 | ChemEngKG assist | ChemEngKG, kgtool, ChemKG SPARQL | `chemengkg-assist` |
 | Use MemNet | use memnet, how to use memnet, memnet goldfish | `memnet-use` |
 
-**See:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -> `skill-graph-seed.wire`. Route steps: User Rules **Workflow**.
+**See:** [SKILL-GRAPH.md](SKILL-GRAPH.md) (or `pin_map` / `find` on `SKG_global` in MemNet). Route steps: User Rules **Workflow**.
 
 ---
 
@@ -78,8 +78,8 @@ Normative loop and tiers: **User Rules** (Workflow + MemNet goldfish loop). Stor
 
 ```cypher
 CREATE (t:TSK {goal: 'Relay harness edit', phase: 'route', status: 'settled', recycle: 'delete_on_settle'})
-CREATE (c1:CLM {type: 'decision', code: 'pick:sysml-modeling-workflow', recycle: 'delete_on_settle'})
-CREATE (c2:CLM {type: 'decision', code: 'pick:sysml-memnet-documentation', recycle: 'delete_on_settle'})
+CREATE (c1:CLM {type: 'pipe', code: 'pick:sysml-modeling-workflow', recycle: 'delete_on_settle'})
+CREATE (c2:CLM {type: 'pipe', code: 'pick:sysml-memnet-documentation', recycle: 'delete_on_settle'})
 CREATE (t)-[:LED_TO_SUCCESS {note: 'pass', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
 ```
 
@@ -102,7 +102,7 @@ Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 | Rule | Detail |
 |------|--------|
 | **Entry file** | `<pack-root>/<id>/SKILL.md` -- follow frontmatter + numbered steps |
-| **Pick by trigger** | SKILL-GRAPH.md (max 2 passes) |
+| **Pick by trigger** | MemNet `pin_map` / `find` on `SKG_global` or `kind='SKL'`, or [SKILL-GRAPH.md](SKILL-GRAPH.md) (max 2 passes) |
 | **Unclear route** | Ask user, or open-repo `AGENTS.md`; optional [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) only for explicit multi-match |
 | **New/audit skills** | [skill-creator](skill-creator/SKILL.md), [skill-reviewer](skill-reviewer/SKILL.md); **skillfish** (registry) |
 | **Cursor rules** | [rule-writer](rule-writer/SKILL.md) -- Project/Team/AGENTS.md writable; User Rules = draft for user paste (Customize -> Rules); never `state.vscdb` / pack != Settings |
@@ -121,7 +121,7 @@ Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 
 | Resource | Purpose |
 |----------|---------|
-| [SKILL-GRAPH.md](SKILL-GRAPH.md) | Wire hub -> `skill-graph-seed.wire` |
+| [SKILL-GRAPH.md](SKILL-GRAPH.md) | Wire hub & stack definitions |
 | [LLM.md](LLM.md) | Detailed skill discovery / pack rules |
 | [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt) | User Rules SSOT draft (prefs, secrets, terminal, sub-agent, workflow, goldfish, multitask MemNet) |
 | [reasoning-strategy-selector](reasoning-strategy-selector/SKILL.md) | Optional graph router (explicit multi-match only) |

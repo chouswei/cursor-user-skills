@@ -10,14 +10,14 @@ metadata:
   pattern: pipeline
   version: "1.8"
   domain: memnet
-  product: "memnet-llm==0.19.3"
+  product: "memnet-llm==0.19.5"
 ---
 
 # Nested sessions
 
 How to **use** a session stack. Pair with [memnet-use](../memnet-use/SKILL.md). Doctrine: MemNet `docs/extras/memnet-session-strata.md`. SysML loop: MemNet `docs/application-notes/system/llm-sysml-v2-modeling.md`. Evidence (MemNet checkout): `sysml-models/outputs/sysml-session-nest-cuts-case-study.md` (Turns A-I).
 
-Chat is never SSOT. Goldfish is **one** S per generate. Do not revive Layer / `layer=`. **Package and PyPI 0.19.3**. Extra **0.15** catalog Snap is shipped.
+Chat is never SSOT. Goldfish is **one** S per generate. Do not revive Layer / `layer=`. **Package and PyPI 0.19.5**. Extra **0.15** catalog Snap is shipped.
 
 ## Two laws
 
@@ -47,7 +47,7 @@ If the nested type already presents in another minted session: **present** it. S
 
 ## Parallel sub-units
 
-When the **parent shell is already clear** in SSOT (children named, `session=` assigned): parent mints one `TSK_*` per interior (after Bind ready, one execute atom per interior), sets Task `model` from User Rules, passes that session id, **ends the turn**. Next parent turn is a checkpoint; repeat for later waves. Workers goldfish **only** their S_i -- load [memnet-multitask](../memnet-multitask/SKILL.md) (TCP/HTTP). If the parent nest is still being invented: **serial** -- write the shell first. Same interior / same brace: RSV or serialise.
+When the **parent shell is already clear** in SSOT (children named, `session=` assigned): parent mints one `TSK_*` per interior (after Bind ready, one atom per interior, spawned with that atom's required role), sets Task `model` from User Rules, passes that session id, **ends the turn**. Next parent turn is a checkpoint; repeat for later waves. Workers goldfish **only** their S_i -- load [memnet-multitask](../memnet-multitask/SKILL.md) (TCP/HTTP). If the parent nest is still being invented: **serial** -- write the shell first. Same interior / same brace: RSV or serialise.
 
 ## MUST NOT
 
@@ -56,4 +56,4 @@ When the **parent shell is already clear** in SSOT (children named, `session=` a
 - Clip `max_rows` and call it Shape -- refuse; cut sessions.
 - Absorb a whole S / merge interiors in chat.
 - Two workers on the same interior before the shell is named.
-- Hand one Execute worker several interiors as one bundled sequential job.
+- Hand one worker several interiors as one bundled sequential job.

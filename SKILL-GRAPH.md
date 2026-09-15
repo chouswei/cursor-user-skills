@@ -1,8 +1,8 @@
 # Skill Graph (LLM-only hub)
 
-**Audience:** model. Agent I/O is MemNet **GQL wire** (shaped `pin_map` + openCypher-shaped mutate). Wire SSOT: [memnet-format](memnet-format/SKILL.md). **Do not** treat this file as the graph -- it routes you to the graph.
+**Audience:** model. Durable MemNet handoffs use the **GQL wire** (shaped `pin_map` + openCypher-shaped mutate). Wire SSOT: [memnet-format](memnet-format/SKILL.md). **Do not** treat this file as a flat graph database -- it routes you to the MemNet skill graph and defines stack architectures.
 
-**Engine seed:** [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) is GQL `CREATE` rows (same shape as agent `mutate`). Cue then `pin_map`; `find` if ego unknown. Empty q is 0.11 outline. Product write is **`mutate`**. **1.0** unclaimed.
+**MemNet skill graph:** Query via `pin_map` / `find` on `SKG_global` or `kind='SKL'`. Pass `session=` from `AGENT-CONTEXT.md` / catalog session. Optional export: [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire).
 
 ---
 
@@ -11,43 +11,39 @@
 Shaped present (as on a pin_map):
 
 ```cypher
-(:MOD {id: 'SKILL-GRAPH.md'})-[:CANONICAL_GRAPH {id: 'E_sg_01', note: 'single_source_D2', recycle: 'persistent'}]->(:MOD {id: 'skill-graph-seed.wire'})
+(:MOD {id: 'SKILL-GRAPH.md'})-[:RUNTIME_GRAPH {id: 'E_sg_01', note: 'primary_memnet', recycle: 'persistent'}]->(:SKG {id: 'SKG_global'})
 (:MOD {id: 'SKILL-GRAPH.md'})-[:SCHEMA_DOCS {id: 'E_sg_02', recycle: 'persistent'}]->(:MOD {id: 'reasoning-strategy-selector/references/skill-graph.md'})
-(:MOD {id: 'SKILL-GRAPH.md'})-[:RUNTIME_GRAPH {id: 'E_sg_03', note: 'optional_sync', recycle: 'persistent'}]->(:SKG {id: 'SKG_global'})
-(:MOD {id: 'SKILL-GRAPH.md'})-[:MEMBERSHIP_INDEX {id: 'E_sg_04', note: 'SKL_rows', recycle: 'persistent'}]->(:MOD {id: 'skill-graph-seed.wire'})
-(:MOD {id: 'SKILL-GRAPH.md'})-[:AUDIT_VIEW {id: 'E_sg_05', note: 'generated', recycle: 'persistent'}]->(:MOD {id: 'reasoning-strategy-selector/references/core-strategy-principles.md'})
-(:SKL {id: 'reasoning-strategy-selector'})-[:TRAVERSES {id: 'E_sg_06', note: 'route_graph', recycle: 'persistent'}]->(:MOD {id: 'skill-graph-seed.wire'})
+(:MOD {id: 'SKILL-GRAPH.md'})-[:CANONICAL_GRAPH {id: 'E_sg_03', note: 'optional_export_seed', recycle: 'persistent'}]->(:MOD {id: 'skill-graph-seed.wire'})
+(:MOD {id: 'SKILL-GRAPH.md'})-[:AUDIT_VIEW {id: 'E_sg_04', note: 'generated', recycle: 'persistent'}]->(:MOD {id: 'reasoning-strategy-selector/references/core-strategy-principles.md'})
+(:SKL {id: 'reasoning-strategy-selector'})-[:ROUTES_VIA {id: 'E_sg_05', note: 'memnet_pin_map', recycle: 'persistent'}]->(:SKG {id: 'SKG_global'})
 ```
 
 | Tier | Artifact | Role |
 |------|----------|------|
-| 1 | [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) | **Canonical graph** (engine seed) -- skills, triggers, typed edges |
-| 2 | `memnet serve` -> `SKG_global` | **Runtime graph** -- `pin_map` from cue `kind` / locators when MemNet is up; merge seed via `bootstrap --sync` |
-| 3 | This file + slim catalog rule | **Routing hub** -- rules only; no duplicate node/edge payload |
-
-**D2:** Seed file is single source. Markdown tables here were a generated view -- **removed**; regenerate audit table only via `python tools/bootstrap_skill_graph.py --regenerate-views`.
+| 1 | `memnet serve` -> `SKG_global` | **Runtime graph** (Primary) -- `pin_map` / `find` with `session=` from `AGENT-CONTEXT.md` |
+| 2 | `SKILL-GRAPH.md` (this file) | **Routing hub & stacks** (Fallback) -- rules, domain stacks, offline routing fallback |
+| 3 | [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) | **Optional export seed** -- build/export artifact; never a gate for routing |
 
 ---
 
-## Routing procedure
+## Routing procedure (Skill Route)
 
 ```cypher
-(:RUL {id: 'SG01', kind: 'MUST', code: 'trigger routing via graph traversal (seed or MemNet pin_map), not flat table scan', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG02', kind: 'MUST', code: 'at most 2 trigger-match passes on TRG phrases connected to SKL via TRIGGERS', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG03', kind: 'MUST', code: 'open matched <skill-id>/SKILL.md only', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG04', kind: 'MUST', code: 'ambiguous after 2 scans -> ask user or repo AGENTS; optional reasoning-strategy-selector only for explicit multi-match', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG05', kind: 'MUSTNOT', code: 'invent skill-ids; membership = SKL rows in skill-graph-seed.wire', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG06', kind: 'MUSTNOT', code: 'iterate related_skills.txt as checklist', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG07', kind: 'MAY', code: 'MemNet down -> parse skill-graph-seed.wire locally (D3 graph-only)', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'SG01', kind: 'MUST', code: 'primary route: MemNet pin_map or find on SKG_global / kind=SKL using session from AGENT-CONTEXT (max 2 passes)', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG02', kind: 'MUST', code: 'open matched <skill-id>/SKILL.md only; do not glob every SKILL.md', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG03', kind: 'MUSTNOT', code: 'require skill-graph-seed.wire for routing (seed is optional export only)', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG04', kind: 'MUST', code: 'fallback when MemNet down: lookup intent in SKILL-GRAPH.md then open matched SKILL.md directly; clone user pack if missing; do not stall', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG05', kind: 'MUST', code: 'ambiguous after 2 scans -> ask user or repo AGENTS; optional reasoning-strategy-selector only for explicit multi-match', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG06', kind: 'MUSTNOT', code: 'invent skill-ids; verify against MemNet SKL nodes or SKILL-GRAPH.md', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG07', kind: 'MUSTNOT', code: 'iterate related_skills.txt as checklist', priority: 'high', recycle: 'persistent'})
 ```
 
 Steps:
 
-1. Extract keywords from user phrase
-2. MemNet up? `pin_map` from cue (`kind` / locators) or `find` then pin_map. Else parse seed.wire locally
-3. Match TRG phrase -> follow `:TRIGGERS` -> SKL
-4. Rank: `:LED_TO_SUCCESS` boost + `:COMPLEMENTS` / `:PRECEDES` / `:DEFAULT_STACK`
-5. Open top SKL id `SKILL.md`; SysML hub stack if sysml domain
+1. Extract keywords/intent from user phrase.
+2. MemNet up: call `find(kind="SKL", keyword="<term>", limit=5, session="<session>")` or `pin_map(kind="SKL", locators=["phrase=<term>"], depth=2, session="<session>")` (max 2 passes).
+3. MemNet down or ingest missing: look up domain/intent in this hub file (`SKILL-GRAPH.md`).
+4. Open the matched `<pack-root>/<skill-id>/SKILL.md` directly. SysML domain follows SysML default stack.
 
 ---
 
@@ -72,7 +68,8 @@ Pattern codes: `G`=Generator, `R`=Reviewer, `P`=Pipeline, `T`=Tool-wrapper.
 
 ```cypher
 (:SKL {id: 'sysml-modeling-session-checklist'})-[:DEFAULT_STACK {id: 'E_sys_01', note: 'hub', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
-(:SKL {id: 'sysml-modeling-workflow'})-[:DEFAULT_STACK {id: 'E_sys_02', note: 'memnet', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
+(:SKL {id: 'sysml-modeling-workflow'})-[:DEFAULT_STACK {id: 'E_sys_02', note: 'cache', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-cache'})
+(:SKL {id: 'sysml-memnet-cache'})-[:DEFAULT_STACK {id: 'E_sys_02b', note: 'docs', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
 (:SKL {id: 'sysml-modeling-workflow'})-[:COMPLEMENTS {id: 'E_sys_03', note: 'sysmledge', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
 ```
 
@@ -97,7 +94,7 @@ Then at most one specialist SKL from `TRIGGERS` match. Repo `AGENTS.md` may add 
 (:SKL {id: 'analytical-mechanics-propose'})-[:COMPLEMENTS {id: 'E_am_02', note: 'framing_before_surrogate', recycle: 'persistent'}]->(:SKL {id: 'physics-constrained-surrogate-routing'})
 ```
 
-Load `memnet-use` when the job is **using** MemNet. Load `memnet-planner` when a plan must live in the session graph and be updated or repolished. Load `memnet-nested-sessions` when a nest is cut across sessions. Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play (spawn a wave, checkpoint, repeat). Load `analytical-mechanics-propose` when proposing or reviewing an analytical-mechanics framing for any domain (STM thesis is the worked example, not the only target). Load `memnet-stm-harness` when wiring or triaging STM from thesis locks (W vs S, ShapeWalk harness, gauge/caps) -- fetch playbooks from [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics). Load `sysml-gql` when SysML modeling uses MemNet GQL working memory. Ops: MemNet `docs/operations/multi-agent-sessions.md`. Shape: `docs/SHAPE.md`. Version map: `docs/ROADMAP.md` (**package and PyPI 0.19.3**). System-repo pattern: MemNet `docs/application-notes/system/llm-system-dev-multitask.md`.
+Load `memnet-use` when the job is **using** MemNet. Load `memnet-planner` when a plan must live in the session graph and be updated or repolished. Load `memnet-nested-sessions` when a nest is cut across sessions. Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play (spawn a wave, checkpoint, repeat). Load `analytical-mechanics-propose` when proposing or reviewing an analytical-mechanics framing for any domain (STM thesis is the worked example, not the only target). Load `memnet-stm-harness` when wiring or triaging STM from thesis locks (W vs S, ShapeWalk harness, gauge/caps) -- fetch playbooks from [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics). Load `sysml-gql` when SysML modeling uses MemNet GQL working memory. Ops: MemNet `docs/operations/multi-agent-sessions.md`. Shape: `docs/SHAPE.md`. Version map: `docs/ROADMAP.md` (**package and PyPI 0.19.5**). System-repo pattern: MemNet `docs/application-notes/system/llm-system-dev-multitask.md`.
 
 Build-the-engine hub **`memnet-reference`** lives in the MemNet checkout (`.cursor/skills/memnet-reference/`); this pack does not copy it.
 
@@ -137,13 +134,12 @@ Load `diagram-routing` when diagram format is unclear. Load `pydexpi-p-id` for r
 
 ---
 
-## Maintenance
+## Maintenance & Operations (Create, Update, Use)
 
 ```cypher
-(:RUL {id: 'SG_M01', kind: 'MUST', code: 'graph edits in skill-graph-seed.wire only (or scan_skills_to_wire.py --write)', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG_M02', kind: 'MUST', code: 'after seed change: bootstrap_skill_graph.py --regenerate-views', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG_M03', kind: 'SHOULD', code: 'bootstrap --sync to merge into MemNet (preserve LED_TO_SUCCESS)', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'SG_M04', kind: 'MUST', code: 'validate: python tools/validate_selector_pack.py --check-views', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG_M01', kind: 'MUST', code: 'create/update skill graph via MemNet ingest_skills or mutate in active session', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG_M02', kind: 'SHOULD', code: 'optional export: scan_skills_to_wire.py --write to update skill-graph-seed.wire', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'SG_M03', kind: 'MUST', code: 'validate selector pack consistency: python tools/validate_selector_pack.py', priority: 'high', recycle: 'persistent'})
 ```
 
 Mutate into a live session with openCypher-shaped **`mutate`** (GraphElement CREATE / MATCH SET).
@@ -155,7 +151,8 @@ Mutate into a live session with openCypher-shaped **`mutate`** (GraphElement CRE
 | Option | Use? | Why |
 |--------|------|-----|
 | Flat 100-row table | No | Duplicates SKL+TRG+TRIGGERS; drifts from seed; ~3k tokens every load |
-| Hub + seed.wire | Yes | Single source; traversable; pin-map slice; edges queryable |
-| SET in alwaysApply catalog | No | Burns tokens every turn; membership already SKL in seed |
+| MemNet runtime graph | Yes | Bounded `pin_map` / `find` queries; zero overhead in hub file |
+| Hub + optional export seed | Yes | Single source; traversable; pin-map slice; edges queryable |
+| SET in alwaysApply catalog | No | Burns tokens every turn; membership already in graph |
 
-**End.** Open [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) or cue `pin_map` for `SKG_global` for the actual graph.
+**End.** Run `pin_map` / `find` on `SKG_global` or `kind='SKL'` in MemNet to discover skills.

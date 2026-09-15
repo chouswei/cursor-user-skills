@@ -9,7 +9,7 @@ metadata:
   pattern: pipeline
   secondary: tool-wrapper
   domain: sysml,memnet
-  version: "1.19"
+  version: "1.20"
   product: "memnet-llm==0.19.5"
   pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, memnet-format, sysml-gql, memnet-nested-sessions, memnet-multitask]
 token_guardrails: |

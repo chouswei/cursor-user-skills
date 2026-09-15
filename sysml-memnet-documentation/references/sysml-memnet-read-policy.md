@@ -54,12 +54,12 @@ MemNet MCP in catalog?
   no -> grep/read as needed; plain Markdown notes; skip MemNet write
 serve_status (TCP / unsure only).running?
   false -> grep/read as needed; note stale MemNet; skip step 6
-  true / TCP / HTTP -> pin_map campaign TSK_model_<short> on catalog; then session= for this cut (next generate)
+  true / TCP / HTTP -> pin_map(kind='TSK', locators=['goal=TSK_model_<short>']) on catalog; then session= for this cut (next generate)
   true / single-agent in-process -> same pin_map; MUST NOT in-process under Multitask
 
 Need symbol location?
   warm has @SYM_<name> with path+line?
-    yes -> Read(path, offset=line-12, limit=35)
+    yes -> Read(path, offset=line-12, limit=35). MUST confirm the window contains SYM.name. If not: line is stale -- Grep that path, SET SYM.line, then Read. MUST NOT patch a window that lacks the name.
     no  -> Grep symbol in models/<file from @MOD_*>
 
 Need connection endpoints?
@@ -104,7 +104,7 @@ Use a **cue** (`kind` / `locators` / `keyword`), not leftover `anchor=` as law (
 
 | Task | Cue |
 |------|-----|
-| Project resume | `kind='TSK'`, locators `id=TSK_model_<short>` |
+| Project resume | `kind='TSK'`, locators `['goal=TSK_model_<short>']` |
 | Named subsystem | `PRT_*` / `CON_*` |
 | Requirements | `REQ_*` |
 | Named subsystem | rows for the relevant `PRT_*` / `CON_*` |

@@ -1,14 +1,14 @@
-# Skill graph (schema for seed + MemNet)
+# Skill graph (schema for MemNet + seed export)
 
-**Audience:** LLM + tooling. Canonical routing store is [`skill-graph-seed.wire`](skill-graph-seed.wire) (**GQL `CREATE` rows**). Agent I/O is the same shape (shaped pin_map + openCypher-shaped mutate); wire SSOT: [memnet-format](../../memnet-format/SKILL.md) (see also [SKILL-GRAPH.md](../../SKILL-GRAPH.md)).
+**Audience:** LLM + tooling. Canonical live graph is in **MemNet** (`SKG_global` / `SKL` nodes, queried via `pin_map` and `find`). Agent I/O uses the GQL wire (shaped pin_map + openCypher-shaped mutate); wire SSOT: [memnet-format](../../memnet-format/SKILL.md) (see also [SKILL-GRAPH.md](../../SKILL-GRAPH.md)). Optional offline export: [`skill-graph-seed.wire`](skill-graph-seed.wire).
 
 ## Pre-Phase-1 decisions (D1-D4)
 
 | # | Decision |
 |---|----------|
 | D1 | Selector lives **only** in user-pack (`~/.cursor/skills/reasoning-strategy-selector/`). Repo copy is a thin pointer. |
-| D2 | `skill-graph-seed.wire` is **single source**. `SKILL-GRAPH.md` is a **hub** (routing rules + GQL wire pointers). `core-strategy-principles.md` is a **generated audit view** (`bootstrap --regenerate-views`). |
-| D3 | **Graph-only routing.** No 6D convolution fallback. MemNet down -> parse seed wire locally. |
+| D2 | **MemNet graph is live authority**. `SKILL-GRAPH.md` is a **hub** (routing rules + stack definitions). `skill-graph-seed.wire` is an **optional export artifact**. |
+| D3 | **Graph-only routing.** Primary via MemNet `pin_map`/`find`. MemNet down -> fallback to `SKILL-GRAPH.md` hub. |
 | D4 | **Phase 4 active:** parent agent writes `LED_TO_SUCCESS` on settle; selector reads +0.6 boost per edge. |
 
 ## Prior art
