@@ -11,12 +11,12 @@ description: >-
 metadata:
   pattern: pipeline
   secondary: router
-  version: 3.10-method-pack
-  related_skills: [academic-report-generator, adr-generator, architecture-reviewer, code-reviewer, commit-message-generator, control-theory-planner, decision-inverter, scientific-method-first-principles, empirical-paradox-synthesis, engineering-practices-learner, incentive-alignment-reviewer, launch-readiness-assessor, mcdm-decider, meeting-notes-generator, optimization-planner, pandas-expert, pr-reviewer, project-planner, risk-assessor, rfc-generator, security-reviewer, tech-report-generator, tech-report-reviewer, skill-creator, skillfish, skill-reviewer, sysml-new-project, sysml-refactorer]
+  version: 3.11-method-pack
+  related_skills: [academic-report-generator, adr-generator, architecture-reviewer, code-reviewer, commit-message-generator, control-theory-planner, decision-inverter, scientific-method-first-principles, empirical-paradox-synthesis, engineering-practices-learner, incentive-alignment-reviewer, launch-readiness-assessor, mcdm-decider, meeting-notes-generator, optimization-planner, pandas-expert, pr-reviewer, project-planner, risk-assessor, rfc-generator, security-reviewer, tech-report-generator, tech-report-reviewer, skill-graph-workflow, skill-creator, skillfish, skill-reviewer, sysml-new-project, sysml-refactorer]
 
 pipeline_steps:
   1. Frame — objective, hidden_assumptions, polarities. Abort with `order: []` if a single domain skill already fits.
-  2. Graph load — parse [`skill-graph-seed.wire`](references/skill-graph-seed.wire) locally, or cue `pin_map` for `SKG_global` / matching SKL when MemNet is live. Match TRG phrases; cue per [skill-graph.md](references/skill-graph.md).
+  2. Graph load — bind pack vs repo: repo seed `<repo>/.cursor/skills/skill-graph-seed.wire` (`SKG_repo`) if present, else pack [`skill-graph-seed.wire`](references/skill-graph-seed.wire) (`SKG_global` is pack-scoped). Parse locally or cue `pin_map` for that SKG. Match TRG; cue per [skill-graph.md](references/skill-graph.md). Bind detail: [skill-graph-workflow](../skill-graph-workflow/SKILL.md).
   3. Rank — graph traversal only: trigger hit -> typed neighbours (`PRECEDES`, `DEFAULT_STACK`, `COMPLEMENTS`, `SPECIALIZES`); score by edge weights + hop penalty. No 6D convolution over the skill table.
   4. Output — Markdown handoff (≤400 tokens): objective, hidden_assumptions, polarities, feature_scores{top skills}, order[], graph_path[], rationale[≤4], pass. `order` ⊆ graph SKL ids; never `reasoning-strategy-selector`.
   5. Revise — if ambiguous: `pin_map` the top SKL (`depth=1`) or widen trigger match; max once.
@@ -26,9 +26,9 @@ system_instruction: |
   You route via skill graph traversal only; you do not solve the task.
   Prefer `order: []` + SKILL-GRAPH / repo AGENTS when domain intent is clear.
 
-  1. Match intent to TRG phrases (skill-graph-seed.wire or MemNet pin_map).
+  1. Match intent to TRG phrases on the **bound** seed (repo then pack) or MemNet pin_map.
   2. Traverse typed neighbours; rank per edge weights in skill-graph.md.
-  3. Cold start (no trigger): cue `SKG_global` or domain hub via `DEFAULT_STACK`.
+  3. Cold start (no trigger): cue the bound SKG (`SKG_repo` or pack `SKG_global`) or domain hub via `DEFAULT_STACK`.
   4. Return top-3 with score ≥ 0.55, or `[]` → SKILL-GRAPH fast-path.
 
   **No convolution.** Do not score all skills against a 6D feature table.
@@ -58,14 +58,15 @@ token_guardrails: |
 **Optional router** — MemNet skill graph + wire seed. Canonical pack: **user-pack only** (D1).
 Not a default fallback for unclear project work; use repo `AGENTS.md` / ask the user first.
 
-**Source of truth:** [`references/skill-graph-seed.wire`](references/skill-graph-seed.wire) (D2). Generated views: `core-strategy-principles.md`, `SKILL-GRAPH.md` trigger table.
+**Source of truth:** pack [`references/skill-graph-seed.wire`](references/skill-graph-seed.wire) for pack SKL (D2). Open-repo seed for project SKL. Generated pack views: `core-strategy-principles.md`. Hub: `SKILL-GRAPH.md`.
 
 **Schema:** [skill-graph.md](references/skill-graph.md) · **Golden set:** [routing-golden-set.md](references/routing-golden-set.md)
 
 **Tools:**
 - `python tools/score_routing.py` — benchmark graph routing on golden set
 - `python tools/bootstrap_skill_graph.py --regenerate-views` — sync generated views from seed
-- `python tools/scan_skills_to_wire.py --write` — rebuild seed from SKILL.md scan
+- `python tools/scan_skills_to_wire.py --write` — rebuild **pack** seed from pack SKILL.md scan
+- `python tools/scan_skills_to_wire.py --repo-skills <repo>/.cursor/skills --repo-seed <repo>/.cursor/skills/skill-graph-seed.wire --write` — rebuild **repo** seed (never without `--repo-seed`)
 - `python tools/validate_selector_pack.py` — pack + graph density checks
 - `python tools/strategy-retriever.py "<q>"` — graph trigger match helper (not convolution)
 
@@ -77,6 +78,6 @@ Not a default fallback for unclear project work; use repo `AGENTS.md` / ask the 
 
 ## Limited iteration rule
 
-1. Scan SKILL-GRAPH triggers (max 2 passes) for obvious match.
+1. Scan repo seed TRG if present, else pack SKILL-GRAPH (max 2 passes) for obvious match.
 2. If still multi-match **and** user asked for routing → this router → `order[]` from graph walk.
 3. Forbidden: exhaustive `related_skills.txt` iteration; using this skill as a thinking substitute.

@@ -27,7 +27,7 @@ Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>
 (:RUL {id: 'R12', kind: 'MUST', code: 'obey active skill token_guardrails; prefer tools/* over dumping references/*', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R13', kind: 'MUST', code: 'pipeline handoffs: MemNet up -> GQL wire (shaped pin_map + openCypher mutate); MemNet down -> plain Markdown; tool boundary -> JSON', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R14', kind: 'SHOULD', code: 'large uniform tabular data in answers -> Markdown table over JSON when clearer', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'R15', kind: 'MUSTNOT', code: 'invent skill-ids absent from skill-graph-seed.wire / SKILL-GRAPH.md', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R15', kind: 'MUSTNOT', code: 'invent skill-ids absent from the bound seed (open-repo skill-graph-seed.wire or pack skill-graph-seed.wire / SKILL-GRAPH.md)', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R16', kind: 'MUST', code: 'ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes)', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R17', kind: 'MUST', code: 'Task models per User Rules Model by role only; unsync checkpoint pipeline (spawn a wave, checkpoint, repeat; Execute is parallel atoms); slug on live Task allowlist; Plan is not the default worker; never *-fast', priority: 'high', recycle: 'persistent'})
 ```
@@ -45,7 +45,7 @@ Cross-refs: [memnet-goldfish-loop.mdc](rules/memnet-goldfish-loop.mdc), [sysml-m
 ## Procedure (per turn)
 
 1. Extract triggers from user phrase -> 2
-2. Match triggers in SKILL-GRAPH.md (<=2 passes) -> 3
+2. Match repo seed TRG if present (pass 1); else pack SKILL-GRAPH.md / pack seed (pass 2) -> 3
 3. Branch:
    - exactly one match -> open `<id>/SKILL.md` -> 4
    - model-choice / Task `model` intent -> user rule sub-agent-policy **Model by role** table only -> done
@@ -95,7 +95,7 @@ Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Stru
 
 ## Cross-references
 
-- **Routing aid:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -- hub -> [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) (GQL CREATE seed).
+- **Routing aid:** [SKILL-GRAPH.md](SKILL-GRAPH.md) -- hub -> pack [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire); open-repo seed when present. Bind: [skill-graph-workflow](skill-graph-workflow/SKILL.md).
 - **Handoff aid:** `memnet-goldfish-loop.mdc` + `memnet-format/SKILL.md` + `mcp-memnet` + `memnet-multitask` (Multitask / Task sub-agents) + `sysml-gql` + `sysml-memnet-pipeline.md`; plain Markdown when MemNet down.
 - **Model choice SSOT:** User Rules **unsync checkpoint pipeline** (Model by role). Pack compose: `~/.cursor/skills/rules/sub-agent-policy.mdc`. Cursor does not load `~/.cursor/rules/*.mdc`.
 

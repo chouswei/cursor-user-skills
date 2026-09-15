@@ -56,7 +56,7 @@ When Multitask Mode is on, the system gate wins: MUST spawn async, MUST end the 
 
 # Skill Route gate
 
-- MUST match triggers in `~/.cursor/skills/SKILL-GRAPH.md` in at most 2 passes; use `~/.cursor/skills/LLM.md` secondarily.
+- MUST match the open-repo `.cursor/skills/skill-graph-seed.wire` first if present, else `~/.cursor/skills/SKILL-GRAPH.md`, in at most 2 passes; use `~/.cursor/skills/LLM.md` secondarily.
 - MUST NOT glob every `SKILL.md`; open and follow one matched skill.
 - For SysML, MUST use `sysml-modeling-session-checklist` -> `sysml-modeling-workflow` -> at most one `sysml-*` specialist.
 - MUST honour the open-repo `AGENTS.md`; after two ambiguous scans, ask the user or read it.

@@ -10,7 +10,7 @@ description: >-
   meta pipeline, orchestrate skills, pattern tool-wrapper generator reviewer inversion pipeline.
 metadata:
   pattern: pipeline
-  version: 1.2-skill-creator
+  version: 1.3-skill-creator
   domain: agent-skills
 
 pipeline_steps:
@@ -31,7 +31,7 @@ pipeline_steps:
   6. Final output
      - Fill assets/skill-output-template.md exactly; no extra sections.
   7. Selector snippets (conditional)
-     - If wants_selector_update: append GQL `CREATE` rows to `reasoning-strategy-selector/references/skill-graph-seed.wire` (SKL + ≥2 TRG + ≥1 typed rel per skill-graph.md density contract); run `python tools/bootstrap_skill_graph.py --regenerate-views`; update `related_skills.txt` if router subset changes then `python tools/sync_related_skills_from_txt.py --write`; `python tools/validate_selector_pack.py --check-views`.
+     - If wants_selector_update: bind graph via [skill-graph-workflow](../skill-graph-workflow/SKILL.md). Pack SKL: append GQL `CREATE` rows to `reasoning-strategy-selector/references/skill-graph-seed.wire`. Repo SKL: append to `<repo>/.cursor/skills/skill-graph-seed.wire`. Density: SKL + ≥2 TRG + ≥1 typed rel. Pack: run `python tools/bootstrap_skill_graph.py --regenerate-views`; update `related_skills.txt` if router subset changes then `python tools/sync_related_skills_from_txt.py --write`; `python tools/validate_selector_pack.py --check-views`. MUST NOT write repo SKL into the pack seed.
 
 system_instruction: |
   Respond in concise mode. Prefer plain Markdown tables or short prose for steps 1–2 structured handoffs; do not use TOON/TRON. JSON only when a tool requires it. Each intermediate step ≤ 400 tokens.

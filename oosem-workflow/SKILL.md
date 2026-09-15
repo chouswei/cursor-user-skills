@@ -9,7 +9,7 @@ description: >-
   generic SysML file edits with no method language.
 metadata:
   pattern: pipeline
-  version: "1.1"
+  version: "1.2"
   domain: sysml
   secondary: "hybrid: one OOSEM activity per turn; delegates one sysml-* specialist"
   pairs_with: [sysml-modeling-workflow, sysml-stakeholder-use-case, sysml-requirements-generator, sysml-nested-structure-modeling, sysml-behaviour-generator, sysml-connections, sysml-allocate-generator, mcdm-decider, sysml-hardware-part-generator, sysml-software-part-generator, sysml-physical-port-generator, sysml-software-port-generator, sysml-item-generator, sysml-traceability, sysml-requirements-audit, sysmledge-workflow, sysml-part-reviewer]
@@ -18,6 +18,7 @@ token_guardrails: |
   - Cycle is iterative. MUST NOT treat the six activities as a one-pass waterfall.
   - Black-box behaviour and scenarios before logical objects; logical objects before physical parts.
   - One specialist SKILL.md per turn. MUST NOT paste sibling skill bodies.
+  - Repo graph first: if the open-repo seed TRIGGERS this activity, open that repo SKL. MUST NOT copy repo SKL into the pack seed.
   - .sysml edits follow sysml-modeling-workflow. SysMLEdge repos also follow sysmledge-workflow.
   - Load references/cycle.md only when mapping an activity or citing sources.
 pipeline_steps:
@@ -28,7 +29,8 @@ pipeline_steps:
      - Operational scenarios and black-box required behaviour before structure.
      - If the user jumped to parts or ports, pull back to scenarios / black-box requirements.
   3. Delegate one specialist
-     - Open exactly one row from the Delegated skills table. Follow that SKILL.md.
+     - If the open-repo seed TRIGGERS this activity to a repo SKL, open that SKL.
+     - Else open exactly one row from the Delegated skills table. Follow that SKILL.md.
   4. Model-first edit
      - If editing .sysml, follow ../sysml-modeling-workflow/SKILL.md (six-step turn).
      - SysMLEdge tree: also ../sysmledge-workflow/SKILL.md (propose-only; human Save).
@@ -72,6 +74,8 @@ Top-down and scenario-driven: black-box first, then logical objects, then physic
 
 ## Delegated skills (one per turn)
 
+Pack defaults below. If the open-repo seed TRIGGERS this activity, open that **repo** SKL instead.
+
 | Activity | Open | When |
 |----------|------|------|
 | Needs | [sysml-stakeholder-use-case](../sysml-stakeholder-use-case/SKILL.md) | Stakeholders, goals, use cases, operational context |
@@ -96,6 +100,7 @@ Top-down and scenario-driven: black-box first, then logical objects, then physic
 | Keep the cycle iterative | Treat 01-06 as a waterfall that finishes once |
 | Cite the primer URL when the method is the answer | Invent OOSEM activities or copy Friedenthal chapter prose |
 | Follow sysml-modeling-workflow on `.sysml` edits | Duplicate that 6-step sequence here |
+| Prefer a repo SKL when the repo seed TRIGGERS this activity | Copy repo SKL into the pack seed |
 
 Handoff shape: [assets/activity-handoff.md](assets/activity-handoff.md).
 

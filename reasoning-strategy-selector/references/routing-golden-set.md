@@ -21,6 +21,7 @@ Fields: `id`, `intent`, `expected_order`, `acceptable_alternatives` (slash-separ
 | rfc_vs_adr | RFC design proposal tech spec | rfc-generator | rfc-generator / adr-generator |
 | mcp_validate | validate sysml parse diagnostics | mcp-sysml-v2 | mcp-sysml-v2 |
 | skill_creator | create new skill write SKILL.md | skill-creator | skill-creator / skill-reviewer |
+| skill_graph_bind | skill graph repo seed relative skills | skill-graph-workflow | skill-graph-workflow / skill-creator |
 | memnet_warm | memnet query warm goldfish loop design memory | sysml-memnet-documentation | sysml-memnet-documentation / mcp-memnet / memnet-format |
 | pcba_review | PCBA design review power ground thermal | pcba-design-reviewer | pcba-design-reviewer / hardware-custom-pcba-workflow (deprecated stub -> pack hub) |
 | mermaid_placement | interconnection mermaid placement memnet graph first | sysml-interconnection-mermaid | sysml-interconnection-mermaid / mermaid / sysml-memnet-documentation / sysml-view-doc-sync |

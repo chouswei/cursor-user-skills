@@ -2,7 +2,7 @@
 
 - [ ] Type code(s) recorded in README
 - [ ] Scope confirmed (or skip rule applied)
-- [ ] Cursor: `AGENTS.md` + thin `.cursor/rules/` + **`.cursor/skills/`** (with ≥1 skill) present ([cursor-basement.md](cursor-basement.md))
+- [ ] Cursor: `AGENTS.md` + thin `.cursor/rules/` + **`.cursor/skills/`** (with ≥1 skill) + **`.cursor/skills/skill-graph-seed.wire`** present ([cursor-basement.md](cursor-basement.md))
 - [ ] `.gitignore` matches toolchain
 - [ ] One documented build/run/flash path works or is clearly TBD with reason
 - [ ] No secrets committed

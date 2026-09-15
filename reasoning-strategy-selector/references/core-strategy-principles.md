@@ -78,6 +78,7 @@
 | security-reviewer | R | user | high | high | structural | low |
 | sfiles2 | T | user | medium | medium | structural | low |
 | skill-creator | G | meta | high | low | structural | low |
+| skill-graph-workflow | P | meta | high | medium | structural | low |
 | skill-reviewer | R | meta | high | low | structural | low |
 | skillfish | T | meta | low | low | structural | low |
 | sysml-allocate-generator | G | sysml | medium | medium | structural | low |

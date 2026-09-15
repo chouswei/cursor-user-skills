@@ -2,7 +2,9 @@
 
 **Audience:** model. Agent I/O is MemNet **GQL wire** (shaped `pin_map` + openCypher-shaped mutate). Wire SSOT: [memnet-format](memnet-format/SKILL.md). **Do not** treat this file as the graph -- it routes you to the graph.
 
-**Engine seed:** [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) is GQL `CREATE` rows (same shape as agent `mutate`). Cue then `pin_map`; `find` if ego unknown. Empty q is 0.11 outline. Product write is **`mutate`**. **1.0** unclaimed.
+**Engine seed:** Pack [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) is GQL `CREATE` rows for **user-pack SKL**. Each open repo has **its own** seed at `<repo>/.cursor/skills/skill-graph-seed.wire`. Same mutate shape. Cue then `pin_map`; `find` if ego unknown. Empty q is 0.11 outline. Product write is **`mutate`**. **1.0** unclaimed.
+
+Pack graph-tooling cluster: `skill-graph-workflow` (bind) then one relative (`reasoning-strategy-selector`, `skill-creator`, `skill-reviewer`, `skillfish`).
 
 ---
 
@@ -11,7 +13,8 @@
 Shaped present (as on a pin_map):
 
 ```cypher
-(:MOD {id: 'SKILL-GRAPH.md'})-[:CANONICAL_GRAPH {id: 'E_sg_01', note: 'single_source_D2', recycle: 'persistent'}]->(:MOD {id: 'skill-graph-seed.wire'})
+(:MOD {id: 'SKILL-GRAPH.md'})-[:CANONICAL_GRAPH {id: 'E_sg_01', note: 'pack_seed_D2', recycle: 'persistent'}]->(:MOD {id: 'skill-graph-seed.wire'})
+(:MOD {id: 'SKILL-GRAPH.md'})-[:REPO_GRAPH {id: 'E_sg_01b', note: 'open_repo_seed', recycle: 'persistent'}]->(:MOD {id: 'repo/.cursor/skills/skill-graph-seed.wire'})
 (:MOD {id: 'SKILL-GRAPH.md'})-[:SCHEMA_DOCS {id: 'E_sg_02', recycle: 'persistent'}]->(:MOD {id: 'reasoning-strategy-selector/references/skill-graph.md'})
 (:MOD {id: 'SKILL-GRAPH.md'})-[:RUNTIME_GRAPH {id: 'E_sg_03', note: 'optional_sync', recycle: 'persistent'}]->(:SKG {id: 'SKG_global'})
 (:MOD {id: 'SKILL-GRAPH.md'})-[:MEMBERSHIP_INDEX {id: 'E_sg_04', note: 'SKL_rows', recycle: 'persistent'}]->(:MOD {id: 'skill-graph-seed.wire'})
@@ -21,11 +24,12 @@ Shaped present (as on a pin_map):
 
 | Tier | Artifact | Role |
 |------|----------|------|
-| 1 | [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) | **Canonical graph** (engine seed) -- skills, triggers, typed edges |
-| 2 | `memnet serve` -> `SKG_global` | **Runtime graph** -- `pin_map` from cue `kind` / locators when MemNet is up; merge seed via `bootstrap --sync` |
-| 3 | This file + slim catalog rule | **Routing hub** -- rules only; no duplicate node/edge payload |
+| 1 | Pack [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) | **Pack graph** -- user-pack skills, triggers, typed edges |
+| 1b | Repo `<repo>/.cursor/skills/skill-graph-seed.wire` | **Repo graph** -- project SKL; MAY pointer-row pack skill ids as relatives |
+| 2 | `memnet serve` -> bound SKG (`SKG_global` pack, `SKG_repo` repo) | **Runtime graph** -- `pin_map` from cue; do not treat pack SKG as listing repo skills |
+| 3 | This file + slim catalog rule | **Pack routing hub** -- rules only; no duplicate node/edge payload |
 
-**D2:** Seed file is single source. Markdown tables here were a generated view -- **removed**; regenerate audit table only via `python tools/bootstrap_skill_graph.py --regenerate-views`.
+**D2:** Each graph has one seed file. Pack seed is SSOT for **pack** SKL only. Repo seed is SSOT for **that repo**. Markdown tables here are not the graph -- regenerate pack audit via `python tools/bootstrap_skill_graph.py --regenerate-views`.
 
 ---
 
@@ -36,18 +40,20 @@ Shaped present (as on a pin_map):
 (:RUL {id: 'SG02', kind: 'MUST', code: 'at most 2 trigger-match passes on TRG phrases connected to SKL via TRIGGERS', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'SG03', kind: 'MUST', code: 'open matched <skill-id>/SKILL.md only', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'SG04', kind: 'MUST', code: 'ambiguous after 2 scans -> ask user or repo AGENTS; optional reasoning-strategy-selector only for explicit multi-match', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG05', kind: 'MUSTNOT', code: 'invent skill-ids; membership = SKL rows in skill-graph-seed.wire', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG05', kind: 'MUSTNOT', code: 'invent skill-ids; membership = pack seed SKL or open-repo seed SKL', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'SG06', kind: 'MUSTNOT', code: 'iterate related_skills.txt as checklist', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG07', kind: 'MAY', code: 'MemNet down -> parse skill-graph-seed.wire locally (D3 graph-only)', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'SG07', kind: 'MAY', code: 'MemNet down -> parse the bound seed.wire locally (D3 graph-only)', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'SG08', kind: 'MUST', code: 'pass 1 repo seed if present; pass 2 pack seed if no repo match', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG09', kind: 'MUSTNOT', code: 'merge repo SKL into the pack seed', priority: 'high', recycle: 'persistent'})
 ```
 
 Steps:
 
 1. Extract keywords from user phrase
-2. MemNet up? `pin_map` from cue (`kind` / locators) or `find` then pin_map. Else parse seed.wire locally
-3. Match TRG phrase -> follow `:TRIGGERS` -> SKL
+2. If `<repo>/.cursor/skills/skill-graph-seed.wire` exists, match **repo** TRG (pass 1)
+3. If no match, parse pack seed or `pin_map` pack `SKG_global` and match **pack** TRG (pass 2)
 4. Rank: `:LED_TO_SUCCESS` boost + `:COMPLEMENTS` / `:PRECEDES` / `:DEFAULT_STACK`
-5. Open top SKL id `SKILL.md`; SysML hub stack if sysml domain
+5. Open top SKL: repo id under `<repo>/.cursor/skills/<id>/SKILL.md`; pack id under `~/.cursor/skills/<id>/SKILL.md`. SysML hub stack if sysml domain and the match is a pack skill.
 
 ---
 
@@ -57,6 +63,7 @@ Full schema: [`skill-graph.md`](reasoning-strategy-selector/references/skill-gra
 
 ```cypher
 (:SKG {id: 'SKG_global', version: '...', pack: 'user_pack', recycle: 'persistent'})
+(:SKG {id: 'SKG_repo', version: '...', pack: 'repo', recycle: 'persistent'})
 (:SKL {id: 'skill-id', pack: '...', pattern: '...', dir: '...', domain: '...', recycle: 'persistent'})
 (:TRG {id: 'trg-id', phrase: '...', recycle: 'persistent'})
 (:TRG {id: 'trg-id'})-[:TRIGGERS {id: 'E01', recycle: 'persistent'}]->(:SKL {id: 'skill-id'})
@@ -77,7 +84,20 @@ Pattern codes: `G`=Generator, `R`=Reviewer, `P`=Pipeline, `T`=Tool-wrapper.
 (:SKL {id: 'sysml-modeling-workflow'})-[:COMPLEMENTS {id: 'E_sys_04', note: 'oosem', recycle: 'persistent'}]->(:SKL {id: 'oosem-workflow'})
 ```
 
-Then at most one specialist SKL from `TRIGGERS` match. Repo `AGENTS.md` may add project overrides. SysMLEdge day loop (edit, human Save, GQL, propose-only): `sysmledge-workflow`. OOSEM method cycle (needs through V&V, iterative): `oosem-workflow`.
+Then at most one specialist SKL from `TRIGGERS` match. **Repo graph first** for project SKL. Pack `AGENTS.md` / pack seed for pack methods. SysMLEdge day loop: `sysmledge-workflow`. OOSEM method cycle: `oosem-workflow`.
+
+## Skill-graph tooling stack (pack relatives, not prose)
+
+```cypher
+(:SKG {id: 'SKG_global'})-[:DEFAULT_STACK {id: 'E_sgt_00', note: 'graph_cluster', recycle: 'persistent'}]->(:SKL {id: 'skill-graph-workflow'})
+(:SKL {id: 'skill-graph-workflow'})-[:PRECEDES {id: 'E_sgt_01', note: 'route_pack', recycle: 'persistent'}]->(:SKL {id: 'reasoning-strategy-selector'})
+(:SKL {id: 'skill-graph-workflow'})-[:COMPLEMENTS {id: 'E_sgt_02', note: 'scaffold', recycle: 'persistent'}]->(:SKL {id: 'skill-creator'})
+(:SKL {id: 'skill-graph-workflow'})-[:COMPLEMENTS {id: 'E_sgt_03', note: 'audit', recycle: 'persistent'}]->(:SKL {id: 'skill-reviewer'})
+(:SKL {id: 'skill-graph-workflow'})-[:COMPLEMENTS {id: 'E_sgt_04', note: 'registry', recycle: 'persistent'}]->(:SKL {id: 'skillfish'})
+(:SKL {id: 'vibe-repo-init'})-[:PRECEDES {id: 'E_sgt_05', note: 'seed_repo_graph', recycle: 'persistent'}]->(:SKL {id: 'skill-graph-workflow'})
+```
+
+Load `skill-graph-workflow` to bind pack vs repo graph, then one relative. MUST NOT copy pack skill bodies into the repo to express a relative -- pointer SKL rows (`pack: 'user'`, path under `~/.cursor/skills/`).
 
 ## MemNet application stack (graph edges, not prose)
 
@@ -141,10 +161,11 @@ Load `diagram-routing` when diagram format is unclear. Load `pydexpi-p-id` for r
 ## Maintenance
 
 ```cypher
-(:RUL {id: 'SG_M01', kind: 'MUST', code: 'graph edits in skill-graph-seed.wire only (or scan_skills_to_wire.py --write)', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG_M02', kind: 'MUST', code: 'after seed change: bootstrap_skill_graph.py --regenerate-views', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'SG_M03', kind: 'SHOULD', code: 'bootstrap --sync to merge into MemNet (preserve LED_TO_SUCCESS)', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'SG_M04', kind: 'MUST', code: 'validate: python tools/validate_selector_pack.py --check-views', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG_M01', kind: 'MUST', code: 'pack graph edits in pack skill-graph-seed.wire only; repo graph edits in <repo>/.cursor/skills/skill-graph-seed.wire', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG_M02', kind: 'MUST', code: 'after pack seed change: bootstrap_skill_graph.py --regenerate-views', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG_M03', kind: 'SHOULD', code: 'bootstrap --sync to merge pack seed into MemNet (preserve LED_TO_SUCCESS)', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'SG_M04', kind: 'MUST', code: 'validate pack: python tools/validate_selector_pack.py --check-views', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'SG_M05', kind: 'MUSTNOT', code: 'scan_skills_to_wire --repo-skills --write without --repo-seed', priority: 'high', recycle: 'persistent'})
 ```
 
 Mutate into a live session with openCypher-shaped **`mutate`** (GraphElement CREATE / MATCH SET).
@@ -159,4 +180,4 @@ Mutate into a live session with openCypher-shaped **`mutate`** (GraphElement CRE
 | Hub + seed.wire | Yes | Single source; traversable; pin-map slice; edges queryable |
 | SET in alwaysApply catalog | No | Burns tokens every turn; membership already SKL in seed |
 
-**End.** Open [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) or cue `pin_map` for `SKG_global` for the actual graph.
+**End.** Pack graph: [`skill-graph-seed.wire`](reasoning-strategy-selector/references/skill-graph-seed.wire) or `pin_map` `SKG_global`. Repo graph: `<repo>/.cursor/skills/skill-graph-seed.wire` or `pin_map` `SKG_repo`. Bind via `skill-graph-workflow`.

@@ -79,6 +79,7 @@ FEATURE_MAP: Dict[str, Tuple[str, str, str, str, str, str]] = {
     "mmdc": ("T", "doc", "low", "low", "structural", "low"),
     "md-to-tex": ("P", "doc", "medium", "low", "structural", "low"),
     "reasoning-strategy-selector": ("P", "meta", "medium", "low", "structural", "low"),
+    "skill-graph-workflow": ("P", "meta", "high", "medium", "structural", "low"),
 }
 
 DOMAIN_HUBS = {
@@ -100,6 +101,8 @@ MANUAL_PRECEDES = [
     ("sysmledge-workflow", "sysml-modeling-workflow"),
     ("mcp-sysmledgraph", "sysmledge-workflow"),
     ("oosem-workflow", "sysml-stakeholder-use-case"),
+    ("vibe-repo-init", "skill-graph-workflow"),
+    ("skill-graph-workflow", "reasoning-strategy-selector"),
     ("decision-inverter", "risk-assessor"),
     ("scientific-method-first-principles", "empirical-paradox-synthesis"),
     ("tech-report-generator", "tech-report-reviewer"),
@@ -121,6 +124,9 @@ MANUAL_COMPLEMENTS = [
     ("oosem-workflow", "mcdm-decider"),
     ("oosem-workflow", "sysml-traceability"),
     ("oosem-workflow", "sysml-allocate-generator"),
+    ("skill-graph-workflow", "skill-creator"),
+    ("skill-graph-workflow", "skill-reviewer"),
+    ("skill-graph-workflow", "skillfish"),
     ("skill-creator", "skill-reviewer"),
     ("mermaid", "sysml-memnet-documentation"),
     ("mermaid", "sysml-view-doc-sync"),
@@ -149,6 +155,7 @@ SKG_DEFAULT_STACKS = [
     "sysml-memnet-documentation",
     "tech-report-generator",
     "mcdm-decider",
+    "skill-graph-workflow",
 ]
 
 MANUAL_REQUIRES = [
@@ -326,18 +333,22 @@ def scan_skill_folder(skill_id: str, skill_path: Path, pack: str) -> Tuple[Skill
     return node, triggers
 
 
-def discover_skills(extra_repo_paths: Optional[List[Path]] = None) -> Dict[str, Tuple[SkillNode, List[str]]]:
+def discover_skills(
+    extra_repo_paths: Optional[List[Path]] = None,
+    include_pack: bool = True,
+) -> Dict[str, Tuple[SkillNode, List[str]]]:
     found: Dict[str, Tuple[SkillNode, List[str]]] = {}
     skip = {"reasoning-strategy-selector"}  # router not in routable graph
 
-    for child in sorted(USER_PACK.iterdir()):
-        if not child.is_dir():
-            continue
-        sid = child.name
-        skill_md = child / "SKILL.md"
-        if not skill_md.is_file() or sid in skip:
-            continue
-        found[sid] = scan_skill_folder(sid, skill_md, "user")
+    if include_pack:
+        for child in sorted(USER_PACK.iterdir()):
+            if not child.is_dir():
+                continue
+            sid = child.name
+            skill_md = child / "SKILL.md"
+            if not skill_md.is_file() or sid in skip:
+                continue
+            found[sid] = scan_skill_folder(sid, skill_md, "user")
 
     if extra_repo_paths:
         for repo_skills in extra_repo_paths:
@@ -352,7 +363,10 @@ def discover_skills(extra_repo_paths: Optional[List[Path]] = None) -> Dict[str, 
     return found
 
 
-def build_seed_wire(discovered: Dict[str, Tuple[SkillNode, List[str]]]) -> SkillGraph:
+def build_seed_wire(
+    discovered: Dict[str, Tuple[SkillNode, List[str]]],
+    skg_id: str = "SKG_global",
+) -> SkillGraph:
     g = SkillGraph(version="1")
     lines_edges: List[Edge] = []
     edge_n = 0
@@ -387,7 +401,7 @@ def build_seed_wire(discovered: Dict[str, Tuple[SkillNode, List[str]]]) -> Skill
     for hub in SKG_DEFAULT_STACKS:
         if hub in g.skills:
             edge_n += 1
-            lines_edges.append(Edge(f"E{edge_n:04d}", "SKG_global", "default_stack", hub, "domain hub"))
+            lines_edges.append(Edge(f"E{edge_n:04d}", skg_id, "default_stack", hub, "domain hub"))
 
     for a, b in MANUAL_PRECEDES:
         if a in g.skills and b in g.skills:
@@ -445,7 +459,11 @@ def _props_to_cypher(pairs: List[Tuple[str, str]]) -> str:
     return ", ".join(f"{k}: '{_cypher_escape(v)}'" for k, v in pairs)
 
 
-def graph_to_wire_lines(g: SkillGraph) -> List[str]:
+def graph_to_wire_lines(
+    g: SkillGraph,
+    skg_id: str = "SKG_global",
+    pack: str = "user_pack",
+) -> List[str]:
     out = [
         "# skill-graph-seed.wire -- GQL CREATE rows (D2). scan_skills_to_wire.py --write",
         "# Same shape as agent mutate. Do not emit @TAG pipe.",
@@ -453,9 +471,9 @@ def graph_to_wire_lines(g: SkillGraph) -> List[str]:
         + "SKG {"
         + _props_to_cypher(
             [
-                ("id", "SKG_global"),
+                ("id", skg_id),
                 ("version", g.version),
-                ("pack", "user_pack"),
+                ("pack", pack),
                 ("recycle", "persistent"),
             ]
         )
@@ -676,6 +694,9 @@ KEYWORD_DIRECT: List[Tuple[List[str], str, float]] = [
     (["white paper"], "tech-report-generator", 1.8),
     (["rfc"], "rfc-generator", 2.0),
     (["adr"], "adr-generator", 1.5),
+    (["skill graph"], "skill-graph-workflow", 2.0),
+    (["repo skill graph"], "skill-graph-workflow", 2.0),
+    (["relative skills"], "skill-graph-workflow", 1.8),
     (["skill", "skill.md"], "skill-creator", 1.8),
     (["premortem", "blind spot"], "decision-inverter", 1.8),
     (["scientific method", "hypothesis"], "scientific-method-first-principles", 1.5),

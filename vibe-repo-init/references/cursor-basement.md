@@ -28,9 +28,10 @@ AGENTS.md                 # repo purpose, type code(s), build/run, Agent do/don'
 
 - **Must exist** after scaffold (empty pack is not enough — include a minimal project skill or README stub that states the pack is intentional)
 - Default basement: one thin project skill, e.g. `.cursor/skills/repo-context/SKILL.md` — purpose, type code(s), build/run, non-goals (orchestration only; no feature logic)
+- Copy [../skill-graph-workflow/assets/repo-skill-graph-seed.wire](../../skill-graph-workflow/assets/repo-skill-graph-seed.wire) to `.cursor/skills/skill-graph-seed.wire` (project graph; pointer rows for pack relatives)
 - Add further project skills only when the domain needs them
 - **Do not** copy the entire `~/.cursor/skills/` user pack into the repo
-- Point `AGENTS.md` at both project and user-pack skill roots
+- Point `AGENTS.md` at both project and user-pack skill roots; bind graphs with pack `skill-graph-workflow`
 
 ### Do not create unless asked
 

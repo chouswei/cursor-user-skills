@@ -29,6 +29,7 @@
 | security-reviewer | Security, compliance review |
 | tech-report-generator | Tech / engineering reports, status, investigations, handoffs |
 | tech-report-reviewer | Review / critique technical reports before distribution |
+| skill-graph-workflow | Bind pack vs repo skill graph; pointer relatives; no merge |
 | skill-creator | Scaffold new skills / hybrid pipelines |
 | skillfish | skill.fish registry: install, search, submit, bundle/install manifest |
 | skill-reviewer | Audit SKILL.md packages; structure, safety, publish readiness |

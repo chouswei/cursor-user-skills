@@ -7,7 +7,7 @@
 | # | Decision |
 |---|----------|
 | D1 | Selector lives **only** in user-pack (`~/.cursor/skills/reasoning-strategy-selector/`). Repo copy is a thin pointer. |
-| D2 | `skill-graph-seed.wire` is **single source**. `SKILL-GRAPH.md` is a **hub** (routing rules + GQL wire pointers). `core-strategy-principles.md` is a **generated audit view** (`bootstrap --regenerate-views`). |
+| D2 | **Two graphs, same GQL shape.** Pack [`skill-graph-seed.wire`](skill-graph-seed.wire) is SSOT for **pack** SKL (`SKG_global` is pack-scoped). Each repo has its own `<repo>/.cursor/skills/skill-graph-seed.wire` (`SKG_repo`). `SKILL-GRAPH.md` is a **pack hub**. `core-strategy-principles.md` is a **generated pack audit view**. MUST NOT merge repo SKL into the pack seed. |
 | D3 | **Graph-only routing.** No 6D convolution fallback. MemNet down -> parse seed wire locally. |
 | D4 | **Phase 4 active:** parent agent writes `LED_TO_SUCCESS` on settle; selector reads +0.6 boost per edge. |
 
@@ -21,7 +21,7 @@
 
 | Kind | Typical fields | Notes |
 |------|----------------|-------|
-| SKG | version, scope, recycle | Graph root: `SKG_global` |
+| SKG | version, scope, recycle | Graph root: `SKG_global` (pack) or `SKG_repo` (open repo) |
 | SKL | pack, pattern, dir, domain, path, recycle | Skill node; id = folder name |
 | TRG | phrase, recycle | Trigger phrase |
 | TSK | goal, phase, status, recycle | Ephemeral routing: `TSK_route_<slug>` |
@@ -48,7 +48,7 @@ Agent-facing edge shape:
 | `CONFLICTS_WITH` | Mutually exclusive (rare) |
 | `LED_TO_SUCCESS` | Phase 4 empirical edge |
 
-**Engine seed:** `skill-graph-seed.wire` is GQL `CREATE` rows. Tools parse that file; agents `mutate` the same shape.
+**Engine seed:** Pack `skill-graph-seed.wire` and each repo `skill-graph-seed.wire` are GQL `CREATE` rows of the same shape. Tools parse the **bound** file; agents `mutate` the same shape. MUST NOT merge repo SKL into the pack seed.
 
 ## Edge-density contract
 
