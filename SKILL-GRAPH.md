@@ -74,9 +74,10 @@ Pattern codes: `G`=Generator, `R`=Reviewer, `P`=Pipeline, `T`=Tool-wrapper.
 (:SKL {id: 'sysml-modeling-session-checklist'})-[:DEFAULT_STACK {id: 'E_sys_01', note: 'hub', recycle: 'persistent'}]->(:SKL {id: 'sysml-modeling-workflow'})
 (:SKL {id: 'sysml-modeling-workflow'})-[:DEFAULT_STACK {id: 'E_sys_02', note: 'memnet', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
 (:SKL {id: 'sysml-modeling-workflow'})-[:COMPLEMENTS {id: 'E_sys_03', note: 'sysmledge', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
+(:SKL {id: 'sysml-modeling-workflow'})-[:COMPLEMENTS {id: 'E_sys_04', note: 'oosem', recycle: 'persistent'}]->(:SKL {id: 'oosem-workflow'})
 ```
 
-Then at most one specialist SKL from `TRIGGERS` match. Repo `AGENTS.md` may add project overrides. SysMLEdge day loop (edit, human Save, GQL, propose-only): `sysmledge-workflow`.
+Then at most one specialist SKL from `TRIGGERS` match. Repo `AGENTS.md` may add project overrides. SysMLEdge day loop (edit, human Save, GQL, propose-only): `sysmledge-workflow`. OOSEM method cycle (needs through V&V, iterative): `oosem-workflow`.
 
 ## MemNet application stack (graph edges, not prose)
 

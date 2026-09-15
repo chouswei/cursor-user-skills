@@ -34,6 +34,7 @@
 | skill-reviewer | Audit SKILL.md packages; structure, safety, publish readiness |
 | sysml-new-project | Scaffold new SysML v2 project |
 | sysmledge-workflow | SysMLEdge day loop: edit, human Save, GQL, propose-only |
+| oosem-workflow | OOSEM method cycle: needs through V&V, scenario-driven MBSE |
 | mcp-sysmledgraph | Retarget to MemNet/SysMLEdge MCP; never Kuzu |
 | sysml-refactorer | Cross-file SysML v2 refactors: renames, lib + deploy + `SharedConnections` |
 
