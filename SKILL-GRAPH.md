@@ -158,6 +158,20 @@ Load `diagram-routing` when diagram format is unclear. Load `pydexpi-p-id` for r
 
 ---
 
+## ClickUp project-management stack (graph edges, not prose)
+
+```cypher
+(:TRG {id: 'trg-clickup-pm', phrase: 'ClickUp project management', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
+(:TRG {id: 'trg-clickup-hygiene', phrase: 'ClickUp status hygiene', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00b', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
+(:TRG {id: 'trg-clickup-kickoff', phrase: 'ClickUp kickoff', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00c', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
+(:SKL {id: 'clickup-project-management'})-[:COMPLEMENTS {id: 'E_cu_01', note: 'intake_plan', recycle: 'persistent'}]->(:SKL {id: 'project-planner'})
+(:SKL {id: 'clickup-project-management'})-[:COMPLEMENTS {id: 'E_cu_02', note: 'kickoff_notes', recycle: 'persistent'}]->(:SKL {id: 'meeting-notes-generator'})
+```
+
+Load `clickup-project-management` when running work in ClickUp (plan, status hygiene, kickoff, stakeholder update). Writes go through **user-clickup** MCP (`clickup_*`); this skill is PM practice, not an MCP wrapper. `mcp-clickup` is not in this pack. Load `project-planner` first when the user still needs a product-roadmap interview. Load `meeting-notes-generator` for kickoff minutes, then create action-item tasks in ClickUp.
+
+---
+
 ## Maintenance & Operations (Create, Update, Use)
 
 ```cypher
