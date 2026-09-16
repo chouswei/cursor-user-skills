@@ -2,28 +2,31 @@
 name: clickup-project-management
 description: >-
   Run project-management practice in ClickUp: plan work, keep status hygiene,
-  and run stakeholder communication on lists, tasks, statuses, assignees, and
-  due dates. Pairs with user-clickup MCP for API calls; does not wrap those tools.
+  run stakeholder communication, and emit recurring artifacts (PRD or feature
+  brief, weekly status rollup, retrospective) on lists, tasks, Docs, and comments.
+  Pairs with user-clickup MCP for API calls; does not wrap those tools.
   Triggers: ClickUp project management, plan this in ClickUp, ClickUp status
   hygiene, overdue ClickUp tasks, ClickUp kickoff, stakeholder update in ClickUp,
-  ClickUp standup, assign and due-date work, ClickUp feedback loop.
+  ClickUp standup, assign and due-date work, ClickUp feedback loop, ClickUp PRD,
+  feature brief in ClickUp, weekly status rollup, ClickUp retrospective.
 metadata:
   pattern: pipeline
   domain: project-management
-  version: 1.0-clickup-pm
+  version: 1.1-clickup-pm
   secondary: "hybrid: writes via user-clickup MCP; complements project-planner and meeting-notes-generator"
 pattern: pipeline
-version: 1.0-clickup-pm
+version: 1.1-clickup-pm
 
 pipeline_steps:
   1. Classify lane
-     - plan | hygiene | comms | mixed. Name the lane before any write.
+     - plan | hygiene | comms | artifact | mixed. Name the lane (and artifact type) before any write.
   2. Resolve ClickUp objects
      - List, valid statuses, assignees. Ask which list if missing. Read before write.
   3. Load practice
      - references/core-pm-principles.md then references/clickup-tool-map.md for that lane.
+     - Artifact: also references/pm-artifacts.md.
   4. Apply
-     - Create or update lists/tasks/comments/chat using named user-clickup tools only.
+     - Create or update lists/tasks/comments/chat/docs using named user-clickup tools only.
   5. Self-review
      - Check MUST / MUST NOT; max one revision of the write set.
   6. Report
@@ -36,26 +39,28 @@ system_instruction: |
 
 token_guardrails: |
   - Load core-pm-principles.md once per run; load clickup-tool-map.md for the active lane only.
+  - Load pm-artifacts.md only for the artifact lane (or mixed that includes an artifact).
   - Do not paste ClickUp blog copy. Do not dump MCP schemas into the report.
 ---
 
 # ClickUp project management
 
-**Role:** Enforce project-management practice on ClickUp lists, tasks, statuses, assignees, and due dates.
+**Role:** Enforce project-management practice on ClickUp lists, tasks, statuses, assignees, due dates, and recurring PM artifacts.
 
-**Pairing:** Inspect and call **user-clickup** tools (`clickup_*`). This skill does not restate tool schemas. If `mcp-clickup` exists in the pack, load it for API conventions; do not duplicate it here. For a product roadmap interview before ClickUp writes, run [project-planner](../project-planner/SKILL.md) first. For kickoff minutes, run [meeting-notes-generator](../meeting-notes-generator/SKILL.md) then create action-item tasks here.
+**Pairing:** This skill is the **procedure** (how). **user-clickup** is the **connection** (`clickup_*` read/write). Inspect schemas before the first write; do not restate them here. Standing facts (sprint length, default list) live in the project's AGENTS.md -- inherit, do not copy. If `mcp-clickup` exists in the pack, load it for API conventions; do not duplicate it here. Product-roadmap interview: [project-planner](../project-planner/SKILL.md) first. Kickoff or retro minutes: [meeting-notes-generator](../meeting-notes-generator/SKILL.md) then action-item tasks here. New Agent Skill folder: [skill-creator](../skill-creator/SKILL.md), not this skill.
 
-Source distilled (do not paste): [How to Improve Project Management Skills](https://clickup.com/blog/how-to-improve-project-management-skills/) (ClickUp PMO Team, 17 Sep 2024).
+Sources distilled (do not paste): [How to Improve Project Management Skills](https://clickup.com/blog/how-to-improve-project-management-skills/) (ClickUp PMO Team, 17 Sep 2024); [Claude Skills for Project Management](https://clickup.com/blog/claude-skills-project-management/) (Praburam Srinivasan, 9 Jul 2026).
 
 ## When to use
 
-User wants work **run in ClickUp**: plan a project, set owners and dates, clean statuses, run a kickoff, post a stakeholder update, or close a feedback loop.
+User wants work **run in ClickUp**: plan a project, set owners and dates, clean statuses, run a kickoff, post a stakeholder update, close a feedback loop, or produce a **PRD / feature brief**, **weekly status rollup**, or **retrospective**.
 
 ## When not to use
 
 - Inventree / DigiKey / SysML architecture -- those skills own those domains.
 - "Wrap ClickUp MCP" or "add clickup_* tools" -- not this skill.
-- Features with no verified user-clickup tool (Goals, Gantt view, Automations, Sprints, Dashboards, Forms, Portfolios, Brain, Whiteboards, Inbox). Encode the **practice** on lists/tasks/comments/docs/chat instead.
+- "Write a new Agent Skill" -- [skill-creator](../skill-creator/SKILL.md).
+- Features with no verified user-clickup tool (Goals, Gantt view, Automations, Sprints, Dashboards, Forms, Portfolios, Brain, Super Agents, Whiteboards, Inbox). Encode the **practice** on lists/tasks/comments/docs/chat instead.
 
 ## MUST
 
@@ -68,6 +73,8 @@ User wants work **run in ClickUp**: plan a project, set owners and dates, clean 
 7. **Record decisions on the task.** Status changes, scope calls, and risks go in `clickup_create_comment` (Markdown). @mention as `[@Name](#user_mention#<numeric_user_id>)`.
 8. **Mention tasks as links.** In user-facing text: `[Task name](https://app.clickup.com/t/<id>)`. Never a bare URL.
 9. **Paginate reads.** `clickup_filter_tasks`: repeat while `has_more`. `clickup_search`: repeat while `next_cursor` is present.
+10. **Live fields for rollups.** Weekly status and hygiene snapshots come from `clickup_filter_tasks` / `clickup_get_task` on the named list. A paste is current only when the user said it is the source.
+11. **One artifact type.** PRD, weekly status, or retro -- one per run unless the user asked mixed. Owner + review date on the Doc or parent task.
 
 ## MUST NOT
 
@@ -79,6 +86,8 @@ User wants work **run in ClickUp**: plan a project, set owners and dates, clean 
 - Commit API tokens or echo secrets.
 - Use `clickup_create_task_comment` (deprecated; use `clickup_create_comment`).
 - Treat a chat thread URL (`/v/cn/<channel>/t/<id>` or `/chat/r/<channel>/t/<id>`) as a task id; that trailing id is a chat message.
+- Treat a pasted export as live board state when user-clickup can read the list.
+- Merge a PRD, weekly rollup, and retro into one undifferentiated write.
 
 ## Pipeline
 
@@ -89,9 +98,10 @@ User wants work **run in ClickUp**: plan a project, set owners and dates, clean 
 | **plan** | New work, kickoff setup, owners, dates, breakdown, dependencies |
 | **hygiene** | Overdue, stuck, standup from ClickUp, monitor, time in status |
 | **comms** | Stakeholder update, kickoff meeting actions, feedback, chat |
-| **mixed** | Plan first, then hygiene or comms on the same list |
+| **artifact** | PRD / feature brief, weekly status rollup, retrospective |
+| **mixed** | Plan or artifact first, then hygiene or comms on the same list |
 
-If two scans still leave the list or lane open, ask one bounded question; otherwise pick the checkable default and state it.
+If two scans still leave the list, lane, or artifact type open, ask one bounded question; otherwise pick the checkable default and state it.
 
 ### 2. Resolve objects
 
@@ -110,6 +120,8 @@ Load [references/core-pm-principles.md](references/core-pm-principles.md) and th
 
 **comms:** Action items become tasks. Narrative goes to `clickup_create_comment` or `clickup_send_chat_message` after `clickup_get_chat_channels`. Longer record: `clickup_create_document` then `clickup_create_document_page` / `clickup_update_document_page`. Personal follow-up: `clickup_create_reminder` (title + due_date).
 
+**artifact:** Load [references/pm-artifacts.md](references/pm-artifacts.md). Write one type: PRD/brief (Doc + parent task), weekly status (live filter then comment/Doc/chat), or retrospective (notes then Doc/comment + action tasks).
+
 ### 5-6. Review and report
 
 Fill [assets/pm-output.md](assets/pm-output.md). Every created or changed task is an inline markdown link.
@@ -118,4 +130,5 @@ Fill [assets/pm-output.md](assets/pm-output.md). Every created or changed task i
 
 - [references/core-pm-principles.md](references/core-pm-principles.md)
 - [references/clickup-tool-map.md](references/clickup-tool-map.md)
+- [references/pm-artifacts.md](references/pm-artifacts.md)
 - [assets/pm-output.md](assets/pm-output.md)

@@ -52,6 +52,18 @@ Verified against namespace `user-clickup` at authoring time. Re-inspect schemas 
 
 Deprecated: `clickup_create_task_comment` -> `clickup_create_comment`.
 
+## Artifact lane
+
+| Practice | Tool |
+|----------|------|
+| PRD / brief record | `clickup_create_document`, `clickup_create_document_page`, `clickup_update_document_page` |
+| Parent + child work | `clickup_create_task` (`parent` for children); Doc URL in description |
+| Weekly rollup read | `clickup_filter_tasks` (paginate `has_more`); `clickup_get_task` as needed |
+| Weekly rollup write | `clickup_create_comment` or Doc page or `clickup_send_chat_message` (one place) |
+| Retro notes already in ClickUp | `clickup_get_task_comments` / `clickup_get_document_pages` |
+| Retro actions | `clickup_create_task` with assignee + due_date |
+| Review date on the artifact | `clickup_update_task` due_date + assignees on parent or reminder |
+
 ## Do not call for these article features
 
-No write tool in this namespace for Goals, Gantt view, Automations, Sprints, Dashboards, Forms, Portfolios, Brain, Whiteboards, or Inbox. `clickup_search` may **find** docs, whiteboards, dashboards, chats, or forms; finding is not operating those surfaces.
+No write tool in this namespace for Goals, Gantt view, Automations, Sprints, Dashboards, Forms, Portfolios, Brain, Super Agents, Whiteboards, or Inbox. `clickup_search` may **find** docs, whiteboards, dashboards, chats, or forms; finding is not operating those surfaces.

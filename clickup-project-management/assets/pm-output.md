@@ -4,7 +4,14 @@ Fill every section. Omit a bullet only if that lane did not run. Task names are 
 
 ```markdown
 ## Lane
-plan | hygiene | comms | mixed
+plan | hygiene | comms | artifact | mixed
+- Artifact type (if any): PRD | weekly status | retro
+
+## Artifact (if that lane ran)
+- Source of facts: live filter | user-labelled export | notes paste
+- Doc or parent:
+- Review date / owner:
+- Headings used:
 
 ## List
 - Name / id:

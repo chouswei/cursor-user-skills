@@ -1,6 +1,6 @@
 # Core project-management principles (ClickUp)
 
-Distilled from ClickUp PMO, *How to Improve Project Management Skills* (17 Sep 2024). Enforce these as behaviour on lists, tasks, statuses, assignees, and due dates. Do not paste the article.
+Distilled from ClickUp PMO, *How to Improve Project Management Skills* (17 Sep 2024), and *Claude Skills for Project Management* (9 Jul 2026). Enforce these as behaviour on lists, tasks, statuses, assignees, due dates, and recurring artifacts. Do not paste the articles.
 
 ## Lifecycle
 
@@ -31,6 +31,16 @@ Initiation -> planning -> execution -> close. Each phase is visible as **list st
 - **Feedback is work.** A request becomes a task or an assigned comment, not a chat-only aside.
 - **Report from fields.** Stakeholder updates cite status, owner, and due date from ClickUp, not from memory.
 
+## Artifacts (same shape every cycle)
+
+A recurring brief, weekly rollup, or retro is a **procedure**: fixed headings, live fields, owner + review date. Details: [pm-artifacts.md](pm-artifacts.md).
+
+- **Skill vs connection vs standing rules.** This file is how. user-clickup fetches and writes. Sprint length and default list stay in the project's AGENTS.md.
+- **Stale procedure is worse than none.** Format can look right after statuses or lists have moved. Re-read the list this run. Put a review date on the Doc or parent.
+- **One job.** Do not blend PRD, rollup, and retro into one blob.
+- **Examples beat extra prose.** Grade against the user's past artifacts when they supply them.
+- **Rollups do not invent a board.** They summarise the filter result. No fetch means no current report.
+
 ## Skills the agent must exhibit
 
 | Skill | Checkable behaviour |
@@ -47,7 +57,7 @@ Initiation -> planning -> execution -> close. Each phase is visible as **list st
 
 ## Out of MCP scope (practice only)
 
-No verified user-clickup write tool for: Goals, Gantt **view**, Automations, Sprints, Dashboards, Forms, Portfolios, Brain, Whiteboards, Inbox.
+No verified user-clickup write tool for: Goals, Gantt **view**, Automations, Sprints, Dashboards, Forms, Portfolios, Brain, Super Agents, Whiteboards, Inbox.
 
 | Article idea | Encode as |
 |--------------|-----------|
@@ -57,10 +67,10 @@ No verified user-clickup write tool for: Goals, Gantt **view**, Automations, Spr
 | Agile / Kanban | Existing list statuses; `clickup_filter_tasks` / `clickup_update_task` |
 | Dashboards / KPI | Hygiene report from filter + time-in-status |
 | Forms / feedback | Tasks or assigned comments |
-| Brain | This agent summarises `clickup_get_task_comments` |
+| Brain / Super Agents | This agent writes the PRD, rollup, or retro from live tasks and Docs |
 | Chat / Inbox | `clickup_get_chat_channels` + `clickup_send_chat_message`; task comments |
 | Learning plan | Tasks on a list the user named, if they asked to track skills |
 
 ## Retrieval seeds
 
-clickup, project management, status hygiene, kickoff, overdue, assignee, due date, stakeholder update, feedback loop, dependency, standup
+clickup, project management, status hygiene, kickoff, overdue, assignee, due date, stakeholder update, feedback loop, dependency, standup, PRD, feature brief, weekly status, rollup, retrospective
