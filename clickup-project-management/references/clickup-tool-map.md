@@ -23,7 +23,7 @@ Verified against namespace `user-clickup` at authoring time. Re-inspect schemas 
 | Edit fields | `clickup_update_task` |
 | Subtask | `clickup_create_task` with `parent` |
 | Sequence | `clickup_add_task_dependency` (`waiting_on` \| `blocking`); remove with `clickup_remove_task_dependency` |
-| Related not blocking | `clickup_add_task_link` |
+| Related not blocking | `clickup_add_task_link`; remove with `clickup_remove_task_link` |
 | Tags (must already exist) | `clickup_create_task` `tags` or `clickup_add_tag_to_task` |
 | Move list | `clickup_move_task` |
 
@@ -34,10 +34,10 @@ Verified against namespace `user-clickup` at authoring time. Re-inspect schemas 
 | Overdue / by status | `clickup_filter_tasks` (`due_date_to`, `statuses`, `assignees`, `include_closed`) |
 | Time stuck | `clickup_get_task_time_in_status` (ClickApp "Total time in Status") |
 | Bulk time in status | `clickup_get_bulk_tasks_time_in_status` |
-| Clock | `clickup_start_time_tracking`, `clickup_stop_time_tracking`, `clickup_add_time_entry`, `clickup_get_current_time_entry` |
+| Clock | `clickup_start_time_tracking`, `clickup_stop_time_tracking`, `clickup_add_time_entry`, `clickup_get_current_time_entry`, `clickup_get_time_entries` |
 | Follow-up | `clickup_create_reminder` (title + due_date) |
 
-`clickup_filter_tasks`: page while `has_more`; `assignees` are numeric ids.
+`clickup_filter_tasks`: page while `has_more`; `assignees` are numeric ids. No unassigned selector -- fetch then drop empty `assignees`.
 
 ## Comms lane
 

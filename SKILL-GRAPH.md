@@ -167,11 +167,18 @@ Load `diagram-routing` when diagram format is unclear. Load `pydexpi-p-id` for r
 (:TRG {id: 'trg-clickup-prd', phrase: 'ClickUp PRD', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00d', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
 (:TRG {id: 'trg-clickup-status-rollup', phrase: 'weekly status rollup', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00e', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
 (:TRG {id: 'trg-clickup-retro', phrase: 'ClickUp retrospective', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00f', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
+(:TRG {id: 'trg-clickup-plan-this', phrase: 'plan this in ClickUp', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00g', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
+(:TRG {id: 'trg-clickup-overdue', phrase: 'overdue ClickUp tasks', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00h', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
+(:TRG {id: 'trg-clickup-stakeholder', phrase: 'stakeholder update in ClickUp', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00i', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
+(:TRG {id: 'trg-clickup-standup', phrase: 'ClickUp standup', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00j', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
+(:TRG {id: 'trg-clickup-assign-due', phrase: 'assign and due-date work', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00k', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
+(:TRG {id: 'trg-clickup-feedback', phrase: 'ClickUp feedback loop', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00l', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
+(:TRG {id: 'trg-clickup-feature-brief', phrase: 'feature brief in ClickUp', recycle: 'persistent'})-[:TRIGGERS {id: 'E_cu_00m', recycle: 'persistent'}]->(:SKL {id: 'clickup-project-management'})
 (:SKL {id: 'clickup-project-management'})-[:COMPLEMENTS {id: 'E_cu_01', note: 'intake_plan', recycle: 'persistent'}]->(:SKL {id: 'project-planner'})
 (:SKL {id: 'clickup-project-management'})-[:COMPLEMENTS {id: 'E_cu_02', note: 'kickoff_or_retro_notes', recycle: 'persistent'}]->(:SKL {id: 'meeting-notes-generator'})
 ```
 
-Load `clickup-project-management` when running work in ClickUp (plan, status hygiene, kickoff, stakeholder update, PRD / feature brief, weekly status rollup, retrospective). Writes go through **user-clickup** MCP (`clickup_*`); this skill is PM practice, not an MCP wrapper. `mcp-clickup` is not in this pack. Load `project-planner` first when the user still needs a product-roadmap interview. Load `meeting-notes-generator` for kickoff or retro minutes, then create action-item tasks in ClickUp. Load `skill-creator` only when the user asked to author a new Agent Skill folder.
+Load `clickup-project-management` when running work in ClickUp (plan this in ClickUp, status hygiene, overdue tasks, kickoff, standup, stakeholder update, assign/due-date, feedback loop, PRD / feature brief, weekly status rollup, retrospective). Writes go through **user-clickup** MCP (`clickup_*`); this skill is PM practice, not an MCP wrapper. `mcp-clickup` is not in this pack. Load `project-planner` first when the user still needs a product-roadmap interview. Load `meeting-notes-generator` for kickoff or retro minutes, then create action-item tasks in ClickUp. Load `skill-creator` only when the user asked to author a new Agent Skill folder.
 
 ---
 

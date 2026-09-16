@@ -12,10 +12,8 @@ description: >-
 metadata:
   pattern: pipeline
   domain: project-management
-  version: 1.1-clickup-pm
+  version: 1.1.1-clickup-pm
   secondary: "hybrid: writes via user-clickup MCP; complements project-planner and meeting-notes-generator"
-pattern: pipeline
-version: 1.1-clickup-pm
 
 pipeline_steps:
   1. Classify lane
@@ -47,7 +45,7 @@ token_guardrails: |
 
 **Role:** Enforce project-management practice on ClickUp lists, tasks, statuses, assignees, due dates, and recurring PM artifacts.
 
-**Pairing:** This skill is the **procedure** (how). **user-clickup** is the **connection** (`clickup_*` read/write). Inspect schemas before the first write; do not restate them here. Standing facts (sprint length, default list) live in the project's AGENTS.md -- inherit, do not copy. If `mcp-clickup` exists in the pack, load it for API conventions; do not duplicate it here. Product-roadmap interview: [project-planner](../project-planner/SKILL.md) first. Kickoff or retro minutes: [meeting-notes-generator](../meeting-notes-generator/SKILL.md) then action-item tasks here. New Agent Skill folder: [skill-creator](../skill-creator/SKILL.md), not this skill.
+**Pairing:** This skill is the **procedure** (how). **user-clickup** is the **connection** (`clickup_*` read/write). Inspect schemas before the first write; do not paste `clickup_*` schemas into this skill or the report. Standing facts (sprint length, default list) live in the project's AGENTS.md -- inherit, do not copy. Product-roadmap interview: [project-planner](../project-planner/SKILL.md) first. Kickoff or retro minutes: [meeting-notes-generator](../meeting-notes-generator/SKILL.md) then action-item tasks here. New Agent Skill folder: [skill-creator](../skill-creator/SKILL.md), not this skill.
 
 Sources distilled (do not paste): [How to Improve Project Management Skills](https://clickup.com/blog/how-to-improve-project-management-skills/) (ClickUp PMO Team, 17 Sep 2024); [Claude Skills for Project Management](https://clickup.com/blog/claude-skills-project-management/) (Praburam Srinivasan, 9 Jul 2026).
 
@@ -75,11 +73,12 @@ User wants work **run in ClickUp**: plan a project, set owners and dates, clean 
 9. **Paginate reads.** `clickup_filter_tasks`: repeat while `has_more`. `clickup_search`: repeat while `next_cursor` is present.
 10. **Live fields for rollups.** Weekly status and hygiene snapshots come from `clickup_filter_tasks` / `clickup_get_task` on the named list. A paste is current only when the user said it is the source.
 11. **One artifact type.** PRD, weekly status, or retro -- one per run unless the user asked mixed. Owner + review date on the Doc or parent task.
+12. **Unassigned is a post-filter.** `clickup_filter_tasks` `assignees` accepts numeric user ids only; it cannot select unassigned. Fetch by list and/or status, then drop tasks with empty `assignees` in the agent.
 
 ## MUST NOT
 
 - Invent ClickUp product surfaces or MCP tools that were not in the live `user-clickup` listing.
-- Duplicate `mcp-clickup` or paste full `clickup_*` schemas into this skill.
+- Paste `clickup_*` schemas into this skill.
 - Set a status string that is not configured on that list.
 - Create tasks without a `list_id`.
 - Close or delete tasks to hide a problem; name the issue in a comment and set a checkable next status or due date.
@@ -105,7 +104,7 @@ If two scans still leave the list, lane, or artifact type open, ask one bounded 
 
 ### 2. Resolve objects
 
-1. List: user-supplied id/name, else `clickup_get_list` / `clickup_search` (`asset_types: ["task"]`) / `clickup_get_workspace_hierarchy` only when structure is required.
+1. List: user-supplied id/name, else `clickup_get_list` / `clickup_search` (`filters.asset_types: ["task"]`) / `clickup_get_workspace_hierarchy` only when structure is required.
 2. Statuses: from that list (step MUST 3).
 3. People: `clickup_resolve_assignees`.
 4. Existing work: `clickup_filter_tasks` (fields) or `clickup_search` (keywords). Prefer filter for status, assignee, due-date range.
@@ -116,7 +115,7 @@ Load [references/core-pm-principles.md](references/core-pm-principles.md) and th
 
 **plan:** Break objectives into tasks and subtasks (`parent` on `clickup_create_task`). Set name, markdown description, assignees, priority (`urgent` | `high` | `normal` | `low`), start_date, due_date, time_estimate (minutes as a string). Link sequence with `clickup_add_task_dependency`. Optional `task_type` only if that type already exists in the workspace.
 
-**hygiene:** `clickup_filter_tasks` for overdue (`due_date_to` = today), unassigned, or named statuses. For a stuck task, `clickup_get_task_time_in_status` (requires ClickApp "Total time in Status"; if the tool errors, fall back to comments + dates). Update status, assignee, or due date; comment the reason.
+**hygiene:** `clickup_filter_tasks` for overdue (`due_date_to` = today) or named statuses. For unassigned work, fetch by list/status then drop empty `assignees` in the agent (MUST 12). For a stuck task, `clickup_get_task_time_in_status` (requires ClickApp "Total time in Status"; if the tool errors, fall back to comments + dates). Update status, assignee, or due date; comment the reason.
 
 **comms:** Action items become tasks. Narrative goes to `clickup_create_comment` or `clickup_send_chat_message` after `clickup_get_chat_channels`. Longer record: `clickup_create_document` then `clickup_create_document_page` / `clickup_update_document_page`. Personal follow-up: `clickup_create_reminder` (title + due_date).
 
