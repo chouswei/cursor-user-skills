@@ -32,7 +32,6 @@
 | incentive-alignment-reviewer | R | user | high | high | conceptual | high |
 | launch-readiness-assessor | R | user | medium | high | structural | low |
 | markdown-preview-enhanced | T | user | medium | medium | structural | low |
-| markdown-viewer-user-pack | T | user | medium | medium | structural | low |
 | mcdm-decider | P | user | high | high | measured | medium |
 | mcp-chrome-devtools | T | meta | medium | medium | structural | low |
 | mcp-digikey | T | meta | medium | medium | structural | low |
