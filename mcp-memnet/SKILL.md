@@ -1,37 +1,36 @@
 ---
 name: mcp-memnet
 description: >-
-  MemNet MCP tools: cue then pin_map, GQL mutate, session, ingest, snap_model,
-  export_pin_map. Triggers: memnet mcp, MCP pin_map, MCP mutate,
-  session_open, session_close, session_list, find, ingest_sysml, snap_model,
-  export_pin_map, reserve, RSV.
+  OPS-ONLY tip. Product Multitask -> sysmledge-cursor-multitask + sysmledge MCP.
+  Soft-pass: tip-as-face. MemNet MCP tip/engine tools only -- never SysMLEdge
+  product face when sysmledge is installed.
 metadata:
   pattern: tool-wrapper
-  version: "7.10"
+  version: "5.0"
   domain: memnet
-  product: "memnet-llm==0.19.5"
+  product: memnet-llm
 token_guardrails: |
-  - Working set W (shaped pin_map) is not inventory dump S. Cue then pin_map(q); empty q = outline.
-  - Cue MATCH by labels+observable properties. leftover nickname cue only as leftover. Never copy hid/id/elementId as identity.
-  - Product write is gated mutate (CREATE/MATCH SET/DELETE). leftover add/update / id:'NEW' / --anchor are leftover.
-  - Parse envelope stdout. Wire SSOT: memnet-format. STM: memnet-stm-harness (thesis playbooks).
+  - Primary read is pin_map (shaped subgraph); parse envelope stdout -- not JSON keys as grammar.
+  - Mutate with openCypher-shaped wire_lines; product Commit is mutate; copy locators from pin_map.
+  - Wire shapes SSOT: memnet-format; general GQL: graph-query-language / gql-path-patterns.
 ---
+# OPS-ONLY tip. Product Multitask -> skill sysmledge-cursor-multitask + sysmledge MCP. Soft-pass: tip-as-face.
 
-# MemNet MCP (user pack)
+# MemNet MCP (generic)
 
-**Use** MemNet via MCP. Doctrine SSOT: MemNet `docs/SHAPE.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Wire: [memnet-format](../memnet-format/SKILL.md). Nested interiors: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md). Hub: [memnet-use](../memnet-use/SKILL.md). STM thesis locks: [memnet-stm-harness](../memnet-stm-harness/SKILL.md) (playbook pointer to [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics)).
+Product **`memnet-llm`** (CLI `memnet`). Engine + generic MCP only -- **novel-writer is out of scope**.
 
-**Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`; Hatch / `project.toml` / `memnet.__version__`; tag `v0.19.5`; extras **0.10-0.19** unchanged). **Install:** `pip install memnet-llm` or `pip install memnet-llm==0.19.5`. Extras `[mcp]`, `[agensgraph]`, `[neo4j]` are **drivers only**. **1.0** stays unclaimed (1.0 = claim of 0.5-0.8). No 0.20. CLI `memnet`. Novel-writer is out of scope. Arg **`session`** (not `session_id`). GraphGlot is parse-front only. Default `max_sessions` **1024**.
+MemNet is working memory between LLM call pipelines and data search. Agents read a bounded **shaped subgraph** each turn via **`pin_map`** and write with **openCypher-shaped** mutate statements -- the **GQL wire**. Detail: [memnet-format](../memnet-format/SKILL.md).
 
 ## User-pack transport (this machine)
 
 | Role | Where |
 |------|--------|
 | **Cursor MCP** | HTTP `url` -> **`http://10.0.0.10:18766/mcp`** (streamable-http + Bearer) |
-| **Pi graph store** | Prefer TCP `memnet serve` **`:18765`** with HTTP MCP `MEMNET_MCP_TRANSPORT=tcp` (same graph) |
+| **Pi graph store** | Prefer TCP `memnet serve` **`:18765`** with HTTP MCP set `MEMNET_MCP_TRANSPORT=tcp` (same graph) |
 | Local stdio `command` | Optional `memnet-local` only -- not the primary `memnet-pi` path |
 
-Cursor `~/.cursor/mcp.json` -> primary server id **`memnet-pi`**. Shape matches Inventree-style `url` + `headers` (no local `command` / `env`). **InvenTree MCP is not MemNet** -- do not conflate.
+Cursor `~/.cursor/mcp.json` -> primary server id **`memnet-pi`** (Cursor may show it as `user-memnet-pi`). Shape matches Inventree-style `url` + `headers` (no local `command` / `env`):
 
 ```json
 "memnet-pi": {
@@ -42,120 +41,150 @@ Cursor `~/.cursor/mcp.json` -> primary server id **`memnet-pi`**. Shape matches 
 }
 ```
 
-After editing mcp.json: **Cursor -> MCP / Tools -> restart `memnet-pi`**. Do **not** dual-run InProcess HTTP MCP against a separate TCP store without `MEMNET_MCP_TRANSPORT=tcp` on the Pi HTTP process.
+After editing mcp.json: **Cursor -> MCP / Tools -> restart `memnet-pi`** (or reload the window). Do **not** dual-run InProcess HTTP MCP against a separate TCP store without `MEMNET_MCP_TRANSPORT=tcp` on the Pi HTTP process.
 
 ## Doctrine (must)
 
 | Idea | Meaning |
 |------|---------|
-| W vs S | Shaped `pin_map` is working set **W** (bounded offer). Do not dump inventory **S** |
-| Product loop | `session_open(map)` then codebook **cue -> `pin_map(q)`** + gated **`mutate`** (Commit) |
-| Empty q | **0.11 outline** (census under LIMIT), not a neighbourhood dump and not a skip |
-| User input | Control **u** / admitted mass in W / discrete force -- not automatic inventory. [user-input-memory.md](references/user-input-memory.md) |
-| Identity | Graph element. Cue by locators (labels + observable properties). leftover `--anchor` / nickname `id` / hid / elementId -- not TARGET |
-| leftover write | leftover-named `add`/`update`; leftover `id:'NEW'` / NEW mint -- not TARGET |
-| GQL wire | openCypher-shaped statements in `wire_lines`; parse envelope `stdout` |
-| Durable cabinet | Agens live claimed (0.7); **`liveNeo4jClaimed=true`** (0.14). Do not write hydrate-by-hid proven. Do not vendor a Neo4j/AgensGraph server. Agents MUST NOT talk Bolt. No `rag_query`. |
-| HostSearch / Peak_L / export | **Shipped** extras 0.17 / 0.18 / 0.19 -- not Later |
-| Transport | HTTP `:18766/mcp` -> Pi; bridge to TCP serve `:18765` when sharing one graph |
+| Shaped subgraph | pin_map emits a bounded neighbourhood (nodes + relationships), not a dump |
+| GQL wire | openCypher-shaped mutate in `wire_lines`; general GQL in sibling skills |
+| Live pin map | Primary **read**; optional `view=shell|interior` for budget |
+| Product Commit | MCP **`mutate`** (`wire_lines`); leftover `add`/`update` are registered façades |
+| Locators vs identity | GraphElement identity; ingest pins use stable locators (`path`, `qname`, ...) |
+| BIND vs relation | Port-port -> `BIND`; node-node -> typed rel labels |
+| Transport (user pack) | **HTTP `:18766/mcp` -> Pi**; bridge HTTP MCP to TCP serve `:18765` when sharing one graph |
 
-Always pass the same `session` id (or set `MEMNET_SESSION`). If ego unknown: **`find`** (`limit` required) then `pin_map` from labels+properties. Prefer **one live `TSK_*`**. When |Q|>1, CueConflict -- do not pick one root.
+Always pass explicit `session=` on every tool except `serve_status` (or set `MEMNET_SESSION`).
 
-Formal shapes: [memnet-format](../memnet-format/SKILL.md) + MemNet `docs/grammar/`.
+**Tool gloss:** Primary pin-map read is MCP `pin_map` / CLI `query pin-map`. Optional **`view=`** (`shell` | `interior`). Omit `view` for depth/`max_rows` only. `query_warm` is a leftover alias. Product mutate is MCP `mutate`. Formal shapes: [memnet-format](../memnet-format/SKILL.md) + MemNet `docs/grammar/`.
+
+## How MCP tools fit the wire
+
+MCP is a **thin CLI adapter**. Tools do **not** invent a second dialect: pin-map and mutate payloads live in the JSON envelope's **`stdout` / `wire_lines`** as GQL / openCypher-shaped text (or engine-rendered shaped subgraph).
+
+| MCP tool | Role | What goes on the wire |
+|----------|------|------------------------|
+| `session_open` | Session lifecycle + schema map | `map_lines` = `SCHEMA Kind ; fields=id …` (registry). Optional `seed_lines` = openCypher-shaped seed (LAW auto-seeded). |
+| `session_list` | Session listing | Live session ids + count |
+| `session_close` | Session lifecycle | Close session |
+| `session_current` | Session lifecycle | Metadata only |
+| `session_save` / `session_load` | Snapshot persist / resume | File path; next pin_map is still a shaped subgraph |
+| `pin_map` | **Live shaped-subgraph read** | `stdout` = neighbourhood (+ LAW). Optional arg `view`. |
+| `find` | Seed search | Bounded MATCH by labels/props |
+| `mutate` | **Product Commit** | `wire_lines` = openCypher-shaped CREATE / MERGE / SET / DELETE |
+| `add` / `update` | Leftover façades (wrappers) | Wrap `mutate` envelope; do not teach as TARGET |
+| `query_warm` | Leftover alias for `pin_map` | Same as `pin_map` (including `view`) |
+| `query_walk` | Hop debug (not primary pin map) | Walk lines for topology debug |
+| `read_list` | Enumerate | Multi-row listing to discover existing labels/props |
+| `snap_model` | Snapshot model tree | Dedicated snap session; catalog + interiors |
+| `housekeep_stats` | Caps / counts | Envelope stats |
+| `serve_status` | Transport probe | `{running,host,port}` -- TCP-oriented |
+
+**Agent loop <-> wire:** `pin_map` emits **shaped subgraph**; `mutate` accepts **openCypher-shaped** statements. Same property / label conventions.
+
+**Not weird dialect -- transport envelope:** every tool except `serve_status` returns JSON `{exit_code, stdout, stderr, session_id, errors}`. Parse **`stdout`** for pin-map / row text. Do not treat the JSON keys as the MemNet grammar.
+
+**Misfits (gloss, do not invent tools):**
+
+| Looks odd | Why | Agent action |
+|-----------|-----|--------------|
+| Name `query_warm` | Legacy alias | Use **`pin_map`** |
+| Names `add` / `update` | Leftover façades | Use **`mutate`** with Cypher ops inside `wire_lines` |
+| `serve_status` | Sounds optional | User pack: TCP store probe (`10.0.0.10:18765`); Cursor itself uses HTTP `:18766/mcp` |
+| No novel-writer tools | Dropped from product | Do not expect them |
 
 ## Agent loop
 
 ```text
-session_open(map) -> cue / find -> pin_map -> reason -> mutate -> pin_map
+pin_map -> reason -> mutate -> pin_map
 ```
 
-1. **Map** -- `session_open` needs `map_file` or `map_lines` else `no_map`. Missing kind -> `unknown_tag`. Bundled SCHEMA maps live in the MemNet checkout (`parts/common/memnet/memnet/examples/schema.*.example.txt`). This pack does not vendor those files.
-2. **Cue** -- `kind` / locators (`qname=`, `path=`, ...) / `keyword` / nickname `cue`. Empty cue = outline. Prefer one live `TSK_*`.
-3. **`pin_map`** -- one shaped offer per generate (admit into **W**). MCP `session=` selects the stratum. Drop the prior map next turn. leftover `anchor=` / `anchors=` are leftover nickname cues only. Shaped `pin_map` / `export_pin_map` / `find` emit MUST NOT show `hid`, `_memnet_hid`, `elementId`, or nickname `id` (`SHAPE_DROP_KEYS`). Cue-by-nickname lookup is still OK if the agent already holds that nickname. RSV product errors use leftover `anchor=` + `llm_id` only (no `_elN`). Do not put momentum / coverage / lambda / m on `pin_map`. Audit: MemNet `docs/operations/honesty-c-wire-audit.md`.
-4. **`mutate`** -- sparse GraphElement `CREATE` / `MATCH`...`SET`/`DELETE`. No leftover `id:'NEW'` mint.
-5. Persist -- default session TTL is 1440 minutes; `session_save` does NOT extend it. After any `mutate` that created persistent CLM / USR / SYM / TSK facts, `session_save` to a new dated file (not a campaign warm file). Live cabinet (0.7 Agens / 0.14 Neo4j) is optional extra, not a substitute for that file.
-6. `session_not_found` -- `session_list` then `find` by locators. Adopt the richest live catalog (`qname` / `path` / SYM / CLM counts), not the unique `goal=` hit. MUST NOT `session_open` a replacement until that scan is done.
+1. Pin map -- `pin_map(kind=..., locators=[...], depth<=2)` -- shaped subgraph; optional `view=shell` (tight) or `view=interior`.
+2. Reason; use locators and copied properties from the map.
+3. `mutate` with **openCypher-shaped** statements in `wire_lines`.
+4. `session_save` when durability is needed.
 
-**MCP missing:** skip MemNet; plain Markdown only (no TOON/TRON).
-
-## Product tools
-
-| Tool | Role | Wire |
-|------|------|------|
-| `session_open` | Map required (`map_file` / `map_lines`) | SCHEMA registry; optional CREATE seed |
-| `session_list` | Live ids plus `@STAT: sessions|n/max` (named strata; not ANN; default max **1024**) | text |
-| `session_close` | Close that id (SessionLifecycle; does not dump S) | `@SESSION: ...|closed` |
-| `session_save` / `session_load` / `session_current` | Snapshot / resume | file / metadata |
-| `pin_map` | Primary read. Empty q = outline. `view=shell` is grain on a seed, not outline | shaped subgraph |
-| `find` | Bounded seed (`limit` required). Not RAG | seed nodes |
-| `mutate` | Product Commit | CREATE / MERGE / SET / DELETE |
-| `snap_model` | One load tree -> catalog + interiors (`session=` + `qname=`) | locators |
-| `ingest_sysml` / `ingest_codebase` / `ingest_pcba` / `ingest_skills` | Path-B locators into **this** session (1->1). Not Snap. Not export | locators; no leftover NEW |
-| `export_pin_map` | Write out a cue `pin_map` as GQL. Not ingest. Not Absorb | shaped GQL |
-| `import_slice` | Absorb a **slice** (not a whole S) | pattern match |
-| `reserve` / `extend` / `release` | RSV; pass `llm_id` on mutate | `:RSV` present |
-| `read_list` | Enumerate by kind / where | rows |
-| `housekeep_stats` | Caps | stats |
-| `session_acl_enable` / `session_acl_grant` / `session_acl_bind` | CapsPolicy **opt-in** (off by default). Not full `session_token` modes | ACL |
-| `serve_status` | TCP probe | `{running,host,port}` |
-
-**Not weird dialect -- transport envelope:** every tool except `serve_status` returns JSON `{exit_code, stdout, stderr, session_id, errors}`. Parse **`stdout`**. Do not treat JSON keys as the MemNet grammar.
-
-## leftover (do not teach as product)
-
-| Name | Status |
-|------|--------|
-| `add` / `update` | leftover facades; still registered. Prefer **`mutate`**. Path-B `session_open` seed may still call leftover `add` internally -- not TARGET |
-| `query_warm` | leftover alias of `pin_map` |
-| `query_walk` | leftover hop debug |
-| `anchor=` / `--anchor` | leftover nickname |
-| `read_get` | **unshipped**; `read_list` may still enumerate |
-| `id:'NEW'` / NEW mint | leftover mint; not product Commit |
-
-Args: [references/tool-parameters.md](references/tool-parameters.md). Policy: [references/mcp-policy.md](references/mcp-policy.md). Map: [references/tool-grammar.md](references/tool-grammar.md).
+**MCP missing:** if MemNet tools are not in the session catalog, skip this loop -- plain Markdown scratch only (no TOON/TRON). Do not invent tool calls. Wire shapes: [memnet-format](../memnet-format/SKILL.md).
 
 ## Graph about a node or relationship
 
-| Want | Tool |
-|------|------|
-| Neighbourhood / ego slice (primary) | `pin_map` from a cue |
-| Enumerate by kind / field | `read_list` then cue `pin_map` |
-| Hop listing only | leftover `query_walk` -- debug, not the reason loop |
+| Want | Tool | Why |
+|------|------|-----|
+| Neighbourhood / ego slice (primary) | `pin_map` | Live **shaped subgraph** in `stdout` |
+| Hop listing only | `query_walk` | Debug topology; not the reason loop |
+| Find by label / prop / field | `find` / `read_list` | Discover seed first; then pin_map |
 
-**Recipe (node):** cue (`kind` / locators) -> `pin_map(..., depth=2, max_rows=50, session=...)` -> parse **`stdout`**. Raise `depth` only if the slice is too thin.
+**Recipe (node):** resolve seed if needed (`find` / prior pin_map) -> `pin_map(kind=..., locators=[...], depth=2, max_rows=50, session=...)` -> parse envelope **`stdout`**. Raise `depth` only if the slice is too thin; keep `max_rows` bounded.
 
-**Recipe (relationship -> its two nodes):** endpoints are **on the relationship**. Parse `(a)-[:TYPE]->(b)` from pin_map `stdout`. Do **not** use an edge as a leftover `--anchor`. leftover pipe `@EDG:` may still appear on import -- do not teach pipe as agent mutate format.
+**Recipe (relationship -> its two endpoints):** endpoints are **on the relationship**.
 
-## When locators must match model / schematic
+1. Copy relationship line from pin_map `stdout`.
+2. **Parse endpoints** (copy those values):
+   - **GQL / shaped present:** `(a)-[:TYPE {props}]->(b)` or engine present form with from/to brackets -- first endpoint = source, second = destination.
+3. Optional: `pin_map` on the endpoint node locator. Do not invent ids.
 
-**Decision:** pin into SysML / `.ato` / codebase / skill -> **stable locators** (`path`, `qname`, ...). New MemNet-only fact -> GraphElement `CREATE` (no leftover NEW). Do not conflate ingest with goldfish mutate.
+## When ids must match model / schematic
+
+**Decision:** pin into SysML / codebase / schematic / skill -> **stable locator** (deterministic ground locator props such as `qname`, `path`, `refdes`). GraphElement identity in GQL wire; do not invent client NEW for ground locators.
 
 | Need | Tool |
 |------|------|
-| Find by schematic field | `read_list` with `where` (`refdes=`, `net=`, `qname=`, `path=`) |
-| Neighbourhood | `pin_map` from that locator cue |
-| First materialise pin | `ingest_*` or `mutate` with explicit locators |
-| Annotate about a pin | `mutate` CREATE `:CLM` then rel MATCH'd by locators |
+| Find by locator / field | `find(locators=["refdes=R1"])` or `read_list(tag=..., where=["refdes=R1"])` |
+| Neighbourhood | `pin_map(kind="CMP", locators=["refdes=R1"], session=...)` |
+| Materialise pin | `mutate` with explicit locators (e.g. `CREATE (:CMP {refdes: 'R1', path: 'boards/pdu/pdu.ato', recycle: 'persistent'})`) |
+| Annotate about a pin | `mutate` with `:CLM` then relate to the matched pin |
 
 ```cypher
 CREATE (c:CMP {refdes: 'R1', path: 'boards/pdu/pdu.ato', recycle: 'persistent'})
-MATCH (c:CMP {refdes: 'R1', path: 'boards/pdu/pdu.ato'}) SET c.value = '10k'
+MATCH (c:CMP {refdes: 'R1'}) SET c.value = '10k', c.recycle = 'persistent'
 CREATE (clm:CLM {type: 'decision', code: 'keep R1 10k', recycle: 'persistent'})
-MATCH (c:CMP {refdes: 'R1'}), (clm:CLM {code: 'keep R1 10k'})
-CREATE (clm)-[:mentions]->(c)
+MATCH (clm:CLM {code: 'keep R1 10k'}), (c:CMP {refdes: 'R1'})
+CREATE (clm)-[:documents]->(c)
 ```
 
-**Forbidden:** leftover client NEW for R1/U2/nets/SysML qnames/paths; inventing colliding store keys. Path-B ingest is **shipped**. Ingest is **not** pin-map export.
+**Forbidden:** client NEW for R1/U2/nets/SysML qnames/paths; inventing random ids; leftover NEW on patch. **Pitfall:** check existence before creating duplicate pins. Seed via `seed_lines` / `mutate` until ingest lands.
 
-## Neighbourhood reserve (shipped)
+## Multi-agent reserve (design -- not yet shipped)
+
+Neighbourhood **reserve** with holder **`llm_id`** + **TTL** prevents same-session write races. MCP sketch (next minor):
 
 ```text
-reserve(..., llm_id, depth=2, ttl_s=120, session=...) -> rid, until
-extend(llm_id, rid, ttl_s=120, session=...) -> until
-release(llm_id, rid, session=...) -> ok
+reserve(session, kind, locators, depth=2, llm_id, ttl_s=120) -> rid, until
+extend(session, rid, llm_id, ttl_s=120) -> until
+release(session, rid, llm_id) -> ok
 ```
 
-RSV may still take a leftover nick `anchor` on the tool -- that parameter name is leftover. Mutate on reserved neighbourhoods requires matching `llm_id`. Full session ACL modes / `session_token` remain **design**; CapsPolicy ACL is opt-in. SSOT: MemNet `docs/grammar/memnet-neighbourhood-reserve.md`.
+Pin map may show intersecting leases as shaped present:
+
+```cypher
+(:RSV {id: 'R7', llm_id: 'coder_a', anchor: 'ATO_R1', depth: 2, until: '2026-07-24T08:15:00Z', left_s: 87})
+```
+
+**Never** `@RSV:` pipe. SSOT: MemNet `docs/grammar/memnet-neighbourhood-reserve.md`. Mutate on reserved items requires matching `llm_id`.
+
+## Essential tools (quick)
+
+| Tool | When | Notes |
+|------|------|-------|
+| `serve_status` | Reachability / probe | TCP serve `:18765` when HTTP MCP bridges; Cursor entry is `:18766/mcp` |
+| `session_open` | New session | `map_lines` (or `map_file`) + optional `seed_lines`; `allow_new_relation=true` for custom rel types |
+| `session_list` / `session_close` | Session lifecycle | Enumerate / close live sessions |
+| `session_save` / `session_load` | Persist / resume | Snapshot file path (`memnet-snapshot-v1` format) |
+| `session_current` | Session metadata | |
+| `pin_map` | **Primary read** = shaped subgraph | `kind` / `locators` / `cue`; `depth`/`max_rows`; optional `view` |
+| `find` | Seed search | Bounded MATCH by labels/props |
+| `mutate` | **Product Commit** | `wire_lines`: openCypher-shaped CREATE/SET/DELETE |
+| `add` / `update` | Leftover façades | Wrap `mutate` envelope |
+| `snap_model` | Model snapshot | Dedicated snap session; catalog + interiors |
+| `read_list` | Enumerate | Multi-row listing |
+| `housekeep_stats` | Caps / counts | Envelope stats |
+
+Args detail: [references/tool-parameters.md](references/tool-parameters.md). Policy: [references/mcp-policy.md](references/mcp-policy.md). Full map: [references/tool-grammar.md](references/tool-grammar.md).
+
+## GQL wire (shapes)
+
+Line shapes, mutate ops, BIND vs relation, and examples: [memnet-format](../memnet-format/SKILL.md). General GQL: [graph-query-language](../graph-query-language/SKILL.md), [gql-path-patterns](../gql-path-patterns/SKILL.md). Formal SSOT: MemNet `docs/grammar/`.
 
 ## SysML v2 modeling (relatives cache)
 
@@ -163,33 +192,33 @@ RSV may still take a leftover nick `anchor` on the tool -- that parameter name i
 
 | Turn phase | Tool |
 |------------|------|
-| Preflight | MemNet MCP in catalog? `serve_status` when TCP / unsure. Multitask MUST NOT in-process |
-| Read cache | `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)`; then `session=` for the interior ([memnet-nested-sessions](../memnet-nested-sessions/SKILL.md)) |
-| Bootstrap | `session_open` + map; catalog `snap_model` or Path-B `ingest_sysml` (1->1). `housekeep_stats`: act on session-cap and `unknown_tag`. MUST NOT treat `stale_orphans` / dangling counts on a mutate-maintained catalog as a prune signal -- those rows may be unreachable from the campaign cue and still be the mission record. Repo rules may forbid prune entirely. |
-| Write delta | **`mutate`**; `llm_id` if RSV held |
-| Persist | After persistent CLM / USR / SYM / TSK mutate: `session_save` to `<model-root>/.memnet/<short>-<catalogId>-<YYYYMMDD>.snap`. MUST NOT overwrite `*warm*`. Engine TTL is 1..1440 minutes; `session_save` does not extend it. |
+| Preflight | MemNet MCP in catalog? Then optional `serve_status` (TCP only) |
+| Read cache | pin_map -- `pin_map(kind="TSK", locators=["goal=TSK_model_<short>"], depth=2, max_rows=50, session=...)` |
+| Bootstrap | `session_open` + `map_file` / `map_lines` + `seed_lines`; `allow_new_relation=true` for `owns` |
+| Write delta | `mutate` (openCypher-shaped `wire_lines`) |
+| Persist | `session_save` -> project `.memnet/` snap |
+| Resume | `session_load` or `MEMNET_SESSION` |
 
 Tag vocabulary: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md).
 
+**Do not** use chat or `AGENT-CONTEXT.md` for topology when a live session is available.
+
 ## MUST NOT
 
-- Treat nickname `id` / hid / elementId as identity. Cue MATCH by locators.
-- Teach leftover `--anchor` / `id:'NEW'` / leftover `add`/`update` as TARGET.
-- Emit pipe `@TAG:...` rows as agent I/O -- GQL / shaped wire only.
-- Recommend TOON/TRON for handoffs.
-- Restore novel-writer MCP extras.
-- `rag_query` / ANN of S / dump S / stack N nested maps in one generate.
-- Claim **1.0**. Claim hydrate-by-hid proven. Vendor a Neo4j/AgensGraph server.
-- Teach `hid` / `_memnet_hid` / `elementId` / nickname `id` on shaped `pin_map` / export / find emit.
+- Invent ids already present on the pin map -- copy them.
+- Emit pipe `@TAG:...` or `memnet-snapshot-v1` rows as agent I/O -- that pipe format is persist / `session_save` dialect, not agent wire.
+- Recommend TOON/TRON for handoffs -- prefer GQL wire or plain Markdown.
+- Require leftover `anchor` or teach leftover `add`/`update` as TARGET.
+- Restore or depend on novel-writer MCP extras.
+- Insert live session ids, foreign product names, or snap dumps.
 
 ## Related
 
 | Path | Role |
 |------|------|
-| [memnet-use](../memnet-use/SKILL.md) | How to use MemNet (hub) |
-| [memnet-stm-harness](../memnet-stm-harness/SKILL.md) | STM thesis playbook pointer (W vs S, debug triage) |
 | [memnet-format](../memnet-format/SKILL.md) | MemNet GQL wire conventions |
-| [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md) | Catalog / look loop |
 | [graph-query-language](../graph-query-language/SKILL.md) | General GQL |
+| [gql-path-patterns](../gql-path-patterns/SKILL.md) | Bounded paths |
 | [references/atomisation.md](references/atomisation.md) | One fact per row |
-| MemNet `docs/ROADMAP.md` | Version map SSOT |
+| [references/tool-grammar.md](references/tool-grammar.md) | MCP tool <-> wire map |
+| MemNet `README.md` / `docs/grammar/` | Product SSOT |

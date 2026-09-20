@@ -104,7 +104,7 @@ SET s.line = '390'
 
 ## Limits
 
-- Rows are **not** auto-synced from git -- **update** after moves/renames.
+- Rows are **not** auto-synced from git -- **mutate** after moves/renames.
 - Do not store whole files -- store **path, line, short signature, summary**.
 - Prefer **one `TSK` in_progress** per session; settle before starting unrelated work.
 - Respect cap warnings; run `housekeep_stats` if rows grow.
@@ -112,8 +112,8 @@ SET s.line = '390'
 ## Pair with codebase tools
 
 ```text
-Turn N:   pin map(TSK) -> grep/LSP -> add/update MOD/SYM
-Turn N+1: pin map(TSK) -> edit file -> update SYM line if shifted
+Turn N:   pin map(TSK) -> grep/LSP -> mutate MOD/SYM
+Turn N+1: pin map(TSK) -> edit file -> mutate SYM line if shifted
 ```
 
 Do not skip verification on the first discovery turn; MemNet remembers **confirmed** atoms.
