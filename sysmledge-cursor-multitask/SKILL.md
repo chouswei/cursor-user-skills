@@ -8,9 +8,9 @@ metadata:
   version: "1.0.0"
   pairs_with:
     - sysmledge-workflow
-    - mcp-sysmledgraph
     - memnet-multitask
     - memnet-use
+    - mcp-memnet
 ---
 # SysMLEdge Cursor Multitask (tip!=face)
 
@@ -53,6 +53,7 @@ Product allowlist on `sysmledge` only: `openProject` / `closeProject` / `rev_sta
 ## Pairing
 
 - Day loop: [sysmledge-workflow](../sysmledge-workflow/SKILL.md)
-- Face / MCP: [mcp-sysmledgraph](../mcp-sysmledgraph/SKILL.md)
+- Face / MCP: product MCP `sysmledge` (not stale `sysmledgraph`)
 - MemNet Multitask: [memnet-multitask](../memnet-multitask/SKILL.md)
 - MemNet use: [memnet-use](../memnet-use/SKILL.md)
+- MemNet tools: [mcp-memnet](../mcp-memnet/SKILL.md)

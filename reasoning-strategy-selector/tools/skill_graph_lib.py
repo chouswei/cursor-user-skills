@@ -123,6 +123,8 @@ MANUAL_COMPLEMENTS = [
     ("sysmledge-workflow", "mcp-memnet"),
     ("sysmledge-cursor-multitask", "sysmledge-workflow"),
     ("sysmledge-cursor-multitask", "memnet-multitask"),
+    ("sysmledge-cursor-multitask", "memnet-use"),
+    ("sysmledge-cursor-multitask", "mcp-memnet"),
     ("oosem-workflow", "sysml-modeling-workflow"),
     ("oosem-workflow", "mcdm-decider"),
     ("oosem-workflow", "sysml-traceability"),

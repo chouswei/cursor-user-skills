@@ -780,4 +780,6 @@ CREATE (:TRG {id: 'TRG_sysmledge-cursor-multitask_1'})-[:TRIGGERS {id: 'E0435', 
 CREATE (:TRG {id: 'TRG_sysmledge-cursor-multitask_2'})-[:TRIGGERS {id: 'E0436', note: 'sysmledge multitask', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-cursor-multitask'})
 CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0437', note: 'day_loop', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
 CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0438', note: 'multitask', recycle: 'persistent'}]->(:SKL {id: 'memnet-multitask'})
+CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0439', note: 'memnet_use', recycle: 'persistent'}]->(:SKL {id: 'memnet-use'})
+CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0440', note: 'memnet_tools', recycle: 'persistent'}]->(:SKL {id: 'mcp-memnet'})
 
