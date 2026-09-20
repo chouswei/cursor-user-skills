@@ -112,6 +112,7 @@
 | sysml-v2-release-how-to-use | P | sysml | medium | medium | structural | low |
 | sysml-v2-syntax-reference | T | sysml | medium | medium | structural | low |
 | sysml-view-doc-sync | R | sysml | medium | medium | structural | low |
+| sysmledge-cursor-multitask | P | sysml | medium | medium | structural | low |
 | sysmledge-workflow | P | sysml | high | medium | structural | low |
 | system-design-report-generator | P | doc | medium | medium | structural | low |
 | system-nesting | P | user | medium | medium | structural | low |
