@@ -7,6 +7,7 @@ Fields: `id`, `intent`, `expected_order`, `acceptable_alternatives` (slash-separ
 | sysml_refactor | cross-file SysML refactor rename parts ports | sysml-refactorer | sysml-modeling-workflow / sysml-refactorer |
 | sysml_new | scaffold new SysML v2 project folder config | sysml-new-project | sysml-new-project / sysml-modeling-workflow |
 | sysmledge_loop | sysmledge STALE sysml propose gql_read rev_status | sysmledge-workflow | sysmledge-workflow / sysml-modeling-workflow |
+| sysmledge_multitask | sysmledge cursor multitask tip!=face product MCP sysmledge | sysmledge-cursor-multitask | sysmledge-cursor-multitask / sysmledge-workflow / memnet-multitask |
 | oosem_cycle | OOSEM object-oriented systems engineering scenario-driven MBSE | oosem-workflow | oosem-workflow / sysml-modeling-workflow |
 | nested_parts | nested parts hierarchical structure modeling | sysml-nested-structure-modeling | sysml-nested-structure-modeling / sysml-modeling-workflow |
 | stakeholder_uc | stakeholder use case mission objective | sysml-stakeholder-use-case | sysml-stakeholder-use-case / oosem-workflow |

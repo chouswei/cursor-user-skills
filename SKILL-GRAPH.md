@@ -82,9 +82,10 @@ Pattern codes: `G`=Generator, `R`=Reviewer, `P`=Pipeline, `T`=Tool-wrapper.
 (:SKL {id: 'sysml-memnet-cache'})-[:DEFAULT_STACK {id: 'E_sys_02b', note: 'docs', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
 (:SKL {id: 'sysml-modeling-workflow'})-[:COMPLEMENTS {id: 'E_sys_03', note: 'sysmledge', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
 (:SKL {id: 'sysml-modeling-workflow'})-[:COMPLEMENTS {id: 'E_sys_04', note: 'oosem', recycle: 'persistent'}]->(:SKL {id: 'oosem-workflow'})
+(:SKL {id: 'sysmledge-workflow'})-[:COMPLEMENTS {id: 'E_sys_05', note: 'tip_ne_face', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-cursor-multitask'})
 ```
 
-Then at most one specialist SKL from `TRIGGERS` match. **Repo graph first** for project SKL. Pack `AGENTS.md` / pack seed for pack methods. SysMLEdge day loop: `sysmledge-workflow`. OOSEM method cycle: `oosem-workflow`.
+Then at most one specialist SKL from `TRIGGERS` match. **Repo graph first** for project SKL. Pack `AGENTS.md` / pack seed for pack methods. SysMLEdge day loop: `sysmledge-workflow`. SysMLEdge Cursor Multitask (tip!=face): `sysmledge-cursor-multitask`. OOSEM method cycle: `oosem-workflow`.
 
 ## Skill-graph tooling stack (pack relatives, not prose)
 
@@ -111,6 +112,7 @@ Load `skill-graph-workflow` to bind pack vs repo graph, then one relative. MUST 
 (:SKL {id: 'mcp-memnet'})-[:COMPLEMENTS {id: 'E_mn_01', note: 'wire', recycle: 'persistent'}]->(:SKL {id: 'memnet-format'})
 (:SKL {id: 'memnet-multitask'})-[:COMPLEMENTS {id: 'E_mn_02', note: 'multitask', recycle: 'persistent'}]->(:SKL {id: 'mcp-memnet'})
 (:SKL {id: 'memnet-multitask'})-[:COMPLEMENTS {id: 'E_mn_03', note: 'multitask', recycle: 'persistent'}]->(:SKL {id: 'memnet-format'})
+(:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E_mn_07', note: 'tip_ne_face', recycle: 'persistent'}]->(:SKL {id: 'memnet-multitask'})
 (:SKL {id: 'sysml-gql'})-[:COMPLEMENTS {id: 'E_mn_04', note: 'sysml_bridge', recycle: 'persistent'}]->(:SKL {id: 'memnet-format'})
 (:SKL {id: 'sysml-gql'})-[:COMPLEMENTS {id: 'E_mn_05', note: 'gql_core', recycle: 'persistent'}]->(:SKL {id: 'graph-query-language'})
 (:SKL {id: 'sysml-gql'})-[:COMPLEMENTS {id: 'E_mn_06', note: 'snap_ssot', recycle: 'persistent'}]->(:SKL {id: 'sysml-memnet-documentation'})
@@ -118,7 +120,7 @@ Load `skill-graph-workflow` to bind pack vs repo graph, then one relative. MUST 
 (:SKL {id: 'analytical-mechanics-propose'})-[:COMPLEMENTS {id: 'E_am_02', note: 'framing_before_surrogate', recycle: 'persistent'}]->(:SKL {id: 'physics-constrained-surrogate-routing'})
 ```
 
-Load `memnet-use` when the job is **using** MemNet. Load `memnet-planner` when a plan must live in the session graph and be updated or repolished. Load `memnet-nested-sessions` when a nest is cut across sessions. Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play (spawn a wave, checkpoint, repeat). Load `analytical-mechanics-propose` when proposing or reviewing an analytical-mechanics framing for any domain (STM thesis is the worked example, not the only target). Load `memnet-stm-harness` when wiring or triaging STM from thesis locks (W vs S, ShapeWalk harness, gauge/caps) -- fetch playbooks from [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics). Load `sysml-gql` when SysML modeling uses MemNet GQL working memory. Ops: MemNet `docs/operations/multi-agent-sessions.md`. Shape: `docs/SHAPE.md`. Version map: `docs/ROADMAP.md` (**package and PyPI 0.19.5**). System-repo pattern: MemNet `docs/application-notes/system/llm-system-dev-multitask.md`.
+Load `memnet-use` when the job is **using** MemNet. Load `memnet-planner` when a plan must live in the session graph and be updated or repolished. Load `memnet-nested-sessions` when a nest is cut across sessions. Load `memnet-multitask` when Multitask Mode or Task sub-agents are in play (spawn a wave, checkpoint, repeat). Load `sysmledge-cursor-multitask` when Multitask/Task sees both product MCP `sysmledge` and tip MCP `memnet-pi` (tip!=face). Load `analytical-mechanics-propose` when proposing or reviewing an analytical-mechanics framing for any domain (STM thesis is the worked example, not the only target). Load `memnet-stm-harness` when wiring or triaging STM from thesis locks (W vs S, ShapeWalk harness, gauge/caps) -- fetch playbooks from [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics). Load `sysml-gql` when SysML modeling uses MemNet GQL working memory. Ops: MemNet `docs/operations/multi-agent-sessions.md`. Shape: `docs/SHAPE.md`. Version map: `docs/ROADMAP.md` (**package and PyPI 0.19.5**). System-repo pattern: MemNet `docs/application-notes/system/llm-system-dev-multitask.md`.
 
 Build-the-engine hub **`memnet-reference`** lives in the MemNet checkout (`.cursor/skills/memnet-reference/`); this pack does not copy it.
 

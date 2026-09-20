@@ -60,6 +60,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 | Cursor rules | create rule, .mdc, alwaysApply, AGENTS.md, user/team rules | `rule-writer` |
 | SysML + MemNet GQL | sysml gql, modeling pin_map, TSK_model GQL | `sysml-gql` |
 | SysMLEdge day loop | sysmledge, sysml edge, STALE sysml, sysml propose, gql_read, rev_status | `sysmledge-workflow` |
+| SysMLEdge Cursor Multitask | sysmledge cursor multitask, tip!=face, product MCP sysmledge | `sysmledge-cursor-multitask` |
 | OOSEM method cycle | OOSEM, object-oriented systems engineering, scenario-driven MBSE | `oosem-workflow` |
 | Skill graph bind | skill graph, repo skill graph, relative skills | `skill-graph-workflow` |
 | STM harness | agent harness, STM debug, W vs S, user-input-as-control, ShapeWalk harness | `memnet-stm-harness` |
