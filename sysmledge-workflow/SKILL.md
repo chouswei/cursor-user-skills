@@ -6,10 +6,11 @@ description: >-
   implement allocated work from that live model; agents propose SysML only.
   STALE: show it and refuse live-SSOT pretence. Triggers: sysmledge workflow,
   sysml edge, SysMLEdge, STALE sysml, sysml propose, gql_read, rev_status,
-  reproject. Skip: Mermaid or D2 viz-only; Kuzu, Cypher, or graph.kuzu.
+  reproject, SysMLEdgePrj, migrate modelbasedPrj. Skip: Mermaid or D2 viz-only;
+  Kuzu, Cypher, or graph.kuzu.
 metadata:
   pattern: pipeline
-  version: "1.0"
+  version: "1.1"
   domain: sysml
   pairs_with: [sysml-modeling-workflow, sysml-gql, mcp-memnet, sysml-new-project, mcp-sysml-v2, mcp-sysmledgraph]
 token_guardrails: |
@@ -18,6 +19,7 @@ token_guardrails: |
   - STALE: show rev.stale; refuse live-SSOT pretence. staleOk is read-only. propose while STALE is refused unless base.sha + human rebase.
   - GQL MUST NOT invent parts, ports, connections, or PLM ids. Bounded reads; no full-tree dump as the only merge story.
   - Load references/day-loop.md for STALE error shape and proposal file rules.
+  - Load references/sysmledge-prj.md for SysMLEdgePrj-* naming and modelbasedPrj-* migrate.
 pipeline_steps:
   1. Bind tree
      - Confirm model root is sysml-models/ (or repo AGENTS.md). Call rev_status. If STALE, show it; do not pretend the graph is current.
@@ -40,7 +42,7 @@ system_instruction: |
 
 # SysMLEdge day loop
 
-**When:** The open system uses **SysMLEdge** with author SSOT under **`sysml-models/`**. Not for Mermaid/D2 viz-only. Not for the abandoned Kuzu `sysmledgraph` stack.
+**When:** The open system uses **SysMLEdge** with author SSOT under **`sysml-models/`**. Product-face system repos use prefix **`SysMLEdgePrj-*`**. Naming / migrate from `modelbasedPrj-*`: [references/sysmledge-prj.md](references/sysmledge-prj.md). Not for Mermaid/D2 viz-only. Not for the abandoned Kuzu `sysmledgraph` stack.
 
 **Pairing:** Textual modeling sequence stays [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md). Working-memory GQL shape: [sysml-gql](../sysml-gql/SKILL.md). MemNet tools: [mcp-memnet](../mcp-memnet/SKILL.md). Greenfield tree: [sysml-new-project](../sysml-new-project/SKILL.md). Old MCP name: [mcp-sysmledgraph](../mcp-sysmledgraph/SKILL.md) (retarget only).
 
@@ -114,5 +116,6 @@ Stub: [assets/proposal-stub.md](assets/proposal-stub.md). Human apply: merge `de
 ## See also
 
 - STALE + propose detail: [references/day-loop.md](references/day-loop.md)
+- Repo prefix + migrate: [references/sysmledge-prj.md](references/sysmledge-prj.md)
 - Modeling hub: [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md)
 - Abandoned Kuzu MCP retarget: [mcp-sysmledgraph](../mcp-sysmledgraph/SKILL.md)

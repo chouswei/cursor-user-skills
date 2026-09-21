@@ -782,4 +782,8 @@ CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0437', not
 CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0438', note: 'multitask', recycle: 'persistent'}]->(:SKL {id: 'memnet-multitask'})
 CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0439', note: 'memnet_use', recycle: 'persistent'}]->(:SKL {id: 'memnet-use'})
 CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0440', note: 'memnet_tools', recycle: 'persistent'}]->(:SKL {id: 'mcp-memnet'})
+CREATE (:TRG {id: 'TRG_sysmledge-workflow_3', phrase: 'SysMLEdgePrj', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysmledge-workflow_4', phrase: 'migrate modelbasedPrj', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysmledge-workflow_3'})-[:TRIGGERS {id: 'E0441', note: 'SysMLEdgePrj', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
+CREATE (:TRG {id: 'TRG_sysmledge-workflow_4'})-[:TRIGGERS {id: 'E0442', note: 'migrate modelbasedPrj', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
 

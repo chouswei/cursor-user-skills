@@ -3,7 +3,7 @@ name: system-nesting
 description: Recursively clarifies architecture by treating every part and relevant nested usage as a system. Use when detailing a system, digging into an architecture, reviewing system-of-systems structure, or when nested parts, ownership, interfaces, behaviour, or requirements are unclear.
 metadata:
   pattern: pipeline
-  version: "1.1"
+  version: "1.2"
 ---
 
 # System nesting
@@ -40,7 +40,7 @@ decomposed.
 
 ## Model-based repositories
 
-When working in a `modelbasedPrj-*` repository:
+When working in a `SysMLEdgePrj-*` or `modelbasedPrj-*` repository:
 
 - MUST use the SysML model as the architecture source of truth.
 - Inspect the relevant `.sysml` part usages, ports, behaviours, requirements,

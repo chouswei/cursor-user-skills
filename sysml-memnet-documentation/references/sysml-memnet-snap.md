@@ -8,7 +8,7 @@ Authoritative MemNet-first rules for SysML project roots. Pair with [sysml-memne
 
 | Layout | Root | Snap dir |
 |--------|------|----------|
-| House / system repo (`modelbasedPrj-*`) | `sysml-models/` | `sysml-models/.memnet/` |
+| House / system repo (`SysMLEdgePrj-*` or `modelbasedPrj-*`) | `sysml-models/` | `sysml-models/.memnet/` |
 | Multi-project pack (legacy) | `sysml-v2-models/projects/<slug>/` | `.../projects/<slug>/.memnet/` |
 
 Copy the live root from repo `AGENTS.md`. **This MemNet repo:** `sysml-models/`.

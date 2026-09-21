@@ -34,7 +34,7 @@
 | skillfish | skill.fish registry: install, search, submit, bundle/install manifest |
 | skill-reviewer | Audit SKILL.md packages; structure, safety, publish readiness |
 | sysml-new-project | Scaffold new SysML v2 project |
-| sysmledge-workflow | SysMLEdge day loop: edit, human Save, GQL, propose-only |
+| sysmledge-workflow | SysMLEdge day loop: edit, human Save, GQL, propose-only; SysMLEdgePrj-* naming / migrate |
 | sysmledge-cursor-multitask | SysMLEdge Cursor Multitask: tip!=face; product MCP sysmledge only |
 | oosem-workflow | OOSEM method cycle: needs through V&V, scenario-driven MBSE |
 | mcp-sysmledgraph | Retarget to MemNet/SysMLEdge MCP; never Kuzu |

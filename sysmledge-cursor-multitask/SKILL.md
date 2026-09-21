@@ -3,9 +3,10 @@ name: sysmledge-cursor-multitask
 description: >-
   Use when Cursor Multitask/Task sees both product MCP sysmledge and tip MCP
   memnet-pi -- route product asks to sysmledge only; tip!=face forever.
+  Also: SysMLEdgePrj-* trees bind on sysmledge, never Foam, never tip-as-face.
 metadata:
   pattern: pipeline
-  version: "1.0.0"
+  version: "1.1.0"
   pairs_with:
     - sysmledge-workflow
     - memnet-multitask
@@ -29,11 +30,13 @@ Product allowlist on `sysmledge` only: `openProject` / `closeProject` / `rev_sta
 
 | Ask | Route |
 |-----|-------|
-| Foam / SysMLEdge product query or propose | `sysmledge` |
+| Foam archive / historical meter desk | `sysmledge` only if that `projectId` is bound; never as a SysMLEdgePrj face |
+| SysMLEdgePrj / product query or propose | `sysmledge` after human `openProject` |
 | Bind / unbind / STALE honesty | `sysmledge` |
 | MemNet serve bounce, tip session_not_found | `memnet-pi` (ops only) |
-| Unbound project | `openProject` then refuse until bound |
-| PD / non-Foam tree | repo-only until Core GO |
+| Unbound SysMLEdgePrj | `openProject` then refuse live-SSOT until bound; `sysml-models/` remains author SSOT |
+
+Prefix and migrate: [sysmledge-workflow/references/sysmledge-prj.md](../sysmledge-workflow/references/sysmledge-prj.md). MUST NOT invent `projectId`. MUST NOT reuse `foam-beachhead` for PD or any `SysMLEdgePrj-*` tree.
 
 ## Parent coordinator
 
@@ -46,7 +49,8 @@ Product allowlist on `sysmledge` only: `openProject` / `closeProject` / `rev_sta
 
 - tip-as-face
 - invent_2 as proof_pass / keep-using / H2H / sell
-- foam-beachhead as general MCP
+- foam-beachhead as general MCP or as a SysMLEdgePrj / PD face
+- invent SysMLEdgePrj `projectId` / bind in pack or product AGENTS
 - tunnel localhost as current day-1 product face
 - tip MemNet on WWW as product
 

@@ -8,7 +8,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.9"
+  version: "1.10"
   product: "memnet-llm==0.19.5"
   pairs_with: [sysml-root-config, sysml-requirements-generator, sysml-modeling-session-checklist, sysml-memnet-cache, sysml-memnet-documentation, mcp-memnet, sysml-v2-lsp-mcp, project-planner, sysmledge-workflow, oosem-workflow]
 token_guardrails: |
@@ -23,7 +23,7 @@ token_guardrails: |
 
 **When:** Greenfield **`sysml-models/`** -- not fixing load order only (**sysml-import-order-helper**) or root/config drift only (**sysml-root-config**).
 
-**House default:** `sysml-models/` (SysMLEdge author SSOT). **Legacy opt-in:** repos that still use **`sysml-v2-models/projects/<slug>/`** -- keep that layout; do not migrate a live pack tree in this skill unless the user asked.
+**House default:** `sysml-models/` (SysMLEdge author SSOT). **Repo prefix:** product-face system repos **`SysMLEdgePrj-<Org>-<Name>`**; legacy MemNet-only trees MAY stay **`modelbasedPrj-*`**. Naming / migrate: [sysmledge-workflow/references/sysmledge-prj.md](../sysmledge-workflow/references/sysmledge-prj.md). **Legacy opt-in layout:** repos that still use **`sysml-v2-models/projects/<slug>/`** -- keep that layout; do not migrate a live pack tree in this skill unless the user asked.
 
 **Pairing:** After scaffold, SysMLEdge day loop is **sysmledge-workflow**. Elsewhere **sysml-modeling-workflow** + this skill. If the user named **OOSEM**, content sequence is **oosem-workflow**. Use **one** specialist after (e.g. **sysml-requirements-generator**, **sysml-connections**) for content depth.
 
@@ -177,6 +177,8 @@ Add MOD for each other `models/*.sysml` created. Store returned **catalog** `ses
 ## Rename later
 
 Use **`git mv`** for folder and `*-*.sysml` files; update `config.yaml`, README paths, and indexes in one commit.
+
+Repo prefix `modelbasedPrj-*` -> `SysMLEdgePrj-*`: [sysmledge-workflow/references/sysmledge-prj.md](../sysmledge-workflow/references/sysmledge-prj.md). GitHub rename is a human Settings action.
 
 ## Reference
 

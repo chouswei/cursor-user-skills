@@ -10,7 +10,7 @@ metadata:
   specialization: mcp-integration
   domain: sysml-v2
   mcp_key: sysml-v2
-  version: "1.3"
+  version: "1.4"
 token_guardrails: |
   - After workspace .sysml edits: call validate (and preview if diagram requested).
   - Obey references/cursor-mcp-rules.md for preview vs visualizeFile and complexity.
@@ -24,7 +24,7 @@ token_guardrails: |
 3. **Config:** user-level `~/.cursor/mcp.json` (Windows: `$env:USERPROFILE\.cursor\mcp.json`), key **`sysml-v2`** (Cursor MCP namespace **`user-sysml-v2`**), launches `node` with the installed `dist/server/mcpServer.js` directly. Avoid a duplicate project-level key.
 4. **Tool arguments:** read **[references/tool-parameters.md](references/tool-parameters.md)** — **`code`** (inline SysML text) for validate/parse/preview/…; **`name`** for **getDefinition**, **getReferences**, **getHierarchy**. For rename, impact, or search, query the file or code just loaded; never treat the MCP workspace URI index as model SSOT. If Cursor’s MCP descriptor disagrees with a new release, follow the descriptor.
 5. **Mandatory:** read [references/cursor-mcp-rules.md](references/cursor-mcp-rules.md) before **preview** / **visualize** / **complexity** calls.
-6. **Repo workflow:** [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) — **MCP validate** after model edits. In `modelbasedPrj-*` system repos, SysML models live under `sysml-models/`.
+6. **Repo workflow:** [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) — **MCP validate** after model edits. In `SysMLEdgePrj-*` and `modelbasedPrj-*` system repos, SysML models live under `sysml-models/`.
 7. **De facto:** Grammar-valid SysML can still misrepresent **as-built** wiring. For port renames and COTS interface style, cross-check deploy + outputs per [sysml-traceability/references/de-facto-modeling.md](../sysml-traceability/references/de-facto-modeling.md).
 8. **Version check:** compare the pinned dependency in `~/.cursor/tools/sysml-v2-mcp/package.json` with `npm view sysml-v2-lsp version`.
 
