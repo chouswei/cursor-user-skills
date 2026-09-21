@@ -10,7 +10,7 @@ description: >-
   Kuzu, Cypher, or graph.kuzu.
 metadata:
   pattern: pipeline
-  version: "1.1"
+  version: "1.2"
   domain: sysml
   pairs_with: [sysml-modeling-workflow, sysml-gql, mcp-memnet, sysml-new-project, mcp-sysml-v2, mcp-sysmledgraph]
 token_guardrails: |

@@ -28,14 +28,17 @@ SysMLEdge product `AGENTS.md` does **not** invent a PD bind. A `SysMLEdgePrj-*` 
 
 ## Migrate `modelbasedPrj-*` -> `SysMLEdgePrj-*`
 
-Operator + git. Agents update overlay files; they do not rename the GitHub repository.
+Operator + git. Agents update overlay files. Default remote move is a human GitHub Settings rename. Clone-with-new-name only when the user asks.
 
-1. **GitHub rename (human):** Settings -> Rename repository to `SysMLEdgePrj-<Org>-<Name>`. GitHub keeps a redirect from the old name. MUST NOT create a second empty repo and copy history by hand.
-2. **Identity files:** `project.toml` `repo=`, root `README.md` tree heading, `AGENTS.md` layout line, derived `outputs/` mentions of the old prefix.
+1. **Remote name (pick one):**
+   - **Default -- GitHub rename (human):** Settings -> Rename repository to `SysMLEdgePrj-<Org>-<Name>`. GitHub keeps a redirect from the old name. MUST NOT mint a second empty repo on this path.
+   - **When the user asks to clone with a new name:** create `SysMLEdgePrj-<Org>-<Name>` and copy a snapshot of the source tree (history may stay on the old remote). Then drop stale identity on the clone (below). MUST NOT close the source repo or its PRs unless the user asks.
+2. **Identity files:** `project.toml` `repo=`, root `README.md` tree heading, `AGENTS.md` layout line, derived `outputs/` mentions of the old prefix. The new tree names only `SysMLEdgePrj-*`.
 3. **Overlay:** replace any `*-repo-only` SysMLEdge skill with a `SysMLEdgePrj` overlay: face `sysmledge`, human `openProject`, never Foam, never invent ids. Route SysMLEdge work to pack `sysmledge-workflow`.
 4. **Proposals:** add `sysml-models/proposals/README.md` (agents propose; human Save). Stub: [../assets/proposal-stub.md](../assets/proposal-stub.md).
-5. **Local / Pi path:** keep the live checkout path until the operator moves it. MUST NOT invent a new host path. After they rename the folder, update `AGENT-CONTEXT.md` and any Pi-path rule in the same turn.
-6. **Tip MemNet:** catalog session + campaign cue stay in `AGENT-CONTEXT.md`. Tip is not the product face.
+5. **Local / Pi path:** on in-place rename, keep the live checkout path until the operator moves it. MUST NOT invent a new host path. After they rename the folder, update `AGENT-CONTEXT.md` and any Pi-path rule in the same turn. On clone-with-new-name, omit the old checkout path from the clone.
+6. **Tip MemNet:** live catalog session + campaign cue stay in `AGENT-CONTEXT.md`. Tip is not the product face. Drop expired catalog ids; do not hardcode them in overlay rules.
 7. **Pack pointers:** if a pack skill still says this tree is repo-only, update that row in the same pack change.
+8. **Drop stale (clone or rename):** dual-name leftovers, `*-repo-only` overlay, expired MemNet catalog ids, old host checkout paths, live-SSOT pretence while unbound. MUST NOT invent `projectId`. MUST NOT reuse Foam.
 
 Validate: `sysml-v2` on touched `.sysml` if any; otherwise overlay + identity files only. After a human Save and bind, `rev_status` must name `rev.sha`.

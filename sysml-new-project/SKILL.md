@@ -8,7 +8,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.10"
+  version: "1.11"
   product: "memnet-llm==0.19.5"
   pairs_with: [sysml-root-config, sysml-requirements-generator, sysml-modeling-session-checklist, sysml-memnet-cache, sysml-memnet-documentation, mcp-memnet, sysml-v2-lsp-mcp, project-planner, sysmledge-workflow, oosem-workflow]
 token_guardrails: |
@@ -178,7 +178,7 @@ Add MOD for each other `models/*.sysml` created. Store returned **catalog** `ses
 
 Use **`git mv`** for folder and `*-*.sysml` files; update `config.yaml`, README paths, and indexes in one commit.
 
-Repo prefix `modelbasedPrj-*` -> `SysMLEdgePrj-*`: [sysmledge-workflow/references/sysmledge-prj.md](../sysmledge-workflow/references/sysmledge-prj.md). GitHub rename is a human Settings action.
+Repo prefix `modelbasedPrj-*` -> `SysMLEdgePrj-*`: [sysmledge-workflow/references/sysmledge-prj.md](../sysmledge-workflow/references/sysmledge-prj.md). Default is a human GitHub Settings rename; clone-with-new-name only when the user asks.
 
 ## Reference
 
