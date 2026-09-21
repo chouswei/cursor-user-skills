@@ -85,7 +85,7 @@ Pattern codes: `G`=Generator, `R`=Reviewer, `P`=Pipeline, `T`=Tool-wrapper.
 (:SKL {id: 'sysmledge-workflow'})-[:COMPLEMENTS {id: 'E_sys_05', note: 'tip_ne_face', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-cursor-multitask'})
 ```
 
-Then at most one specialist SKL from `TRIGGERS` match. **Repo graph first** for project SKL. Pack `AGENTS.md` / pack seed for pack methods. SysMLEdge day loop: `sysmledge-workflow`. SysMLEdge Cursor Multitask (tip!=face): `sysmledge-cursor-multitask`. OOSEM method cycle: `oosem-workflow`.
+Then at most one specialist SKL from `TRIGGERS` match. **Repo graph first** for project SKL. Pack `AGENTS.md` / pack seed for pack methods. SysMLEdge day loop: `sysmledge-workflow`. Product-face system repos: `SysMLEdgePrj-*` (legacy MemNet-only: `modelbasedPrj-*`). SysMLEdge Cursor Multitask (tip!=face): `sysmledge-cursor-multitask`. OOSEM method cycle: `oosem-workflow`.
 
 ## Skill-graph tooling stack (pack relatives, not prose)
 

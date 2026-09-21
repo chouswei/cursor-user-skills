@@ -2,7 +2,7 @@
 name: fusion-electronics-fetch
 description: >-
   Fetch Autodesk Fusion 360 Electronics schematics (.sch) and boards (.brd) via
-  Fusion MCP into modelbasedPrj parts/*/hardware/. Use when the user asks to
+  Fusion MCP into SysMLEdgePrj / modelbasedPrj parts/*/hardware/. Use when the user asks to
   pull, fetch, export, or sync Fusion electronics, PCB, schematic, Eagle cache,
   or ElectronFileOutput for a part. Triggers: fusion360 electronics fetch,
   fusion MCP schematic, .sch .brd, PA107/PCBA from Fusion, fusion-pa107.
@@ -12,7 +12,7 @@ metadata:
   pack: user
   domain: pcba
   mcp_key: fusionMCP
-  version: "1.0"
+  version: "1.1"
 token_guardrails: |
   - GetMcpTools(server=user-fusionMCP) before CallMcpTool shapes.
   - Never fusion_mcp_execute document save unless the user explicitly asks.
@@ -32,7 +32,7 @@ token_guardrails: |
 
 1. Fusion 360 running; **Preferences → General → API → Fusion MCP Server** on (default **27182**).
 2. Cursor MCP: `"fusionMCP": { "url": "http://127.0.0.1:27182/mcp" }` (server id often `user-fusionMCP`).
-3. Target part folder exists (`parts/<part>/part.toml`) in a `modelbasedPrj-*` layout.
+3. Target part folder exists (`parts/<part>/part.toml`) in a `SysMLEdgePrj-*` or `modelbasedPrj-*` layout.
 
 If connection refused → Fusion up + MCP checkbox + port match. Layout SSOT: `c:/Projects/SYSTEM-REPO-LAYOUT.md` (Fusion MCP section).
 

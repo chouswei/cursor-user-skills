@@ -36,7 +36,7 @@ Do **not** use `symbolName`, `elementName`, or `qualifiedName` unless the MCP de
 - npm package **`sysml-v2-lsp`**; MCP CLI bin **`sysml-mcp`** (same script as `mcpServer.js`).
 - **No** supported `npx sysml-v2-lsp validate` CLI.
 - **Windows:** `npm install` may fail in **postinstall**; use **`--ignore-scripts`**.
-- In `modelbasedPrj-*` system repos, SysML model files live under `sysml-models/`.
+- In `SysMLEdgePrj-*` and `modelbasedPrj-*` system repos, SysML model files live under `sysml-models/`.
 
 ## Noise: `mcpServer.js`
 

@@ -3,15 +3,16 @@ name: memnet-multitask
 description: >-
   Enforceable MemNet doctrine for Cursor Multitask Mode and Task sub-agents:
   one shared session SSOT, TCP or streamable-http transport, parent/worker
-  MUST/MUSTNOT, MN-REQ-12 usage, system-dev two-store pattern for modelbasedPrj-*.
+  MUST/MUSTNOT, MN-REQ-12 usage, system-dev two-store pattern for SysMLEdgePrj-*
+  and modelbasedPrj-*.
   Triggers: Multitask Mode, multitask, multi-agent, Task sub-agent, background
   worker, parent coordinator, delegate worker, shared session, memnet multitask,
-  system-dev multitask, modelbasedPrj multitask, MN-REQ-12, parallel workers,
+  system-dev multitask, SysMLEdgePrj multitask, modelbasedPrj multitask, MN-REQ-12, parallel workers,
   TSK_* settle, TCP serve, streamable-http MCP, GQL wire, shaped pin_map,
   checkpoint loop, implement atom, parallel role workers.
 metadata:
   pattern: pipeline
-  version: "3.2"
+  version: "3.3"
   domain: memnet
   product: "memnet-llm==0.19.5"
 ---
@@ -32,7 +33,7 @@ User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Tas
 | Multitask Mode on | Follow this skill + MemNet `docs/operations/multi-agent-sessions.md` |
 | Spawning Task / background workers | Parent checklist below; pass session id in every worker prompt |
 | Plan graph with parallel steps | [memnet-planner](../memnet-planner/SKILL.md) records `wave` / `PRECEDES` at plan time; this skill runs a **ready wave** |
-| `modelbasedPrj-*` system repo + Multitask | Also read MemNet `docs/application-notes/system/llm-system-dev-multitask.md` |
+| `SysMLEdgePrj-*` or `modelbasedPrj-*` system repo + Multitask | Also read MemNet `docs/application-notes/system/llm-system-dev-multitask.md` |
 | Single-agent goldfish loop | [memnet-use](../memnet-use/SKILL.md) -- default in-process MCP |
 
 ## Transport (shared store)
@@ -116,9 +117,9 @@ When working **in** the MemNet engine repository:
 | Verify package | `sysml-models/models/verify.sysml` -- **MN-VER-12-G00** + **S01...S14** |
 | Worked scenario | `sysml-models/outputs/multitask-case-study.md` |
 
-In downstream **`modelbasedPrj-*`** repos: adopt via doc pointer or thin local mirror -- **do not** import `MemNetRequirements` into the product load tree unless the project owns a merged model.
+In downstream **`SysMLEdgePrj-*`** / **`modelbasedPrj-*`** repos: adopt via doc pointer or thin local mirror -- **do not** import `MemNetRequirements` into the product load tree unless the project owns a merged model.
 
-## System-dev two-store pattern (`modelbasedPrj-*`)
+## System-dev two-store pattern (`SysMLEdgePrj-*` / `modelbasedPrj-*`)
 
 | Store | SSOT for |
 |-------|----------|
