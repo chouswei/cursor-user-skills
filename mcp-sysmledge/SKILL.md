@@ -29,4 +29,4 @@ Both MCPs visible → follow `sysmledge-cursor-multitask`.
 
 ## Pair
 
-`sysmledge-workflow` · `sysmledge-host-model-at-rev` · `sysmledge-cursor-multitask`
+`sysmledge-workflow` / `sysmledge-cursor-multitask` / `memnet-multitask` / `memnet-use` / `mcp-memnet`

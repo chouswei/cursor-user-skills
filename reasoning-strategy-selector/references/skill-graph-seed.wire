@@ -783,4 +783,11 @@ CREATE (:TRG {id: 'TRG_sysmledge-repo-management_0'})-[:TRIGGERS {id: 'E0441', n
 CREATE (:TRG {id: 'TRG_sysmledge-repo-management_1'})-[:TRIGGERS {id: 'E0442', note: 'open SysMLEdgePrj', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-repo-management'})
 CREATE (:TRG {id: 'TRG_sysmledge-repo-management_2'})-[:TRIGGERS {id: 'E0443', note: 'SysMLEdge repo management', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-repo-management'})
 CREATE (:SKL {id: 'sysmledge-repo-management'})-[:PRECEDES {id: 'E0444', note: 'open_then_day_loop', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
+CREATE (:SKL {id: 'mcp-sysmledge', pack: 'user', pattern: 'T', dir: 'T', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/mcp-sysmledge', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-sysmledge_0', phrase: 'mcp-sysmledge', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-sysmledge_1', phrase: 'sysmledge product face', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_mcp-sysmledge_0'})-[:TRIGGERS {id: 'E0445', note: 'mcp-sysmledge', recycle: 'persistent'}]->(:SKL {id: 'mcp-sysmledge'})
+CREATE (:TRG {id: 'TRG_mcp-sysmledge_1'})-[:TRIGGERS {id: 'E0446', note: 'sysmledge product face', recycle: 'persistent'}]->(:SKL {id: 'mcp-sysmledge'})
+CREATE (:SKL {id: 'mcp-sysmledge'})-[:PRECEDES {id: 'E0447', note: 'face_then_day_loop', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
+CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0448', note: 'product_face', recycle: 'persistent'}]->(:SKL {id: 'mcp-sysmledge'})
 

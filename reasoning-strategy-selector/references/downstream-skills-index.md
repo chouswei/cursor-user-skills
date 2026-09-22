@@ -36,6 +36,7 @@
 | sysml-new-project | Scaffold new SysML v2 project |
 | sysmledge-workflow | SysMLEdge day loop: edit, human Save, GQL, propose-only |
 | sysmledge-cursor-multitask | SysMLEdge Cursor Multitask: tip!=face; product MCP sysmledge only |
+| mcp-sysmledge | SysMLEdge product MCP face; not tip memnet-pi |
 | oosem-workflow | OOSEM method cycle: needs through V&V, scenario-driven MBSE |
 | sysml-refactorer | Cross-file SysML v2 refactors: renames, lib + deploy + `SharedConnections` |
 

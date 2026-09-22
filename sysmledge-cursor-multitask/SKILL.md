@@ -5,9 +5,10 @@ description: >-
   memnet-pi -- route product asks to sysmledge only; tip!=face forever.
 metadata:
   pattern: pipeline
-  version: "1.2.0"
+  version: "1.3.0"
   pairs_with:
     - sysmledge-workflow
+    - mcp-sysmledge
     - memnet-multitask
     - memnet-use
     - mcp-memnet
@@ -61,7 +62,7 @@ Product allowlist on `sysmledge` only: `openProject` / `closeProject` / `rev_sta
 ## Pairing
 
 - Day loop: [sysmledge-workflow](../sysmledge-workflow/SKILL.md)
-- Face / MCP: product MCP `sysmledge` (not stale `sysmledgraph`)
+- Face / MCP: [mcp-sysmledge](../mcp-sysmledge/SKILL.md)
 - MemNet Multitask: [memnet-multitask](../memnet-multitask/SKILL.md)
 - MemNet use: [memnet-use](../memnet-use/SKILL.md)
 - MemNet tools: [mcp-memnet](../mcp-memnet/SKILL.md)
