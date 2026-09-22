@@ -5,7 +5,7 @@ description: >-
   memnet-pi -- route product asks to sysmledge only; tip!=face forever.
 metadata:
   pattern: pipeline
-  version: "1.1.0"
+  version: "1.2.0"
   pairs_with:
     - sysmledge-workflow
     - memnet-multitask
@@ -24,6 +24,13 @@ When Cursor Multitask or Task sees both product MCP `sysmledge` and tip MCP `mem
 | **memnet-pi** | Tip MemNet engine plumbing (ops bounce / session) | NO |
 
 Product allowlist on `sysmledge` only: `openProject` / `closeProject` / `rev_status` / `ask` / `gql` / `pin_map` / `propose`.
+
+## Repo kinds
+
+| Repo kind | Model SSOT | MemNet (user-memnet-pi) | SysMLEdge (sysmledge) | Gate |
+|-----------|------------|-------------------------|-----------------------|------|
+| `modelbasedPrj-*` | `sysml-models` files (repo-based) | Campaign cache. Catalog session and cue `TSK_model_*` from `AGENT-CONTEXT.md` | None unless a repo overlay declares a face | `system-nesting` modelbased section, plus that repo `AGENTS.md` |
+| `SysMLEdgePrj-*` | Bound desk when overlay and `rev_status` show `working_ssot=graph`; else `sysml-models` files. After human Save, files are backup | Ops only (serve bounce, session hygiene). Not the product face and not the model SSOT | Product face: `rev_status` / `ask` / `gql` / `pin_map` / `propose`. `openProject` is human-gated | `sysmledge-repo-management` then `sysmledge-workflow` |
 
 ## Routing
 

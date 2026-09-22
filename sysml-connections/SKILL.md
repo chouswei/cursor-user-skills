@@ -9,7 +9,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.0"
+  version: "1.1"
   pairs_with: [mcp-sysml-v2, sysml-part-reviewer, sysml-memnet-cache]
 token_guardrails: |
   - Scope to one project or named deploy package; use **Grep / Read** on live `.sysml` before reading wider trees.
@@ -39,7 +39,7 @@ system_instruction: |
 
 5. **Verify** — **SysML v2 MCP: validate** on edited files / project. Fix diagnostics.
 
-6. **Derived artifacts** — If the project maps deploy links to pin maps (e.g. `mappings/pat_pinmap_from_sysml.yaml`, `check_pinmap_from_sysml.py`), update YAML and run the script. Align `outputs/*.md` that describe wiring **from** the model ([sysml-modeling-workflow](../../sysml-modeling-workflow/SKILL.md): model first).
+6. **Derived artifacts** — If the project maps deploy links to pin maps (e.g. `mappings/pat_pinmap_from_sysml.yaml`, `check_pinmap_from_sysml.py`), update YAML and run the script. Align `outputs/*.md` that describe wiring **from** the model ([sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md): model first).
 
 ## Pairing
 
@@ -48,6 +48,6 @@ system_instruction: |
 - **sysml-part-reviewer** — when connection changes imply maturity/doc impact (not only **under-design**).
 - **sysml-hardware-part-generator** / **sysml-software-part-generator** — only if new parts or ports are required.
 
-**Repo:** [sysml-modeling-workflow](../../sysml-modeling-workflow/SKILL.md) · [AGENTS.md](../../../AGENTS.md)
+**Repo:** [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) · [AGENTS.md](../../../AGENTS.md)
 
 **Detail:** [references/workflow.md](references/workflow.md)

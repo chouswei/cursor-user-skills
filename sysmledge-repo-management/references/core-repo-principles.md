@@ -5,7 +5,7 @@
 - The subject is the git repo root. Match the directory name to `SysMLEdgePrj-*`.
 - A parent folder that also starts with `SysMLEdgePrj-` is not a second repo. Use the root that contains `project.toml`.
 - `project.toml` key `repo` must equal that directory name. If it differs, report the mismatch and do not rename anything.
-- `modelbasedPrj-*` repos are out of scope. Stop and follow that repo's `AGENTS.md`.
+- `modelbasedPrj-*` repos are out of scope. Stop and follow `system-nesting` (Model-based repositories section) and that repo's `AGENTS.md`.
 
 ## Submodules
 

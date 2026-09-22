@@ -37,7 +37,6 @@
 | sysmledge-workflow | SysMLEdge day loop: edit, human Save, GQL, propose-only |
 | sysmledge-cursor-multitask | SysMLEdge Cursor Multitask: tip!=face; product MCP sysmledge only |
 | oosem-workflow | OOSEM method cycle: needs through V&V, scenario-driven MBSE |
-| mcp-sysmledgraph | Retarget to MemNet/SysMLEdge MCP; never Kuzu |
 | sysml-refactorer | Cross-file SysML v2 refactors: renames, lib + deploy + `SharedConnections` |
 
 Audit view (not routing): [core-strategy-principles.md](core-strategy-principles.md) (generated from seed).

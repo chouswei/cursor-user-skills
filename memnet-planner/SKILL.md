@@ -4,6 +4,8 @@ description: >-
   OPS-ONLY MemNet tip/engine plumbing. Do NOT use as SysMLEdge product face or
   SysML day-1 query path. Product face is sysmledge
   (rev_status/ask/gql/pin_map/propose).
+metadata:
+  pattern: pipeline
 ---
 # OPS-ONLY - not SysMLEdge product teach
 

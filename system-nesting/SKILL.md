@@ -3,7 +3,7 @@ name: system-nesting
 description: Recursively clarifies architecture by treating every part and relevant nested usage as a system. Use when detailing a system, digging into an architecture, reviewing system-of-systems structure, or when nested parts, ownership, interfaces, behaviour, or requirements are unclear.
 metadata:
   pattern: pipeline
-  version: "1.1"
+  version: "1.2"
 ---
 
 # System nesting
@@ -43,6 +43,8 @@ decomposed.
 When working in a `modelbasedPrj-*` repository:
 
 - MUST use the SysML model as the architecture source of truth.
+- For `modelbasedPrj-*`, tip MemNet is the campaign cache and there is no SysMLEdge product face unless an overlay says so.
+- For `SysMLEdgePrj-*` repositories, follow `sysmledge-repo-management`.
 - Inspect the relevant `.sysml` part usages, ports, behaviours, requirements,
   and connections before relying on program code or informal output.
 - MUST follow the model-first rule: update the model before synchronising

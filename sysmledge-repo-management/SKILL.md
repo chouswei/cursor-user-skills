@@ -6,13 +6,13 @@ description: >-
   open SysMLEdgePrj, SysMLEdge repo management, SysMLEdgePrj submodule.
 metadata:
   pattern: pipeline
-  version: "1.0"
+  version: "1.2"
   domain: sysml
   secondary: "hybrid: open gate, then sysmledge-workflow; repo overlay if the tree has one"
 pipeline_steps:
   1. Classify
      - Continue only when the git repo root directory name matches SysMLEdgePrj-*.
-     - If the root matches modelbasedPrj-*, stop. That class is outside this skill.
+     - If the root matches modelbasedPrj-*, stop and follow ../system-nesting/SKILL.md for modelbasedPrj-*.
   2. Submodule gate
      - If .gitmodules exists, run git submodule update --init --recursive from the repo root.
      - Record the exit code. If .gitmodules is absent, record that and continue.
