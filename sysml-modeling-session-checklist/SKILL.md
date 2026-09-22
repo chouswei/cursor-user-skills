@@ -13,7 +13,7 @@ metadata:
 token_guardrails: |
   - **Thin:** run the checklist mentally or as bullets; do not paste long repo trees.
   - **MemNet first:** steps 0-1 before any `.sysml` Read (see sysml-memnet-read-policy.md). Nested: memnet-nested-sessions (one interior per generate).
-  - **Model SSOT:** plan edits to `.sysml` first; commissioning / power-cycle / setup flows -> behaviour + requirements (refine/derive), then outputs diagrams.
+  - **Two model SSOTs.** README states repo-based or SysMLEdge-based. Bound + working_ssot=graph: query/propose on user-sysmledge first. Unbound/repo-based: plan edits to `.sysml` first. Tip MemNet is not a model SSOT.
   - **After edits:** mcp-sysml-v2 validate; step 6 MemNet delta when structure changed.
   - Use project-planner in a separate turn for full requirements interview + roadmap.
 ---
@@ -26,7 +26,7 @@ system_instruction: |
 
 **Alias in [SKILL-GRAPH](../SKILL-GRAPH.md):** **smsc** (routing / edges -- not a second skill).
 
-**Not** a replacement for **[project-planner](../project-planner/SKILL.md)**. Use when you are about to **edit `.sysml`**.
+**Not** a replacement for **[project-planner](../project-planner/SKILL.md)**. Use when you are about to change the working model SSOT (bound: `propose`; unbound: **edit `.sysml`**).
 
 ## Output contract
 
@@ -45,11 +45,11 @@ After the checklist, state briefly:
 
 0. **MemNet (steps 1-2)** -- TCP/HTTP / unsure: `serve_status`. Skip probe only under single-agent in-process. Multitask MUST NOT in-process. Cue catalog `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)`; if the cut has `session=`, goldfish **that** interior next generate ([memnet-nested-sessions](../memnet-nested-sessions/SKILL.md)). leftover `anchor=` / `id=` named leftover. Catalog id from `MEMNET_SESSION` or the header line of `AGENT-CONTEXT.md`. On **warm_miss** -> [initial snap](../sysml-memnet-documentation/references/sysml-memnet-snap.md#initial-snap-warm-miss-only). If serve down -> note stale graph; skip warm.
 
-1. **Project context** -- Confirm model root. New house default is `sysml-models/` (legacy opt-in: `sysml-v2-models/projects/<name>/`; else repo `AGENTS.md`). Also `config.yaml`, files to touch. **Read policy:** [sysml-memnet-read-policy.md](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md) -- no full deploy/AGENT-CONTEXT when warm hit. Submodules: edit in canonical repo if applicable (open repo root `AGENTS.md`).
+1. **Project context** -- Confirm README SSOT kind and model root. New house default is `sysml-models/` (legacy opt-in: `sysml-v2-models/projects/<name>/`; else repo `AGENTS.md`). Also `config.yaml`, files to touch. **Read policy:** [sysml-memnet-read-policy.md](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md) -- no full deploy/AGENT-CONTEXT when warm hit. Submodules: edit in canonical repo if applicable (open repo root `AGENTS.md`).
 
 2. **Plan-with-user** -- Non-trivial / ambiguous work without agreed plan: stop and plan--or **project-planner** for documented roadmap. If user skipped planning, state in one line.
 
-3. **Cross-file scope** -- For rename, impact, or search, use **Grep / Read** on live `.sysml` files, then loaded-file SysML v2 MCP on the file just loaded. Live graph query: [sysmledge-workflow](../sysmledge-workflow/SKILL.md). **Do not use Kuzu `sysmledgraph` or treat an MCP workspace URI index as model SSOT.**
+3. **Cross-file scope** -- For rename, impact, or search: when bound + `working_ssot=graph` on a SysMLEdgePrj-*, MUST query the SysMLEdge graph (`user-sysmledge`: `rev_status` / `ask` / `gql` / product `pin_map` / `propose`); Windows `sysml-models/` is backup only -- MUST NOT skip the face because the graph lags files. Repo-based or unbound: MUST Grep / Read under the `AGENTS.md` path (house default `sysml-models/`), then loaded-file SysML v2 MCP on the file just loaded. Live graph workflow: [sysmledge-workflow](../sysmledge-workflow/SKILL.md). **Do not use Kuzu `sysmledgraph` or treat an MCP workspace URI index as model SSOT.**
 
 4. **Modeling sequence** -- If the user named **OOSEM** / object-oriented systems engineering / scenario-driven MBSE: follow [oosem-workflow](../oosem-workflow/SKILL.md) (iterative cycle; do not collapse it to one pass). Else: requirements (prefer **refine** / **derive** under parents) -> deploy / connections -> behaviour (incl. commissioning / power-cycle when in scope) -> satisfy / allocate -> outputs + **`outputs/diagrams/`**. File/MemNet turn sequence stays [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md). Model first; do not author architecture only in Markdown.
 

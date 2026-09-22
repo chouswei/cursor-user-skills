@@ -50,9 +50,9 @@ Pair with [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) and [me
 ## Prerequisites
 
 1. **Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`; tag `v0.19.5`; extras 0.10-0.19 unchanged). **Install:** `pip install 'memnet-llm[mcp]'` or `pip install 'memnet-llm[mcp]==0.19.5'`. Optional `[neo4j]` (live claimed 0.14; drivers only). **1.0** unclaimed.
-2. Cursor MCP **`memnet-pi`** (HTTP `:18766` / TCP `:18765`) -- [mcp-memnet](../mcp-memnet/SKILL.md). Multitask **MUST NOT** in-process ([memnet-multitask](../memnet-multitask/SKILL.md)).
+2. Cursor MCP key **`memnet`** / namespace **`user-memnet`** (`mcp.json` owns URL) -- [mcp-memnet](../mcp-memnet/SKILL.md). Tip MemNet = agent working memory, not the SysML graph. Multitask **MUST NOT** in-process ([memnet-multitask](../memnet-multitask/SKILL.md)). MUST NOT cite `:18766` / `:18765` / `10.0.0.10` or a SKILL.md URL as the live tip. MUST NOT treat old `memnet-pi` / `user-memnet-pi` as live.
 3. MemNet MCP tools visible in the session catalog. If absent: treat as serve down -- no `pin_map` / mutate.
-4. `serve_status` when TCP / unsure. Skip that probe only under single-agent in-process.
+4. `serve_status` when unsure. Skip that probe only under single-agent in-process.
 
 ## When to use
 
@@ -63,7 +63,7 @@ Pair with [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) and [me
 - Maintaining `outputs/*.md` / system-design-report atoms (ART/SEC/CLM)
 - Multi-turn refactors, requirement audits, report updates
 
-**Skip MemNet** when: one-shot question with no edit; comment-only `.sysml` change; MemNet MCP missing from catalog; or `serve_status` false (TCP).
+**Skip MemNet** when: one-shot question with no edit; comment-only `.sysml` change; MemNet MCP missing from catalog; or `serve_status` false.
 
 ## Atomisation (docs + model)
 
@@ -80,7 +80,7 @@ ITM is a **node** only (item definition / flow item); see [the ITM pattern](refe
 - **memnet-format** -- MemNet GQL wire; thin SysML x MemNet kind/id pointer only
 - **mcp-memnet** -- base MCP mechanics
 - **memnet-nested-sessions** -- catalog / look loop (do not copy here)
-- **memnet-multitask** -- shared TCP/HTTP when Task workers run
+- **memnet-multitask** -- shared tip HTTP (`user-memnet`) when Task workers run
 
 ## Quick anchors
 

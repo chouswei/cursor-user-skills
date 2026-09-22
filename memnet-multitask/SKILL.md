@@ -2,11 +2,11 @@
 name: memnet-multitask
 description: >-
   OPS-ONLY tip. Product Multitask → sysmledge-cursor-multitask + sysmledge MCP.
-  Soft-pass: tip-as-face. MemNet Multitask tip ops (shared session, TCP/HTTP
-  serve) only. Never the SysMLEdge product face.
+  Soft-pass: tip-as-face. MemNet Multitask tip ops (shared session on
+  live tip URL) only. Never the SysMLEdge product face or SysML graph.
 metadata:
   pattern: pipeline
-  version: "1.2"
+  version: "1.3"
   domain: memnet
   product: memnet-llm==0.4.2
 ---
@@ -19,6 +19,8 @@ User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Tas
 **Product ops SSOT (MemNet repo, developers):** `docs/multi-agent-sessions.md`.
 **System-repo adoption (applications):** MemNet `docs/application-notes/llm-system-dev-multitask.md`.
 **Docs index:** MemNet `docs/README.md`. Chat is **never** mission SSOT.
+
+Tip MemNet **MUST NOT** substitute for the SysMLEdge product face or the SysML graph. Two `pin_map` tools **MUST NOT** substitute.
 
 ## When to load
 
@@ -34,10 +36,9 @@ User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Tas
 | Transport | Multitask |
 |-----------|-----------|
 | **MCP in-process** (default) | **MUST NOT** -- isolated graph per process |
-| **CLI + `memnet serve`** (TCP `:18765`) | **MUST** when workers share one session id |
-| **MCP streamable-http** (`:18766/mcp`) | Same as TCP when all agents hit the same server |
+| **Live tip** key `memnet` / namespace `user-memnet` (`mcp.json` owns URL) | **MUST** when workers share one session id |
 
-Set `MEMNET_MCP_TRANSPORT=tcp` (or streamable-http). Probe with `serve_status` before delegating if uncertain. User-pack transport detail: [mcp-memnet](../mcp-memnet/SKILL.md).
+**MUST NOT** cite `:18765`, `:18766`, `10.0.0.10`, or any SKILL.md host URL as live tip endpoints. Probe with `serve_status` before delegating if uncertain. User-pack transport detail: [mcp-memnet](../mcp-memnet/SKILL.md).
 
 ## Parent coordinator
 
@@ -46,15 +47,18 @@ Set `MEMNET_MCP_TRANSPORT=tcp` (or streamable-http). Probe with `serve_status` b
 - `session_open` / `session_load` **one** mission `session` id; pass it in every worker prompt.
 - Mint and own **`TSK_*`** / **`USR_*`**: `status=active` -> `status=settled`; optional `led_to_success` edges.
 - Self-contained worker prompts: session id, anchor ids, write scope (subgraph or relation types), return shape.
+- After Bind ready: spawn **one** background worker **per** disjoint atom in the **same** message.
 - **End the turn** after background spawn -- no poll, no await.
 - Next coordinator turn: **`pin_map` first**; act from refreshed slice -- do not redo worker investigation from chat.
-- Prefer **one worker** per coherent workstream; parallel only with **disjoint** anchors or **separate** session ids.
+- Keep overlapping files / qnames **serial**; parallel only when atom scopes are disjoint.
 
 ### MUST NOT
 
 - Treat chat, tool transcripts, or sub-agent prose as durable mission state.
 - Settle `TSK_*` / `USR_*` from worker chat -- only from shared-session pin-map facts.
 - Use in-process MCP for a shared mission.
+- Collapse Bind-ready disjoint atoms into Cursor Multitask "one coherent worker".
+- Bundle Bind + Implement in one worker.
 - Run parallel workers on the **same** anchor slice without serialisation (0.4.x last-write-wins).
 
 ## Worker agent
@@ -69,7 +73,7 @@ Set `MEMNET_MCP_TRANSPORT=tcp` (or streamable-http). Probe with `serve_status` b
 ### MUST NOT
 
 - Open a different session unless explicitly assigned.
-- Use in-process MCP when the parent uses shared TCP/HTTP.
+- Use in-process MCP when the parent uses the shared live tip (`user-memnet`).
 - Settle parent-owned `TSK_*` / `USR_*` unless delegated.
 
 ## MN-REQ-12 usage (MemNet product repo)
@@ -88,7 +92,7 @@ In downstream **`modelbasedPrj-*`** repos: adopt via doc pointer or thin local m
 
 | Store | SSOT for |
 |-------|----------|
-| **MemNet session** (TCP/HTTP) | Mission goldfish: `TSK_*`, `USR_*`, scoped `MOD_*` / `SYM_*`, `CLM_*` / `DEC_*` |
+| **MemNet session** (live tip `user-memnet`) | Mission goldfish: `TSK_*`, `USR_*`, scoped `MOD_*` / `SYM_*`, `CLM_*` / `DEC_*` |
 | **Product `sysml-models/`** (git) | Structural model: requirements, deploy, behaviour |
 | **Source tree** | Code and artefacts on disk |
 
@@ -112,6 +116,8 @@ Path-B external pins: seed via `session_open` `seed_lines` or `add` with determi
 | Chat as SSOT for ids / mission state | Parent and workers diverge |
 | In-process MCP under Multitask | Each process gets its own graph |
 | Parent polls or re-runs worker work | Token waste; violates turn boundary |
+| Collapse Bind-ready atoms into one worker | Violates one-worker-per-disjoint-atom spawn |
+| Bundle Bind + Implement | Collapses roles; Bind must finish before Implement |
 | Worker mints duplicate `TSK_*` | Parent owns task lifecycle |
 | Teaching ACL / `RSV` / ingest as available | Not enforced in 0.4.x |
 

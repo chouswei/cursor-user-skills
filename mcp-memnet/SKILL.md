@@ -26,22 +26,11 @@ MemNet is working memory between LLM call pipelines and data search. Agents read
 
 | Role | Where |
 |------|--------|
-| **Cursor MCP** | HTTP `url` -> **`http://10.0.0.10:18766/mcp`** (streamable-http + Bearer) |
-| **Pi graph store** | Prefer TCP `memnet serve` **`:18765`** with HTTP MCP set `MEMNET_MCP_TRANSPORT=tcp` (same graph) |
-| Local stdio `command` | Optional `memnet-local` only -- not the primary `memnet-pi` path |
+| **Cursor MCP (live tip)** | Key **`memnet`**, namespace **`user-memnet`**; URL owned by `mcp.json` only + Bearer placeholder |
+| Tip vs product face | Tip MemNet **MUST NOT** substitute for the SysMLEdge product face (panel `sysmledge` / namespace `user-sysmledge`) |
+| Local stdio `command` | Optional `memnet-local` only -- **MUST NOT** treat as the primary tip path |
 
-Cursor `~/.cursor/mcp.json` -> primary server id **`memnet-pi`** (Cursor may show it as `user-memnet-pi`). Shape matches Inventree-style `url` + `headers` (no local `command` / `env`):
-
-```json
-"memnet-pi": {
-  "url": "http://10.0.0.10:18766/mcp",
-  "headers": {
-    "Authorization": "Bearer <token>"
-  }
-}
-```
-
-After editing mcp.json: **Cursor -> MCP / Tools -> restart `memnet-pi`** (or reload the window). Do **not** dual-run InProcess HTTP MCP against a separate TCP store without `MEMNET_MCP_TRANSPORT=tcp` on the Pi HTTP process.
+Cursor `~/.cursor/mcp.json` owns the tip URL for key **`memnet`** (Cursor may show namespace `user-memnet`). Skills/AGENTS name keys/namespaces only -- **MUST NOT** treat a SKILL.md URL as live. Bearer stays **placeholder only** -- **MUST NOT** write a real token into this skill or into tracked files. After editing mcp.json: **Cursor -> MCP / Tools -> restart `memnet`** (or reload the window). **MUST NOT** treat the old server id `memnet-pi` / namespace `user-memnet-pi` as live.
 
 ## Doctrine (must)
 
@@ -53,7 +42,7 @@ After editing mcp.json: **Cursor -> MCP / Tools -> restart `memnet-pi`** (or rel
 | Product Commit | MCP **`mutate`** (`wire_lines`); leftover `add`/`update` are registered façades |
 | Locators vs identity | GraphElement identity; ingest pins use stable locators (`path`, `qname`, ...) |
 | BIND vs relation | Port-port -> `BIND`; node-node -> typed rel labels |
-| Transport (user pack) | **HTTP `:18766/mcp` -> Pi**; bridge HTTP MCP to TCP serve `:18765` when sharing one graph |
+| Transport (user pack) | Live tip: key **`memnet`** / namespace **`user-memnet`** (URL in `mcp.json`); tip != SysMLEdge product face |
 
 Always pass explicit `session=` on every tool except `serve_status` (or set `MEMNET_SESSION`).
 
@@ -91,7 +80,7 @@ MCP is a **thin CLI adapter**. Tools do **not** invent a second dialect: pin-map
 |-----------|-----|--------------|
 | Name `query_warm` | Legacy alias | Use **`pin_map`** |
 | Names `add` / `update` | Leftover façades | Use **`mutate`** with Cypher ops inside `wire_lines` |
-| `serve_status` | Sounds optional | User pack: TCP store probe (`10.0.0.10:18765`); Cursor itself uses HTTP `:18766/mcp` |
+| `serve_status` | Sounds optional | User pack: transport probe; live tip is key **`memnet`** / namespace **`user-memnet`** |
 | No novel-writer tools | Dropped from product | Do not expect them |
 
 ## Agent loop
@@ -167,7 +156,7 @@ Pin map may show intersecting leases as shaped present:
 
 | Tool | When | Notes |
 |------|------|-------|
-| `serve_status` | Reachability / probe | TCP serve `:18765` when HTTP MCP bridges; Cursor entry is `:18766/mcp` |
+| `serve_status` | Reachability / probe | Live tip: key **`memnet`** / namespace **`user-memnet`** |
 | `session_open` | New session | `map_lines` (or `map_file`) + optional `seed_lines`; `allow_new_relation=true` for custom rel types |
 | `session_list` / `session_close` | Session lifecycle | Enumerate / close live sessions |
 | `session_save` / `session_load` | Persist / resume | Snapshot file path (`memnet-snapshot-v1` format) |
@@ -211,6 +200,9 @@ Tag vocabulary: [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL
 - Require leftover `anchor` or teach leftover `add`/`update` as TARGET.
 - Restore or depend on novel-writer MCP extras.
 - Insert live session ids, foreign product names, or snap dumps.
+- Treat tip MemNet as the SysMLEdge product face -- tip != face.
+- Cite `10.0.0.10`, `:18765`, `:18766`, or any SKILL.md host URL as the live tip; live tip is key **`memnet`** / namespace **`user-memnet`** (`mcp.json` owns the URL).
+- Write a real Bearer token into this skill or tracked config -- placeholder only.
 
 ## Related
 

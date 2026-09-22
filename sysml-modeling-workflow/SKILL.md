@@ -12,7 +12,7 @@ metadata:
   pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator, memnet-nested-sessions, memnet-multitask, sysmledge-workflow, oosem-workflow]
 token_guardrails: |
   - MUST follow the 6-step MemNet turn sequence below on every substantive modeling turn.
-  - Model SSOT: edit `.sysml` first; then outputs; then programs under parts/**. Never invent architecture only in Markdown or code.
+  - Two model SSOTs. README states repo-based or SysMLEdge-based. Bound + working_ssot=graph: query/propose on user-sysmledge first. Unbound/repo-based: edit `.sysml` first; then outputs; then parts/**. Tip MemNet is not a model SSOT.
   - Commissioning / plant-setup / power-cycle policy: capture in behaviour + requirements (prefer refine/derive children), then sync `outputs/diagrams/` and report sections.
   - pin_map this cut before edit (catalog then session=); mutate delta + line refresh after validate (see sysml-memnet-snap.md). leftover add/update / anchor= named leftover.
   - Nested organisation: memnet-nested-sessions. Multitask: MUST NOT in-process MCP.
@@ -35,9 +35,9 @@ Every substantive turn on the project model tree **MUST** follow this order. New
 
 | Step | Action | MemNet |
 |------|--------|--------|
-| **1** | TCP/HTTP (`memnet-pi`) / unsure: `serve_status`; if down -> `.sysml` only; skip 2 and 6; note stale graph. Single-agent in-process: skip probe. Multitask **MUST NOT** in-process ([memnet-multitask](../memnet-multitask/SKILL.md)). | -- |
+| **1** | TCP/HTTP (`memnet-pi`) / unsure: `serve_status`; if down -> skip 2 and 6; note stale tip cache. Tip down does not skip a SysMLEdge face. Single-agent in-process: skip probe. Multitask **MUST NOT** in-process ([memnet-multitask](../memnet-multitask/SKILL.md)). | -- |
 | **2** | `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)` on the catalog. If the cut has `session=`: next generate `pin_map(..., session=<interior>)`. leftover `anchor=` named leftover. | **READ** |
-| **3** | Locate symbol -> edit `models/*.sysml` ([read policy](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md): pin map first; Read +/-15 lines at SYM.line only) | -- |
+| **3** | Locate symbol. Bound + `working_ssot=graph`: product `gql`/`ask` then `propose`. Unbound/repo-based: edit `models/*.sysml` ([read policy](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md): pin map first; Read +/-15 lines at SYM.line only) | -- |
 | **4** | `mcp-sysml-v2 validate` until pass | -- |
 | **5** | `sysml-view-doc-sync` **iff** outputs exist and structure changed. Interconnection figures: **[sysml-interconnection-mermaid](../sysml-interconnection-mermaid/SKILL.md)** before fenced Mermaid. | -- |
 | **6** | **`mutate`** delta + SYM.line refresh; step atoms + settle turn ([pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md)) | **WRITE** |
@@ -60,7 +60,8 @@ Also: confirm project/scope; derive plans from the model when needed.
 
 ### Model-first (SSOT)
 
-1. Edit **`models/*.sysml`** (requirements / deploy / behaviour / items).
+0. Read operator `README.md` kind. If SysMLEdge-based and bound (`working_ssot=graph`): `rev_status` / `gql` / `ask` / product `pin_map` then `propose`; sync `models/*.sysml` after Save as backup. MUST NOT invent from Windows files. MUST NOT skip the face because the graph lags files.
+1. If repo-based or unbound: edit **`models/*.sysml`** (requirements / deploy / behaviour / items).
 2. Validate; then sync **`outputs/`** (report sections + **`outputs/diagrams/`** commissioning / setup flows when those behaviours exist).
 3. Align **`parts/**`** programs to allocate / behaviour / modelled APIs -- peers realign via the model, not by reading each other's code first.
 

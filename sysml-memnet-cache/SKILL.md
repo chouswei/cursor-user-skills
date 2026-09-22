@@ -79,7 +79,7 @@ Six-step sequence SSOT: [sysml-memnet-snap.md](../sysml-memnet-documentation/ref
 | Join with `import_slice` of a neighbourhood | Absorb a whole interior / paste the nested tree |
 | `snap_model` cap -> `housekeep_stats`, settle stale `TSK_*`, cut further interiors | Silent ignore; clip `max_rows` and call it Shape; flatten leftovers into the current session; prune housekeep "orphans" in a mutate-maintained campaign catalog (they are unreachable from the cue; pruning deletes the mission record) |
 
-**Transport:** Cursor **`memnet-pi`** HTTP `:18766` bridging TCP `:18765` ([mcp-memnet](../mcp-memnet/SKILL.md)). Multitask / Task workers: [memnet-multitask](../memnet-multitask/SKILL.md) -- **MUST NOT** in-process MCP. Single-agent in-process: skip `serve_status`; otherwise probe TCP when unsure. `serve_status` `"host":"127.0.0.1"` `"port":18765` is the Pi process loopback, not the Windows workstation.
+**Transport:** key **`memnet`** / namespace **`user-memnet`** (`mcp.json` owns URL) -- [mcp-memnet](../mcp-memnet/SKILL.md). Tip MemNet = agent working memory, not the SysML graph. Multitask / Task workers: [memnet-multitask](../memnet-multitask/SKILL.md) -- **MUST NOT** in-process MCP. MUST NOT cite `:18766` / `:18765` / `10.0.0.10` or a SKILL.md URL as the live tip. MUST NOT treat old `memnet-pi` / `user-memnet-pi` as live. Single-agent in-process: skip `serve_status`; otherwise probe when unsure.
 
 **MCP wire:** EDG `rel` names are **session-registered strings**. SysML closed list: [sysml-memnet-patterns.md](../sysml-memnet-documentation/references/sysml-memnet-patterns.md) (`declaredIn`, `hasPort`, `typedBy`, `inFile`, `satisfies`, `allocates`, ...). **Copy exact spellings from the live pin map**; seed unknowns with `allow_new_relation=true`. Engine-generic new edges prefer English verb / snake tokens (MemNet `docs/grammar/`); do not invent a second spelling for an existing link.
 
@@ -94,7 +94,7 @@ Hub skills own the sequence: [sysml-modeling-workflow](../sysml-modeling-workflo
 
 ## Serve down / MCP missing
 
-When MemNet MCP tools are absent from the session catalog, or `serve_status` is false (TCP mode):
+When MemNet MCP tools are absent from the session catalog, or `serve_status` is false:
 
 - Edit `.sysml` only; note stale/absent graph in one line.
 - Ephemeral handoff: plain Markdown tables or short prose (not TOON/TRON).

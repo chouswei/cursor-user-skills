@@ -2,7 +2,7 @@
 name: sysmledge-cursor-multitask
 description: >-
   Use when Cursor Multitask/Task sees both product MCP sysmledge and tip MCP
-  memnet-pi -- route product asks to sysmledge only; tip!=face forever.
+  memnet -- route product asks to sysmledge only; tip!=face forever.
 metadata:
   pattern: pipeline
   version: "1.3.0"
@@ -15,21 +15,21 @@ metadata:
 ---
 # SysMLEdge Cursor Multitask (tip!=face)
 
-When Cursor Multitask or Task sees both product MCP `sysmledge` and tip MCP `memnet-pi`, route by face.
+When Cursor Multitask or Task sees both product MCP `sysmledge` and tip MCP `memnet`, route by face.
 
 ## Faces
 
 | MCP | Role | Day-1 product path? |
 |-----|------|---------------------|
-| **sysmledge** | Product face (model@rev host); WWW /mcp + Bearer | YES |
-| **memnet-pi** | Tip MemNet engine plumbing (ops bounce / session) | NO |
+| **sysmledge** | Product face (model@rev host); panel `sysmledge` / namespace `user-sysmledge` | YES |
+| **memnet** | Tip MemNet engine plumbing (ops bounce / session) | NO |
 
 Product allowlist on `sysmledge` only: `openProject` / `closeProject` / `rev_status` / `ask` / `gql` / `pin_map` / `propose`.
 
 ## Repo kinds
 
-| Repo kind | Model SSOT | MemNet (user-memnet-pi) | SysMLEdge (sysmledge) | Gate |
-|-----------|------------|-------------------------|-----------------------|------|
+| Repo kind | Model SSOT | MemNet (user-memnet) | SysMLEdge (sysmledge) | Gate |
+|-----------|------------|----------------------|-----------------------|------|
 | `modelbasedPrj-*` | `sysml-models` files (repo-based) | Campaign cache. Catalog session and cue `TSK_model_*` from `AGENT-CONTEXT.md` | None unless a repo overlay declares a face | `system-nesting` modelbased section, plus that repo `AGENTS.md` |
 | `SysMLEdgePrj-*` | Bound desk when overlay and `rev_status` show `working_ssot=graph`; else `sysml-models` files. After human Save, files are backup | Ops only (serve bounce, session hygiene). Not the product face and not the model SSOT | Product face: `rev_status` / `ask` / `gql` / `pin_map` / `propose`. `openProject` is human-gated | `sysmledge-repo-management` then `sysmledge-workflow` |
 
@@ -39,7 +39,7 @@ Product allowlist on `sysmledge` only: `openProject` / `closeProject` / `rev_sta
 |-----|-------|
 | SysMLEdge product query or propose | `sysmledge` |
 | Bind / unbind / STALE honesty | `sysmledge` |
-| MemNet serve bounce, tip session_not_found | `memnet-pi` (ops only) |
+| MemNet serve bounce, tip session_not_found | `memnet` (ops only) |
 | Unbound project | `openProject` then refuse until bound |
 | PD / overlay `sysmledge-pd-tree` | SysMLEdge-based when bound; files until `openProject` sticks. MUST NOT skip the face because the graph lags files. |
 
