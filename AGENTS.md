@@ -62,6 +62,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (async (asynchronous) checkpo
 | SysMLEdgePrj open gate | SysMLEdgePrj, open SysMLEdgePrj, SysMLEdge repo management | `sysmledge-repo-management` |
 | SysMLEdge day loop | sysmledge, sysml edge, STALE sysml, sysml propose, gql_read, rev_status | `sysmledge-workflow` |
 | SysMLEdge Cursor Multitask | sysmledge cursor multitask, tip!=face, product MCP sysmledge | `sysmledge-cursor-multitask` |
+| SysMLEdge product face | mcp-sysmledge, sysmledge product face | `mcp-sysmledge` |
 | OOSEM method cycle | OOSEM, object-oriented systems engineering, scenario-driven MBSE | `oosem-workflow` |
 | Skill graph bind | skill graph, repo skill graph, relative skills | `skill-graph-workflow` |
 | STM harness | agent harness, STM debug, W vs S, user-input-as-control, ShapeWalk harness | `memnet-stm-harness` |
