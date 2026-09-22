@@ -1,20 +1,19 @@
 ---
 name: memnet-codebase-snap
 description: >-
-  Atomise a source tree into MemNet :MOD / :SYM nodes and typed relations.
-  Triggers: codebase snap, memnet index, symbol graph, ingest_codebase,
-  MOD SYM snap.
-metadata:
-  pattern: pipeline
-  version: "0.12"
-  domain: memnet,codebase
-  product: "memnet-llm==0.19.5"
-token_guardrails: |
-  - Verify on disk (Grep/Read) before mutate; never invent paths or call edges.
-  - Prefer ingest_codebase for locator pins; mutate only confirmed facts.
-  - Product write is mutate; leftover add/update / NEW named leftover.
+  OPS-ONLY MemNet tip/engine plumbing. Do NOT use as SysMLEdge product face or
+  SysML day-1 query path. Product face is sysmledge
+  (rev_status/ask/gql/pin_map/propose).
 ---
+# OPS-ONLY - not SysMLEdge product teach
 
+Soft-pass kill: teaching tip MemNet MCP as the SysML query face.
+Product / Cursor day-1: **sysmledge-workflow** and **sysmledge-host-model-at-rev**.
+Callable face: product `sysmledge` / `user-sysmledge`. tip != face.
+
+(Original tip/engine content below for operators only.)
+
+---
 # MemNet codebase snap
 
 Pair with [memnet-format](../memnet-format/SKILL.md) and [mcp-memnet](../mcp-memnet/SKILL.md). Wire: MemNet `docs/grammar/gql-wire-profile.md`. **Package and PyPI 0.19.5**.

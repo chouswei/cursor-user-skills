@@ -1,31 +1,19 @@
 ---
 name: sysml-memnet-documentation
 description: >-
-  MemNet MCP for SysML v2 design memory and model snap: atomised graph (parts, ports, connections, behaviour,
-  locators, rationale), mandatory pin_map before edit, delta write after validate. Also outputs/*.md and
-  system design reports. Triggers: memnet sysml, sysml memnet, model snap, goldfish sysml, memnet outputs,
-  design memory sysml, TSK_model, AGENT-CONTEXT memnet, sysml knowledge graph, read sysml, memnet vs sysml, avoid re-read deploy.
-metadata:
-  pattern: pipeline
-  secondary: tool-wrapper
-  domain: sysml,memnet
-  version: "1.20"
-  product: "memnet-llm==0.19.5"
-  pairs_with: [sysml-memnet-cache, sysml-modeling-workflow, mcp-memnet, memnet-codebase-snap, sysml-view-doc-sync, mcp-sysml-v2, memnet-format, sysml-gql, memnet-nested-sessions, memnet-multitask]
-token_guardrails: |
-  - Follow the 6-step turn sequence in references/sysml-memnet-snap.md; pin_map before substantive edits.
-  - MUST follow references/sysml-memnet-read-policy.md: topology from warm; <=2 narrow Read windows per turn; no full deploy re-read.
-  - MUST follow references/sysml-memnet-pipeline.md: pipeline step atoms via GQL/openCypher-shaped mutate when MemNet is up; plain Markdown when down (not TOON/TRON).
-  - Use unified labels PRT/POR/BEH with kind prop; MUST NOT write PARTD/PORTD/BEHD/TASK aliases.
-  - Atomise first: one fact per node/rel; short props; never store full .sysml or paragraph prose.
-  - Copy locators from pin_map (nickname `id` is off shaped read); refresh SYM.line after every validated edit.
-  - satisfy/allocate -> relationships only (SATISFIES, ALLOCATES); SYM only for line locators.
-  - AGENT-CONTEXT.md: catalog session + campaign cue only; topology/backlog live in MemNet.
-  - Nested organisation: memnet-nested-sessions (catalog then one interior per generate). Campaign cue TSK_model_<short> stays the mission anchor.
-  - If MemNet MCP is missing from the catalog, or serve_status false (TCP): skip MemNet read/write; plain Markdown only.
-  - Multitask: MUST NOT in-process MCP (memnet-multitask + memnet-pi).
+  OPS-ONLY MemNet tip/engine plumbing. Do NOT use as SysMLEdge product face or
+  SysML day-1 query path. Product face is sysmledge
+  (rev_status/ask/gql/pin_map/propose).
 ---
+# OPS-ONLY - not SysMLEdge product teach
 
+Soft-pass kill: teaching tip MemNet MCP as the SysML query face.
+Product / Cursor day-1: **sysmledge-workflow** and **sysmledge-host-model-at-rev**.
+Callable face: product `sysmledge` / `user-sysmledge`. tip != face.
+
+(Original tip/engine content below for operators only.)
+
+---
 # SysML MemNet (design memory + model snap)
 
 **Layout:** `SKILL.md` + references (load order below).
@@ -34,7 +22,7 @@ token_guardrails: |
 
 **Durable graph memory** for SysML v2 projects: symbol index with file/line locators, ports, connections, behaviour, design rationale, and documentation atoms. Complements `mcp-sysml-v2` (loaded-file validation, parsing, and symbol navigation).
 
-MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `deploy*.sysml` for topology** when pin_map has PRT/CON -- see [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md). Tools: [mcp-memnet](../mcp-memnet/SKILL.md); GQL wire: [memnet-format](../memnet-format/SKILL.md). Thin SysML bridge: [sysml-gql](../sysml-gql/SKILL.md). Nest cuts: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md).
+Tip MemNet is not a model SSOT. Two model SSOTs: repo SysML vs SysMLEdge bound desk (README states which). MemNet stores **structure + atomic facts** (not full prose). **Do not re-read `deploy*.sysml` for topology** when pin_map has PRT/CON -- see [sysml-memnet-read-policy.md](references/sysml-memnet-read-policy.md). Tools: [mcp-memnet](../mcp-memnet/SKILL.md); GQL wire: [memnet-format](../memnet-format/SKILL.md). Thin SysML bridge: [sysml-gql](../sysml-gql/SKILL.md). Nest cuts: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md).
 
 ## Read policy (mandatory)
 

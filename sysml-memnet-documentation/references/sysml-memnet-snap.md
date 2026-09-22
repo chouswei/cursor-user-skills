@@ -85,7 +85,7 @@ House tokens such as `TSK_model_<short>` live in **`goal`** (or `name` / `qname`
 | `:REQ` | `requirementId` | `requirementId=VFDL2-MQTT-RELAY` |
 | `:MOD` | `path` | `path=models/deploy-vfdl2.sysml` |
 | `:SYM` | `name` + `path` | `name=edgePc` |
-| `:PKG` | `qname` | `qname=...FoamLiteVer2Deploy` |
+| `:PKG` | `qname` | `qname=...ExampleDeploy` |
 | `:CONV` / `:DEC` / `:ISSUE` | `topic` / `code` | `DEC` by question; `ISSUE` by `code` |
 
 ### Ephemeral locator
@@ -100,7 +100,7 @@ Use the **full canonical map** in [sysml-memnet-patterns.md](sysml-memnet-patter
 ### Example edges
 
 ```cypher
-CREATE (:PRT {name: 'edgePc'})-[:declaredIn]->(:PKG {qname: 'FoamLiteVer2Deploy'})
+CREATE (:PRT {name: 'edgePc'})-[:declaredIn]->(:PKG {qname: 'ExampleDeploy'})
 CREATE (:SYM {name: 'edgePc'})-[:inFile {note: 'loc'}]->(:MOD {path: 'models/deploy-vfdl2.sysml'})
 CREATE (:PRT {name: 'edgePc'})-[:hasPort]->(:POR {name: 'ethernet'})
 CREATE (:POR {name: 'ethernet'})-[:typedBy]->(:POR {name: 'EthernetPort'})

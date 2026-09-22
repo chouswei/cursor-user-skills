@@ -49,7 +49,7 @@ Split when: mixed `typedBy` families, `|nodes| > 6`, or `max(degree) > 6` — [v
 | Layer | Source | In diagram |
 |-------|--------|------------|
 | Deploy boundary | `deploy-*.sysml` composite | Harness, PSU, valve field links |
-| On-board | `part def FoamLiteVer2RelayChainPcba` | Coil/contact path inside `subgraph` |
+| On-board | `part def ExampleRelayChainPcba` | Coil/contact path inside `subgraph` |
 
 Do not merge deploy `linkRelayControllerGpio40ToRelayChainHarness` with internal `linkMcuCoilToBufferLogicIn` without showing the PCBA boundary.
 

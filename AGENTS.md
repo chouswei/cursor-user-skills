@@ -10,7 +10,7 @@
 | **User Rules** (Cursor Settings; draft [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt)) | Global prefs, no secrets, Terminal (Windows), prompt disciplines, sub-agent policy + model table, Workflow, MemNet goldfish loop, MemNet under Multitask Mode. **SSOT -- do not restate here.** |
 | **This file** | Pack hub: skill-graph routing, token tips, MemNet examples, skill binding, cross-refs |
 | **Pack `rules/*.mdc`** | Compose source for Settings paste. Cursor does **not** load `~/.cursor/rules/*.mdc`. |
-| **Open-repo `AGENTS.md`** (`modelbasedPrj-*`) | SysML / PCBA / part layout for that system |
+| **Open-repo `AGENTS.md`** (`modelbasedPrj-*` or `SysMLEdgePrj-*`) | SysML / PCBA / part layout for that system |
 | **Open-repo skill graph** (`<repo>/.cursor/skills/skill-graph-seed.wire`) | Project SKL + pointer rows to pack relatives. Bind via [skill-graph-workflow](skill-graph-workflow/SKILL.md). |
 
 Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)). Never write `state.vscdb`.
@@ -28,7 +28,7 @@ Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)). Neve
 | **MCP over bulk file reads** | Cheaper than reading entire trees |
 | **No normative paste** | Cite paths; do not paste huge specs |
 
-Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: spawn a wave, checkpoint, repeat; Execute is parallel atoms). When Multitask / Task workers are active, also follow MemNet goldfish loop + memnet-multitask.
+Sub-agents / MemNet handoff: follow **User Rules** (async (asynchronous) checkpoint pipeline: spawn a wave, checkpoint, repeat; Execute is parallel atoms). When Multitask / Task workers are active, also follow MemNet goldfish loop + memnet-multitask.
 
 ---
 
@@ -59,6 +59,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (unsync checkpoint pipeline: 
 | File to Markdown | markitdown, pdf to md, docx to markdown | `mcp-markitdown` |
 | Cursor rules | create rule, .mdc, alwaysApply, AGENTS.md, user/team rules | `rule-writer` |
 | SysML + MemNet GQL | sysml gql, modeling pin_map, TSK_model GQL | `sysml-gql` |
+| SysMLEdgePrj open gate | SysMLEdgePrj, open SysMLEdgePrj, SysMLEdge repo management | `sysmledge-repo-management` |
 | SysMLEdge day loop | sysmledge, sysml edge, STALE sysml, sysml propose, gql_read, rev_status | `sysmledge-workflow` |
 | SysMLEdge Cursor Multitask | sysmledge cursor multitask, tip!=face, product MCP sysmledge | `sysmledge-cursor-multitask` |
 | OOSEM method cycle | OOSEM, object-oriented systems engineering, scenario-driven MBSE | `oosem-workflow` |
@@ -139,7 +140,7 @@ Lessons: user corrections -> `tasks/lessons.md`. Touch only what the task needs.
 | [sysml-gql](sysml-gql/SKILL.md) | Thin SysML x MemNet GQL turn loop |
 | [sysml-memnet-pipeline](sysml-memnet-documentation/references/sysml-memnet-pipeline.md) | Pipeline step atoms |
 | [sysml-memnet-read-policy](sysml-memnet-documentation/references/sysml-memnet-read-policy.md) | Pin map vs narrow `.sysml` |
-| Open-repo **AGENTS.md** (`modelbasedPrj-*`) | SysML / PCBA when that system repo is open |
+| Open-repo **AGENTS.md** (`modelbasedPrj-*` or `SysMLEdgePrj-*`) | SysML / PCBA when that system repo is open |
 
 ---
 

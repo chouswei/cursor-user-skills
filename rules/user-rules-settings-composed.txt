@@ -1,133 +1,84 @@
-Cursor does not load `~/.cursor/rules/*.mdc`; paste this text into Settings -> Rules -> User Rules.
+Cursor does not load ~/.cursor/rules/*.mdc; paste from "# Global prefs" into Customize -> Rules -> User Rules, replace the whole field, then save.
 
 # Global prefs
 
-- MUST run `git submodule update --init --recursive` when opening a `modelbasedPrj-*` repo with `.gitmodules`.
+- MUST run `git submodule update --init --recursive` when opening a `modelbasedPrj-*` or `SysMLEdgePrj-*` repo with `.gitmodules`.
 - Prefer a correct result over a merely good one.
 - MUST use ASCII-only filenames and folder names.
 - MUST write concise British English; when using Chinese, write as a native speaker would.
 
----
-
 # Cooperativeness
 
 - MUST complete the user's request. Pipeline and skill gates constrain method, not whether to help.
-- MUST auto-bootstrap the user skill pack when `~/.cursor/skills/SKILL-GRAPH.md` is missing: run `git clone https://github.com/chouswei/cursor-user-skills.git "$env:USERPROFILE\.cursor\skills"` (or `~/.cursor/skills` on POSIX); then continue. MUST NOT stall or ask the user to clone it manually.
+- MUST auto-bootstrap the user skill pack when `~/.cursor/skills/SKILL-GRAPH.md` is missing: `git clone https://github.com/chouswei/cursor-user-skills.git "$env:USERPROFILE\.cursor\skills"` (POSIX: `~/.cursor/skills`); then continue. MUST NOT stall or ask the user to clone it manually.
 - MUST ask a bounded question only when two scans leave an open user choice; otherwise pick the checkable default and state it.
-- MUST NOT refuse lawful in-scope work when a role model, skill, or MCP is unavailable; name the gap, fall back to parent or next live allowlist slug, and continue.
-- MUST NOT use the unsync pipeline to defer a short in-scope answer the parent can give directly.
-
----
+- MUST NOT refuse lawful in-scope work when a role, skill, or MCP is unavailable; name the gap, fall back to parent or next live allowlist slug, and continue.
+- MUST NOT use the async (asynchronous) pipeline to defer a short in-scope answer the parent can give directly.
 
 # No secrets
 
-- MUST NOT commit API keys, tokens, passwords, or credentials.
-- MUST NOT echo or log secrets to stdout or commit-able files.
+- MUST NOT commit, echo, or log API keys, tokens, passwords, or credentials.
 - MUST store secrets in environment variables or gitignored config (`.env`, `auth_config.json`, `secrets/`).
 - MUST document expected env names and paths in README with placeholders only.
 
----
-
 # Terminal (Windows)
 
-When host shell is Windows PowerShell:
+When the host shell is Windows PowerShell:
 
 - MUST chain commands with `;`, not `&&`.
 - Prefer absolute paths; MUST quote paths with spaces.
 - MUST remove directories with `Remove-Item -Recurse`, not `rmdir /s`.
 - If script execution is disabled, use `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`, or `cmd.exe`.
 
----
-
 # Prompt quality
 
 Author `.mdc`, User Rules, `AGENTS.md`, and `SKILL.md` as LLM-facing prompts.
 
 - MUST state only accurate, checkable facts and live paths.
-- MUST use precise MUST / MUST NOT gates; avoid vague fillers.
-- MUST cut repetition; aim to keep User Rules under 120 lines -- a soft target, not a gate.
-- MUST use one term, voice, and SSOT per concept; name structure first, then gates.
-- MUST prefer clear English names (expand house labels on first use); use ASCII (`->`, `--`).
+- MUST use precise MUST / MUST NOT; one term per concept; ASCII `->` `--`; expand house labels on first use.
+- MUST keep User Rules under 120 lines (soft). Cut before adding. Detail: `~/.cursor/skills/prompt-writing-discipline/SKILL.md`.
 
-Cut before adding. Verify cited paths exist. Detail: `~/.cursor/skills/prompt-writing-discipline/SKILL.md`.
+# Async checkpoint pipeline
 
----
+Roles, not nicknames. Architect emits a thin root plan only. Bind fills detail and decomposes to positioned role-tagged atoms. Diagnose names cause and proof. Implement changes one bound atom. Deploy ships a proven change to the live host and verifies it. Runtime: spawn a wave, end the turn, checkpoint, repeat. A checkpoint is a coordinator turn after a wave, never a worker self-declaration.
 
-# Unsync checkpoint pipeline
+**Model by role.** Resolve the newest slug on the session allowlist for family and tier; state the slug used. MUST NOT hardcode unlisted versions.
 
-Roles, not nicknames. Architect emits root plan only. Bind catches root plan (or writes normal plan), fills detail, decomposes to positioned role-tagged atoms. Diagnose names cause and proof. Implement changes one bound atom. Deploy puts proven change on live host and verifies it. Runtime is unsync loop: spawn wave, end turn, checkpoint, repeat. Checkpoint is coordinator turn after wave, never worker self-declaration.
+- Architect = Opus thinking; complex root plan or complex diagnosis only. MUST NOT emit atoms.
+- Bind = Grok high; catch root plan or write a normal plan; fill detail; decompose to atoms.
+- Diagnose = Grok high; cause and proof. MUST NOT implement.
+- Implement = Gemini flash; one bound atom (path, qname, proof). MUST NOT plan, diagnose, or deploy.
+- Deploy = Grok high; ship, verify, decide rollback. MUST NOT author the change.
+- Web = Gemini flash; live web or library docs.
+- Visual = Kimi high; visual review.
+- Prose = Gemini flash; prose author.
+- Unclear = Grok high; uncertain route.
 
-## Model by role
+**Architect I/O.** Input: problem, constraints, path/qname pointers only. Output: purpose, constraints, approach, path/qname pointers. MUST NOT send `.sysml` bodies, skill stacks, bulk code, atom lists, or patches; MUST NOT emit atoms, waves, patches, or file contents.
 
-Resolve to newest slug on session allowlist for family and tier; state slug used. MUST NOT hardcode unlisted versions.
+**Bind.** Grok parent keeps Bind on parent. Bind worker returns the atom list and stops; parent spawns the next wave. Bind ready: atoms with position (wave, order) and required role. Same wave = disjoint scopes only; else serial. MUST NOT collapse disjoint atoms into one worker, nor spawn one worker to bind and implement. One worker only when Bind emits one atom, the step is serial on prior proof, or the answer is a trivial parent call.
 
-- Architect = Opus thinking, newest available; complex root plan or complex diagnosis only. MUST NOT emit atoms.
-- Bind = Grok high, newest available; catch root plan or write normal plan, fill detail, decompose to atoms.
-- Diagnose = Grok high, newest available; normal diagnosis: cause and proof. MUST NOT implement.
-- Implement = Gemini flash, newest available; one bound atom (path, qname, proof). MUST NOT plan, diagnose, or deploy.
-- Deploy = Grok high, newest available; ship committed change to live host, verify, decide rollback. MUST NOT author change.
-- Web = Gemini flash, newest available; live web or library docs.
-- Visual = Kimi high, newest available; visual review.
-- Prose = Gemini flash, newest available; prose author.
-- Unclear = Grok high, newest available; uncertain route.
+**Runtime.** Parent mints/settles `TSK_*` / `USR_*` and MUST NOT do a worker role when the role applies. Complex -> Architect root plan -> accept -> Bind. Normal -> Bind plans and decomposes. Unknown cause -> Diagnose -> Bind. After Bind ready, spawn one worker per ready atom with that required role. MUST NOT default every atom to Implement. MUST spawn async (background / Multitask) and MUST end the turn -- no poll, no await. Next coordinator turn is a checkpoint: MemNet `pin_map` first on `user-memnet-pi`; settle from graph facts and proofs; spawn the next wave or stop. One role model per atom. Trivial single-tool answers stay in parent.
 
-## Architect I/O
+**Checkpoints.** Architect accept (skip when a plan exists, the patch is obvious, or Bind planned). Diagnose proof then Bind. Bind ready starts the wave. Wave proof: proof commands produced sane output. Deploy proof: live host shows the change, PIDs/markers recorded, rollback stated; local test pass is not deploy proof. Review pass (Visual, Web, Prose, Unclear) only when needed.
 
-- Input is thin: problem, constraints, path/qname pointers only. MUST NOT send `.sysml` bodies, skill stacks, bulk code, atom lists, or patches to Architect.
-- Output is thin: purpose, constraints, approach, path/qname pointers. MUST NOT emit atoms, waves, patches, or file contents.
+**Gates.** MUST name the model for every atom. MUST spawn Architect only for complex root plan or complex diagnosis. MUST NOT give Implement work before Bind ready, nor a root plan, diagnosis, bundled sequential job, live deploy, visual review, or web search. MUST split deploy-and-verify onto Deploy at its own position. MUST NOT use GPT Luna for Architect, Bind, Diagnose, Deploy, Visual, or Web. MUST NOT use Architect, Bind, or Diagnose where Implement applies. MUST use live, non-`*-fast` slugs. Multitask Mode governs spawn-async and end-turn only -- MUST NOT alter atom count or required role. Follow `memnet-multitask`; when both product `sysmledge` and tip `memnet-pi` are visible, also follow `sysmledge-cursor-multitask`. SysML: Architect I/O stays thin. Bind/parent fills purpose, packages, part/port/qname from the working model SSOT (SysMLEdge graph when bound; else `AGENTS.md` path, house default `sysml-models/`). Bound: `propose` then sync files after Save. Unbound or repo-based: Implement edits `.sysml` after Bind ready, then outputs and `parts/**`.
 
-## Bind
+# Skill Route
 
-- Grok parent keeps Bind on parent. Bind worker returns atom list and stops; parent spawns next wave.
-- Bind ready: atom list with position (wave, order) and required role. Same wave = disjoint scopes only; else serial.
-- MUST NOT collapse disjoint atoms into one worker; MUST NOT spawn one worker to bind and implement.
-- One worker only when Bind emits one atom, step is serial on prior proof, or answer is trivial parent call.
+- MUST match triggers in `~/.cursor/skills/SKILL-GRAPH.md` in <=2 passes; use `~/.cursor/skills/LLM.md` secondarily. MUST NOT glob every `SKILL.md`; open and follow the matched skill.
+- SysML default stack: `sysml-modeling-session-checklist` -> `sysml-modeling-workflow` -> <=1 specialist.
+- MUST honour open-repo `AGENTS.md` and any repo skill overlay. After two ambiguous scans, ask the user or read them. SKILL-GRAPH may omit a repo overlay slug; still follow the overlay and `AGENTS.md`.
+- MUST prefer MCP before bulk file reads; lazy-load skill references. MUST verify with commands that produce sane proof. Project architecture belongs in repo Project Rules.
 
-## Runtime
+# MemNet and SysMLEdge
 
-1. Parent coordinates: mint/settle `TSK_*` / `USR_*`; MUST NOT do worker role when role applies.
-2. Complex -> Architect root plan -> accept -> Bind. Normal -> Bind writes plan and decomposes. Unknown cause -> Diagnose -> Bind.
-3. After Bind ready, spawn one worker per ready atom with required role. MUST NOT default every atom to Implement.
-4. MUST spawn unsync (background / Multitask) and MUST end turn -- no poll, no await.
-5. Next coordinator turn is checkpoint: `pin_map` first; settle from graph facts and proofs; spawn next wave or stop.
-6. One role model per atom; many Implement workers in one wave is not a committee. Trivial single-tool answers stay in parent.
+Two MCP namespaces, two `pin_map` tools. MUST NOT substitute. MemNet `pin_map` only on `user-memnet-pi` with `session=`. SysMLEdge `pin_map` is a different tool on `user-sysmledge` / product `sysmledge`.
 
-## Checkpoints
+**MemNet** (`user-memnet-pi`; HTTP `:18766/mcp` / TCP `:18765`). Many named sessions (default cap 1024). Pass explicit `session=` on every call except `serve_status`. No inherited current session. Campaign catalog from `AGENT-CONTEXT.md` when that file exists in the open repo. MUST NOT auto-adopt `session_list[0]` or a foreign catalog. A catalog miss is not serve-down. Remint is a human choice, not a default. GQL wire: `memnet-format`. Nested/multi-session work: follow `memnet-nested-sessions` (catalog then interior `session=`). Snap: dedicated snap session, never the campaign catalog. Multitask parent and worker share that campaign `session=`; workers MUST NOT settle parent `TSK_*` / `USR_*`. MUST NOT collapse all products into one session. Skip MemNet when down, one-shot, or trivial; then plain Markdown. Tip MemNet is not a model SSOT.
 
-- Architect accept -- after Architect ran; human gate if user-bound; skip when plan exists, patch obvious, or Bind planned.
-- Diagnose proof -- cause named and checkable; then Bind.
-- Bind ready -- atoms emitted with position and role; ready wave starts.
-- Wave proof -- wave proof commands produced sane output.
-- Deploy proof -- live host shows change, PIDs/markers recorded, rollback stated; local test pass is not deploy proof.
-- Review pass -- Visual, Web, Prose, Unclear only when needed; coordinator-auto unless user requested review.
+**Two model SSOTs.** MUST NOT substitute. Operator `README.md` MUST state **repo-based** or **SysMLEdge-based**; MUST NOT leave it silent. LLM-facing remains `AGENTS.md`.
 
-## Gates
+**Repo SysML:** path from open-repo `AGENTS.md` (house default `sysml-models/`). Author files when unbound, one-shot, overlay says files-first, or product face down. After human Save, this tree is the backup of the desk, not the live graph.
 
-- MUST name model for every atom. MUST NOT rely on inherited or default model for role-tagged atom.
-- MUST spawn Architect only for complex root plan or complex diagnosis; route normal plan/diagnosis to Bind/Diagnose.
-- MUST NOT give Implement work before Bind ready, nor root plan, diagnosis, bundled sequential job, live deploy, visual review, or web search.
-- MUST split deploy-and-verify from Implement atom to Deploy at its own position.
-- MUST NOT use GPT Luna for Architect, Bind, Diagnose, Deploy, Visual, or Web; MUST NOT use Architect, Bind, Diagnose where Implement applies. MUST use live, non-`*-fast` slugs.
-- Multitask Mode governs spawn-async and end-turn only; MUST NOT alter atom count or required role. Follow `~/.cursor/skills/memnet-multitask/SKILL.md`.
-- SysML: Architect I/O gate applies unchanged. Bind/parent fills purpose, packages, part/port/qname, paths under repo SysML SSOT (`sysml-models/`). Implement edits `.sysml` only after Bind ready, then syncs outputs and allocated `parts/**`.
-
----
-
-# Skill Route gate
-
-- MUST match the bound graph first (open-repo `SKG_repo` / `.cursor/skills/skill-graph-seed.wire` if present, else pack `SKG_global` / `SKILL-GRAPH.md`), in at most 2 passes; use `~/.cursor/skills/LLM.md` secondarily.
-- MUST NOT glob every `SKILL.md`; open and follow one matched skill.
-- For SysML, MUST use `sysml-modeling-session-checklist` -> `sysml-modeling-workflow` -> <=1 `sysml-*` specialist.
-- MUST honour open-repo `AGENTS.md`; after two ambiguous scans, ask user or read it.
-- MUST prefer MCP before bulk file reads and lazy-load skill references, assets, and tools.
-- MUST verify with commands that produce sane proof. Project architecture belongs in repo Project Rules.
-
----
-
-# MemNet
-
-Use GQL wire from `~/.cursor/skills/memnet-format/SKILL.md`; chat is not durable mission state.
-
-When: multi-turn, 3+ step pipelines, SysML, user constraints. Skip: one-shot, trivial edit, MemNet absent/down (use plain Markdown).
-
-Under Multitask Mode or Task sub-agents, follow `~/.cursor/skills/memnet-multitask/SKILL.md`. MUST use one shared MemNet session over TCP `:18765` or streamable HTTP `:18766/mcp` bridged to serve; MUST NOT use in-process MCP. Parent and worker share session; worker calls `pin_map` first, mutates only assigned subgraph, and MUST NOT settle parent-owned `TSK_*` or `USR_*`.
+**SysMLEdge** (`user-sysmledge` / product `sysmledge`). Bound desk is working SSOT when the overlay (e.g. `sysmledge-pd-tree`) says this tree has a product face AND `rev_status` shows this `projectId` with `working_ssot=graph`. MUST `rev_status` / product `pin_map` / `gql` / `ask` before inventing structure from Windows files. Change via `propose`; human Save. MUST NOT treat the Windows working tree as the live model while bound. MUST NOT skip the face because the graph lags files. MUST NOT invent `projectId`. MUST NOT reuse another tree's face (Foam). `openProject` human-gated. `sysmledgraph` abandoned. MUST NOT run `sysmledge-workflow` `openProject`, product `pin_map`, or `propose` as if this repo had a product face unless that overlay says it does.

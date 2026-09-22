@@ -1,20 +1,19 @@
 ---
 name: memnet-stm-harness
 description: >-
-  Thin pointer to STM thesis-lock playbooks for agent harness wiring,
-  STM debug triage, working set W vs inventory S, and user input as
-  control. Triggers: agent harness, STM debug, W vs S, working set vs
-  inventory, user-input-as-control, thesis locks, pin_map vs dump.
-metadata:
-  pattern: pipeline
-  version: "1.2"
-  domain: memnet
-  product: "memnet-llm==0.19.5"
-token_guardrails: |
-  - Pointer only. MUST load the named GitHub playbook. MUST NOT paste thesis math or playbook body.
-  - Product loop stays mcp-memnet + memnet-format. Honesty c / memnet-llm==0.19.5; 1.0 unclaimed.
+  OPS-ONLY MemNet tip/engine plumbing. Do NOT use as SysMLEdge product face or
+  SysML day-1 query path. Product face is sysmledge
+  (rev_status/ask/gql/pin_map/propose).
 ---
+# OPS-ONLY - not SysMLEdge product teach
 
+Soft-pass kill: teaching tip MemNet MCP as the SysML query face.
+Product / Cursor day-1: **sysmledge-workflow** and **sysmledge-host-model-at-rev**.
+Callable face: product `sysmledge` / `user-sysmledge`. tip != face.
+
+(Original tip/engine content below for operators only.)
+
+---
 # STM thesis harness (pointer)
 
 **Not a second thesis.** Doctrine SSOT lives in [llm-stm-mechanics](https://github.com/chouswei/llm-stm-mechanics) playbooks. This skill names **when** to open which file. Tools: [mcp-memnet](../mcp-memnet/SKILL.md). Wire: [memnet-format](../memnet-format/SKILL.md). General AM propose (any domain): [analytical-mechanics-propose](../analytical-mechanics-propose/SKILL.md). **Package and PyPI 0.19.5** (honesty `c` on 0.19 -- not a usage-method `b`). **1.0** unclaimed.

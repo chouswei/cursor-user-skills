@@ -83,9 +83,10 @@ Pattern codes: `G`=Generator, `R`=Reviewer, `P`=Pipeline, `T`=Tool-wrapper.
 (:SKL {id: 'sysml-modeling-workflow'})-[:COMPLEMENTS {id: 'E_sys_03', note: 'sysmledge', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
 (:SKL {id: 'sysml-modeling-workflow'})-[:COMPLEMENTS {id: 'E_sys_04', note: 'oosem', recycle: 'persistent'}]->(:SKL {id: 'oosem-workflow'})
 (:SKL {id: 'sysmledge-workflow'})-[:COMPLEMENTS {id: 'E_sys_05', note: 'tip_ne_face', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-cursor-multitask'})
+(:SKL {id: 'sysmledge-repo-management'})-[:PRECEDES {id: 'E_sys_06', note: 'open_then_day_loop', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
 ```
 
-Then at most one specialist SKL from `TRIGGERS` match. **Repo graph first** for project SKL. Pack `AGENTS.md` / pack seed for pack methods. SysMLEdge day loop: `sysmledge-workflow`. SysMLEdge Cursor Multitask (tip!=face): `sysmledge-cursor-multitask`. OOSEM method cycle: `oosem-workflow`.
+Then at most one specialist SKL from `TRIGGERS` match. **Repo graph first** for project SKL. Pack `AGENTS.md` / pack seed for pack methods. `SysMLEdgePrj-*` open gate: `sysmledge-repo-management`. SysMLEdge day loop: `sysmledge-workflow`. SysMLEdge Cursor Multitask (tip!=face): `sysmledge-cursor-multitask`. OOSEM method cycle: `oosem-workflow`.
 
 ## Skill-graph tooling stack (pack relatives, not prose)
 

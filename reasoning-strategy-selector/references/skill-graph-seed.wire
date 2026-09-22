@@ -782,4 +782,12 @@ CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0437', not
 CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0438', note: 'multitask', recycle: 'persistent'}]->(:SKL {id: 'memnet-multitask'})
 CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0439', note: 'memnet_use', recycle: 'persistent'}]->(:SKL {id: 'memnet-use'})
 CREATE (:SKL {id: 'sysmledge-cursor-multitask'})-[:COMPLEMENTS {id: 'E0440', note: 'memnet_tools', recycle: 'persistent'}]->(:SKL {id: 'mcp-memnet'})
+CREATE (:SKL {id: 'sysmledge-repo-management', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', cx: 'medium', stakes: 'medium', ev: 'structural', tension: 'low', path: '/workspace/sysmledge-repo-management', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysmledge-repo-management_0', phrase: 'SysMLEdgePrj repo', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysmledge-repo-management_1', phrase: 'open SysMLEdgePrj', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysmledge-repo-management_2', phrase: 'SysMLEdge repo management', recycle: 'persistent'})
+CREATE (:TRG {id: 'TRG_sysmledge-repo-management_0'})-[:TRIGGERS {id: 'E0441', note: 'SysMLEdgePrj repo', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-repo-management'})
+CREATE (:TRG {id: 'TRG_sysmledge-repo-management_1'})-[:TRIGGERS {id: 'E0442', note: 'open SysMLEdgePrj', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-repo-management'})
+CREATE (:TRG {id: 'TRG_sysmledge-repo-management_2'})-[:TRIGGERS {id: 'E0443', note: 'SysMLEdge repo management', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-repo-management'})
+CREATE (:SKL {id: 'sysmledge-repo-management'})-[:PRECEDES {id: 'E0444', note: 'open_then_day_loop', recycle: 'persistent'}]->(:SKL {id: 'sysmledge-workflow'})
 

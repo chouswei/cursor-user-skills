@@ -33,7 +33,7 @@ Otherwise bump `wave`.
 
 ## Execute (only when the user asks to run)
 
-Task `model` for each step is User Rules **unsync checkpoint pipeline** (Model by role). Do not copy that table here.
+Task `model` for each step is User Rules **async (asynchronous) checkpoint pipeline** (Model by role). Do not copy that table here.
 
 | Host | How to run a ready wave |
 |------|-------------------------|

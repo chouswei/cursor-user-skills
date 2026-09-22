@@ -4,9 +4,9 @@ alwaysApply: false
 
 Pack compose only. Cursor does not load `~/.cursor/rules/*.mdc`; the live rule is Settings -> Rules -> User Rules. Keep this section byte-identical to the pipeline section of `user-rules-settings-composed.txt`.
 
-# Unsync checkpoint pipeline
+# Async (asynchronous) checkpoint pipeline
 
-Roles, not nicknames. Architect emits root plan only. Bind catches root plan (or writes normal plan), fills detail, decomposes to positioned role-tagged atoms. Diagnose names cause and proof. Implement changes one bound atom. Deploy puts proven change on live host and verifies it. Runtime is unsync loop: spawn wave, end turn, checkpoint, repeat. Checkpoint is coordinator turn after wave, never worker self-declaration.
+Roles, not nicknames. Architect emits root plan only. Bind catches root plan (or writes normal plan), fills detail, decomposes to positioned role-tagged atoms. Diagnose names cause and proof. Implement changes one bound atom. Deploy puts proven change on live host and verifies it. Runtime is an async loop: spawn wave, end turn, checkpoint, repeat. Checkpoint is coordinator turn after wave, never worker self-declaration.
 
 ## Model by role
 
@@ -39,7 +39,7 @@ Resolve to newest slug on session allowlist for family and tier; state slug used
 1. Parent coordinates: mint/settle `TSK_*` / `USR_*`; MUST NOT do worker role when role applies.
 2. Complex -> Architect root plan -> accept -> Bind. Normal -> Bind writes plan and decomposes. Unknown cause -> Diagnose -> Bind.
 3. After Bind ready, spawn one worker per ready atom with required role. MUST NOT default every atom to Implement.
-4. MUST spawn unsync (background / Multitask) and MUST end turn -- no poll, no await.
+4. MUST spawn async (background / Multitask) and MUST end turn -- no poll, no await.
 5. Next coordinator turn is checkpoint: `pin_map` first; settle from graph facts and proofs; spawn next wave or stop.
 6. One role model per atom; many Implement workers in one wave is not a committee. Trivial single-tool answers stay in parent.
 
@@ -60,7 +60,7 @@ Resolve to newest slug on session allowlist for family and tier; state slug used
 - MUST split deploy-and-verify from Implement atom to Deploy at its own position.
 - MUST NOT use GPT Luna for Architect, Bind, Diagnose, Deploy, Visual, or Web; MUST NOT use Architect, Bind, Diagnose where Implement applies. MUST use live, non-`*-fast` slugs.
 - Multitask Mode governs spawn-async and end-turn only; MUST NOT alter atom count or required role. Follow `~/.cursor/skills/memnet-multitask/SKILL.md`.
-- SysML: Architect I/O gate applies unchanged. Bind/parent fills purpose, packages, part/port/qname, paths under repo SysML SSOT (`sysml-models/`). Implement edits `.sysml` only after Bind ready, then syncs outputs and allocated `parts/**`.
+- SysML: Architect I/O gate applies unchanged. Bind/parent fills purpose, packages, part/port/qname from the working model SSOT (SysMLEdge graph when bound; else `AGENTS.md` path, house default `sysml-models/`). Bound: `propose` then sync files after Save. Unbound or repo-based: Implement edits `.sysml` after Bind ready, then outputs and `parts/**`.
 
 ---
 

@@ -7,7 +7,7 @@ description: >-
   interconnection view, edgeSide/L2/power figures, or wiring diagrams from deploy connection link*.
 metadata:
   pattern: pipeline
-  version: 1.0
+  version: "1.1"
   domain: sysml
   pairs_with: [sysml-memnet-documentation, mermaid, mmdc, sysml-view-doc-sync, sysml-modeling-workflow]
 ---

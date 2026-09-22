@@ -1,56 +1,19 @@
 ---
 name: memnet-planner
 description: >-
-  Keep a working plan as MemNet session rows (campaign or plan task plus
-  ordered step tasks with execution waves). Pin the live neighbourhood, then
-  mutate to draft, update, or repolish. At plan time, mark which steps may
-  run in parallel. Run a ready wave via memnet-multitask when asked.
-  Chat is a Shape of the graph, never the plan SSOT.
-  Triggers: memnet plan, plan in memnet, update memnet plan, repolish plan,
-  session plan, memnet planner, plan waves, parallel plan steps, execute plan
-  wave, execute atoms, checkpoint loop. Skip: Markdown-only project-planner
-  interview with no MemNet; building the MemNet engine.
-metadata:
-  pattern: pipeline
-  version: "1.6"
-  domain: memnet
-  product: "memnet-llm==0.19.5"
-  secondary: "hybrid: mcp-memnet + memnet-format; memnet-multitask on execute; + chat-shape template"
-  pairs_with: [memnet-use, mcp-memnet, memnet-format, memnet-nested-sessions, memnet-multitask, project-planner]
-
-pipeline_steps: |
-  1. Gate
-     - MemNet tools in catalog. Else scratch Markdown only; say the plan is not durable.
-  2. Session
-     - Reuse current session. If none, session_open with the SCHEMA map in references/plan-graph.md.
-  3. Cue then pin_map
-     - Cue the plan task (kind TSK + phase=plan or goal=). Empty cue = outline. CueConflict if two unrelated in-progress plan roots.
-  4. Draft or delta
-     - New plan: mutate CREATE plan + step children with wave and PRECEDES (references/plan-graph.md + references/execution-waves.md). Existing: polish-protocol.md.
-     - Same wave only if write scopes are disjoint (or one RSV writer). Else serial (wave = ord).
-  5. Pin_map again
-     - Drop the prior map. Present the Shape from stdout only (assets/chat-shape.md).
-  6. Run a wave (only if the user asked to run, or Bind ready already holds)
-     - After Bind ready, mint atoms (one path, qname, or proof per step). Each step has position (`wave`, `ord`, `PRECEDES`) and a required role. Same wave only if scopes are disjoint.
-     - Ready wave: predecessors settled and step llm_id empty. Claim with SET llm_id before spawn. Spawn one worker per ready atom with that atom's required role (User Rules). MUST NOT default every atom to Implement. MUST NOT hand a root plan or a diagnosis to Implement. Many Implement workers in one wave is not a committee.
-     - Multitask on -> end the turn. Next coordinator turn is a checkpoint (pin_map, settle, next wave or stop). Repeat until no ready steps remain.
-     - Multitask off -> still spawn Task with the role slug; MUST NOT collapse worker atoms into the parent.
-  7. Persist -- if this plan session holds persistent CLM/USR/step proofs, session_save this turn (same TTL rule as mcp-memnet). User-asked snap is extra, not the gate.
-
-system_instruction: |
-  The plan SSOT is the MemNet session graph. Follow pipeline_steps in order.
-  Product write is mutate (GQL). Do not teach leftover add/update or pin_map(anchor=).
-  Record waves while planning. Spawn workers only on implement, and only a ready wave.
-  Next parent turn is a checkpoint; repeat until no ready steps remain.
-  Present a short Shape; do not paste the whole session.
-
-token_guardrails: |
-  - Do not paste sibling SKILL.md bodies; link ../mcp-memnet/SKILL.md and ../memnet-format/SKILL.md.
-  - One pin_map per generate after a mutate; do not stack nested maps.
-  - Cursor TodoWrite is this-turn UI only -- not the plan.
-  - Do not spawn Task workers during draft unless the user asked to execute.
+  OPS-ONLY MemNet tip/engine plumbing. Do NOT use as SysMLEdge product face or
+  SysML day-1 query path. Product face is sysmledge
+  (rev_status/ask/gql/pin_map/propose).
 ---
+# OPS-ONLY - not SysMLEdge product teach
 
+Soft-pass kill: teaching tip MemNet MCP as the SysML query face.
+Product / Cursor day-1: **sysmledge-workflow** and **sysmledge-host-model-at-rev**.
+Callable face: product `sysmledge` / `user-sysmledge`. tip != face.
+
+(Original tip/engine content below for operators only.)
+
+---
 # MemNet planner
 
 **Role:** Own the **plan graph** in the current MemNet session. Delegate tool names and wire shape to [mcp-memnet](../mcp-memnet/SKILL.md) and [memnet-format](../memnet-format/SKILL.md). Goldfish loop: [memnet-use](../memnet-use/SKILL.md). Nested catalog interiors: [memnet-nested-sessions](../memnet-nested-sessions/SKILL.md). Human requirements interview without a graph: [project-planner](../project-planner/SKILL.md) first, then this skill to persist the result.

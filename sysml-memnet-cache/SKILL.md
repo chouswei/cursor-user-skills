@@ -1,30 +1,22 @@
 ---
 name: sysml-memnet-cache
 description: >-
-  MemNet MCP is the single cache for SysML modeling relatives -- topology, locators, requirements,
-  traceability, decisions, audit findings, diagram scope, report atoms. Specialist sysml-* skills
-  read via pin_map and write deltas here; never duplicate in chat or AGENT-CONTEXT. Triggers:
-  sysml cache, memnet cache, modeling relatives, warm read sysml, cache topology, defer memnet,
-  specialist post-edit, avoid re-read deploy.
-metadata:
-  pattern: tool-wrapper
-  domain: sysml-v2,memnet
-  version: "2.5"
-  product: "memnet-llm==0.19.5"
-  pairs_with: [sysml-memnet-documentation, mcp-memnet, sysml-modeling-workflow, sysml-modeling-session-checklist, memnet-format, sysml-gql, memnet-nested-sessions, memnet-multitask]
-token_guardrails: |
-  - MemNet is the cache; .sysml is source of truth for structure; AGENT-CONTEXT is catalog session + campaign cue only.
-  - Nested organisation SSOT: memnet-nested-sessions. Campaign cue TSK_model_<short> is not a second session-id scheme.
-  - pin_map this cut (session=, kind=TSK, goal=) before edit; mutate delta after mcp-sysml-v2 validate. leftover add/update named leftover.
-  - Atomise only -- one fact per GQL/shaped graph row; never store full .sysml or paragraph prose.
-  - Skip cache write: comment-only edit, serve down / MCP missing, question-only turn (see sysml-memnet-snap.md).
-  - Multitask: memnet-multitask + memnet-pi TCP/HTTP. MUST NOT in-process MCP.
-  - Campaign catalog map admits CLM, SYM, USR, TSK (schema fixed at session_open). Engine TTL 1..1440m; session_save does not extend it.
+  OPS-ONLY MemNet tip/engine plumbing. Do NOT use as SysMLEdge product face or
+  SysML day-1 query path. Product face is sysmledge
+  (rev_status/ask/gql/pin_map/propose).
 ---
+# OPS-ONLY - not SysMLEdge product teach
 
+Soft-pass kill: teaching tip MemNet MCP as the SysML query face.
+Product / Cursor day-1: **sysmledge-workflow** and **sysmledge-host-model-at-rev**.
+Callable face: product `sysmledge` / `user-sysmledge`. tip != face.
+
+(Original tip/engine content below for operators only.)
+
+---
 # SysML MemNet cache (modeling relatives)
 
-**Role:** MemNet is the **cache** for everything SysML modeling needs between turns that is **not** already authoritative in project `models/*.sysml`.
+**Role:** Tip MemNet is **not** a model SSOT. It caches relatives that are not already in the working model SSOT (SysMLEdge bound desk, or repo `models/*.sysml` when unbound/repo-based).
 
 Specialist **`sysml-*`** skills (generators, reviewers, refactorers) **do not** keep their own parallel memory. They **read** from and **write** to this cache via **`mcp-memnet`** tools.
 
@@ -43,7 +35,7 @@ New house default is `sysml-models/` (legacy opt-in: `sysml-v2-models/projects/<
 
 | Store | Holds | Agent rule |
 |-------|-------|------------|
-| Project `models/*.sysml` | Structure, syntax, satisfy | Edit first; validate |
+| Project `models/*.sysml` | Repo SysML (author when unbound/repo-based; backup after Save when SysMLEdge-based) | Edit only when that kind is working SSOT; validate |
 | **MemNet** | Relatives (below) | cue `pin_map` then **`mutate`** |
 | `AGENT-CONTEXT.md` | Catalog session id + campaign cue + short summary | Never topology/backlog |
 
@@ -79,7 +71,7 @@ Six-step sequence SSOT: [sysml-memnet-snap.md](../sysml-memnet-documentation/ref
 
 | MUST | MUST NOT |
 |------|----------|
-| Cue campaign `:TSK` with `kind=TSK` and `goal=TSK_model_<short>` from repo `AGENTS.md` | Treat that house id as a competing session-id scheme; treat CueConflict from `pin_map` without `kind=` (large `|Q|`, 118 observed) as a campaign hit |
+| Cue campaign `:TSK` with `kind=TSK`, `goal=TSK_model_<short>` from repo `AGENTS.md`, and `session=` for this campaign | Treat that house id as a competing session-id scheme; omit `session=` / use process-current / `session_list[0]` / `session_current`; treat CueConflict from `pin_map` without `kind=` (large `|Q|`, 118 observed) as a campaign hit; mutate after a foreign-package CueConflict (session-mismatch -- stop and retarget) |
 | Catalog Snap = `snap_model`. Path-B = `ingest_sysml` into **this** `session` (1->1) | Smash ingest, Snap, and docs into one undifferentiated session when a nest applies |
 | One `pin_map` this generate; MCP `session=` for **this** cut | Stack N nested maps in one prompt |
 | Join with `import_slice` of a neighbourhood | Absorb a whole interior / paste the nested tree |
@@ -93,7 +85,7 @@ Six-step sequence SSOT: [sysml-memnet-snap.md](../sysml-memnet-documentation/ref
 
 Any **`sysml-*`** skill that changes `.sysml` **MUST**:
 
-1. **Before:** `pin_map` on the campaign cue (`kind=TSK`, `locators=["goal=TSK_model_<short>"]`), then `session=` for the interior under edit if the catalog pin carries one (or accept warm_miss -> initial snap). If MemNet MCP is missing: edit `.sysml` without cache.
+1. **Before:** `pin_map` on the campaign cue (`kind=TSK`, `locators=["goal=TSK_model_<short>"]`, `session=<this campaign>`), then interior `session=` if the catalog pin carries one (or accept warm_miss -> initial snap). If MemNet MCP is missing: edit `.sysml` without cache.
 2. **After validate:** emit MemNet delta per [relatives-cache-map.md](../sysml-memnet-documentation/references/relatives-cache-map.md) -- do **not** paste topology into chat.
 
 Hub skills own the sequence: [sysml-modeling-workflow](../sysml-modeling-workflow/SKILL.md) step 6.
@@ -114,11 +106,11 @@ When MemNet MCP tools are absent from the session catalog, or `serve_status` is 
 | `session_open` + map; seed campaign `TSK` on the **catalog** | sysml-new-project / warm miss (see snap.md). Map MUST admit `CLM`, `SYM`, `USR`, `TSK` -- schema is fixed at open; a catalog that rejects CLM (`unknown_tag`) is unfit |
 | `snap_model` / `ingest_sysml` | Catalog vs Path-B -- not both into one flat session when nested. `ingest_sysml` enforces per-call `ingest_budget`; raise or chunk large files -- a client timeout can still leave server-committed nodes |
 | `session_save` -> `<model-root>/.memnet/<short>-<catalogId>-<YYYYMMDD>.snap` | After persistent CLM / USR / SYM / TSK mutate, or end of substantive turn (catalog id). MUST NOT overwrite `*warm*`. Does **not** extend TTL (engine 1..1440m) |
-| `session_load` | Resume when `MEMNET_SESSION` unset |
+| `session_load` | Resume this campaign's id from `AGENT-CONTEXT.md` (or `MEMNET_SESSION` set for THAT campaign). MUST NOT `session_current` / `session_list[0]` |
 
 Store **catalog** session id + campaign cue in `AGENT-CONTEXT.md`. Interior `session=` locators live on catalog pins.
 
-On `session_not_found`: `session_list`, then adopt on **richness** (`qname` / `path` / `SYM` / `CLM` / `USR`), not uniqueness of a TSK seed. A stripped remint can hold a bare cue while the rich catalog holds locators but no seed. Catalog recovery: re-ingest the live `.sysml` tree; success = locator coverage (`qname` / `path`), not row count. MUST NOT import unlocatable rows as the recovery.
+On `session_not_found`: `session_list`, then `find(kind=TSK, locators=["goal=TSK_model_<short>"], session=<id>)` per live id. Adopt only a session that already holds this campaign cue (if several of this cue, richer of those). MUST NOT adopt a foreign catalog. If none, `session_open` for this repo only. Catalog recovery: re-ingest the live `.sysml` tree into **this** session; success = locator coverage (`qname` / `path`), not row count. MUST NOT import unlocatable rows as the recovery.
 
 ## NCU-LEO note (system repo)
 

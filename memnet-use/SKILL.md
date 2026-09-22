@@ -1,16 +1,19 @@
 ---
 name: memnet-use
 description: >-
-  How to use MemNet as mission working memory: goldfish loop, chat never
-  SSOT, drop prior maps. Triggers: use memnet, how to use memnet, memnet
-  goldfish, mission working memory, chat never SSOT, session graph.
-metadata:
-  pattern: pipeline
-  version: "1.12"
-  domain: memnet
-  product: "memnet-llm==0.19.5"
+  OPS-ONLY MemNet tip/engine plumbing. Do NOT use as SysMLEdge product face or
+  SysML day-1 query path. Product face is sysmledge
+  (rev_status/ask/gql/pin_map/propose).
 ---
+# OPS-ONLY - not SysMLEdge product teach
 
+Soft-pass kill: teaching tip MemNet MCP as the SysML query face.
+Product / Cursor day-1: **sysmledge-workflow** and **sysmledge-host-model-at-rev**.
+Callable face: product `sysmledge` / `user-sysmledge`. tip != face.
+
+(Original tip/engine content below for operators only.)
+
+---
 # How to use MemNet
 
 **Using** MemNet -- not building the engine. Doctrine: MemNet `docs/SHAPE.md`, `docs/grammar/gql-wire-profile.md`, `docs/LLM-GUIDE.md`, `docs/ROADMAP.md`. Open one specialist; do not paste those files here.
@@ -24,7 +27,7 @@ Engine session TTL is **1..1440 minutes** (`@ERR: bad_ttl`); a longer TTL is rej
 ## Goldfish loop
 
 1. **Open** -- `session_open` with a SCHEMA map (`map_file` / `map_lines`) covering every kind you will mutate. Schema is fixed at open. Missing map -> `no_map`. Missing kind -> `unknown_tag`. Campaign catalogs MUST admit at least `CLM`, `SYM`, `USR`, `TSK`. Bundled maps: MemNet checkout `parts/common/memnet/memnet/examples/schema.*.example.txt` (this pack does not vendor them).
-2. **Transport** -- Cursor user-pack goldfish is `memnet-pi` streamable HTTP `http://10.0.0.10:18766/mcp` bridged to TCP `:18765`. In-process MCP is leftover for a non-shared single-agent loop only; MUST NOT teach in-process as the default when Multitask/Task/shared session applies (User Rules forbid in-process then). Multitask / Task workers: load [memnet-multitask](../memnet-multitask/SKILL.md) (wave, end turn, checkpoint, repeat). Task `model`: User Rules unsync checkpoint pipeline. If the shared serve is down: files only; plain Markdown.
+2. **Transport** -- Cursor user-pack goldfish is `memnet-pi` streamable HTTP `http://10.0.0.10:18766/mcp` bridged to TCP `:18765`. In-process MCP is leftover for a non-shared single-agent loop only; MUST NOT teach in-process as the default when Multitask/Task/shared session applies (User Rules forbid in-process then). Multitask / Task workers: load [memnet-multitask](../memnet-multitask/SKILL.md) (wave, end turn, checkpoint, repeat). Task `model`: User Rules async (asynchronous) checkpoint pipeline. If the shared serve is down: files only; plain Markdown.
 3. **Cue** -- `kind` plus labels+properties / keyword. Campaign pin: `kind=TSK` and locator `goal=<cue>`. If ego unknown: `find` then `pin_map` from that pattern. Prefer one live `TSK_*`. leftover `anchor=` is leftover. Empty cue = session outline (0.11). `pin_map` without `kind=` on a rich catalog can CueConflict with large `|Q|` (118 observed); that is not a campaign hit.
 4. **`pin_map`** -- one session per generate; complete Shape of **this** cue. Drop the prior map next turn. Shaped emit MUST NOT show `hid` / `_memnet_hid` / `elementId` / nickname `id` (cue-by-nickname lookup still OK). Do not put momentum / coverage / lambda / m on `pin_map`. Audit: MemNet `docs/operations/honesty-c-wire-audit.md`.
 5. **Act** from that Shape plus the current request. Narrow-Read files at `SYM.line` / `SYM.path`.
@@ -32,7 +35,18 @@ Engine session TTL is **1..1440 minutes** (`@ERR: bad_ttl`); a longer TTL is rej
 7. **Persist** -- after any `mutate` that created persistent CLM / USR / SYM / TSK facts, `session_save` to a new dated file (not a campaign warm file). Live cabinet is optional extra, not a substitute.
 8. **Settle** finished `TSK_*` (`status=settled`; `recycle=delete_on_settle` when done).
 
-On `session_not_found`: `session_list`, then adopt the **richer** catalog (`qname` / `path` / `SYM` / `CLM` / `USR`), not the unique TSK seed. A stripped remint can hold a bare cue while the rich catalog holds locators but no seed.
+On `session_not_found`: see **Campaign session** below. MUST NOT adopt the richest foreign catalog.
+
+## Campaign session
+
+A **campaign** is one git repo's live `TSK_model_*` graph.
+
+- Each git repo / MemNet campaign (`TSK_model_*`) MUST have its own session id.
+- Every `pin_map` / `find` / `mutate` / `ingest` MUST pass `session=` (or `MEMNET_SESSION` set for THAT campaign). MUST NOT rely on serve process-current. `session_list` / `session_current` envelopes MAY still show another campaign.
+- MUST `session_open` or `session_load` for this campaign before the first pin. MUST NOT reuse another campaign's id from `session_list[0]` or `session_current`.
+- Empty warm / `session_not_found`: `session_list`, then `find(kind=TSK, locators=["goal=<this TSK_model_*>"], session=<id>)` on live ids. Adopt only a session that already holds this campaign cue (if several of this cue, the richer of those). If none, `session_open` for this repo only.
+- CueConflict or a neighbourhood whose package qname is not this campaign is a **session-mismatch**: stop and retarget; MUST NOT mutate.
+- Parent and workers share one session id for the campaign; workers `pin_map` first WITH that id.
 
 ## Specialists (open on need)
 
@@ -58,7 +72,9 @@ On `session_not_found`: `session_list`, then adopt the **richer** catalog (`qnam
 - Claim **1.0**.
 - Teach `hid` / `_memnet_hid` / `elementId` / nickname `id` on shaped `pin_map` emit.
 - Load an in-repo `memnet-reference` copy unless **building** MemNet in that checkout.
-- Auto-adopt a session solely because it is the only `goal=<cue>` hit.
+- Auto-adopt a session solely because it is the only `goal=<cue>` hit, `session_list[0]`, or `session_current`.
+- Rely on serve process-current instead of passing `session=` for this campaign.
+- Mutate after a foreign-package CueConflict (session-mismatch).
 - Read CueConflict from `pin_map` without `kind=` as a campaign hit.
 - Read `serve_status` host `127.0.0.1` as the Windows workstation.
 - Prune housekeep "orphans" in a mutate-maintained campaign catalog -- they are legitimately unreachable from the cue; pruning deletes the mission record.

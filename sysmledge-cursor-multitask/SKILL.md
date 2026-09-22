@@ -5,7 +5,7 @@ description: >-
   memnet-pi -- route product asks to sysmledge only; tip!=face forever.
 metadata:
   pattern: pipeline
-  version: "1.0.0"
+  version: "1.1.0"
   pairs_with:
     - sysmledge-workflow
     - memnet-multitask
@@ -29,11 +29,11 @@ Product allowlist on `sysmledge` only: `openProject` / `closeProject` / `rev_sta
 
 | Ask | Route |
 |-----|-------|
-| Foam / SysMLEdge product query or propose | `sysmledge` |
+| SysMLEdge product query or propose | `sysmledge` |
 | Bind / unbind / STALE honesty | `sysmledge` |
 | MemNet serve bounce, tip session_not_found | `memnet-pi` (ops only) |
 | Unbound project | `openProject` then refuse until bound |
-| PD / non-Foam tree | repo-only until Core GO |
+| PD / overlay `sysmledge-pd-tree` | SysMLEdge-based when bound; files until `openProject` sticks. MUST NOT skip the face because the graph lags files. |
 
 ## Parent coordinator
 
@@ -45,6 +45,7 @@ Product allowlist on `sysmledge` only: `openProject` / `closeProject` / `rev_sta
 ## Soft-pass kills
 
 - tip-as-face
+- skip-face-because-graph-lags-files
 - invent_2 as proof_pass / keep-using / H2H / sell
 - foam-beachhead as general MCP
 - tunnel localhost as current day-1 product face

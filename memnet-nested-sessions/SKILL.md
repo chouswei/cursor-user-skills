@@ -1,18 +1,19 @@
 ---
 name: memnet-nested-sessions
 description: >-
-  Nested MemNet sessions: catalog then one interior per generate; sub-unit
-  in another session; already-built session= locator; look loop; parallel
-  TSK when the parent shell is already clear. Triggers: nested session,
-  session in session, look loop, sub-unit session, session stack, snap_model
-  catalog, session strata, already-built interior, parallel interiors.
-metadata:
-  pattern: pipeline
-  version: "1.8"
-  domain: memnet
-  product: "memnet-llm==0.19.5"
+  OPS-ONLY MemNet tip/engine plumbing. Do NOT use as SysMLEdge product face or
+  SysML day-1 query path. Product face is sysmledge
+  (rev_status/ask/gql/pin_map/propose).
 ---
+# OPS-ONLY - not SysMLEdge product teach
 
+Soft-pass kill: teaching tip MemNet MCP as the SysML query face.
+Product / Cursor day-1: **sysmledge-workflow** and **sysmledge-host-model-at-rev**.
+Callable face: product `sysmledge` / `user-sysmledge`. tip != face.
+
+(Original tip/engine content below for operators only.)
+
+---
 # Nested sessions
 
 How to **use** a session stack. Pair with [memnet-use](../memnet-use/SKILL.md). Doctrine: MemNet `docs/extras/memnet-session-strata.md`. SysML loop: MemNet `docs/application-notes/system/llm-sysml-v2-modeling.md`. Evidence (MemNet checkout): `sysml-models/outputs/sysml-session-nest-cuts-case-study.md` (Turns A-I).

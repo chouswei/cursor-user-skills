@@ -50,7 +50,7 @@ House tokens such as `TSK_model_<short>` are **`goal`** (or `name` / `qname` / `
 | Kind | Cue on | Example |
 |------|--------|---------|
 | TSK | `goal` | `TSK_model_vfdl2` |
-| PKG | `qname` | `FoamLiteVer2Deploy` |
+| PKG | `qname` | `ExampleDeploy` |
 | MOD | `path` | `models/deploy-vfdl2.sysml` |
 | PRT / POR / CON / BEH / ITM | `name` | `edgePc` |
 | REQ | `requirementId` | `VFDL2-MQTT-RELAY` |

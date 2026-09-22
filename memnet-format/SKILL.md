@@ -1,21 +1,19 @@
 ---
 name: memnet-format
 description: >-
-  MemNet GQL wire: GraphElement node/edge/property, shaped subgraph emit,
-  BIND vs relation, openCypher-shaped Commit. Triggers: memnet format, GQL
-  wire, GraphElement, shaped subgraph, BIND vs relation, openCypher mutate.
-metadata:
-  pattern: tool-wrapper
-  version: "5.10"
-  domain: data-formats,memnet
-  product: "memnet-llm==0.19.5"
-token_guardrails: |
-  - Wire SSOT: MemNet docs/grammar/gql-wire-profile.md. This skill is MemNet-specific only.
-  - Cue then pin_map(q); empty q = outline. leftover nickname cue / anchor= only as leftover. Do not dump S.
-  - Identity is the graph element. MATCH locators (labels+observable properties). Never copy hid/id/elementId as law.
-  - Product Commit is GraphElement CREATE / MATCH SET DELETE -- not leftover id:'NEW' / add / update.
+  OPS-ONLY MemNet tip/engine plumbing. Do NOT use as SysMLEdge product face or
+  SysML day-1 query path. Product face is sysmledge
+  (rev_status/ask/gql/pin_map/propose).
 ---
+# OPS-ONLY - not SysMLEdge product teach
 
+Soft-pass kill: teaching tip MemNet MCP as the SysML query face.
+Product / Cursor day-1: **sysmledge-workflow** and **sysmledge-host-model-at-rev**.
+Callable face: product `sysmledge` / `user-sysmledge`. tip != face.
+
+(Original tip/engine content below for operators only.)
+
+---
 # MemNet formats
 
 Pair with [mcp-memnet](../mcp-memnet/SKILL.md). Formal SSOT: MemNet `docs/grammar/gql-wire-profile.md`. Version map: MemNet `docs/ROADMAP.md`. STM locks (pointer): [memnet-stm-harness](../memnet-stm-harness/SKILL.md).
