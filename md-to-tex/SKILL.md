@@ -3,7 +3,8 @@ name: md-to-tex
 description: >-
   Markdown to one LaTeX (.tex): one .md or several .md files (sections/chapters) combined into a single .tex.
   Pandoc-first when available; MCP LaTeX or manual skeleton as fallback. Triggers: md to tex, multiple md one tex,
-  combine markdown latex, chapters md tex, pandoc merge md, outputs md bundle tex, foam detection md latex.
+  combine markdown latex, chapters md tex, pandoc merge md, outputs md bundle tex, foam detection md latex,
+  landscape pdf, pdflscape.
 metadata:
   pattern: pipeline
   domain: publishing
@@ -15,6 +16,7 @@ metadata:
     - system-design-report-generator
 token_guardrails: |
   - **One output .tex** per run unless the user names several output paths explicitly.
+  - **Landscape (`pdflscape`) MUST be only for wide tables or graphs.** MUST NOT wrap the whole report in landscape.
   - **Inputs:** either **one** `.md` or an **ordered list** of `.md` paths (sections) — confirm order before converting; do not merge unrelated folders without user confirmation.
   - **Do not** paste huge multi-file bodies into chat; read files incrementally or convert via shell **pandoc** on disk.
   - **Mermaid** is not auto-rendered to figures in LaTeX — see references (placeholder, verbatim, or **mmdc** + `\includegraphics`).

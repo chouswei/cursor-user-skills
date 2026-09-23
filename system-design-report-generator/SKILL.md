@@ -8,7 +8,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: mbse-outputs
-  version: "2.5"
+  version: "2.6"
   pairs_with:
     - project-output-article
     - sysml-view-doc-sync
@@ -20,7 +20,7 @@ metadata:
     - mdtohtml
 token_guardrails: |
   - **Hub first:** agents read **`index.md`** (or `README.md`) only for full-file list — **low line count (LOC)** — then open **one** `file` from `llm_toc` per task; do not load every section `.md` into context by default.
-  - **MemNet before prose (when serve up):** `serve_status` → `pin_map(TSK_model_<short>)` → then hub → **one** section file. Do not grep-deploy from memory when warm rows exist.
+  - **MemNet before prose (when serve up):** `serve_status` -> `pin_map(kind=TSK, locators=["goal=TSK_model_<short>"], session=<catalog from AGENT-CONTEXT.md>)` -> then hub -> **one** section file. MUST pass `session=`. MUST NOT process-current / `session_list[0]` / `session_current`. Do not grep-deploy from memory when warm rows exist.
   - **Normative layout:** [references/SYSTEM_DESIGN_REPORT_LAYOUT.md](references/SYSTEM_DESIGN_REPORT_LAYOUT.md) — do not invent a second competing root under `docs/`.
   - **MemNet pipeline:** [references/memnet-report-pipeline.md](references/memnet-report-pipeline.md) -- ART/SEC/claim atoms after sync; G/M step codes per [sysml-memnet-pipeline.md](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md) (GQL / openCypher-shaped only).
   - **Model wins:** deploy/connections/behaviour/requirements `.sysml` stay authoritative; **sysml-view-doc-sync** after edits. Keep `10-requirements-traceability` and `outputs/diagrams/` plant-setup flows aligned with refine/derive + behaviour.
@@ -46,11 +46,26 @@ These packs are for human readers too, so keep each section tight and purposeful
 - **md-to-tex** — pass **hub `llm_toc` order** as Pandoc input list for multi-file → one `.tex`.
 - **mdtohtml** — export section files to HTML (Mermaid rendering, UTF-8 safe, handles encoding correctly).
 
+## Customer-facing deliverables (NDHU / Mastek EI-LIT)
+
+When writing **customer** system or part reports (LaTeX/PDF under `docs/deliverables-*` or `parts/*/docs/deliverables-*`), their READMEs, or the customer wiki:
+
+| Gate | Rule |
+|------|------|
+| Primary location | GitHub repo URL (`blob` / `tree` on `master`) |
+| Second location | In-tree `docs/…` or `parts/…` |
+| MUST NOT | Workstation `C:\…` as primary; ClickUp ids or `app.clickup.com` links |
+| Customers | National Dong Hwa University (NDHU) and Mastek -- both customers |
+| System report author | Szu-Wei Chou (`docs/deliverables-eilit-ms/`) |
+| Part report authors | Yi-Kun Lee -- HVDC LIT, RF-AC transformer, PA119V2; Zoe Lee -- dynode-EM |
+
+Internal tracker copy stays in `AGENT-CONTEXT.md` / `AGENTS.md` -- not in customer PDFs or wiki.
+
 ## Pipeline
 
 ### A — Generate or refresh full pack
 
-1. **MemNet preflight** — `serve_status`. If up: read `AGENT-CONTEXT.md` → `pin_map(TSK_model_<short>, depth=2)`. Warm miss → initial model snap per **sysml-memnet-documentation** before writing prose.
+1. **MemNet preflight** -- `serve_status`. If up: read `AGENT-CONTEXT.md` -> `pin_map(kind=TSK, locators=["goal=TSK_model_<short>"], depth=2, session=<that catalog>)`. MUST pass `session=`. MUST NOT process-current / `session_list[0]` / `session_current`. Warm miss -> initial model snap per **sysml-memnet-documentation** before writing prose.
 2. **Read layout** — [references/SYSTEM_DESIGN_REPORT_LAYOUT.md](references/SYSTEM_DESIGN_REPORT_LAYOUT.md) (folder name, hub schema, section filenames, **LOC** discipline).
 3. **Create or adopt folder** — Under `sysml-v2-models/projects/<name>/outputs/`, use pack root **`system-design-report/`** (or legacy `system-design/` if the project already started — one pack per project, **documented in hub**).
 4. **Hub file** — From [assets/hub-index-template.md](assets/hub-index-template.md): project title, **source** line (model paths), **`llm_toc`** with **`file`**, optional **`llm_keywords`**, optional **`memnet:`** block (anchor, `art_id`, session, cross-artifact manuals).
@@ -61,7 +76,7 @@ These packs are for human readers too, so keep each section tight and purposeful
 
 ### B — Maintain one section (incremental)
 
-1. `pin_map` on touched model cues (`kind` / `name` / `requirementId`). leftover `query_warm` named leftover.
+1. `pin_map` on touched model cues (`kind` / `name` / `requirementId`) with `session=<catalog from AGENT-CONTEXT.md>`. leftover `query_warm` named leftover.
 2. Hub → pick **one** `llm_toc.file`.
 3. Patch section from model; **sysml-view-doc-sync** for that file's diagrams.
 4. MemNet: update/add `@CLM` + EDGs for changed claims only.

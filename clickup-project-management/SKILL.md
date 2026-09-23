@@ -12,12 +12,12 @@ description: >-
 metadata:
   pattern: pipeline
   domain: project-management
-  version: 1.1.1-clickup-pm
+  version: 1.2.0-clickup-pm
   secondary: "hybrid: writes via user-clickup MCP; complements project-planner and meeting-notes-generator"
 
 pipeline_steps:
   1. Classify lane
-     - plan | hygiene | comms | artifact | mixed. Name the lane (and artifact type) before any write.
+     - plan | hygiene | comms | artifact | projection | mixed. Name the lane (and artifact type) before any write.
   2. Resolve ClickUp objects
      - List, valid statuses, assignees. Ask which list if missing. Read before write.
   3. Load practice
@@ -98,6 +98,7 @@ User wants work **run in ClickUp**: plan a project, set owners and dates, clean 
 | **hygiene** | Overdue, stuck, standup from ClickUp, monitor, time in status |
 | **comms** | Stakeholder update, kickoff meeting actions, feedback, chat |
 | **artifact** | PRD / feature brief, weekly status rollup, retrospective |
+| **projection** | Sync model state to ClickUp, status tracking, derived progress |
 | **mixed** | Plan or artifact first, then hygiene or comms on the same list |
 
 If two scans still leave the list, lane, or artifact type open, ask one bounded question; otherwise pick the checkable default and state it.
@@ -120,6 +121,8 @@ Load [references/core-pm-principles.md](references/core-pm-principles.md) and th
 **comms:** Action items become tasks. Narrative goes to `clickup_create_comment` or `clickup_send_chat_message` after `clickup_get_chat_channels`. Longer record: `clickup_create_document` then `clickup_create_document_page` / `clickup_update_document_page`. Personal follow-up: `clickup_create_reminder` (title + due_date).
 
 **artifact:** Load [references/pm-artifacts.md](references/pm-artifacts.md). Write one type: PRD/brief (Doc + parent task), weekly status (live filter then comment/Doc/chat), or retrospective (notes then Doc/comment + action tasks).
+
+**projection:** Load [references/model-projection.md](references/model-projection.md). Projected tasks MUST follow identity from the model. Perform **diff-before-write**: read task state first; skip if identical. Prioritise status updates over description updates. Do not overwrite descriptions unless requested. Never write ClickUp metadata back to `.sysml`.
 
 ### 5-6. Review and report
 

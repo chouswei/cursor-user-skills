@@ -5,19 +5,23 @@ description: >-
   Fusion MCP into modelbasedPrj parts/*/hardware/. Use when the user asks to
   pull, fetch, export, or sync Fusion electronics, PCB, schematic, Eagle cache,
   or ElectronFileOutput for a part. Triggers: fusion360 electronics fetch,
-  fusion MCP schematic, .sch .brd, PA107/PCBA from Fusion, fusion-pa107.
+  fusion MCP schematic, .sch .brd, extract BOM voltage, Eagle VOLTAGE TOLERANCE,
+  PA107/PCBA from Fusion, fusion-pa107.
 metadata:
   pattern: tool-wrapper
   specialization: mcp-integration
   pack: user
   domain: pcba
   mcp_key: fusionMCP
-  version: "1.0"
+  version: "1.1"
 token_guardrails: |
   - GetMcpTools(server=user-fusionMCP) before CallMcpTool shapes.
   - Never fusion_mcp_execute document save unless the user explicitly asks.
   - Prefer Neutron ElectronFileOutput .sch/.brd copy over inventing netlists.
   - Landing path: parts/<part>/hardware/fusion-<slug>/ (ASCII only).
+  - BoM extract MUST retain voltage rating and tolerance when present on the
+    schematic (`<attribute>` / Fusion `<att_value>` named VOLTAGE or TOLERANCE
+    on parts or devices). Emit empty string if absent; do not invent.
 ---
 
 # Fusion Electronics fetch (`user-fusionMCP`)
@@ -109,7 +113,7 @@ parts/<part>/hardware/fusion-<slug>/
 ### 6. Metadata
 
 - `fusion.toml` — project, folder, schematic/board `lineage_id`, local `file` names ([assets/fusion.toml.template](assets/fusion.toml.template)).
-- `bom-extract.json` — `python scripts/extract_bom.py <path-to.sch>` (writes beside the `.sch`).
+- `bom-extract.json` — `python scripts/extract_bom.py <path-to.sch>` (writes beside the `.sch`). Keep `name`/`value`/`deviceset`/`device`/`package` and emit `voltage_rating`/`tolerance` from Eagle VOLTAGE/TOLERANCE attributes (empty string if absent).
 - Short `README.md` — Fusion names + IC highlights + caveats (e.g. single vs paralleled topology).
 - Patch `parts/<part>/part.toml`: `fusion_hardware`, `fusion_schematic_lineage`, `fusion_board_lineage`.
 - Touch `AGENT-CONTEXT.md` only if the repo already keeps a Fusion one-liner there.

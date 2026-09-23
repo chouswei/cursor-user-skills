@@ -13,5 +13,8 @@
 
 ## Sources
 
-- `<repo-relative path>` (mirror or model; optional blob at a release tag)
+- GitHub `blob`/`tree` URL on `master` (primary; file MUST already be on `master`)
+- `docs/…` or `parts/…` in-tree path (second)
+- MUST NOT cite `C:\` or a workstation checkout as primary
+- MUST NOT put ClickUp ids or `app.clickup.com` here
 - Do not put secrets here

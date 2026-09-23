@@ -3,13 +3,13 @@ name: sysml-traceability
 description: >-
   Add or audit traceability in SysML v2: satisfy (requirement → design), allocate (software → hardware),
   refine/derive requirement trees, doc cross-refs; align outputs/*.md tables with model (including
-  10-requirements-traceability). Treat deploy connections and site conventions as de facto operational
+  10-requirements-traceability). Treat deploy connections and site conventions as de-facto operational
   truth -- see references/de-facto-modeling.md. Triggers: traceability, satisfy, allocate, refine
   requirements, derive requirements, R1 maps to, verify requirement, gap analysis requirements vs design,
-  de facto wiring, nominal vs actual ports, site convention.
+  de facto wiring, nominal vs actual ports, site convention, trace manifest, projection input, kind qname allocate.
 metadata:
   pattern: pipeline
-  version: "1.2"
+  version: "1.3"
   pairs_with: [mcp-sysml-v2, sysml-requirements-generator, sysml-requirements-audit, sysml-connections, sysml-view-doc-sync]
 token_guardrails: |
   - Before renaming linked requirements or part defs, use **Grep / Read** on live `.sysml`, then Cursor **`user-sysml-v2` MCP** (`getSymbols`, `getDefinition`, `getReferences`, `parse`, `validate`) on the file or code just loaded. Do not use abandoned `sysmledgraph` or treat an MCP workspace URI index as model SSOT.
@@ -19,6 +19,7 @@ token_guardrails: |
   - Sync `outputs/**/10-requirements-traceability.md` (or pack section) with parent/child requirementIds and satisfy rows.
   - After substantive .sysml changes: sysml-memnet-cache delta (`@EDG` satisfies/allocates/refines); workflow step 6.
   - Before multi-file refactor: pin_map(TSK_model_*).
+  - **Trace manifest:** Follow input contract in [references/trace-manifest.md](references/trace-manifest.md).
 ---
 
 system_instruction: |
@@ -46,5 +47,7 @@ system_instruction: |
 7. **Docs** — Update **`outputs/**/10-requirements-traceability.md`** (and related pack sections) **from** the model: parent → child requirementIds, satisfy, allocate. Model first; markdown second.
 
 8. **De facto check** — [references/de-facto-modeling.md](references/de-facto-modeling.md): deploy **`connection`** paths match outputs and part **`doc`** conventions.
+
+9. **Trace manifest** — Produce a projection input table (kind, qname, target) per [references/trace-manifest.md](references/trace-manifest.md). This manifest is the contract for external board sync; it MUST NOT contain board-specific IDs.
 
 **Patterns:** [references/traceability-patterns.md](references/traceability-patterns.md)

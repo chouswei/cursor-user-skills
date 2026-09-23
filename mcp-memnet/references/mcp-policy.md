@@ -21,7 +21,7 @@ Cursor (stdio) -> memnet-mcp
 }
 ```
 
-Do **not** set serve host/port unless `MEMNET_MCP_TRANSPORT=tcp`. User-pack primary remote: HTTP **`memnet-pi`** `http://10.0.0.10:18766/mcp` bridging TCP serve **`:18765`**. InvenTree MCP is not MemNet.
+Do **not** set serve host/port unless `MEMNET_MCP_TRANSPORT=tcp`. Live tip: key **`memnet`** / namespace **`user-memnet`**; URL owned by `mcp.json` only. InvenTree MCP is not MemNet.
 
 ## Tools (product)
 
@@ -49,3 +49,4 @@ Args: [tool-parameters.md](tool-parameters.md). Wire: [wire-format.md](wire-form
 - `rag_query`, Layer, pipe `@TAG`, TOON as agent I/O.
 - Call tools that are not in the session catalog.
 - Teach `hid` / `_memnet_hid` / `elementId` / nickname `id` on shaped `pin_map` / export / find emit.
+- Treat old `memnet-pi` / `user-memnet-pi` as live. Live tip is key **`memnet`** / namespace **`user-memnet`** (`mcp.json` owns the URL).

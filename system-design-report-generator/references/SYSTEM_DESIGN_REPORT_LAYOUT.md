@@ -45,7 +45,7 @@ memnet:
       note: de-facto valve manual
 ```
 
-Agents **`pin_map` from a cue** (leftover `anchor=` named leftover) before opening section files. Full procedure: [memnet-report-pipeline.md](memnet-report-pipeline.md).
+Agents **`pin_map` from a cue** with `session=<catalog from AGENT-CONTEXT.md>` (leftover `anchor=` named leftover) before opening section files. Full procedure: [memnet-report-pipeline.md](memnet-report-pipeline.md).
 
 **Optional:** Short Markdown bullet TOC linking `[title](./file.md#id)`.
 

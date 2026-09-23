@@ -48,6 +48,16 @@ If a system model exists: on conflict **the model remains the authority**. Corre
 
 Author in the mirror (or directly in a wiki clone). **Publish** is a **copy** to the wiki root, then commit + push. Keep filenames ASCII; GitHub page slugs match file stems (`Commissioning.md` -> `Commissioning`).
 
+## Diagrams and images
+
+Topic pages **MUST** use fenced mermaid when a diagram helps. Home **MUST** stay a hub -- **MUSTNOT** dump mermaid runbooks onto Home.
+
+Wiki.git has no `parts/` or `docs/` tree. Relative image paths such as `parts/.../fig.png` or `../parts/...` 404 on wiki.git -- **MUSTNOT** use them. After the file is on `master`, **MUST** use a GitHub `raw` or `blob` URL. **MUSTNOT** use a local `C:\` checkout path as the wiki image src.
+
+## Customer location and tracker leak
+
+Customer wiki pages **MUST** cite the GitHub repository URL as the primary file location; in-tree `parts/` or `docs/` second. **MUSTNOT** cite `C:\` (or other workstation paths) as primary. **MUSTNOT** put ClickUp task ids, list ids, or `app.clickup.com` links on customer wiki pages.
+
 ## Language and secrets
 
 British English unless the host wiki already uses another locale. **MUSTNOT** put passwords, tokens, or vendor logins in wiki pages.

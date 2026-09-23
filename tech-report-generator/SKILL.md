@@ -38,4 +38,4 @@ Run **pipeline_steps**; step 4 is mandatory before final.
 
 **Resources:** [references/tech-report-style-guide.md](references/tech-report-style-guide.md) · [references/tech-report-quality-rubric.md](references/tech-report-quality-rubric.md) · [assets/tech-report-template.md](assets/tech-report-template.md)
 
-**Pairing:** [tech-report-reviewer](../tech-report-reviewer/SKILL.md) after draft.
+**Pairing:** [tech-report-reviewer](../tech-report-reviewer/SKILL.md) after draft. Customer NDHU / Mastek front matter (authors, GitHub-first location, no ClickUp): [system-design-report-generator](../system-design-report-generator/SKILL.md).

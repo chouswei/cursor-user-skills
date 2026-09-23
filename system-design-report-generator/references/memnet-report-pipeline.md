@@ -16,7 +16,7 @@ Use when **generating**, **scaffolding**, or **maintaining** a `system-design-re
 
 1. `serve_status`. If `running: false`, generate report from warm miss grep only; pipeline steps use plain Markdown in-prompt; skip MemNet write.
 2. Read **`AGENT-CONTEXT.md`** — session id, anchor (`TSK_model_<short>`), cross-artifact `ART_*` (manuals).
-3. **`pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=80)`** -- prefer warm rows over memory for part/link/req names. leftover `anchor=` named leftover.
+3. **`pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=80, session=<catalog from AGENT-CONTEXT.md>)`** -- prefer warm rows over memory for part/link/req names. MUST pass `session=`. MUST NOT process-current / `session_list[0]` / `session_current`. leftover `anchor=` named leftover.
 
 **Remote serve:** when `MEMNET_SERVE_HOST` is not localhost, local `memnet session load --file` may fail (path on dev machine only). Push wire via repo `tools/memnet_push_wire.py` with `MEMNET_SERVE_HOST` set (see project `AGENT-CONTEXT.md`).
 
@@ -25,7 +25,7 @@ Use when **generating**, **scaffolding**, or **maintaining** a `system-design-re
 | Step | Action | MemNet |
 |------|--------|--------|
 | **G0** | `serve_status` | `@CLM` `G0:serve` |
-| **G1** | `pin_map(TSK_model_<short>)`. Warm miss → run initial model snap ([sysml-memnet-snap.md](../../sysml-memnet-documentation/references/sysml-memnet-snap.md) §Initial snap) before prose. | READ + `@CLM` `G1:warm_*` |
+| **G1** | `pin_map(kind=TSK, locators=["goal=TSK_model_<short>"], session=<catalog>)`. Warm miss -> run initial model snap ([sysml-memnet-snap.md](../../sysml-memnet-documentation/references/sysml-memnet-snap.md) §Initial snap) before prose. | READ + `@CLM` `G1:warm_*` |
 | **G2** | Hub `index.md` + `config.yaml` load order only. Deploy file list from warm `@MOD_*` — not full deploy read. | `@CLM` `G2:hub` |
 | **G3** | Create `outputs/system-design-report/` + hub `index.md` with `llm_toc`, optional `memnet:` block (below). | `@CLM` `G3:scaffold` |
 | **G4** | Write section files **from model + warm graph**: exact `link*` names, `@REQ` ids, `@BEH` action names. One `##` per `llm_toc` entry. | `@CLM` `G4:sections` |
@@ -41,7 +41,7 @@ Follow [sysml-modeling-workflow](../../sysml-modeling-workflow/SKILL.md) steps 1
 
 | Step | Action | MemNet |
 |------|--------|--------|
-| **M1** | `pin_map` on touched PRT/CON/REQ/BEH cues | READ + `:CLM` `M1:warm` |
+| **M1** | `pin_map` on touched PRT/CON/REQ/BEH cues with `session=<catalog>` | READ + `:CLM` `M1:warm` |
 | **M2** | Open hub → **one** section `file` from `llm_toc` for the changed topic only | `@CLM` `M2:sec_*` |
 | **M3** | Patch section from warm `@CON`/`@PRT`/`@REQ` + narrow deploy grep at `@SYM.line`; sync Mermaid in owning section | `@CLM` `M3:patch` |
 | **M4** | Model delta already written in modeling step 6 | `@CLM` `M4:model_delta` |

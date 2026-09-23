@@ -29,7 +29,7 @@ Use the same credentials as for the private project repo (`gh auth`, Git Credent
 
 ## Layout on disk
 
-All pages live at the **wiki clone root** (Gollum). **MUSTNOT** nest `docs/wiki/` folders inside `.wiki.git`.
+All pages live at the **wiki clone root** (Gollum). **MUSTNOT** nest `docs/wiki/` folders inside `.wiki.git`. Wiki.git has no `parts/` or `docs/` tree -- **MUSTNOT** rely on relative images from those paths; use GitHub `raw`/`blob` URLs after the file is on `master`.
 
 Required:
 

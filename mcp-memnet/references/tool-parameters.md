@@ -2,7 +2,7 @@
 
 **Package and PyPI 0.19.5**. Tools return JSON text. Arg **`session`** (not `session_id`). SSOT: MemNet `parts/memnet-mcp/software/memnet_mcp/server.py`.
 
-User-pack store: TCP **`10.0.0.10:18765`**; Cursor HTTP **`http://10.0.0.10:18766/mcp`**. InvenTree MCP is not MemNet.
+User-pack store: key **`memnet`** (namespace **`user-memnet`**); URL in `mcp.json` only. InvenTree MCP is not MemNet.
 
 ## Invoke order
 
@@ -57,7 +57,7 @@ Parse **`stdout`**. Join `wire_lines` with `\n`.
 | Variable | Purpose |
 |----------|---------|
 | `MEMNET_MCP_TRANSPORT` | `tcp` when sharing a serve graph |
-| `MEMNET_SERVE_HOST` / `MEMNET_SERVE_PORT` | Serve bind (library default `127.0.0.1:18765`) |
+| `MEMNET_SERVE_HOST` / `MEMNET_SERVE_PORT` | Optional TCP serve bind when sharing a serve graph. MUST NOT treat as the live tip. |
 | `MEMNET_SESSION` | Default session after open/load |
 | `MEMNET_AGENSGRAPH_URL` | Live Agens (0.7) |
 | `MEMNET_NEO4J_URL` | Neo4j extra; live claimed **0.14**. Both URLs need `MEMNET_DURABLE_BACKEND` |
