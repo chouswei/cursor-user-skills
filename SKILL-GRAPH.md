@@ -153,12 +153,14 @@ Load `physics-constrained-surrogate-routing` when choosing among ENFORCE / ReLU-
 (:SKL {id: 'diagram-routing'})-[:COMPLEMENTS {id: 'E_diag_04', note: 'anti_pattern_do_not_use_for_pid', recycle: 'persistent'}]->(:SKL {id: 'd2-pid'})
 (:SKL {id: 'diagram-routing'})-[:PRECEDES {id: 'E_diag_05', note: 'pid_primary', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
 (:SKL {id: 'diagram-routing'})-[:COMPLEMENTS {id: 'E_diag_06', note: 'sysml_mermaid', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
-(:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E_diag_07', note: 'flowsheet_string', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
-(:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E_diag_08', note: 'general_string', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
-(:SKL {id: 'chemengkg-assist'})-[:COMPLEMENTS {id: 'E_diag_09', note: 'kg_then_pid', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
+(:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_07', note: 'latex_iso_pid_drawing', recycle: 'persistent'}]->(:SKL {id: 'pid-circuit-tikz'})
+(:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_08', note: 'general_tikz', recycle: 'persistent'}]->(:SKL {id: 'tikz'})
+(:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E_diag_09', note: 'flowsheet_string', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
+(:SKL {id: 'pydexpi-p-id'})-[:COMPLEMENTS {id: 'E_diag_10', note: 'general_string', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
+(:SKL {id: 'chemengkg-assist'})-[:COMPLEMENTS {id: 'E_diag_11', note: 'kg_then_pid', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
 ```
 
-Load `diagram-routing` when diagram format is unclear. Load `pydexpi-p-id` for real P&ID / DEXPI / Proteus (AGPL-3.0 -- flag before proprietary redistribute). Load `sfiles2` (MIT) for flowsheet strings and `ggiles` (MIT) for general graph<->string. **Do not** load `d2-pid` as a P&ID lane -- it is an anti-pattern stub (D2 is architecture posters only; never P&ID). `chemistry-routing` is not in this pack.
+Load `diagram-routing` when diagram format is unclear. Load `pydexpi-p-id` for real P&ID / DEXPI / Proteus (AGPL-3.0 -- flag before proprietary redistribute). Load `sfiles2` (MIT) for flowsheet strings and `ggiles` (MIT) for general graph<->string. Load `pid-circuit-tikz` for LaTeX ISO 14617 drawings (MIT). Load `tikz` for general LaTeX figures. Topology SSOT remains pyDEXPI. Never D2 for P&ID. **Do not** load `d2-pid` as a P&ID path -- it is an anti-pattern stub (D2 is architecture posters only; never P&ID). `chemistry-routing` is not in this pack.
 
 ---
 
