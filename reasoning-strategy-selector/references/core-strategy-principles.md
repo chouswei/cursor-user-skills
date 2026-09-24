@@ -63,6 +63,7 @@
 | physics-enforce-constrained-nn | P | user | high | high | measured | low |
 | physics-kan-global-opt | P | user | high | high | measured | low |
 | physics-relu-milp-embed | P | user | high | high | measured | low |
+| pid-circuit-tikz | T | user | medium | medium | structural | low |
 | polarfire-soc-setup | T | user | medium | medium | structural | low |
 | pr-reviewer | R | user | medium | medium | structural | low |
 | pretty-mermaid | T | user | medium | medium | structural | low |
@@ -119,6 +120,7 @@
 | system-nesting | P | user | medium | medium | structural | low |
 | tech-report-generator | G | doc | medium | low | structural | low |
 | tech-report-reviewer | R | doc | medium | low | structural | low |
+| tikz | G | doc | medium | low | structural | low |
 | traceability-footprint-to-sysml | P | user | medium | medium | structural | low |
 | vibe-repo-init | P | user | medium | medium | structural | low |
 ---

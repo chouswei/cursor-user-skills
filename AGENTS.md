@@ -53,6 +53,8 @@ Sub-agents / MemNet handoff: follow **User Rules** (async (asynchronous) checkpo
 | Generate Mermaid | create/edit Mermaid, fix diagram syntax | `mermaid` (then `mmdc` / `pretty-mermaid` / `mermaid-doc-readability` per its router) |
 | Diagram format unclear | diagram routing, pyDEXPI for real P&ID, diagram format is unclear | `diagram-routing` |
 | pyDEXPI P&ID | pyDEXPI, DEXPI Proteus, real P&ID | `pydexpi-p-id` |
+| LaTeX ISO 14617 drawing | PIDcircuitTikZ, ISO 14617, TikZ P&ID | `pid-circuit-tikz` |
+| General TikZ figure | TikZ, PGF, LaTeX figure | `tikz` |
 | Markdown to HTML | markdown to html, mdtohtml, render html | `mdtohtml` |
 | DigiKey search | digikey, MPN search, digikey pricing | `mcp-digikey` |
 | Inventree stock | inventree, IPN, inventree part | `mcp-inventree` |

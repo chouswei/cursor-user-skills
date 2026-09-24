@@ -10,3 +10,15 @@ CREATE (:SKG {id: 'SKG_repo'})-[:DEFAULT_STACK {id: 'E_repo_03', note: 'hub', re
 # Example pack relative (uncomment and keep when this repo uses the pack method):
 # CREATE (:SKL {id: 'oosem-workflow', pack: 'user', pattern: 'P', dir: 'P', domain: 'sysml', path: '~/.cursor/skills/oosem-workflow', recycle: 'persistent'})
 # CREATE (:SKL {id: 'repo-context'})-[:COMPLEMENTS {id: 'E_repo_04', note: 'pack_method', recycle: 'persistent'}]->(:SKL {id: 'oosem-workflow'})
+# Diagram / P&ID section. Keep E_diag_01..06. Pack hub copy; pointer edges, not repo SKL bodies.
+# Load diagram-routing when diagram format is unclear. Load pydexpi-p-id for real P&ID / DEXPI / Proteus.
+# Load sfiles2 for flowsheet strings and ggiles for general graph<->string.
+# Load pid-circuit-tikz for LaTeX ISO 14617 drawings (MIT); tikz for general LaTeX figures; topology SSOT remains pyDEXPI; never D2 for P&ID.
+CREATE (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_01', note: 'dexpi_primary', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
+CREATE (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_02', note: 'sfiles', recycle: 'persistent'}]->(:SKL {id: 'sfiles2'})
+CREATE (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_03', note: 'ggiles', recycle: 'persistent'}]->(:SKL {id: 'ggiles'})
+CREATE (:SKL {id: 'diagram-routing'})-[:COMPLEMENTS {id: 'E_diag_04', note: 'anti_pattern_do_not_use_for_pid', recycle: 'persistent'}]->(:SKL {id: 'd2-pid'})
+CREATE (:SKL {id: 'diagram-routing'})-[:PRECEDES {id: 'E_diag_05', note: 'pid_primary', recycle: 'persistent'}]->(:SKL {id: 'pydexpi-p-id'})
+CREATE (:SKL {id: 'diagram-routing'})-[:COMPLEMENTS {id: 'E_diag_06', note: 'sysml_mermaid', recycle: 'persistent'}]->(:SKL {id: 'mermaid'})
+CREATE (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_07', note: 'latex_iso_pid_drawing', recycle: 'persistent'}]->(:SKL {id: 'pid-circuit-tikz'})
+CREATE (:SKL {id: 'diagram-routing'})-[:SPECIALIZES {id: 'E_diag_08', note: 'general_tikz', recycle: 'persistent'}]->(:SKL {id: 'tikz'})
