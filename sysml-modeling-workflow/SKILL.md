@@ -7,7 +7,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: sysml-v2
-  version: "1.17"
+  version: "1.18"
   product: "memnet-llm==0.19.5"
   pairs_with: [sysml-memnet-cache, sysml-memnet-documentation, sysml-gql, sysml-modeling-session-checklist, sysml-root-config, sysml-import-order-helper, sysml-view-doc-sync, mcp-sysml-v2, mcp-memnet, project-planner, sysml-traceability, sysml-behaviour-generator, sysml-requirements-generator, memnet-nested-sessions, memnet-multitask, sysmledge-workflow, oosem-workflow]
 token_guardrails: |
@@ -39,7 +39,7 @@ Every substantive turn on the project model tree **MUST** follow this order. New
 | **2** | `pin_map(kind='TSK', locators=['goal=TSK_model_<short>'], depth=2, max_rows=50)` on the catalog. If the cut has `session=`: next generate `pin_map(..., session=<interior>)`. leftover `anchor=` named leftover. | **READ** |
 | **3** | Locate symbol. Bound + `working_ssot=graph`: product `gql`/`ask` then `propose`. Unbound/repo-based: edit `models/*.sysml` ([read policy](../sysml-memnet-documentation/references/sysml-memnet-read-policy.md): pin map first; Read +/-15 lines at SYM.line only) | -- |
 | **4** | `mcp-sysml-v2 validate` until pass | -- |
-| **5** | `sysml-view-doc-sync` **iff** outputs exist and structure changed. Interconnection figures: **[sysml-interconnection-mermaid](../sysml-interconnection-mermaid/SKILL.md)** before fenced Mermaid. | -- |
+| **5** | `sysml-view-doc-sync` **iff** outputs exist and structure changed. Interconnection figures: **[sysml-interconnection-mermaid](../sysml-interconnection-mermaid/SKILL.md)** before fenced Mermaid. Long requirement `doc`: use **sysml-requirements-generator** v1.5 gate (short parent + nested children) before expanding Markdown. | -- |
 | **6** | **`mutate`** delta + SYM.line refresh; step atoms + settle turn ([pipeline](../sysml-memnet-documentation/references/sysml-memnet-pipeline.md)) | **WRITE** |
 
 **Warm miss** -> initial snap per [sysml-memnet-documentation](../sysml-memnet-documentation/SKILL.md), then step 3.
@@ -93,7 +93,7 @@ Search: `site:groups.google.com/g/sysmlforum`; browse or `site:sysmlforum.com/sy
 - MemNet policy / snap procedure: `sysml-memnet-documentation`
 - Session preflight: `sysml-modeling-session-checklist`
 - New project root/config or load order: `sysml-root-config`, `sysml-import-order-helper`
-- Requirements, refine/derive, traceability, audits: `sysml-requirements-generator`, `sysml-traceability`, `sysml-requirements-audit`
+- Requirements, nested usages (or refine/derive when already used), traceability, audits: `sysml-requirements-generator`, `sysml-traceability`, `sysml-requirements-audit` (COMPLEMENTS with `sysml-view-doc-sync`)
 - Ports, parts, items: `sysml-physical-port-generator`, `sysml-hardware-part-generator`, `sysml-software-port-generator`, `sysml-software-part-generator`, `sysml-item-generator`
 - Wiring, interconnection, outputs sync: `sysml-connections`, `sysml-view-doc-sync` (include `outputs/diagrams/` plant-setup style flows)
 - Behaviour or state machines: `sysml-behaviour-generator`, `sysml-view-doc-sync`

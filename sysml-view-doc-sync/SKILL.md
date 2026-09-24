@@ -1,22 +1,27 @@
 ---
 name: sysml-view-doc-sync
 description: >-
-  After SysML structure/behaviour changes: align projects/<name>/outputs/*.md (system design, interconnection,
-  behaviour) and optional Mermaid; use SysML v2 MCP preview for BDD/IBD checks—not visualizeFile unless user
-  asks. Preserve de facto alignment: markdown must use the same port names and site conventions as deploy
-  (see sysml-traceability/references/de-facto-modeling.md). Interconnection Mermaid: layered topology, short
-  edge labels + legend, one diagram per intent—see references/interconnection-mermaid.md. Commissioning /
-  plant-setup flows: prefer outputs/diagrams/ (e.g. plant-setup-flow.md) from behaviour + requirements.
-  Triggers: sync doc to model, update outputs from deploy, diagram from sysml, IBD markdown,
-  plant-setup flow diagram, operator-facing wiring table.
+  After SysML structure/behaviour changes: align outputs under the path named by repo AGENTS.md
+  (house default sysml-models/outputs/; legacy projects/<name>/outputs/) for system design,
+  interconnection, behaviour, and optional Mermaid; use SysML v2 MCP preview for BDD/IBD
+  checks—not visualizeFile unless user asks. Preserve de facto alignment: markdown must use the
+  same port names and site conventions as deploy (see sysml-traceability/references/de-facto-modeling.md).
+  Interconnection Mermaid: layered topology, short edge labels + legend, one diagram per intent—see
+  references/interconnection-mermaid.md. Commissioning / plant-setup flows: prefer outputs/diagrams/
+  (e.g. plant-setup-flow.md) from behaviour + requirements. Triggers: sync doc to model, update
+  outputs from deploy, diagram from sysml, IBD markdown, plant-setup flow diagram, operator-facing
+  wiring table, wiki summarise model doc, outputs must not duplicate requirement doc.
 metadata:
   pattern: pipeline
-  pairs_with: [mcp-sysml-v2, mermaid, mmdc, sysml-connections, sysml-behaviour-generator, project-output-article, system-design-report-generator]
+  version: "1.4"
+  pairs_with: [mcp-sysml-v2, mermaid, mmdc, sysml-connections, sysml-behaviour-generator, project-output-article, system-design-report-generator, sysml-requirements-generator, sysml-requirements-audit]
 token_guardrails: |
   - Model is source of truth; do not invent structure only in .md.
+  - Outputs path: prefer open-repo **AGENTS.md** then house default **`sysml-models/outputs/`**; legacy **`projects/<name>/outputs/`** only when that tree is what the repo uses.
+  - Normative long prose lives in `.sysml` `doc`. Wiki / `outputs/` / `docs/wiki/` MUST summarise and point at nested requirementIds / part qnames. MUST NOT duplicate parent or child novels.
   - Obey mcp-sysml-v2 references/cursor-mcp-rules.md for preview vs visualizeFile.
   - For interconnection flowcharts: follow references/interconnection-mermaid.md; prefer short Mermaid; validate with mmdc when user wants rendered assets or CI checks diagrams.
-  - Submodule / canonical repo: [project-in-another-repo.mdc](../../../.cursor/rules/project-in-another-repo.mdc), [DOCS_INDEX.md](../../../docs/DOCS_INDEX.md). MBSE vs implementation: [AGENTS.md](../../../AGENTS.md) scope table.
+  - Submodule / canonical repo: [project-in-another-repo.mdc](../../../.cursor/rules/project-in-another-repo.mdc), [DOCS_INDEX.md](../../../docs/DOCS_INDEX.md). MBSE vs implementation: open-repo [AGENTS.md](../../../AGENTS.md) scope table when present.
   - `outputs/*.md` are for human reading: keep prose short, precise, and non-redundant. Use tables or bullets for dense wiring detail instead of long paragraphs.
   - **UTF-8 encoding:** All `.md` files must be saved as UTF-8 (no BOM, no mixed encoding). When syncing from model, preserve UTF-8 throughout. If editing `.md` in an editor, ensure UTF-8 is the output encoding.
   - After substantive .sysml changes: run sysml-modeling-workflow step 6 (MemNet delta + line refresh).
@@ -47,10 +52,11 @@ This skill should help the report read cleanly, not just stay mechanically synce
 
 ## Pipeline
 
-1. **Identify outputs** — `projects/<name>/outputs/` — which `.md` (or **`system-design-report/`** hub + `*.md` sections) reference deploy part names, connections, states (see project README or DOCS_INDEX). For packs, read **hub `llm_toc`** first, then the **section `file`** you need.
+1. **Identify outputs** — Prefer path from open-repo **`AGENTS.md`**, else house default **`sysml-models/outputs/`** (legacy **`projects/<name>/outputs/`** when that is the live tree). Which `.md` (or **`system-design-report/`** hub + `*.md` sections) reference deploy part names, connections, states. For packs, read **hub `llm_toc`** first, then the **section `file`** you need.
 
-2. **Diff narrative** — Update sections: architecture, part tree, connection summary, behaviour states, **requirements traceability** (`10-requirements-traceability.md` or pack equivalent -- parent/child requirementIds + satisfy) — **from** grep/read of deploy, behaviour, and requirements files, not from memory. Copy **exact** qualified port paths from deploy for tables (de facto wiring).
+2. **Diff narrative** -- Update sections: architecture, part tree, connection summary, behaviour states, **requirements traceability** (`10-requirements-traceability.md` or pack equivalent -- nested requirementIds + satisfy) -- **from** MemNet `pin_map` / SYM-guided Read of deploy, behaviour, and requirements, not from memory. Copy **exact** qualified port paths from deploy for tables (de facto wiring).
    Keep prose terse and factual; avoid repeating port lists in multiple paragraphs when one table or caption suffices.
+   **Long model `doc`:** Prefer a short summary plus pointer to **nested requirementIds** (and part qname / `.sysml` path). MUST NOT paste the full parent or child `doc` into wiki or `outputs/`. If a parent requirement `doc` is still a labelled novel (many headings, no short parent + nested children), hand back to **sysml-requirements-generator** (long doc decomposition / v1.5 gate) before expanding Markdown.
 
 3. **Mermaid (system / interconnection)** — Load **[sysml-interconnection-mermaid](../sysml-interconnection-mermaid/SKILL.md)** first. Model-first inventory: [architecture-diagrams](../mermaid/references/architecture-diagrams.md). Placement: MemNet `TSK_diagram_*` or Markdown `DiagramPlan` per [mermaid-placement-by-degree](../mermaid/references/mermaid-placement-by-degree.md) **before** fenced blocks. Layout/legend: [interconnection-mermaid.md](references/interconnection-mermaid.md):
    - **Traceability:** part usage names and **exact `link*` edge labels** from deploy (and nested PCBA def for `linkMcuTo*` / `linkPowerTo*`).
@@ -63,7 +69,7 @@ This skill should help the report read cleanly, not just stay mechanically synce
    - **Optional:** `classDef` for office vs field vs terminal; directed `-->` from switch to field legs where it aids reading.
    - **Validate AFTER edit:** Run `mmdc -i <diagram>.mmd` to catch parse errors before rendering or export. **Fix all errors before finalizing.**
 
-3b. **Commissioning / plant-setup diagrams** — When behaviour defines ordered setup or power-cycle recovery, add or refresh a flowchart under **`outputs/diagrams/`** (e.g. **`plant-setup-flow.md`**): steps from the model (sticky reservation → transport → switch visibility → inventory commit); cite parent requirementIds / action names; **no invented architecture** in the diagram alone. Keep site addresses out of **shared** skill templates -- diagrams may mirror the project's modelled examples.
+3b. **Commissioning / plant-setup diagrams** — When behaviour defines ordered setup or power-cycle recovery, add or refresh a flowchart under **`outputs/diagrams/`** (e.g. **`plant-setup-flow.md`**): steps from the model (sticky reservation → transport → switch visibility → inventory commit); cite parent and nested requirementIds / action names; **no invented architecture** in the diagram alone. Keep site addresses out of **shared** skill templates -- diagrams may mirror the project's modelled examples.
 4. **SysML diagrams** — **SysML v2 MCP preview** for structural sanity; **not** **visualizeFile** / **visualize.py** unless user explicitly asks ([cursor-mcp-rules](../mcp-sysml-v2/references/cursor-mcp-rules.md)).
 
 5. **Optional HTML IBD** — If the project defines `ibd_html_path` in `config.yaml`, run `visualize.py --diagram ibd --format html` after deploy edits so **generated** Mermaid matches the model; align **manual** diagrams in `.md` per step 3.

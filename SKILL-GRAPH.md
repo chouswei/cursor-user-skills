@@ -89,6 +89,18 @@ Pattern codes: `G`=Generator, `R`=Reviewer, `P`=Pipeline, `T`=Tool-wrapper.
 
 Then at most one specialist SKL from `TRIGGERS` match. **Repo graph first** for project SKL. Pack `AGENTS.md` / pack seed for pack methods. `SysMLEdgePrj-*` open gate: `sysmledge-repo-management`. SysMLEdge day loop: `sysmledge-workflow`. SysMLEdge product face: `mcp-sysmledge`. SysMLEdge Cursor Multitask (tip!=face): `sysmledge-cursor-multitask`. OOSEM method cycle: `oosem-workflow`.
 
+```cypher
+(:TRG {id: 'trg-sysml-long-doc-decomp', phrase: 'long doc decomposition', recycle: 'persistent'})-[:TRIGGERS {id: 'E_sys_doc_01', note: 'structured SysML doc blocks', recycle: 'persistent'}]->(:SKL {id: 'sysml-requirements-generator'})
+(:TRG {id: 'trg-sysml-doc-split', phrase: 'SysML documentation split', recycle: 'persistent'})-[:TRIGGERS {id: 'E_sys_doc_02', note: 'nested req or sectioned doc', recycle: 'persistent'}]->(:SKL {id: 'sysml-requirements-generator'})
+(:TRG {id: 'trg-sysml-long-doc-sync', phrase: 'wiki summarise model doc', recycle: 'persistent'})-[:TRIGGERS {id: 'E_sys_doc_03', note: 'outputs point at model doc', recycle: 'persistent'}]->(:SKL {id: 'sysml-view-doc-sync'})
+(:SKL {id: 'sysml-requirements-generator'})-[:COMPLEMENTS {id: 'E_sys_doc_04', note: 'decompose then sync', recycle: 'persistent'}]->(:SKL {id: 'sysml-view-doc-sync'})
+(:SKL {id: 'sysml-requirements-audit'})-[:COMPLEMENTS {id: 'E_sys_doc_05', note: 'audit then generate', recycle: 'persistent'}]->(:SKL {id: 'sysml-requirements-generator'})
+(:SKL {id: 'sysml-requirements-audit'})-[:COMPLEMENTS {id: 'E_sys_doc_06', note: 'audit then sync', recycle: 'persistent'}]->(:SKL {id: 'sysml-view-doc-sync'})
+(:SKL {id: 'sysml-requirements-generator'})-[:COMPLEMENTS {id: 'E_sys_doc_07', note: 'generate then audit', recycle: 'persistent'}]->(:SKL {id: 'sysml-requirements-audit'})
+```
+
+Load `sysml-requirements-generator` when long requirement/part `doc` must be decomposed: parent stays short (purpose + SHALL list + pointers); long prose on nested children (one topic each; nested usage is the hierarchy -- prose "refines" is not a SysML refine). MUST NOT treat a multi-heading parent novel as done. Load `sysml-view-doc-sync` when wiki / `outputs/` (prefer repo AGENTS.md / `sysml-models/outputs/`) must summarise and point at nested requirementIds without duplicating parent or child novels. COMPLEMENTS: audit <-> generator <-> view-doc-sync.
+
 ## Skill-graph tooling stack (pack relatives, not prose)
 
 ```cypher
