@@ -200,6 +200,21 @@ Load `clickup-project-management` when running work in ClickUp (plan this in Cli
 
 ---
 
+## Commercial service proposal (pack)
+
+```cypher
+(:TRG {id: 'trg-service-proposal', phrase: 'service proposal', recycle: 'persistent'})-[:TRIGGERS {id: 'E_sp_00', recycle: 'persistent'}]->(:SKL {id: 'service-proposal'})
+(:TRG {id: 'trg-customer-offer', phrase: 'customer offer', recycle: 'persistent'})-[:TRIGGERS {id: 'E_sp_01', recycle: 'persistent'}]->(:SKL {id: 'service-proposal'})
+(:TRG {id: 'trg-pandadoc-proposal', phrase: 'PandaDoc proposal', recycle: 'persistent'})-[:TRIGGERS {id: 'E_sp_02', recycle: 'persistent'}]->(:SKL {id: 'service-proposal'})
+(:TRG {id: 'trg-recast-plan-proposal', phrase: 'recast plan to proposal', recycle: 'persistent'})-[:TRIGGERS {id: 'E_sp_03', recycle: 'persistent'}]->(:SKL {id: 'service-proposal'})
+(:SKL {id: 'tech-report-generator'})-[:SPECIALIZES {id: 'E_sp_04', note: 'customer_offer_not_eng_report', recycle: 'persistent'}]->(:SKL {id: 'service-proposal'})
+(:SKL {id: 'service-proposal'})-[:COMPLEMENTS {id: 'E_sp_05', note: 'intake_then_offer', recycle: 'persistent'}]->(:SKL {id: 'project-planner'})
+```
+
+Load `service-proposal` for a customer-facing commercial offer (PandaDoc section order; We offer vs CFE). MUST NOT use it for SOPs, lab cal notes, engineering design dumps, RFCs, or tech reports -- those stay on their own skills.
+
+---
+
 ## Maintenance & Operations (Create, Update, Use)
 
 ```cypher
