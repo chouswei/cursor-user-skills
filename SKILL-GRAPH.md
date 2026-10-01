@@ -174,6 +174,26 @@ Load `physics-constrained-surrogate-routing` when choosing among ENFORCE / ReLU-
 
 Load `diagram-routing` when diagram format is unclear. Load `pydexpi-p-id` for real P&ID / DEXPI / Proteus (AGPL-3.0 -- flag before proprietary redistribute). Load `sfiles2` (MIT) for flowsheet strings and `ggiles` (MIT) for general graph<->string. Load `pid-circuit-tikz` for LaTeX ISO 14617 drawings (MIT). Load `tikz` for general LaTeX figures. Topology SSOT remains pyDEXPI. Never D2 for P&ID. **Do not** load `d2-pid` as a P&ID path -- it is an anti-pattern stub (D2 is architecture posters only; never P&ID). `chemistry-routing` is not in this pack.
 
+## LaTeX / PDF (Endleaf != Overleaf)
+
+Endleaf is not Overleaf. MUST NOT substitute.
+
+```cypher
+(:TRG {id: 'trg-endleaf-md-tikz', phrase: 'Endleaf/InkMirage PDF from Markdown/tikz', recycle: 'persistent'})-[:TRIGGERS {id: 'E_end_00', recycle: 'persistent'}]->(:SKL {id: 'mcp-endleaf'})
+(:TRG {id: 'trg-endleaf-named-playbook', phrase: 'Endleaf named playbook PDF (tikzcd forest automata mindmap tikztiming bytefield)', recycle: 'persistent'})-[:TRIGGERS {id: 'E_end_00b', recycle: 'persistent'}]->(:SKL {id: 'mcp-endleaf'})
+(:TRG {id: 'trg-endleaf-sysml-before-fulldoc', phrase: 'Endleaf SysML figure check before fulldoc', recycle: 'persistent'})-[:TRIGGERS {id: 'E_end_00c', recycle: 'persistent'}]->(:SKL {id: 'mcp-endleaf'})
+(:TRG {id: 'trg-endleaf-sysml-position-length', phrase: 'Endleaf SysML POSITION/LENGTH box size (0.62 em widest line)', recycle: 'persistent'})-[:TRIGGERS {id: 'E_end_00d', recycle: 'persistent'}]->(:SKL {id: 'mcp-endleaf'})
+(:TRG {id: 'trg-overleaf-repo-tex', phrase: 'Overleaf Free Cloud compile of repo TeX', recycle: 'persistent'})-[:TRIGGERS {id: 'E_end_01', recycle: 'persistent'}]->(:SKL {id: 'overleaf-free-cloud-olcli-mcp'})
+(:SKL {id: 'mcp-endleaf'})-[:COMPLEMENTS {id: 'E_end_02', note: 'templated_md_not_repo_article', recycle: 'persistent'}]->(:SKL {id: 'overleaf-free-cloud-olcli-mcp'})
+```
+
+| Intent | Skill |
+|--------|--------|
+| Endleaf/InkMirage PDF from Markdown/tikz or a named playbook | `mcp-endleaf` |
+| Overleaf Free Cloud compile of repo TeX | `overleaf-free-cloud-olcli-mcp` |
+
+Load `mcp-endleaf` for a templated Endleaf render (`user-endleaf`). Live playbook ids (verify with `listPlaybooks`): `document-shell`, `pidcircuit`, `circuits`, `plots`, `chemistry`, `gantt`, `floorplan`, `sysml`, `fulldoc` (PDF only), `tikzcd`, `forest`, `automata`, `mindmap`, `tikztiming`, `bytefield`. MUST NOT add a skill per playbook. SysML canvases: MUST size boxes with POSITION/LENGTH (widest canvas line at 0.62 em per character, nLines * 1.35 em height, port pitch >= labelWidth + 4 mm, reserved port-label rectangles); MUST NOT use mean Latin 0.50-0.55 em. Sheet B MUST draw internal `\sysmlport`; inner interconnect MUST look like a SysON interconnection view (nested parts in a parent frame, ports on borders, connectors between ports). MUST render each SysML figure alone (`templateId` `sysml`) before assembling `fulldoc`; MUST NOT use `fulldoc` as the first layout debug loop. After sheets pass, embed the same picture body in `fulldoc`. Mermaid, D2, and tikz-feynman are refused. Steal reviews of foreign TikZ or Endleaf sources MUST extract geometry principles (size from token, reserved label rectangles, one intent per sheet, figure-alone check). MUST NOT stop at relatedness to this stack. MUST NOT replace sysml-tikz or smuggle preamble, Mermaid, or shrink-to-fit. Load `overleaf-free-cloud-olcli-mcp` to compile a repo `\documentclass` pack on Overleaf Free Cloud (`user-overleaf`, olcli cookie). Local `.tex` stays `mcp-latex`.
+
 ---
 
 ## ClickUp project-management stack (graph edges, not prose)
