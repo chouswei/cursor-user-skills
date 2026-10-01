@@ -33,12 +33,14 @@ Lead with geometry. Steal reviews of foreign TikZ or Endleaf sources MUST extrac
 - **Size from the token, do not hope auto-fit:** widest line, 0.62 em/char at >=8 pt Heros, nLines includes stereotype + name + type, pad, 7 pt floor.
 - **Position is a reserved rectangle:** labels MUST NOT share space with parts, ports, or connectors; port pitch from labelWidth + 4 mm; route around gutters.
 - **One intent per sheet:** owner-lock Sheet A vs B. Sheet A system context MAY show usages and peers as `\sysmlguillemets{part}`. Inner IBD of a part definition: outer frame MUST be `\sysmlguillemets{part def}` (def name only); nested boxes MUST be `\sysmlguillemets{part}` usages; ports on borders; connectors on port edges (SysON interconnection). MUST NOT draw part-in-part as a type IBD.
-- **Check the figure alone:** `templateId` `sysml` before `fulldoc`. Compile success is not ship.
+- **Check the figure alone:** `templateId` `sysml` before `fulldoc`. Compile success is not ship. Scan page images, not the PDF byte stream.
 - **Foreign recipes donate principles only:** block diagrams, TikZJax, book listings, smartdiagram MAY donate a principle (named nodes, `positioning`, no unpositioned edge labels). MUST NOT replace sysml-tikz or smuggle preamble, Mermaid, D2, or shrink-to-fit.
 
 ## Composition Law (first-class across all kinds)
 
-Geometry MUST is Principles. This section is the scan and type stack. Composition law outranks macros. Sufficiency is an arm's-length human scan of the figure, not a TeX compile. Soft-pass "TeX compiled = ship" is forbidden. Compile success with crushed or colliding text is FAIL. Fail = re-layout; do not kern tighter.
+Geometry MUST is Principles. This section is the scan and type stack. Composition law outranks macros. Sufficiency is an arm's-length scan of rendered **page images**, not a TeX compile. Soft-pass "TeX compiled = ship" is forbidden. Compile success with crushed or colliding text is FAIL. Fail = re-layout; do not kern tighter.
+
+- **Page images only:** Judge Composition Law from MCP/client page previews, or from a screenshot the operator attached. MUST NOT load the PDF file body, base64, or raw bytes into the model context as tokens. MUST NOT treat a `%PDF` header, byte count, or page-count metadata as visual proof. A repo-saved `.pdf` is an editor copy only; MUST NOT Read-as-binary or `cat` that file as the check. If the client surfaces page images from `renderDocument`, use those. If it does not, ask the operator or use a small screenshot. MUST NOT ingest the whole stream.
 
 - **Landscape (prefer over shrink):** Prefer a landscape page over shrink-to-fit or overlapping labels when supported.
 - **Typography (first-class):** Worker owns preamble. Body/prose: TeX Gyre Pagella (`tgpagella`, 10 pt on `fulldoc` and `document-shell`). Headings: Pagella scale. Sans/diagram labels: TeX Gyre Heros (`tgheros`). Mono/tokens: TeX Gyre Cursor (`tgcursor`). zh-TW/CJK: xeCJK with Noto Sans CJK TC.

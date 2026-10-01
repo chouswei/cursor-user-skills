@@ -10,17 +10,19 @@ description: >-
   height); MUST NOT use mean Latin 0.50-0.55 em.
   Steal reviews of foreign TikZ or Endleaf sources MUST extract geometry
   principles; MUST NOT stop at relatedness to this stack.
+  Judge Composition Law from page images; MUST NOT ingest PDF body, base64, or raw bytes.
   MUST NOT compile a repo documentclass pack here -- that is Overleaf
   (overleaf-free-cloud-olcli-mcp) or local latex.
   Triggers: Endleaf, InkMirage Endleaf, endleaf MCP, document-shell,
   fulldoc, sysml-tikz Endleaf, SysML POSITION/LENGTH, Sheet B
   internal ports, part def inner IBD frame, sysml before fulldoc, SysON interconnection view,
   steal TikZ principles, foreign Endleaf review, circuitikz Endleaf
-  fence, tikzcd, forest, automata, mindmap, tikztiming, bytefield.
+  fence, tikzcd, forest, automata, mindmap, tikztiming, bytefield,
+  page images not PDF bytes.
 metadata:
   pattern: tool-wrapper
   domain: doc
-  version: "1.9"
+  version: "1.10"
   secondary: "guide getting-started first, then getPlaybook; SysML figures: one sysml job each before fulldoc; steal reviews extract Principles; Endleaf != Overleaf"
 ---
 
@@ -43,8 +45,8 @@ Cursor `renderDocument.templateId` enum on the same session still listed the ori
 1. Call `guide` first with `topic` `getting-started`. Load Principles before any kind. Other topics: `tikz`, `pidcircuit`, `circuits`, `xecjk`, `quotas`, `teaching`.
 2. Call `getPlaybook` with `kind` equal to the `templateId`. Call `listPlaybooks` when the kind is unclear. Reads do not spend a render.
 3. Load [references/render-contract.md](references/render-contract.md) and [references/kinds.md](references/kinds.md).
-4. SysML canvases (including those later embedded in `fulldoc`): MUST apply Principles before place. MUST call `renderDocument` once per figure with `templateId` `sysml` and that picture body only. Scan each PDF against Principles (size, reserved rectangles, one intent, ports on connectors). MUST NOT use `fulldoc` as the first layout debug loop. After every sheet passes, embed the same picture body in `fulldoc` and then call `renderDocument` for `fulldoc`. Other kinds: one `renderDocument`.
-5. The result is inline bytes, not stored. If the user asked for a file, write those bytes to the requested local path.
+4. SysML canvases (including those later embedded in `fulldoc`): MUST apply Principles before place. MUST call `renderDocument` once per figure with `templateId` `sysml` and that picture body only. Judge each sheet against Principles from rendered **page images** (size, reserved rectangles, one intent, ports on connectors). MUST NOT use `fulldoc` as the first layout debug loop. After every sheet passes, embed the same picture body in `fulldoc` and then call `renderDocument` for `fulldoc`. Other kinds: one `renderDocument`.
+5. The worker result is a file stream, not a stored product URL. If the user asked for a file, write it to the requested local path with a tool that does not echo the stream into the model. A repo-saved `.pdf` is an editor copy only.
 6. On tool `isError`, read `errorText` / `errorLine` / `failedFenceIndex` / `playbookKind`. Fix the body from those fields. Resend once per change. MUST NOT resend the identical failing body. MUST NOT loop. A failed, timed-out, busy, or refused render does NOT spend a job.
 
 ## Principles (MUST)
@@ -54,7 +56,7 @@ Lead with these geometry principles when authoring SysML canvases and when revie
 - **Size from the token, do not hope auto-fit:** Box width from the widest canvas line at 0.62 em per character at TeX Gyre Heros >=8 pt; nLines counts stereotype + usage name + type; add pad; 7 pt absolute floor. MUST NOT rely on `sysmlcanvas` auto-shrink or a mean Latin 0.50-0.55 em.
 - **Position is a reserved rectangle:** Labels MUST NOT share space with parts, port squares, or connectors. Port pitch MUST be >= labelWidth + 4 mm. Route connectors around those gutters.
 - **One intent per sheet:** Owner-lock Sheet A versus Sheet B. Sheet A is system context: usages and peers MUST be `\sysmlguillemets{part}`. Sheet B is one child's internals. Inner IBD of a part definition MUST draw the outer frame as `\sysmlguillemets{part def}` (def name only) and nested boxes as `\sysmlguillemets{part}` usages (example: if Sheet B is the definition of `EiTungstenWirePowerDriver`, the frame MUST be part def). MUST NOT draw part-in-part as a type IBD (that is a usage/configuration view). Inner IBD MUST place ports on borders and connectors on port edges (SysON interconnection view). MUST NOT mix A and B on one canvas.
-- **Check the figure alone:** Render each canvas with `templateId` `sysml` before `fulldoc`. Compile success is not ship. Sufficiency is an arm's-length scan of that PDF.
+- **Check the figure alone:** Render each canvas with `templateId` `sysml` before `fulldoc`. Compile success is not ship. Sufficiency is an arm's-length scan of **page images**.
 - **Foreign recipes donate principles only:** Block diagrams, TikZJax, book listings, and smartdiagram MAY donate a principle (named nodes, `positioning`, no unpositioned edge labels). MUST NOT replace sysml-tikz. MUST NOT smuggle a foreign preamble, Mermaid, D2, or shrink-to-fit.
 
 Detail and macro tables stay in [references/kinds.md](references/kinds.md) and [references/render-contract.md](references/render-contract.md).
@@ -78,7 +80,9 @@ Default `outputFormat` is `pdf` when the user does not name a format. `guide` `g
 
 ## Composition Law (first-class)
 
-Geometry MUST is Principles. This section is the scan and type stack. Composition law overrides macro tips across every Endleaf kind. Sufficiency is an arm's-length human scan of the figure, not a TeX compile. Soft-pass "TeX compiled = ship" is forbidden. Compile success with crushed or colliding text is FAIL. Fail = re-layout; do not kern tighter.
+Geometry MUST is Principles. This section is the scan and type stack. Composition law overrides macro tips across every Endleaf kind. Sufficiency is an arm's-length scan of rendered **page images**, not a TeX compile. Soft-pass "TeX compiled = ship" is forbidden. Compile success with crushed or colliding text is FAIL. Fail = re-layout; do not kern tighter.
+
+- **Page images only:** Judge Composition Law from MCP/client page previews, or from a screenshot the operator attached. MUST NOT load the PDF file body, base64, or raw bytes into the model context as tokens. MUST NOT treat a `%PDF` header, byte count, or page-count metadata as visual proof. MUST NOT Read-as-binary or `cat` a repo `.pdf` as the check. If the client surfaces page images from `renderDocument`, use those. If it does not, ask the operator or use a small screenshot. MUST NOT ingest the whole stream.
 
 - **Landscape:** Prefer landscape over shrink-to-fit or overlapping labels when supported.
 - **Typography:** Worker preamble owns the single type stack. Body and prose: TeX Gyre Pagella (`tgpagella`, 10 pt on `fulldoc` and `document-shell`). Headings: Pagella scale. Sans and diagram labels: TeX Gyre Heros (`tgheros`). Mono/tokens: TeX Gyre Cursor (`tgcursor`). zh-TW/CJK: xeCJK with Noto Sans CJK TC.

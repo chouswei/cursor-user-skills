@@ -45,7 +45,7 @@ From `guide` `quotas` (2026-10-01): `jobsPerDay` 200, `perMinute` 5, `maxInputKi
 - `uploadSource` does not spend a render.
 - Reading `guide` or `getPlaybook` does not spend a render.
 - A failed, timed-out, busy, or refused render does NOT spend a job. Fix the source and send it again. MUST NOT loop.
-- Result is inline bytes, not stored. Write bytes to a local path when the user requests a file.
+- Result is a file stream, not a stored product URL. Write it to a local path when the user requests a file. MUST NOT paste, echo, or tokenise that stream (base64 or raw) into the model context.
 
 Playbook `Limits` tails may still print legacy `jobsPerDay=50` and `maxInputKiB=256`. MUST prefer `guide` `quotas`.
 
@@ -55,11 +55,13 @@ Playbook `Limits` still enforce `maxFences=5` under `document-shell`.
 
 ## Principles (MUST)
 
-Lead with geometry. Steal reviews MUST extract transferable principles from foreign TikZ or Endleaf sources. MUST NOT stop at relatedness. MUST NOT invent new sizing math. Size from the token (widest line, 0.62 em/char, nLines = stereotype + name + type, pad, 7 pt floor). Position is a reserved rectangle (port pitch >= labelWidth + 4 mm; route around gutters). One intent per sheet; owner-lock Sheet A vs B. Sheet A system context MAY show usages as `\sysmlguillemets{part}`. Inner IBD of a part definition: outer frame MUST be `\sysmlguillemets{part def}`; nested boxes MUST be `\sysmlguillemets{part}` usages; SysON interconnection. MUST NOT draw part-in-part as a type IBD. Check `templateId` `sysml` before `fulldoc`; compile success is not ship. Foreign recipes MAY donate a principle (named nodes, `positioning`, no unpositioned edge labels). MUST NOT replace sysml-tikz or smuggle preamble, Mermaid, D2, or shrink-to-fit.
+Lead with geometry. Steal reviews MUST extract transferable principles from foreign TikZ or Endleaf sources. MUST NOT stop at relatedness. MUST NOT invent new sizing math. Size from the token (widest line, 0.62 em/char, nLines = stereotype + name + type, pad, 7 pt floor). Position is a reserved rectangle (port pitch >= labelWidth + 4 mm; route around gutters). One intent per sheet; owner-lock Sheet A vs B. Sheet A system context MAY show usages as `\sysmlguillemets{part}`. Inner IBD of a part definition: outer frame MUST be `\sysmlguillemets{part def}`; nested boxes MUST be `\sysmlguillemets{part}` usages; SysON interconnection. MUST NOT draw part-in-part as a type IBD. Check `templateId` `sysml` before `fulldoc`; compile success is not ship; judge from page images. Foreign recipes MAY donate a principle (named nodes, `positioning`, no unpositioned edge labels). MUST NOT replace sysml-tikz or smuggle preamble, Mermaid, D2, or shrink-to-fit.
 
 ## Composition Law (first-class)
 
-Geometry MUST is Principles. This section is the scan and type stack. Composition law overrides macro tips across every Endleaf kind. Sufficiency is an arm's-length human scan of the figure, not a TeX compile. Soft-pass "TeX compiled = ship" is forbidden. Compile success with crushed or colliding text is FAIL. Fail = re-layout; do not kern tighter to hide a collision.
+Geometry MUST is Principles. This section is the scan and type stack. Composition law overrides macro tips across every Endleaf kind. Sufficiency is an arm's-length scan of rendered **page images**, not a TeX compile. Soft-pass "TeX compiled = ship" is forbidden. Compile success with crushed or colliding text is FAIL. Fail = re-layout; do not kern tighter to hide a collision.
+
+- **Page images only:** Judge Composition Law from MCP/client page previews, or from a screenshot the operator attached. MUST NOT load the PDF file body, base64, or raw bytes into the model context as tokens. MUST NOT treat a `%PDF` header, byte count, or page-count metadata as visual proof. A repo-saved `.pdf` is an editor copy only; MUST NOT Read-as-binary or `cat` that file as the check. If the client surfaces page images from `renderDocument`, use those. If it does not, ask the operator or use a small screenshot. MUST NOT ingest the whole stream.
 
 - **Landscape:** Prefer a landscape page over shrink-to-fit or overlapping labels when supported.
 - **Typography:** Worker preamble owns the single type stack. Body and prose: TeX Gyre Pagella (`tgpagella`, 10 pt on `fulldoc` and `document-shell`). Headings: Pagella scale. Sans and diagram labels: TeX Gyre Heros (`tgheros`). Mono/tokens: TeX Gyre Cursor (`tgcursor`). zh-TW/CJK: xeCJK with Noto Sans CJK TC.
@@ -118,10 +120,10 @@ Sheet B inner interconnect MUST look like a SysML/SysON interconnection view, no
 
 ## SysML figure check before fulldoc
 
-MUST call `renderDocument` once per SysML canvas with `templateId` `sysml` and that picture body only. Scan each PDF against Principles (size, reserved rectangles, one intent, ports on connectors). MUST NOT use `fulldoc` as the first layout debug loop. After every sheet passes, embed the same picture body in `fulldoc` and then render `fulldoc`. A failed, timed-out, busy, or refused render does NOT spend a job. Each successful `sysml` or `fulldoc` render spends one job.
+MUST call `renderDocument` once per SysML canvas with `templateId` `sysml` and that picture body only. Scan each sheet against Principles from rendered page images (size, reserved rectangles, one intent, ports on connectors). MUST NOT use `fulldoc` as the first layout debug loop. After every sheet passes, embed the same picture body in `fulldoc` and then render `fulldoc`. A failed, timed-out, busy, or refused render does NOT spend a job. Each successful `sysml` or `fulldoc` render spends one job.
 
 ## Not Overleaf
 
 MUST NOT use Endleaf to compile a repo `\documentclass{article}` tree with its own preamble and figures. That stays Overleaf (`user-overleaf`) or local latex. `fulldoc` is one worker-owned article body, not a repo pack.
 
-Retrieval seeds: Endleaf, InkMirage, renderDocument, guide, getPlaybook, templateId, document-shell, fulldoc, sysml, tikzcd, forest, automata, mindmap, tikztiming, bytefield, lane, InstruMeasure, Weft, Investor, outputFormat, pdf, html, docx, quota, 200, 2048 KiB, rejectInvalidInput, rejectRenderError, circuitikz, sysml-tikz, no preamble, not Overleaf, POSITION/LENGTH, 0.62 em, nLines, port pitch, reserved rectangle, sysmlport, Sheet B, part def frame, part usage, sysml before fulldoc, SysON interconnection view, Principles, steal review, foreign TikZ
+Retrieval seeds: Endleaf, InkMirage, renderDocument, guide, getPlaybook, templateId, document-shell, fulldoc, sysml, tikzcd, forest, automata, mindmap, tikztiming, bytefield, lane, InstruMeasure, Weft, Investor, outputFormat, pdf, html, docx, quota, 200, 2048 KiB, rejectInvalidInput, rejectRenderError, circuitikz, sysml-tikz, no preamble, not Overleaf, POSITION/LENGTH, 0.62 em, nLines, port pitch, reserved rectangle, sysmlport, Sheet B, part def frame, part usage, sysml before fulldoc, SysON interconnection view, Principles, steal review, foreign TikZ, page images, MUST NOT ingest PDF bytes, base64
