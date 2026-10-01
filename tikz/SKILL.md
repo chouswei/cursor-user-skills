@@ -31,7 +31,7 @@ Docs: https://www.overleaf.com/learn/latex/TikZ_package
 4. Prefer named `\node` + `positioning` when the figure will grow.
 5. Compile with pdflatex/lualatex when available; else deliver `.tex` + deps.
 
-When reviewing a foreign TikZ or Endleaf listing (block diagrams, TikZJax, book examples, smartdiagram), extract transferable geometry principles (named nodes, `positioning`, no unpositioned edge labels, reserved space for labels). MUST NOT score the source as highly related or not related to this stack and stop. MUST NOT replace Endleaf sysml-tikz, smuggle a foreign preamble, Mermaid, or shrink-to-fit. Endleaf SysML sizing and ports stay [mcp-endleaf](../mcp-endleaf/SKILL.md) Principles.
+When reviewing a foreign TikZ or Endleaf listing (block diagrams, TikZJax, book examples, smartdiagram), extract transferable geometry principles (named nodes, `positioning`, no unpositioned edge labels, reserved space for labels). MUST NOT score the source as highly related or not related to this stack and stop. MUST NOT replace Endleaf sysml-tikz, smuggle a foreign preamble, Mermaid, or shrink-to-fit. Endleaf SysML sizing, ports, and inner IBD frame (`\sysmlguillemets{part def}` outer; `\sysmlguillemets{part}` nested usages) stay [mcp-endleaf](../mcp-endleaf/SKILL.md) Principles.
 
 ## Minimal skeleton
 

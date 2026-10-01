@@ -14,13 +14,13 @@ description: >-
   (overleaf-free-cloud-olcli-mcp) or local latex.
   Triggers: Endleaf, InkMirage Endleaf, endleaf MCP, document-shell,
   fulldoc, sysml-tikz Endleaf, SysML POSITION/LENGTH, Sheet B
-  internal ports, sysml before fulldoc, SysON interconnection view,
+  internal ports, part def inner IBD frame, sysml before fulldoc, SysON interconnection view,
   steal TikZ principles, foreign Endleaf review, circuitikz Endleaf
   fence, tikzcd, forest, automata, mindmap, tikztiming, bytefield.
 metadata:
   pattern: tool-wrapper
   domain: doc
-  version: "1.8"
+  version: "1.9"
   secondary: "guide getting-started first, then getPlaybook; SysML figures: one sysml job each before fulldoc; steal reviews extract Principles; Endleaf != Overleaf"
 ---
 
@@ -53,7 +53,7 @@ Lead with these geometry principles when authoring SysML canvases and when revie
 
 - **Size from the token, do not hope auto-fit:** Box width from the widest canvas line at 0.62 em per character at TeX Gyre Heros >=8 pt; nLines counts stereotype + usage name + type; add pad; 7 pt absolute floor. MUST NOT rely on `sysmlcanvas` auto-shrink or a mean Latin 0.50-0.55 em.
 - **Position is a reserved rectangle:** Labels MUST NOT share space with parts, port squares, or connectors. Port pitch MUST be >= labelWidth + 4 mm. Route connectors around those gutters.
-- **One intent per sheet:** Owner-lock Sheet A versus Sheet B. Inner IBD MUST be parent frame + nested parts + ports on borders + connectors on port edges (SysON interconnection view). MUST NOT mix A and B on one canvas.
+- **One intent per sheet:** Owner-lock Sheet A versus Sheet B. Sheet A is system context: usages and peers MUST be `\sysmlguillemets{part}`. Sheet B is one child's internals. Inner IBD of a part definition MUST draw the outer frame as `\sysmlguillemets{part def}` (def name only) and nested boxes as `\sysmlguillemets{part}` usages (example: if Sheet B is the definition of `EiTungstenWirePowerDriver`, the frame MUST be part def). MUST NOT draw part-in-part as a type IBD (that is a usage/configuration view). Inner IBD MUST place ports on borders and connectors on port edges (SysON interconnection view). MUST NOT mix A and B on one canvas.
 - **Check the figure alone:** Render each canvas with `templateId` `sysml` before `fulldoc`. Compile success is not ship. Sufficiency is an arm's-length scan of that PDF.
 - **Foreign recipes donate principles only:** Block diagrams, TikZJax, book listings, and smartdiagram MAY donate a principle (named nodes, `positioning`, no unpositioned edge labels). MUST NOT replace sysml-tikz. MUST NOT smuggle a foreign preamble, Mermaid, D2, or shrink-to-fit.
 
@@ -86,7 +86,7 @@ Geometry MUST is Principles. This section is the scan and type stack. Compositio
 ## Core kinds summary
 
 - `document-shell`: Markdown body; native `pdf`, `html`, `docx`. Up to 5 `tikz` fences (`{.tikz caption="..." alt="..."}`). Fences support `circuitikz`, `ganttchart`, `tikzcd`, `forest`, `automata`, `mindmap`, `tikztimingtable`, `bytefield`. Mermaid and D2 fences are refused.
-- `sysml`: LaTeX picture body, `sysmlfigure` + `sysmlcanvas` (mm, y down). MUST size each part box with POSITION/LENGTH in kinds.md before place. MUST NOT rely on `sysmlcanvas` auto-shrink or draw a tiny box then hope the token fits. MUST NOT pack MPNs or the canvas words `CANDIDATE`, `MAY`, `TBD`, `SHOULD`. Owner lock: one layer per diagram (Sheet A = boundary ports + black-box children + peers; Sheet B = one child's internals WITH `\sysmlport` on every connected nested part). MUST NOT omit Sheet B ports because Sheet A already showed the parent boundary. Sheet B inner interconnect MUST look like a SysML/SysON interconnection view (nested parts in a parent frame, ports on borders, connectors between ports), not a token cartoon. At most 8 parts per canvas; >=6 mm clear between boxes. Port square 3.2 mm; connectors stop on the port outer edge (1.6 mm outside centre), not box centres; MUST NOT draw line or arrowhead into the square. Port direction (`in`, `out`, `inout`) stays inside square. `\sysmlconnection` has no arrowhead unless `directed`. MUST render each of these canvases with `templateId` `sysml` before embedding them in `fulldoc`.
+- `sysml`: LaTeX picture body, `sysmlfigure` + `sysmlcanvas` (mm, y down). MUST size each part box with POSITION/LENGTH in kinds.md before place. MUST NOT rely on `sysmlcanvas` auto-shrink or draw a tiny box then hope the token fits. MUST NOT pack MPNs or the canvas words `CANDIDATE`, `MAY`, `TBD`, `SHOULD`. Owner lock: one layer per diagram (Sheet A = boundary ports + black-box children + peers as `\sysmlguillemets{part}` usages; Sheet B = one child's internals WITH `\sysmlport` on every connected nested part). If Sheet B is the inner IBD of a part definition, the outer frame MUST be `\sysmlguillemets{part def}` and nested boxes MUST be `\sysmlguillemets{part}` usages. MUST NOT draw part-in-part as a type IBD. MUST NOT omit Sheet B ports because Sheet A already showed the parent boundary. Sheet B inner interconnect MUST look like a SysML/SysON interconnection view (part-def frame, nested part usages, ports on borders, connectors between ports), not a token cartoon. At most 8 parts per canvas; >=6 mm clear between boxes. Port square 3.2 mm; connectors stop on the port outer edge (1.6 mm outside centre), not box centres; MUST NOT draw line or arrowhead into the square. Port direction (`in`, `out`, `inout`) stays inside square. `\sysmlconnection` has no arrowhead unless `directed`. MUST render each of these canvases with `templateId` `sysml` before embedding them in `fulldoc`.
 - `fulldoc`: LaTeX document body, NO preamble (`\documentclass`, `\usepackage`, `\RequirePackage`, or `\begin{document}`). `pdf` only! HTML and DOCX refused before worker without spending a job. Max 16 pages (`maxPages=16`). Preamble hash `73d55216488d240edccd26168576fcb402ce10794e04a3ef5ee8aec2bb166b98`. Float pages top-aligned with 12 pt gap; `\belowcaptionskip` 4 pt. Worker may auto-fit SysML canvases down to 7 pt; MUST still size boxes with POSITION/LENGTH before place. MUST embed only SysML picture bodies that already passed a `templateId` `sysml` render. Plain TikZ and circuitikz are NOT auto-fitted (keep within 12 cm).
 
 ## Pair
