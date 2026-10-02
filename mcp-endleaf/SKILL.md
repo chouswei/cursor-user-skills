@@ -22,7 +22,7 @@ description: >-
 metadata:
   pattern: tool-wrapper
   domain: doc
-  version: "1.10"
+  version: "1.11"
   secondary: "guide getting-started first, then getPlaybook; SysML figures: one sysml job each before fulldoc; steal reviews extract Principles; Endleaf != Overleaf"
 ---
 

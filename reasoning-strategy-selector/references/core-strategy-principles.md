@@ -35,6 +35,7 @@
 | mcdm-decider | P | user | high | high | measured | medium |
 | mcp-chrome-devtools | T | meta | medium | medium | structural | low |
 | mcp-digikey | T | meta | medium | medium | structural | low |
+| mcp-endleaf | T | doc | medium | low | structural | low |
 | mcp-inventree | T | meta | medium | medium | structural | low |
 | mcp-latex | T | meta | medium | medium | structural | low |
 | mcp-markitdown | T | meta | medium | medium | structural | low |
@@ -76,6 +77,7 @@
 | rule-writer | G | meta | medium | medium | structural | low |
 | scientific-method-first-principles | P | user | high | high | measured | medium |
 | security-reviewer | R | user | high | high | structural | low |
+| service-proposal | G | doc | medium | medium | structural | low |
 | sfiles2 | T | user | medium | medium | structural | low |
 | skill-creator | G | meta | high | low | structural | low |
 | skill-graph-workflow | P | meta | high | medium | structural | low |

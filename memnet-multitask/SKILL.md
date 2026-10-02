@@ -6,7 +6,7 @@ description: >-
   live tip URL) only. Never the SysMLEdge product face or SysML graph.
 metadata:
   pattern: pipeline
-  version: "1.3"
+  version: "1.4"
   domain: memnet
   product: memnet-llm==0.4.2
 ---
@@ -14,7 +14,7 @@ metadata:
 
 # MemNet + Multitask Mode
 
-User-pack skill for **applying** MemNet under Cursor **Multitask Mode** or **Task** sub-agents. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) (tools) and [memnet-format](../memnet-format/SKILL.md) (GQL wire / shaped pin_map).
+Wave protocol (atom cards, disjoint, spawn, end turn, checkpoint) lives in [async-checkpoint-pipeline](../async-checkpoint-pipeline/SKILL.md). This skill owns **shared MemNet session** under Multitask / Task. Pair with [mcp-memnet](../mcp-memnet/SKILL.md) (tools) and [memnet-format](../memnet-format/SKILL.md) (GQL wire / shaped pin_map).
 
 **Product ops SSOT (MemNet repo, developers):** `docs/multi-agent-sessions.md`.
 **System-repo adoption (applications):** MemNet `docs/application-notes/llm-system-dev-multitask.md`.

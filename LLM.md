@@ -16,11 +16,11 @@ Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>
 (:RUL {id: 'R01', kind: 'MUSTNOT', code: 'load every skill; one user request -> <=1 specialist active', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R02', kind: 'MUSTNOT', code: 'treat "list every skill" as a workflow', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R03', kind: 'MUST', code: 'if selector order=[] -> answer without opening another SKILL.md', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R04', kind: 'MUST', code: 'model-choice / Task model -> user rule sub-agent-policy Model by role table (not reasoning-strategy-selector)', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R04', kind: 'MUST', code: 'model-choice / Task model -> User Rules Model by role table; wave protocol -> async-checkpoint-pipeline (not reasoning-strategy-selector)', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R05', kind: 'MUST', code: 'model above $6/1M tokens requires explicit user approval', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R06', kind: 'SHOULD', code: 'obvious single-skill task -> apply that skill directly', priority: 'med', recycle: 'persistent'})
 (:RUL {id: 'R07', kind: 'SHOULD', code: 'general reasoning/planning, no domain -> user-domain skills', priority: 'med', recycle: 'persistent'})
-(:RUL {id: 'R08', kind: 'SHOULD', code: 'multi-step/broad task -> async (asynchronous) checkpoint pipeline (waves of sub-agents; checkpoint after each wave); same routing inside; see user rule sub-agent-policy', priority: 'med', recycle: 'persistent'})
+(:RUL {id: 'R08', kind: 'SHOULD', code: 'multi-step/broad task -> open async-checkpoint-pipeline; waves of Task workers; checkpoint after each wave; User Rules Model by role for slugs', priority: 'med', recycle: 'persistent'})
 (:RUL {id: 'R09', kind: 'MUST', code: 'no summary/review docs unless user asks', priority: 'med', recycle: 'persistent'})
 (:RUL {id: 'R10', kind: 'MUST', code: 'skill-creator only when user wants to create/scaffold a skill', priority: 'med', recycle: 'persistent'})
 (:RUL {id: 'R11', kind: 'MUST', code: 'bump metadata.version before pushing a user-pack skill to GitHub', priority: 'med', recycle: 'persistent'})
@@ -29,7 +29,7 @@ Pack root default = `.cursor/skills/`. Entry file always `<pack-root>/<skill-id>
 (:RUL {id: 'R14', kind: 'SHOULD', code: 'large uniform tabular data in answers -> Markdown table over JSON when clearer', priority: 'med', recycle: 'persistent'})
 (:RUL {id: 'R15', kind: 'MUSTNOT', code: 'invent skill-ids absent from the bound graph (repo SKG_repo or pack SKG_global / SKILL-GRAPH.md)', priority: 'high', recycle: 'persistent'})
 (:RUL {id: 'R16', kind: 'MUST', code: 'ASCII only in skills, LLM.md, AGENTS.md durable lines (use -> not arrows; no smart quotes)', priority: 'high', recycle: 'persistent'})
-(:RUL {id: 'R17', kind: 'MUST', code: 'Task models per User Rules Model by role only; async checkpoint pipeline (spawn a wave, checkpoint, repeat); after Bind ready spawn each atom required role, not Implement by default; Bind is the normal planner; Architect is thin-in/thin-out root plan only; slug on live Task allowlist; never *-fast', priority: 'high', recycle: 'persistent'})
+(:RUL {id: 'R17', kind: 'MUST', code: 'Task models per User Rules Model by role only; protocol in async-checkpoint-pipeline; spawn a wave, end turn, checkpoint, repeat; after Bind ready spawn each atom required role, not Implement by default; Bind is the normal planner; Architect is thin-in/thin-out root plan only; slug on live Task allowlist; never *-fast or inherit on a role-tagged atom', priority: 'high', recycle: 'persistent'})
 ```
 
 Mutate sketch (when writing rules into a live session):
@@ -48,7 +48,7 @@ Cross-refs: [memnet-goldfish-loop.mdc](rules/memnet-goldfish-loop.mdc), [sysml-m
 2. Bind repo `SKG_repo` if present else pack `SKG_global`; match via MemNet `pin_map` / `find` (`session=` from AGENT-CONTEXT), else bound seed then `SKILL-GRAPH.md` (<=2 passes) -> 3
 3. Branch:
    - exactly one match -> open `<id>/SKILL.md` -> 4
-   - model-choice / Task `model` intent -> user rule sub-agent-policy **Model by role** table only -> done
+   - model-choice / Task `model` intent -> User Rules **Model by role** table only -> done
    - ambiguous -> ask user or repo AGENTS; optional `reasoning-strategy-selector` only for explicit multi-match -> 4
    - conflict between candidates -> MemNet graph edges / stack definitions in SKILL-GRAPH.md -> 4
 4. Follow SKILL.md frontmatter + numbered steps as binding -> 5
@@ -63,12 +63,12 @@ Cross-refs: [memnet-goldfish-loop.mdc](rules/memnet-goldfish-loop.mdc), [sysml-m
 
 | Anchor | Condition | Target |
 |--------|-----------|--------|
-| `route_model` | "which model" / "best LLM" / Task `model` | user rule sub-agent-policy Model by role table |
+| `route_model` | "which model" / "best LLM" / Task `model` | User Rules Model by role table |
 | `route_reason` | general reasoning / planning / no domain | user-domain skills (SKILL-GRAPH Domain Registry) |
 | `route_unclear` | trigger ambiguous | ask user / repo AGENTS (optional reasoning-strategy-selector for explicit multi-match) |
 | `route_skillqa` | skill quality / structure | `skill-reviewer` |
 | `route_obvious` | single clear match | that skill directly |
-| `route_multi` | multi-step / broad | async checkpoint pipeline: wave of sub-agents, checkpoint, repeat |
+| `route_multi` | multi-step / broad | `async-checkpoint-pipeline`: wave of Task workers, checkpoint, repeat |
 | `route_sysml` | `sysml-models/*` or `parts/*/model/*` edit | `sysml-modeling-session-checklist` -> `sysml-modeling-workflow` -> `sysml-memnet-cache` -> `sysml-memnet-documentation` -> <=1 `sysml-*` specialist |
 
 ---
@@ -89,8 +89,8 @@ Optional sub-folders per skill: `references/`, `assets/`, `tools/`, `Folder_Stru
 ## Cross-references
 
 - **Routing aid:** [skill-graph-workflow](skill-graph-workflow/SKILL.md) binds pack vs repo; [SKILL-GRAPH.md](SKILL-GRAPH.md) is the hub fallback; live graph is MemNet on the bound SKG.
-- **Handoff aid:** `memnet-goldfish-loop.mdc` + `memnet-format/SKILL.md` + `mcp-memnet` + `memnet-multitask` (Multitask / Task sub-agents) + `sysml-gql` + `sysml-memnet-pipeline.md`; plain Markdown when MemNet down.
-- **Model choice SSOT:** User Rules **async checkpoint pipeline** (Model by role). Pack compose: `~/.cursor/skills/rules/sub-agent-policy.mdc`. Cursor does not load `~/.cursor/rules/*.mdc`.
+- **Handoff aid:** `memnet-goldfish-loop.mdc` + `memnet-format/SKILL.md` + `mcp-memnet` + `async-checkpoint-pipeline` + `memnet-multitask` (Multitask / Task sub-agents) + `sysml-gql` + `sysml-memnet-pipeline.md`; plain Markdown when MemNet down.
+- **Model choice SSOT:** User Rules **Model by role**. Wave protocol: `async-checkpoint-pipeline`. Pack compose: `~/.cursor/skills/rules/sub-agent-policy.mdc`. Cursor does not load `~/.cursor/rules/*.mdc`.
 
 ---
 

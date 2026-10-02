@@ -7,7 +7,8 @@
 
 | Store | Owns |
 |-------|------|
-| **User Rules** (Cursor Settings; draft [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt)) | Global prefs, no secrets, Terminal (Windows), prompt disciplines, sub-agent policy + model table, Workflow, MemNet goldfish loop, MemNet under Multitask Mode. **SSOT -- do not restate here.** |
+| **User Rules** (Cursor Settings; draft [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt)) | Global prefs, no secrets, Terminal (Windows), prompt quality, Model by role table, thin spawn one-liners, Skill Route, tip!=face. **SSOT for slugs -- do not restate here.** |
+| **`async-checkpoint-pipeline`** | Wave protocol: atom cards, disjoint test, planner vs execute phase, Task spawn, checkpoint |
 | **This file** | Pack hub: skill-graph routing, token tips, MemNet examples, skill binding, cross-refs |
 | **Pack `rules/*.mdc`** | Compose source for Settings paste. Cursor does **not** load `~/.cursor/rules/*.mdc`. |
 | **Open-repo `AGENTS.md`** (`modelbasedPrj-*` or `SysMLEdgePrj-*`) | SysML / PCBA / part layout for that system |
@@ -28,7 +29,7 @@ Prefer ASCII in skill/hub durable text (pack rule R16 in [LLM.md](LLM.md)). Neve
 | **MCP over bulk file reads** | Cheaper than reading entire trees |
 | **No normative paste** | Cite paths; do not paste huge specs |
 
-Sub-agents / MemNet handoff: follow **User Rules** (async (asynchronous) checkpoint pipeline: spawn a wave, checkpoint, repeat; Execute is parallel atoms). When Multitask / Task workers are active, also follow MemNet goldfish loop + memnet-multitask.
+Sub-agents: open [async-checkpoint-pipeline](async-checkpoint-pipeline/SKILL.md). Slugs from User Rules Model by role. When Multitask / Task workers share MemNet, also follow goldfish loop + [memnet-multitask](memnet-multitask/SKILL.md).
 
 ---
 
@@ -64,6 +65,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (async (asynchronous) checkpo
 | SysMLEdgePrj open gate | SysMLEdgePrj, open SysMLEdgePrj, SysMLEdge repo management | `sysmledge-repo-management` |
 | SysMLEdge day loop | sysmledge, sysml edge, STALE sysml, sysml propose, gql_read, rev_status | `sysmledge-workflow` |
 | SysMLEdge Cursor Multitask | sysmledge cursor multitask, tip!=face, product MCP sysmledge | `sysmledge-cursor-multitask` |
+| Multi-wave Task workers | async checkpoint pipeline, Bind ready, spawn wave end turn | `async-checkpoint-pipeline` |
 | SysMLEdge product face | mcp-sysmledge, sysmledge product face | `mcp-sysmledge` |
 | OOSEM method cycle | OOSEM, object-oriented systems engineering, scenario-driven MBSE | `oosem-workflow` |
 | Skill graph bind | skill graph, repo skill graph, relative skills | `skill-graph-workflow` |
@@ -73,7 +75,7 @@ Sub-agents / MemNet handoff: follow **User Rules** (async (asynchronous) checkpo
 | ChemEngKG assist | ChemEngKG, kgtool, ChemKG SPARQL | `chemengkg-assist` |
 | Use MemNet | use memnet, how to use memnet, memnet goldfish | `memnet-use` |
 
-**See:** [skill-graph-workflow](skill-graph-workflow/SKILL.md) to bind; then `pin_map` / `find` on that SKG, or [SKILL-GRAPH.md](SKILL-GRAPH.md). MUST NOT merge repo SKL into the pack seed. Route steps: User Rules **Workflow**.
+**See:** [skill-graph-workflow](skill-graph-workflow/SKILL.md) to bind; then `pin_map` / `find` on that SKG, or [SKILL-GRAPH.md](SKILL-GRAPH.md). MUST NOT merge repo SKL into the pack seed. Route steps: pack [LLM.md](LLM.md) Procedure.
 
 ---
 

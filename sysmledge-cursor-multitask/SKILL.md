@@ -5,10 +5,11 @@ description: >-
   memnet -- route product asks to sysmledge only; tip!=face forever.
 metadata:
   pattern: pipeline
-  version: "1.3.0"
+  version: "1.3.1"
   pairs_with:
     - sysmledge-workflow
     - mcp-sysmledge
+    - async-checkpoint-pipeline
     - memnet-multitask
     - memnet-use
     - mcp-memnet
@@ -63,6 +64,7 @@ Product allowlist on `sysmledge` only: `openProject` / `closeProject` / `rev_sta
 
 - Day loop: [sysmledge-workflow](../sysmledge-workflow/SKILL.md)
 - Face / MCP: [mcp-sysmledge](../mcp-sysmledge/SKILL.md)
+- Waves / roles: [async-checkpoint-pipeline](../async-checkpoint-pipeline/SKILL.md)
 - MemNet Multitask: [memnet-multitask](../memnet-multitask/SKILL.md)
 - MemNet use: [memnet-use](../memnet-use/SKILL.md)
 - MemNet tools: [mcp-memnet](../mcp-memnet/SKILL.md)
