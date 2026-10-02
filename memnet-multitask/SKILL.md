@@ -6,7 +6,7 @@ description: >-
   live tip URL) only. Never the SysMLEdge product face or SysML graph.
 metadata:
   pattern: pipeline
-  version: "1.4"
+  version: "1.5"
   domain: memnet
   product: memnet-llm==0.4.2
 ---
@@ -36,9 +36,9 @@ Tip MemNet **MUST NOT** substitute for the SysMLEdge product face or the SysML g
 | Transport | Multitask |
 |-----------|-----------|
 | **MCP in-process** (default) | **MUST NOT** -- isolated graph per process |
-| **Live tip** key `memnet` / namespace `user-memnet` (`mcp.json` owns URL) | **MUST** when workers share one session id |
+| **Live tip** key `memnet` / namespace `user-memnet` (`https://memnet.inkmirage.xyz/mcp`) | **MUST** when workers share one session id |
 
-**MUST NOT** cite `:18765`, `:18766`, `10.0.0.10`, or any SKILL.md host URL as live tip endpoints. Probe with `serve_status` before delegating if uncertain. User-pack transport detail: [mcp-memnet](../mcp-memnet/SKILL.md).
+Live tip is `https://memnet.inkmirage.xyz/mcp`. MUST NOT cite `:18765`, `:18766`, or `10.0.0.10` as live. Probe with `serve_status` before delegating if uncertain. User-pack transport detail: [mcp-memnet](../mcp-memnet/SKILL.md).
 
 ## Parent coordinator
 

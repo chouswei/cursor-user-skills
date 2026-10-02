@@ -6,7 +6,7 @@ description: >-
   product face when sysmledge is installed.
 metadata:
   pattern: tool-wrapper
-  version: "5.0"
+  version: "5.1"
   domain: memnet
   product: memnet-llm
 token_guardrails: |
@@ -26,11 +26,11 @@ MemNet is working memory between LLM call pipelines and data search. Agents read
 
 | Role | Where |
 |------|--------|
-| **Cursor MCP (live tip)** | Key **`memnet`**, namespace **`user-memnet`**; URL owned by `mcp.json` only + Bearer placeholder |
+| **Cursor MCP (live tip)** | Key **`memnet`**, namespace **`user-memnet`**; `https://memnet.inkmirage.xyz/mcp` + Bearer placeholder |
 | Tip vs product face | Tip MemNet **MUST NOT** substitute for the SysMLEdge product face (panel `sysmledge` / namespace `user-sysmledge`) |
 | Local stdio `command` | Optional `memnet-local` only -- **MUST NOT** treat as the primary tip path |
 
-Cursor `~/.cursor/mcp.json` owns the tip URL for key **`memnet`** (Cursor may show namespace `user-memnet`). Skills/AGENTS name keys/namespaces only -- **MUST NOT** treat a SKILL.md URL as live. Bearer stays **placeholder only** -- **MUST NOT** write a real token into this skill or into tracked files. After editing mcp.json: **Cursor -> MCP / Tools -> restart `memnet`** (or reload the window). **MUST NOT** treat the old server id `memnet-pi` / namespace `user-memnet-pi` as live.
+Live tip is **`https://memnet.inkmirage.xyz/mcp`** (key **`memnet`**, namespace **`user-memnet`**). `mcp.json` MUST match that URL. Bearer stays **placeholder only** -- **MUST NOT** write a real token into this skill or into tracked files. After editing mcp.json: **Cursor -> MCP / Tools -> restart `memnet`** (or reload the window). **MUST NOT** cite `:18766`, `:18765`, or `10.0.0.10` as live. **MUST NOT** treat the old server id `memnet-pi` / namespace `user-memnet-pi` as live.
 
 ## Doctrine (must)
 
@@ -42,7 +42,7 @@ Cursor `~/.cursor/mcp.json` owns the tip URL for key **`memnet`** (Cursor may sh
 | Product Commit | MCP **`mutate`** (`wire_lines`); leftover `add`/`update` are registered façades |
 | Locators vs identity | GraphElement identity; ingest pins use stable locators (`path`, `qname`, ...) |
 | BIND vs relation | Port-port -> `BIND`; node-node -> typed rel labels |
-| Transport (user pack) | Live tip: key **`memnet`** / namespace **`user-memnet`** (URL in `mcp.json`); tip != SysMLEdge product face |
+| Transport (user pack) | Live tip: key **`memnet`** / namespace **`user-memnet`** at `https://memnet.inkmirage.xyz/mcp`; tip != SysMLEdge product face |
 
 Always pass explicit `session=` on every tool except `serve_status` (or set `MEMNET_SESSION`).
 
