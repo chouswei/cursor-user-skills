@@ -6,11 +6,11 @@ MUST NOT pin a nickname (`Opus`, `Luna`) as a role. MUST NOT use Cursor `subagen
 
 | Role | Does | MUST NOT | Who runs it |
 |------|------|----------|-------------|
-| Architect | Thin root plan: purpose, constraints, approach, path/qname pointers. Complex root plan or complex diagnosis only. | Emit atoms, waves, patches, file bodies, skill stacks, `.sysml` bodies. | Worker. Parent sends pointers only. |
+| Architect | Thin root plan: purpose, constraints, approach, path/qname pointers. Only when **Complex** (see SKILL.md). | Emit atoms, waves, patches, file bodies, skill stacks, `.sysml` bodies. Spawn when the job is not Complex. | Worker. Parent sends pointers only. |
 | Bind | Catch Architect (or write a normal plan). Fill detail. Emit atom cards with `wave`, `order`, `role`, disjoint scopes, proof. | Implement, deploy, or spawn Task itself. | Grok parent, else one Bind worker that returns cards and stops. |
 | Diagnose | Name cause and a checkable proof. | Implement or emit execute atoms. | Worker unless parent is Grok and the diagnosis is small. Then Bind. |
-| Implement | Change one bound atom. Run that atom's proof command. | Plan, diagnose, deploy, edit outside `scope.paths` / `scope.qnames`. | One worker per atom. |
-| Deploy | Ship a committed change to the live host, verify, state rollback. | Author the change. Treat local tests as deploy proof. | Own wave/atom after Implement proof. |
+| Implement | Change one bound atom. Run that atom's proof command. | Plan, diagnose, deploy, edit outside `scope.paths` / `scope.qnames`. | Parent if exactly one atom, empty `hosts`, and family match; else one worker per atom. |
+| Deploy | Ship a committed change to the live host, verify, state rollback. | Author the change. Treat local tests as deploy proof. Parent Deploy. | Own worker after Implement proof. |
 | Web | Live web or library docs for one question. | Edit the repo. | Worker when Bind tagged Web. |
 | Visual | Visual review of named artefacts. | Implement. | Worker when needed. |
 | Prose | Author named prose. | Redesign architecture. | Worker when needed. |
@@ -25,4 +25,5 @@ Review roles (Visual, Web, Prose, Unclear) only when Bind tags them or the user 
 - Parent coordinates even when Bind is on parent.
 - MUST NOT bundle Bind + Implement in one worker or one Task prompt.
 - MUST NOT give Implement a root plan, a diagnosis, a bundled sequential job, live deploy, visual review, or web search.
+- MUST NOT parent-Deploy. Single-atom parent execute only on family match with empty `hosts`.
 - Fallback when a role's family is off the allowlist: name the gap, pick the next live listed slug, continue. MUST NOT stall.

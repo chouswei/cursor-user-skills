@@ -8,7 +8,7 @@
 | Store | Owns |
 |-------|------|
 | **User Rules** (Cursor Settings; draft [user-rules-PASTE-INTO-UI.txt](~/.cursor/user-rules-PASTE-INTO-UI.txt)) | Global prefs, no secrets, Terminal (Windows), prompt quality, Model by role table, thin spawn one-liners, Skill Route, tip!=face. **SSOT for slugs -- do not restate here.** |
-| **`async-checkpoint-pipeline`** | Wave protocol: atom cards, disjoint test, planner vs execute phase, Task spawn, checkpoint |
+| **`async-checkpoint-pipeline`** | Wave protocol: Short/Complex gates, atom cards, disjoint test, wave barrier, Task spawn, checkpoint |
 | **This file** | Pack hub: skill-graph routing, token tips, MemNet examples, skill binding, cross-refs |
 | **Pack `rules/*.mdc`** | Compose source for Settings paste. Cursor does **not** load `~/.cursor/rules/*.mdc`. |
 | **Open-repo `AGENTS.md`** (`modelbasedPrj-*` or `SysMLEdgePrj-*`) | SysML / PCBA / part layout for that system |

@@ -6,7 +6,7 @@ description: >-
   live tip URL) only. Never the SysMLEdge product face or SysML graph.
 metadata:
   pattern: pipeline
-  version: "1.5"
+  version: "1.6"
   domain: memnet
   product: memnet-llm==0.4.2
 ---
@@ -47,9 +47,9 @@ Live tip is `https://memnet.inkmirage.xyz/mcp`. MUST NOT cite `:18765`, `:18766`
 - `session_open` / `session_load` **one** mission `session` id; pass it in every worker prompt.
 - Mint and own **`TSK_*`** / **`USR_*`**: `status=active` -> `status=settled`; optional `led_to_success` edges.
 - Self-contained worker prompts: session id, anchor ids, write scope (subgraph or relation types), return shape.
-- After Bind ready: spawn **one** background worker **per** disjoint atom in the **same** message.
+- After Bind ready: spawn **one** background worker **per** disjoint atom in the **same** message, unless the pipeline single-atom family-match parent-execute gate applies.
 - **End the turn** after background spawn -- no poll, no await.
-- Next coordinator turn: **`pin_map` first**; act from refreshed slice -- do not redo worker investigation from chat.
+- Next coordinator turn: wait until the ready set is **wave complete**; then `pin_map` **only if** this wave listed `memnet_ids` or mutated MemNet. MUST NOT spawn the next wave because the first worker finished.
 - Keep overlapping files / qnames **serial**; parallel only when atom scopes are disjoint.
 
 ### MUST NOT
@@ -116,6 +116,8 @@ Path-B external pins: seed via `session_open` `seed_lines` or `add` with determi
 | Chat as SSOT for ids / mission state | Parent and workers diverge |
 | In-process MCP under Multitask | Each process gets its own graph |
 | Parent polls or re-runs worker work | Token waste; violates turn boundary |
+| Spawn next wave before wave complete | First-finished resume races remaining writers |
+| `pin_map` when the wave never listed `memnet_ids` | Empty coordinator tax |
 | Collapse Bind-ready atoms into one worker | Violates one-worker-per-disjoint-atom spawn |
 | Bundle Bind + Implement | Collapses roles; Bind must finish before Implement |
 | Worker mints duplicate `TSK_*` | Parent owns task lifecycle |

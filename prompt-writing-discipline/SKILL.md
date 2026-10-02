@@ -12,7 +12,7 @@ description: >-
 metadata:
   pattern: pipeline
   domain: doc
-  version: "1.11"
+  version: "1.12"
 ---
 
 # Prompt writing discipline
@@ -43,7 +43,7 @@ Writing or editing prose that a model will read. Skip for human-only marketing f
 4. Do not invent cryptic tiers/codes (`T1`, `LAW-PIPE20`, unglossed house labels) as the primary agent-facing term.
 5. Optional example (MemNet): if a design doc says "Tier A" or "Write = display", gloss once as obsolete house labels, then prefer **GQL wire** (shaped pin_map + openCypher-shaped mutate).
 6. Prefer **ASCII** in LLM-consumed skill/rule/hub text (`->` not arrows; `--` not em dashes; no smart quotes). See pack rule R16 in `LLM.md`.
-7. When spawning Task/subagents: follow `async-checkpoint-pipeline`; set `model` from User Rules **Model by role** (R17). Architect I/O is thin: send only the problem, constraints, and path/qname pointers; receive only a root plan. Bind (or the Grok parent) catches it, fills the detail, and decomposes to atom cards. Each atom has a wave, order, and required role; spawn that role. **MUST NOT** hand a root plan to Implement. **MUST NOT** hand a normal plan to Architect. **MUST NOT** hand diagnosis to Implement. **MUST NOT** hand one Implement worker a bundled sequential job. **MUST NOT** use any `*-fast` / FAST slug or Task `inherit` on a role-tagged atom.
+7. When spawning Task/subagents: follow `async-checkpoint-pipeline`; set `model` from User Rules **Model by role** (R17). Architect I/O is thin: send only the problem, constraints, and path/qname pointers; receive only a root plan. Bind (or the Grok parent) catches it, fills the detail, and decomposes to atom cards. Spawn each atom's role unless the single-atom family-match parent-execute gate applies. Next wave only when the ready set is wave complete. **MUST NOT** hand a root plan to Implement. **MUST NOT** hand a normal plan to Architect. **MUST NOT** hand diagnosis to Implement. **MUST NOT** hand one Implement worker a bundled sequential job. **MUST NOT** use any `*-fast` / FAST slug or Task `inherit` on a role-tagged atom.
 8. Skills and pack hubs MUST pin **roles** (Architect, Bind, Diagnose, Implement, Deploy, Web, Visual, Prose, Unclear). MUST NOT use a model nickname as a role pin. Model slugs live only in User Rules Model by role.
 
 ## Good vs bad (one-liners)

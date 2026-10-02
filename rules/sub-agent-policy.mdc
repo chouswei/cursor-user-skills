@@ -6,13 +6,13 @@ Pack compose only. Cursor does not load `~/.cursor/rules/*.mdc`. Live rule is Se
 
 # Async checkpoint pipeline
 
-When the job is multi-step or needs parallel workers, open `~/.cursor/skills/async-checkpoint-pipeline/SKILL.md`. Skip for a short in-scope parent answer.
+When the job is not **Short**, open `~/.cursor/skills/async-checkpoint-pipeline/SKILL.md`. **Short** = one proof command, one write-path or one write-qname, no live host.
 
 ## Model by role
 
 Newest listed slug for family and tier; state it. If the preferred tier is missing, use the newest family slug on the allowlist and name the gap. MUST NOT hardcode unlisted versions. MUST NOT use `*-fast` or GPT Luna for Architect, Bind, Diagnose, Deploy, Visual, or Web. Cursor Task `inherit` is forbidden on a role-tagged atom.
 
-- Architect = Opus thinking -- thin root plan or complex diagnosis only
+- Architect = Opus thinking -- thin root plan only when **Complex** (new deploy part tree, new port/allocate, or user asked for a root plan)
 - Bind = Grok high -- plan and atom cards
 - Diagnose = Grok high -- cause and proof
 - Implement = Gemini flash high -- one atom
@@ -24,6 +24,6 @@ Newest listed slug for family and tier; state it. If the preferred tier is missi
 
 ## Spawn (one-liners)
 
-After Bind-ready atom cards: one background `Task` per ready disjoint atom in the same message (`subagent_type=generalPurpose`, `model=<slug>`, `run_in_background=true`). Then end the turn. Checkpoint is the next parent turn. Grok parent does Bind on parent; still emit cards before Implement.
+After Bind-ready cards: if exactly one atom, no live host, role is not Deploy, and parent family matches that role, parent executes it. Else one background `Task` per ready disjoint atom in the same message (`subagent_type=generalPurpose`, `model=<slug>`, `run_in_background=true`), then end the turn. Next wave only when every Task in that ready set has returned. Grok parent does Bind on parent; still emit cards before Implement.
 
 Multitask Mode governs spawn-async and end-turn only. Shared MemNet session: `memnet-multitask`. Both faces visible: `sysmledge-cursor-multitask`.

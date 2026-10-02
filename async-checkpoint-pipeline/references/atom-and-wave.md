@@ -47,13 +47,21 @@ If any pair overlaps on a write, Bind MUST raise the later atom's `wave`. MUST N
 
 Ready atoms = unsettled cards whose `wave` equals the smallest unsettled `wave`, and whose pairwise scopes are disjoint (true by construction if Bind followed the rule). Spawn that whole set in one parent message.
 
+## Wave complete
+
+A wave is complete only when every Task spawned for that ready set has returned. An early parent resume (first worker finished, others still running) MUST NOT spawn the next wave and MUST NOT treat the wave as settled.
+
+Same-atom `resume` at most twice; then re-Bind that id.
+
 ## Anti-patterns
 
 | Fail | Why |
 |------|-----|
 | One Task prompt "do A then B" | Collapses atoms; Multitask default |
 | Implement before Bind-ready cards | No disjoint test, no proof |
-| Parent Implements after tagging Implement | Skips the role |
+| Spawn next wave when one Task of this set is still running | Breaks disjoint serialisation |
 | Resume worker onto a new atom | Hidden bundling |
+| Resume same atom more than twice | Fail loop |
 | Proof = "looks good" | Not a command with `pass_if` |
 | Deploy atom authors files | Split: Implement then Deploy |
+| `pin_map` on a wave that never touched MemNet | Empty turn tax |
