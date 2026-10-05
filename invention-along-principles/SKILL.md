@@ -3,7 +3,7 @@ name: invention-along-principles
 description: >-
   Use when defining, teaching, or running invention as experiment: delete the
   lying part, diverge candidates, remeter with a proof bar, converge
-  KEEP/KILL/NARROW/CORRECT. Identity is what is bound. Pair with
+  KEEP/KILL/NARROW/CORRECT/EXTEND. Identity is what is bound. Pair with
   first-principles-work-critique for the cut.
 metadata:
   pattern: pipeline
@@ -17,7 +17,7 @@ Principles are the non-negotiable axes. Experiments are the only proof. Soft-pas
 
 ## One line
 
-Diverge many candidates → remeter against a proof bar → converge one lock (KEEP / KILL / NARROW / CORRECT).
+Diverge many candidates → remeter against a proof bar → converge one lock (KEEP / KILL / NARROW / CORRECT / EXTEND).
 
 **Spline:** a thing is only what a named experiment can still entail after you delete the part that was lying. Delete that part before you optimize anything else. Identity is what is bound, not what is named. Speed is remeter rate.
 
@@ -36,7 +36,7 @@ Not one branded method — a family that shares **purpose ↔ principle ↔ deci
 | PoL / PoC probes (disposable, falsifiable, pass/fail before build) | One hypothesis, narrow scope, criteria locked before code; soft evidence ≠ hard pass | Soft-pass kill · Sufficiency |
 | [Paul Graham — Six Principles for Making New Things](https://www.paulgraham.com/newthings.html) | Overlooked problem · informal delivery · crude v1 · iterate | Diverge cheap · Ship the survivor |
 
-**Ours adds (product / agent sharpening):** KEEP / KILL / NARROW / CORRECT as the only converge verbs; **identity honesty** (face ≠ tip, what is bound ≠ what is named); delete the lying part before optimizing; human gate on SSOT; soft-pass checklist that voids invent.
+**Ours adds (product / agent sharpening):** KEEP / KILL / NARROW / CORRECT / EXTEND as the converge verbs. Priority if two fit: CORRECT > EXTEND > NARROW > KILL > KEEP; **identity honesty** (face ≠ tip, what is bound ≠ what is named); delete the lying part before optimizing; human gate on SSOT; soft-pass checklist that voids invent.
 
 ## What counts as invention
 
@@ -46,6 +46,7 @@ Not one branded method — a family that shares **purpose ↔ principle ↔ deci
 | A prototype that ships a *weaker true claim* | Oversell of a demo as product |
 | A CORRECT that names error + replacement | Renaming failure as "green" |
 | A Narrow that shrinks claim to what evidence entails | Killing a minority falsifier to pick "best" |
+| An EXTEND that names the missing path the experiment already requires, then remeters | Adding a part that should not exist, or shrinking the claim |
 | Measured wall / fidelity / refuse behavior | CI merge, feature count, or tip-as-product |
 | Deleting a part that should not exist, then remetering | Polishing a seed, label, or metaphor-as-type |
 
@@ -60,7 +61,7 @@ Not one branded method — a family that shares **purpose ↔ principle ↔ deci
 7. **Identity honesty.** What you invent *is* what you bind. Wrong identity → CORRECT or KILL, not rebrand.
 8. **Human gate where SSOT lives.** Agents propose; humans save/apply when the principle says so. Invention does not sneak-write the source of truth.
 9. **One factor when possible.** Change one variable per remeter so the meter attributes cause. Prefer RAT: riskiest unsupported assumption first.
-10. **Ship the survivor.** KEEP ships the narrowed true claim. KILL stops spend. NARROW updates the sell pack. CORRECT replaces the wrong artifact and remeters.
+10. **Ship the survivor.** KEEP ships the narrowed true claim. KILL stops spend. NARROW updates the sell pack. CORRECT replaces the wrong artifact and remeters. EXTEND names the missing path the experiment already requires, then remeters — do not add a part that should not exist, and do not shrink the claim.
 
 ## Invent loop (operational)
 
@@ -70,8 +71,8 @@ Not one branded method — a family that shares **purpose ↔ principle ↔ deci
 3. Name proof bar (meters + pass/fail)
 4. Diverge 2–N candidates (cheap prototypes / apparatus)
 5. Remeter each on the same bar
-6. Converge: KEEP | KILL | NARROW | CORRECT
-7. If CORRECT or NARROW → update claim → remeter
+6. Converge: KEEP | KILL | NARROW | CORRECT | EXTEND
+7. If CORRECT, NARROW, or EXTEND → update claim / name the path → remeter
 8. Only KEEP may be sold / folded into product locks
 ```
 
@@ -100,8 +101,8 @@ One short card:
 - **Deleted** (part that should not exist)
 - **Bar** (meters)
 - **Survivors** (what remetered)
-- **Verdict** KEEP | KILL | NARROW | CORRECT
-- **Next invent** (one factor) or **stop**
+- **Verdict** KEEP | KILL | NARROW | CORRECT | EXTEND
+- **Next invent** (one factor) or **stop**; if EXTEND, name the missing path then remeter
 
 ## When not
 
